@@ -4,7 +4,9 @@
   "scripts": {
     "clean": "lerna exec -- rimraf dist/*",
     "build": "lerna run build",
-    "lint": "eslint --ext .ts ./"
+    "lint": "eslint --ext .ts ./",
+    "new-version": "lerna version --convential-commits --yes",
+    "publish": "lerna publish --registry=https://npm.fury.io/itly"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.1.0",
