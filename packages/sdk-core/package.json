@@ -1,6 +1,6 @@
 {
   "name": "@itly/sdk-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,5 +21,6 @@
   },
   "dependencies": {
     "ajv": "^6.12.2"
-  }
+  },
+  "gitHead": "88572132d529b16d004f3647ec12853d9c7c414a"
 }
