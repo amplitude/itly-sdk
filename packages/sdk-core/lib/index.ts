@@ -72,12 +72,24 @@ export interface ItlyDestination {
     reset(): void;
 }
 
+const LOG_TAG = '[itly]';
+const defaultLogger: ItlyLogger = {
+  // eslint-disable-next-line no-console
+  debug: (message) => console.debug(LOG_TAG, message),
+  // eslint-disable-next-line no-console
+  info: (message) => console.info(LOG_TAG, message),
+  // eslint-disable-next-line no-console
+  warn: (message) => console.warn(LOG_TAG, message),
+  // eslint-disable-next-line no-console
+  error: (message) => console.error(LOG_TAG, message),
+};
+
 class Itly {
     private options: ItlyOptions | undefined = undefined;
 
     private destinations: ItlyDestination[] = [];
 
-    private logger?: ItlyLogger;
+    private logger: ItlyLogger = defaultLogger;
 
     private schemas: any;
 
@@ -94,7 +106,7 @@ class Itly {
         return;
       }
 
-      this.logger = options.logger;
+      if (options.logger) this.logger = options.logger;
 
       this.schemas = options.schemas;
 
@@ -167,10 +179,7 @@ class Itly {
         return;
       }
 
-
-      if (this.logger && this.logger.debug) {
-        this.logger.debug(`[Itly] Tracking event "${eventName}"`);
-      }
+      this.logger.debug(`[Itly] Tracking event "${eventName}"`);
 
       this.validate(eventName, eventId, properties);
 
@@ -212,12 +221,7 @@ class Itly {
 
     private handleValidationError(message: string) {
       if (this.options!.environment === 'production') {
-        if (this.logger && this.logger.error) {
-          this.logger.error(message);
-        } else {
-          // eslint-disable-next-line no-console
-          console.error(message);
-        }
+        this.logger.error(message);
       } else {
         throw new Error(message);
       }

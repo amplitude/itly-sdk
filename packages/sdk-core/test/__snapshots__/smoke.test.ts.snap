@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should throw error if no parameters on itly.load() 1`] = `
+Array [
+  Array [
+    "CustomDestination: ",
+    "init()",
+  ],
+  Array [
+    "CustomLogger.debug:",
+    "[Itly] Tracking event \\"Event No Properties\\"",
+  ],
+  Array [
+    "CustomDestination: ",
+    "track() userId='test-user-id' event='Event No Properties' properties={}",
+  ],
+  Array [
+    "CustomLogger.debug:",
+    "[Itly] Tracking event \\"Event With All Properties\\"",
+  ],
+  Array [
+    "CustomDestination: ",
+    "track() userId='test-user-id' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+  ],
+  Array [
+    "CustomLogger.debug:",
+    "[Itly] Tracking event \\"EventMaxIntForTest\\"",
+  ],
+  Array [
+    "CustomLogger.error::",
+    "Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
+  ],
+  Array [
+    "CustomDestination: ",
+    "track() userId='test-user-id' event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
+  ],
+]
+`;
