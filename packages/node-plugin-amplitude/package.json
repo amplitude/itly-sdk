@@ -1,0 +1,30 @@
+{
+  "name": "@itly/node-plugin-amplitude",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "itly",
+    "sdk",
+    "iteratively",
+    "amplitude"
+  ],
+  "author": "Iteratively",
+  "license": "ISC",
+  "devDependencies": {
+    "@itly/sdk-node": "^0.0.0",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "amplitude": "^5.0.2"
+  },
+  "peerDependencies": {
+    "@itly/sdk-node": "^0.0.0"
+  }
+}

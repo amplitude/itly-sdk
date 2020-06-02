@@ -1,2 +1,2 @@
 # itly-sdk
-Iteratively analytics SDK for Node
+Iteratively analytics SDKs and plugins for Javascript and Typescript
