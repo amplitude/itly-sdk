@@ -25,7 +25,7 @@ jobs:
     - name: Lint
       run: yarn lint
     - name: Build
-      run: yarn build --if-present
+      run: yarn build
     - name: Test
       run: yarn test
       env:
