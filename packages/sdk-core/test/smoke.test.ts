@@ -6,7 +6,7 @@ import CustomLogger from './src/CustomLogger';
 
 const testSchemas = require('./schemas/basic-schema.json');
 
-test('should throw error if no parameters on itly.load()', () => {
+test('should load, track events, and validate schema', () => {
   const spy = jest.spyOn(console, 'log');
 
   const userId = 'test-user-id';

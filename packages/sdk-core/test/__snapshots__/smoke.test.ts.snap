@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should throw error if no parameters on itly.load() 1`] = `
+exports[`should load, track events, and validate schema 1`] = `
 Array [
   Array [
     "CustomDestination: ",
