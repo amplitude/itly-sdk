@@ -19,8 +19,9 @@ jobs:
     - name: Install
       run: yarn --frozen-lockfile
     - name: Lerna bootstrap
-      run: npm i -g lerna
-      run: lerna bootstrap
+      run: |
+        npm i -g lerna
+        lerna bootstrap
     - name: Lint
       run: yarn lint
     - name: Build
