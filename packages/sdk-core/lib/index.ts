@@ -93,6 +93,8 @@ class Itly {
 
     private schemas: any;
 
+    private validators: { [eventId: string]: any } = {};
+
     private ajv: any;
 
     load(options: ItlyOptions) {
@@ -109,7 +111,6 @@ class Itly {
       if (options.logger) this.logger = options.logger;
 
       this.schemas = options.schemas;
-
       this.ajv = new Ajv();
 
       if (options.context) {
@@ -197,10 +198,20 @@ class Itly {
       eventId: string,
       properties?: ItlyProperties,
     ) {
-      // TODO: compile ajv validators and memoize
-      const valid = this.ajv.validate(this.schemas[eventId], properties);
-      if (properties && (valid !== true)) {
-        const errors = this.ajv.errors.map((e: any) => {
+      // Check that we have a schema for this event
+      if (!this.schemas[eventId]) {
+        this.handleValidationError(`Event ${name} not found in tracking plan.`);
+        return;
+      }
+
+      // Compile validator for this event if needed
+      if (!this.validators[eventId]) {
+        this.validators[eventId] = this.ajv.compile(this.schemas[eventId]);
+      }
+
+      const validator = (this.validators[eventId]);
+      if (properties && !(validator(properties) === true)) {
+        const errors = validator.errors.map((e: any) => {
           let extra = '';
           if (e.keyword === 'additionalProperties') {
             extra = ` (${e.params.additionalProperty})`;
