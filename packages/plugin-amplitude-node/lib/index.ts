@@ -5,7 +5,7 @@ import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };
 
-export default class AmplitudeNodeJsAdapter implements ItlyDestination {
+export default class AmplitudeNodeDestination implements ItlyDestination {
   static ID: string = 'amplitude';
 
   private amplitude: Amplitude;
@@ -25,7 +25,7 @@ export default class AmplitudeNodeJsAdapter implements ItlyDestination {
   //     }
   // }
 
-  id = () => AmplitudeNodeJsAdapter.ID;
+  id = () => AmplitudeNodeDestination.ID;
 
   init = () => {
     // N/A for Amplitude

@@ -1,5 +1,5 @@
 {
-  "name": "@itly/node-plugin-amplitude",
+  "name": "@itly/plugin-amplitude-node",
   "version": "0.1.1",
   "description": "",
   "main": "dist/index.js",
