@@ -1,5 +1,4 @@
-/* eslint-disable import/no-unresolved, global-require */
-/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved, global-require, import/extensions */
 import itly from '../../packages/sdk-core/lib';
 import SchemaValidator from '../../packages/plugin-schema-validator-ajv/lib';
 import CustomPlugin from '../../test/src/CustomPlugin';
@@ -59,7 +58,7 @@ test('should load, track events and VALIDATE schema', () => {
   } catch (e) {
     // do nothing
     // eslint-disable-next-line no-console
-    console.log('Caught validation error');
+    console.log('Caught validation error.', e.message);
   }
 
   expect(spy.mock.calls).toMatchSnapshot();

@@ -62,7 +62,7 @@ export interface ItlyPlugin {
 
   // Validation methods
   validate(event: ItlyEvent): ValidationResponse;
-  validationError(validationResponse: ValidationResponse, event: ItlyEvent): void;
+  validationError(validation: ValidationResponse, event: ItlyEvent): void;
 }
 
 export class ItlyPluginBase implements ItlyPlugin {
@@ -206,33 +206,35 @@ class Itly {
   }
 
   private validate(event: ItlyEvent): boolean {
+    let pluginId = 'sdk-core';
+    let caughtError;
+
     // Default to true
-    let validationResponse: ValidationResponse = { valid: true };
+    let validation: ValidationResponse = {
+      valid: true,
+      pluginId,
+    };
 
     // Loop over plugins and stop if valid === false
-    let caughtError;
-    let pluginId;
     try {
       this.plugins.every((p) => {
         pluginId = p.id();
-        validationResponse = p.validate(event);
-        return validationResponse.valid;
+        validation = p.validate(event);
+        return validation.valid;
       });
     } catch (e) {
       // Catch errors in validate() method
       caughtError = e;
-      validationResponse = {
+      validation = {
         valid: false,
         pluginId,
         message: e.message,
       };
     }
 
-    const isValid = !!validationResponse.valid;
-
     // If validation failed call validationError hook
-    if (!isValid) {
-      this.plugins.forEach((p) => p.validationError(validationResponse, event));
+    if (!validation.valid) {
+      this.plugins.forEach((p) => p.validationError(validation, event));
     }
 
     // If we caught an Error pay it forward
@@ -240,7 +242,7 @@ class Itly {
       throw caughtError;
     }
 
-    return isValid;
+    return validation.valid;
   }
 
   private isInitializedAndEnabled() {

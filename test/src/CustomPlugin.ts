@@ -1,10 +1,10 @@
-/* eslint-disable class-methods-use-this, no-unused-vars */
+/* eslint-disable class-methods-use-this, no-unused-vars, import/no-unresolved, import/extensions */
 import {
   ItlyEvent,
   ItlyProperties,
   ItlyPluginBase,
   ValidationResponse,
-} from '../../packages/sdk-core/dist';
+} from '../../packages/sdk-core/lib';
 
 export default class CustomPlugin extends ItlyPluginBase {
   LOG_TAG = 'CustomPlugin';
@@ -46,7 +46,7 @@ export default class CustomPlugin extends ItlyPluginBase {
     this.log(`track() userId='${userId}' event='${event.name}' properties=${this.stringify(event.properties)}`);
   }
 
-  validationError(validationResponse: ValidationResponse, event: ItlyEvent) {
-    this.log(`validationError() event='${event.name}' plugin=${validationResponse.pluginId} message=${validationResponse.message}`);
+  validationError(validation: ValidationResponse, event: ItlyEvent) {
+    this.log(`validationError() event='${event.name}' plugin=${validation.pluginId} message=${validation.message}`);
   }
 }

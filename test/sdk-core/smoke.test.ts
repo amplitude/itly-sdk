@@ -1,5 +1,4 @@
-/* eslint-disable import/no-unresolved, global-require */
-/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved, global-require, import/extensions */
 import itly from '../../packages/sdk-core/lib';
 import CustomPlugin from '../../test/src/CustomPlugin';
 

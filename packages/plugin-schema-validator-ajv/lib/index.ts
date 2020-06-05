@@ -34,6 +34,16 @@ export default class SchemaValidatorAjvPlugin extends ItlyPluginBase {
   }
 
   validate(event: ItlyEvent): ValidationResponse {
+    const validation = this.getValidationResponse(event);
+
+    if (!validation.valid && this.environment !== 'production') {
+      throw new Error(validation.message);
+    }
+
+    return validation;
+  }
+
+  private getValidationResponse(event: ItlyEvent) {
     // Check that we have a schema for this event
     if (!this.schemas[event.id]) {
       return {
@@ -65,16 +75,9 @@ export default class SchemaValidatorAjvPlugin extends ItlyPluginBase {
       };
     }
 
-    return { valid: true };
-  }
-
-  // FIXME: I don't think we need to provide implementation for this as
-  // FIXME: now the developer can make there own plugin and handle it how they want
-  validationError(validationResponse: ValidationResponse, event: ItlyEvent) {
-    const { message } = validationResponse;
-    if (this.environment !== 'production') {
-      // eslint-disable-next-line no-console
-      throw new Error(message);
-    }
+    return {
+      valid: true,
+      pluginId: this.id(),
+    };
   }
 }

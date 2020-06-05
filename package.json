@@ -7,7 +7,8 @@
     "lint": "eslint --ext .ts ./",
     "test": "jest --runInBand",
     "new-version": "lerna version --convential-commits --yes",
-    "publish": "lerna publish --registry=https://npm.fury.io/itly"
+    "publish": "lerna publish --registry=https://npm.fury.io/itly",
+    "test:commit": "yarn clean && lerna bootstrap && yarn lint && yarn test"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
