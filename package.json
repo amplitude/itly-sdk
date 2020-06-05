@@ -6,9 +6,9 @@
     "build": "lerna run build",
     "lint": "eslint --ext .ts ./",
     "test": "jest --runInBand",
+    "test:clean": "yarn clean && lerna bootstrap && yarn lint && yarn test",
     "new-version": "lerna version --convential-commits --yes",
-    "publish": "lerna publish --registry=https://npm.fury.io/itly",
-    "test:commit": "yarn clean && lerna bootstrap && yarn lint && yarn test"
+    "publish": "lerna publish --registry=https://npm.fury.io/itly"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
@@ -17,10 +17,23 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
+    "husky": "^4.2.5",
     "jest": "^26.0.1",
     "lerna": "^3.22.0",
+    "lint-staged": "^10.2.9",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-commit": "git update-index --again"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix --ext .ts ./"
+    ]
   }
 }
