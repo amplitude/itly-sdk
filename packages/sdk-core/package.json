@@ -1,6 +1,6 @@
 {
   "name": "@itly/sdk-core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,8 +18,6 @@
   "license": "ISC",
   "devDependencies": {
     "typescript": "^3.9.3"
-  },
-  "dependencies": {
   },
   "gitHead": "88572132d529b16d004f3647ec12853d9c7c414a"
 }
