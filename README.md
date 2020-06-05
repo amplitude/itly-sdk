@@ -5,17 +5,17 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
 
 ## Creating plugins
 There are [hygen](https://github.com/jondot/hygen) templates for creating a new plugin.
-```
-# Install hygen
 
+`hygen plugin new <name>` will create a new plugin module.
+
+1. Install hygen
+```
 $ brew tap jondot/tap
 $ brew install hygen
 ```
 
-Use `hygen plugin new <name>` to create a new plugin module. Follow the prompts to set the author, base SDK(@itly/sdk, @itly/sdk-node), and SDK version range.
+2. Generate new plugin with `hygen plugin new <name>`. You will be prompted to set the author, base SDK(@itly/sdk, @itly/sdk-node), and SDK version range for the new plugin.
 ```
-# Create new 'awesome-analytics' plugin
-
 itly-sdk $ hygen plugin new awesome-analytics
 
 ✔ Author? · Iteratively
