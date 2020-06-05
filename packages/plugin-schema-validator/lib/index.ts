@@ -8,8 +8,8 @@ import {
   ValidationResponse,
 } from '@itly/sdk-core';
 
-export default class SchemaValidatorAjvPlugin extends ItlyPluginBase {
-  static ID: string = 'schema-validator-ajv';
+export default class SchemaValidatorPlugin extends ItlyPluginBase {
+  static ID: string = 'schema-validator';
 
   private environment: 'development' | 'production';
 
@@ -27,7 +27,7 @@ export default class SchemaValidatorAjvPlugin extends ItlyPluginBase {
     this.validators = {};
   }
 
-  id = () => SchemaValidatorAjvPlugin.ID;
+  id = () => SchemaValidatorPlugin.ID;
 
   load(options: ItlyOptions) {
     this.environment = options.environment || this.environment;

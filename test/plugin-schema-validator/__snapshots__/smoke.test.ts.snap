@@ -12,7 +12,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "validationError() event='EventMaxIntForTest' plugin=schema-validator-ajv message=Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
+    "validationError() event='EventMaxIntForTest' plugin=schema-validator message=Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
   ],
   Array [
     "CustomPlugin: ",

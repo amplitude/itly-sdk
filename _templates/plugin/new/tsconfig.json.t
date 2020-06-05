@@ -8,7 +8,7 @@ to: packages/plugin-<%= name %>/tsconfig.json
         "declaration": true,
         "outDir": "./dist",
         "strict": true,
-        "esModuleInterop": true,
+        "esModuleInterop": true
     },
     "exclude": [
         "node_modules",

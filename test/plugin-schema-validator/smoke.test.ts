@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved, global-require, import/extensions */
 import itly from '../../packages/sdk-core/lib';
-import SchemaValidator from '../../packages/plugin-schema-validator-ajv/lib';
+import SchemaValidator from '../../packages/plugin-schema-validator/lib';
 import CustomPlugin from '../../test/src/CustomPlugin';
 
 const testSchemas = require('../data/basic-schema.json');
@@ -10,7 +10,6 @@ test('should load, track events and VALIDATE schema', () => {
 
   const userId = 'test-user-id';
 
-  // new SchemaValidator(testSchemas)
   itly.load({
     environment: 'production',
     context: {
