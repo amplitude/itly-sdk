@@ -1,37 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should load, track events, and validate schema 1`] = `
+exports[`should load, track events and VALIDATE schema 1`] = `
 Array [
   Array [
-    "CustomDestination: ",
-    "init()",
-  ],
-  Array [
-    "CustomLogger.debug:",
-    "[Itly] Tracking event \\"Event No Properties\\"",
-  ],
-  Array [
-    "CustomDestination: ",
+    "CustomPlugin: ",
     "track() userId='test-user-id' event='Event No Properties' properties={}",
   ],
   Array [
-    "CustomLogger.debug:",
-    "[Itly] Tracking event \\"Event With All Properties\\"",
-  ],
-  Array [
-    "CustomDestination: ",
+    "CustomPlugin: ",
     "track() userId='test-user-id' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
   ],
   Array [
-    "CustomLogger.debug:",
-    "[Itly] Tracking event \\"EventMaxIntForTest\\"",
+    "CustomPlugin: ",
+    "validationError() event='EventMaxIntForTest' plugin=schema-validator-ajv message=Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
   ],
   Array [
-    "CustomLogger.error::",
-    "Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
-  ],
-  Array [
-    "CustomDestination: ",
+    "CustomPlugin: ",
     "track() userId='test-user-id' event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
   ],
 ]

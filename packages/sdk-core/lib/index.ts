@@ -1,242 +1,255 @@
-import Ajv from 'ajv';
+/* eslint-disable no-unused-vars */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable max-classes-per-file */
 
-export interface ItlyLogger {
-    debug: (message: string) => void;
-    info: (message: string) => void;
-    warn: (message: string) => void;
-    error: (message: string) => void;
-}
-
-export interface ItlyCoreOptions {
-    /**
-     * The current environment (development or production). Default is development.
-     */
-    environment?: 'development' | 'production';
-    /**
-     * Whether calls to the Itly SDK should be no-ops. Default is false.
-     */
-    disabled?: boolean;
-    /**
-     * Analytics provider-specific configuration. Default is null.
-     */
-    destinations?: ItlyDestination[];
-    /**
-     * Additional context properties to add to all events. Set to object or an object resolver.
-     * Default is none.
-     */
-    context?: ItlyProperties,
-    /**
-     * Custom logger to use for debug, info, warn, and error messages. Default is console.
-     */
-    logger?: ItlyLogger;
-}
-
-export interface ItlyOptions extends ItlyCoreOptions {
-    /**
-     * Schemas indexed by eventId
-     */
-    schemas: { [eventId: string]: any };
-    /**
-     * Analytics provider-specific configuration. Default is null.
-     */
-    destinations: ItlyDestination[];
+export interface ItlyOptions {
+  /**
+   * The current environment (development or production). Default is development.
+   */
+  environment?: 'development' | 'production';
+  /**
+   * Whether calls to the Itly SDK should be no-ops. Default is false.
+   */
+  disabled?: boolean;
+  /**
+   * Analytics provider-specific configuration. Default is null.
+   */
+  plugins?: ItlyPlugin[];
+  /**
+   * Additional context properties to add to all events. Set to object or an object resolver.
+   * Default is none.
+   */
+  context?: ItlyProperties;
 }
 
 export type ItlyProperties = {
-    [name: string]: any;
+  [name: string]: any;
 };
 
-export interface ItlyDestination {
-    id(): string;
-    init(): void;
-    alias(userId: string, previousId: string | undefined): void;
-    identify(userId: string | undefined, properties: ItlyProperties | undefined): void;
-    group(
-        userId: string | undefined,
-        groupId: string,
-        properties?: ItlyProperties | undefined
-    ): void;
-    page(
-        userId: string | undefined,
-        category: string | undefined,
-        name: string | undefined,
-        properties: ItlyProperties | undefined
-    ): void;
-    track(
-        userId: string | undefined,
-        eventName: string,
-        properties: ItlyProperties,
-        eventId: string,
-        eventVersion: string
-    ): void;
-    reset(): void;
+export type ItlyEvent = {
+  name: string;
+  properties: ItlyProperties;
+  id: string;
+  version: string;
+};
+
+export type ValidationResponse = {
+  valid: boolean;
+  message?: string;
+  pluginId?: string;
+};
+
+export interface ItlyPlugin {
+  id(): string;
+
+  // Tracking methods
+  load(options: ItlyOptions): void;
+  alias(userId: string, previousId: string | undefined): void;
+  identify(userId: string | undefined, properties: ItlyProperties | undefined): void;
+  group(
+    userId: string | undefined,
+    groupId: string,
+    properties?: ItlyProperties | undefined
+  ): void;
+  page(
+    userId: string | undefined,
+    category: string | undefined,
+    name: string | undefined,
+    properties: ItlyProperties | undefined
+  ): void;
+  track(userId: string | undefined, event: ItlyEvent): void;
+  reset(): void;
+
+  // Validation methods
+  validate(event: ItlyEvent): ValidationResponse;
+  validationError(validationResponse: ValidationResponse, event: ItlyEvent): void;
 }
 
-const LOG_TAG = '[itly]';
-const defaultLogger: ItlyLogger = {
-  // eslint-disable-next-line no-console
-  debug: (message) => console.debug(LOG_TAG, message),
-  // eslint-disable-next-line no-console
-  info: (message) => console.info(LOG_TAG, message),
-  // eslint-disable-next-line no-console
-  warn: (message) => console.warn(LOG_TAG, message),
-  // eslint-disable-next-line no-console
-  error: (message) => console.error(LOG_TAG, message),
-};
+export class ItlyPluginBase implements ItlyPlugin {
+  id(): string { throw new Error('ItlyPlugin id() is required. Overide id() method returning a unique id.'); }
+
+  load(options: ItlyOptions): void {}
+
+  alias(userId: string, previousId: string | undefined): void {}
+
+  identify(userId: string | undefined, properties: ItlyProperties | undefined): void {}
+
+  group(
+    userId: string | undefined,
+    groupId: string,
+    properties?: ItlyProperties | undefined,
+  ): void {}
+
+  page(
+    userId: string | undefined,
+    category: string | undefined,
+    name: string | undefined,
+    properties: ItlyProperties | undefined,
+  ): void {}
+
+  track(userId: string | undefined, event: ItlyEvent): void {}
+
+  reset(): void {}
+
+  // Validation methods
+  validate(event: ItlyEvent): ValidationResponse {
+    return { valid: true };
+  }
+
+  validationError(validationResponse: ValidationResponse, event: ItlyEvent): void {}
+}
 
 class Itly {
-    private options: ItlyOptions | undefined = undefined;
+  private options: ItlyOptions | undefined = undefined;
 
-    private destinations: ItlyDestination[] = [];
+  private plugins: ItlyPlugin[] = [];
 
-    private logger: ItlyLogger = defaultLogger;
-
-    private schemas: any;
-
-    private validators: { [eventId: string]: any } = {};
-
-    private ajv: any;
-
-    load(options: ItlyOptions) {
-      if (this.options) {
-        throw new Error('Itly is already initialized.');
-      }
-
-      this.options = options;
-
-      if (!this.isInitializedAndEnabled()) {
-        return;
-      }
-
-      if (options.logger) this.logger = options.logger;
-
-      this.schemas = options.schemas;
-      this.ajv = new Ajv();
-
-      if (options.context) {
-        this.validate('context', 'context', options.context);
-      }
-
-      this.destinations = options.destinations;
-
-      this.destinations.forEach((d) => d.init());
+  load(options: ItlyOptions) {
+    if (this.options) {
+      throw new Error('Itly is already initialized.');
     }
 
-    alias(userId: string, previousId?: string) {
-      if (!this.isInitializedAndEnabled()) {
-        return;
-      }
+    this.options = options;
 
-      this.destinations.forEach((d) => d.alias(userId, previousId));
+    if (!this.isInitializedAndEnabled()) {
+      return;
     }
 
-    /**
-     * Identify a user and set or update that user's properties.
-     * @param userId The user's ID.
-     */
-    identify(userId: string | undefined, identifyProperties?: ItlyProperties) {
-      if (!this.isInitializedAndEnabled()) {
-        return;
-      }
+    this.plugins = options.plugins || [];
 
-      this.validate('identify', 'identify', identifyProperties);
-
-      this.destinations.forEach((d) => d.identify(userId, identifyProperties));
+    if (options.context) {
+      this.validate({
+        name: 'context',
+        properties: options.context,
+        id: 'context',
+        version: '0-0-0',
+      });
     }
 
-    group(userId:string | undefined, groupId: string, groupProperties?: ItlyProperties) {
-      if (!this.isInitializedAndEnabled()) {
-        return;
-      }
+    this.plugins.forEach((p) => p.load(options));
+  }
 
-      this.validate('group', 'group', groupProperties);
-
-      this.destinations.forEach((d) => d.group(userId, groupId, groupProperties));
+  alias(userId: string, previousId?: string) {
+    if (!this.isInitializedAndEnabled()) {
+      return;
     }
 
-    page(
-      userId: string | undefined,
-      category: string,
-      name: string,
-      pageProperties?: ItlyProperties,
-    ) {
-      if (!this.isInitializedAndEnabled()) {
-        return;
-      }
+    this.plugins.forEach((p) => p.alias(userId, previousId));
+  }
 
-      this.validate('page', 'page', pageProperties);
-
-      this.destinations.forEach((d) => d.page(userId, category, name, pageProperties));
+  /**
+   * Identify a user and set or update that user's properties.
+   * @param userId The user's ID.
+   */
+  identify(userId: string | undefined, identifyProperties?: ItlyProperties) {
+    if (!this.isInitializedAndEnabled()) {
+      return;
     }
 
-    track(
-      userId: string | undefined,
-      eventName: string,
-      properties: ItlyProperties | undefined,
-      eventId: string,
-      eventVersion: string,
-    ) {
-      if (!this.isInitializedAndEnabled()) {
-        return;
-      }
+    this.validate({
+      name: 'identify',
+      properties: identifyProperties || {},
+      id: 'identify',
+      version: '0-0-0',
+    });
 
-      this.logger.debug(`[Itly] Tracking event "${eventName}"`);
+    this.plugins.forEach((p) => p.identify(userId, identifyProperties));
+  }
 
-      this.validate(eventName, eventId, properties);
-
-      this.destinations.forEach((d) => d.track(
-        userId, eventName, { ...properties }, eventId, eventVersion,
-      ));
+  group(userId:string | undefined, groupId: string, groupProperties?: ItlyProperties) {
+    if (!this.isInitializedAndEnabled()) {
+      return;
     }
 
-    reset() {
-      this.destinations.forEach((d) => d.reset());
+    this.validate({
+      name: 'group',
+      properties: groupProperties || {},
+      id: 'group',
+      version: '0-0-0',
+    });
+
+    this.plugins.forEach((p) => p.group(userId, groupId, groupProperties));
+  }
+
+  page(
+    userId: string | undefined,
+    category: string,
+    name: string,
+    pageProperties?: ItlyProperties,
+  ) {
+    if (!this.isInitializedAndEnabled()) {
+      return;
     }
 
-    private validate(
-      name: string,
-      eventId: string,
-      properties?: ItlyProperties,
-    ) {
-      // Check that we have a schema for this event
-      if (!this.schemas[eventId]) {
-        this.handleValidationError(`Event ${name} not found in tracking plan.`);
-        return;
-      }
+    this.validate({
+      name: 'page',
+      properties: pageProperties || {},
+      id: 'page',
+      version: '0-0-0',
+    });
 
-      // Compile validator for this event if needed
-      if (!this.validators[eventId]) {
-        this.validators[eventId] = this.ajv.compile(this.schemas[eventId]);
-      }
+    this.plugins.forEach((p) => p.page(userId, category, name, pageProperties));
+  }
 
-      const validator = (this.validators[eventId]);
-      if (properties && !(validator(properties) === true)) {
-        const errors = validator.errors.map((e: any) => {
-          let extra = '';
-          if (e.keyword === 'additionalProperties') {
-            extra = ` (${e.params.additionalProperty})`;
-          }
-          return `\`properties${e.dataPath}\` ${e.message}${extra}.`;
-        }).join(' ');
-        this.handleValidationError(`Passed in ${name} properties did not validate against your tracking plan. ${errors}`);
-      }
+  track(userId: string | undefined, event: ItlyEvent) {
+    if (!this.isInitializedAndEnabled()) {
+      return;
     }
 
-    private isInitializedAndEnabled() {
-      if (!this.options) {
-        throw new Error('Itly is not yet initialized. Have you called `itly.init()` on app start?');
-      }
+    this.validate(event);
 
-      return !this.options.disabled;
+    this.plugins.forEach((p) => p.track(userId, event));
+  }
+
+  reset() {
+    this.plugins.forEach((p) => p.reset());
+  }
+
+  private validate(event: ItlyEvent): boolean {
+    // Default to true
+    let validationResponse: ValidationResponse = { valid: true };
+
+    // Loop over plugins and stop if valid === false
+    let caughtError;
+    let pluginId;
+    try {
+      this.plugins.every((p) => {
+        pluginId = p.id();
+        validationResponse = p.validate(event);
+        return validationResponse.valid;
+      });
+    } catch (e) {
+      // Catch errors in validate() method
+      caughtError = e;
+      validationResponse = {
+        valid: false,
+        pluginId,
+        message: e.message,
+      };
     }
 
-    private handleValidationError(message: string) {
-      if (this.options!.environment === 'production') {
-        this.logger.error(message);
-      } else {
-        throw new Error(message);
-      }
+    const isValid = !!validationResponse.valid;
+
+    // If validation failed call validationError hook
+    if (!isValid) {
+      this.plugins.forEach((p) => p.validationError(validationResponse, event));
     }
+
+    // If we caught an Error pay it forward
+    if (caughtError) {
+      throw caughtError;
+    }
+
+    return isValid;
+  }
+
+  private isInitializedAndEnabled() {
+    if (!this.options) {
+      throw new Error('Itly is not yet initialized. Have you called `itly.init()` on app start?');
+    }
+
+    return !this.options.disabled;
+  }
 }
 
 export default new Itly();

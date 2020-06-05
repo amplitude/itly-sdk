@@ -1,7 +1,7 @@
 {
-  "name": "@itly/sdk-core",
-  "version": "0.1.1",
-  "description": "",
+  "name": "@itly/plugin-schema-validator-ajv",
+  "version": "0.0.0",
+  "description": "Schema Validator Ajv Plugin ",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -12,14 +12,19 @@
   "keywords": [
     "itly",
     "sdk",
-    "iteratively"
+    "iteratively",
+    "plugin"
   ],
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
+    "@itly/sdk-core": "^0.1.1",
     "typescript": "^3.9.3"
   },
   "dependencies": {
+    "ajv": "^6.12.2"
   },
-  "gitHead": "88572132d529b16d004f3647ec12853d9c7c414a"
+  "peerDependencies": {
+    "@itly/sdk-core": "^0.1.1"
+  }
 }

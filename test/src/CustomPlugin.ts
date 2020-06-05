@@ -1,15 +1,22 @@
-// eslint-disable-next-line no-unused-vars
-import { ItlyProperties, ItlyDestination } from '../../dist/index';
+/* eslint-disable class-methods-use-this, no-unused-vars */
+import {
+  ItlyEvent,
+  ItlyProperties,
+  ItlyPluginBase,
+  ValidationResponse,
+} from '../../packages/sdk-core/dist';
 
-export default class CustomDestination implements ItlyDestination {
-  LOG_TAG = 'CustomDestination';
+export default class CustomPlugin extends ItlyPluginBase {
+  LOG_TAG = 'CustomPlugin';
 
   // eslint-disable-next-line no-console
   private log = (...messages: any[]) => console.log(`${this.LOG_TAG}: `, ...messages);
 
   private stringify = (object: any) => JSON.stringify(object);
 
-  id = () => 'custom';
+  id(): string {
+    return 'custom';
+  }
 
   alias(userId: string, previousId: string | undefined): void {
     this.log(`alias() userId='${userId}' previousId='${previousId}'`);
@@ -35,7 +42,11 @@ export default class CustomDestination implements ItlyDestination {
     this.log('reset()');
   }
 
-  track(userId: string | undefined, eventName: string, properties: ItlyProperties): void {
-    this.log(`track() userId='${userId}' event='${eventName}' properties=${this.stringify(properties)}`);
+  track(userId: string | undefined, event: ItlyEvent): void {
+    this.log(`track() userId='${userId}' event='${event.name}' properties=${this.stringify(event.properties)}`);
+  }
+
+  validationError(validationResponse: ValidationResponse, event: ItlyEvent) {
+    this.log(`validationError() event='${event.name}' plugin=${validationResponse.pluginId} message=${validationResponse.message}`);
   }
 }

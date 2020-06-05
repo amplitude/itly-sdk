@@ -1,16 +1,17 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable class-methods-use-this */
-import { ItlyCoreOptions, ItlyProperties, ItlyDestination } from '@itly/sdk-node';
+import { ItlyOptions, ItlyEvent, ItlyProperties, ItlyPluginBase } from '@itly/sdk-node';
 import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };
 
-export default class AmplitudeNodeDestination implements ItlyDestination {
+export default class AmplitudeNodeDestination extends ItlyPluginBase {
   static ID: string = 'amplitude';
 
   private amplitude: Amplitude;
 
-  constructor(itlyOptions: ItlyCoreOptions, apiKey: string, options?: AmplitudeOptions) {
+  constructor(itlyOptions: ItlyOptions, apiKey: string, options?: AmplitudeOptions) {
+    super();
     this.amplitude = new Amplitude(apiKey, options);
   }
 
@@ -27,14 +28,6 @@ export default class AmplitudeNodeDestination implements ItlyDestination {
 
   id = () => AmplitudeNodeDestination.ID;
 
-  init = () => {
-    // N/A for Amplitude
-  }
-
-  alias(userId: string, previousId: string) {
-    // N/A for Amplitude
-  }
-
   identify(userId: string, properties?: ItlyProperties) {
     this.amplitude.identify({
       user_id: userId,
@@ -42,23 +35,11 @@ export default class AmplitudeNodeDestination implements ItlyDestination {
     });
   }
 
-  group(userId: string, groupId: string, properties?: ItlyProperties) {
-    // N/A for Amplitude
-  }
-
-  page(userId: string, category: string, name: string, properties?: ItlyProperties) {
-    // N/A for Amplitude
-  }
-
-  track(userId: string, eventName: string, properties: ItlyProperties) {
+  track(userId: string, event: ItlyEvent) {
     this.amplitude.track({
-      event_type: eventName,
+      event_type: event.name,
       user_id: userId,
-      event_properties: properties,
+      event_properties: event.properties,
     });
-  }
-
-  reset() {
-    // No-op for NodeJs Adapter
   }
 }

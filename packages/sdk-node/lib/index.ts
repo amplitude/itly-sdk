@@ -1,13 +1,17 @@
 import itlySdk, {
-  ItlyLogger, ItlyCoreOptions, ItlyOptions, ItlyProperties, ItlyDestination,
+  ItlyOptions,
+  ItlyEvent, ItlyProperties,
+  ItlyPlugin, ItlyPluginBase,
+  ValidationResponse,
 } from '@itly/sdk-core';
 
 export {
-  ItlyDestination,
-  ItlyLogger,
   ItlyOptions,
+  ItlyPlugin,
+  ItlyPluginBase,
+  ItlyEvent,
   ItlyProperties,
-  ItlyCoreOptions,
+  ValidationResponse,
 };
 
 class Itly {
@@ -37,11 +41,8 @@ class Itly {
 
   track = (
     userId: string | undefined,
-    eventName: string,
-    properties: ItlyProperties | undefined,
-    eventId: string,
-    eventVersion: string,
-  ) => itlySdk.track(userId, eventName, properties, eventId, eventVersion);
+    event: ItlyEvent,
+  ) => itlySdk.track(userId, event);
 
   reset = () => itlySdk.reset();
 }
