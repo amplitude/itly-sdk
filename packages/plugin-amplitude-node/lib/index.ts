@@ -1,6 +1,10 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable class-methods-use-this */
-import { ItlyOptions, ItlyEvent, ItlyProperties, ItlyPluginBase } from '@itly/sdk-node';
+/* eslint-disable no-unused-vars, class-methods-use-this */
+import {
+  ItlyOptions,
+  ItlyEvent,
+  ItlyProperties,
+  ItlyPluginBase,
+} from '@itly/sdk-node';
 import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };
