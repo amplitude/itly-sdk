@@ -16,7 +16,7 @@ $ brew install hygen
 
 2. Generate new plugin with `hygen plugin new <name>`. You will be prompted to set the author, base SDK(@itly/sdk, @itly/sdk-node), and SDK version range for the new plugin.
 ```
-itly-sdk $ hygen plugin new awesome-analytics
+~/itly-sdk $ hygen plugin new awesome-analytics
 
 ✔ Author? · Iteratively
 ✔ Itly SDK? · @itly/sdk
