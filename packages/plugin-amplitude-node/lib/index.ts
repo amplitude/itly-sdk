@@ -9,12 +9,12 @@ import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };
 
-export default class AmplitudeNodeDestination extends ItlyPluginBase {
+export default class AmplitudeNodePlugin extends ItlyPluginBase {
   static ID: string = 'amplitude';
 
   private amplitude: Amplitude;
 
-  constructor(itlyOptions: ItlyOptions, apiKey: string, options?: AmplitudeOptions) {
+  constructor(apiKey: string, options?: AmplitudeOptions) {
     super();
     this.amplitude = new Amplitude(apiKey, options);
   }
@@ -30,7 +30,7 @@ export default class AmplitudeNodeDestination extends ItlyPluginBase {
   //     }
   // }
 
-  id = () => AmplitudeNodeDestination.ID;
+  id = () => AmplitudeNodePlugin.ID;
 
   identify(userId: string, properties?: ItlyProperties) {
     this.amplitude.identify({
