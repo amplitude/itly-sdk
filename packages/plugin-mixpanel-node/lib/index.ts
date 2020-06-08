@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  ItlyOptions, ItlyEvent, ItlyProperties, ItlyPluginBase,
+  ItlyPluginBase, ItlyEvent, ItlyProperties,
 } from '@itly/sdk-node';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
@@ -11,7 +11,7 @@ export default class MixpanelNodePlugin extends ItlyPluginBase {
 
   private mixpanel: Mixpanel.Mixpanel;
 
-  constructor(options: ItlyOptions, apiKey: string, mixpanelOptions: MixpanelOptions) {
+  constructor(apiKey: string, mixpanelOptions: MixpanelOptions) {
     super();
     this.mixpanel = Mixpanel.init(apiKey, mixpanelOptions);
   }
