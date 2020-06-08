@@ -1,7 +1,7 @@
 
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  ItlyOptions, ItlyEvent, ItlyProperties, ItlyPluginBase,
+  ItlyPluginBase, ItlyEvent, ItlyProperties,
 } from '@itly/sdk-node';
 import Segment from 'analytics-node';
 
@@ -17,7 +17,7 @@ export default class SegmentNodePlugin extends ItlyPluginBase {
 
   private segment: Segment;
 
-  constructor(options: ItlyOptions, apiKey: string, segmentOptions?: SegmentOptions) {
+  constructor(apiKey: string, segmentOptions?: SegmentOptions) {
     super();
     this.segment = new Segment(apiKey, segmentOptions);
   }
