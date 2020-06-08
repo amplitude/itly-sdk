@@ -2,7 +2,7 @@
 Iteratively analytics SDKs and plugins for Javascript and Typescript
 
 # Installation
-1. Update your .npmrc to use our Gemfury registry for @itly modules:
+1. Update your `.npmrc` to use our Gemfury registry for @itly modules:
     ```
     @itly:registry=https://npm.fury.io/itly/
     //npm.fury.io/itly/:_authToken=2irLyg-8E37HWhKmt5giYVH2ziVuC2pCQ
@@ -52,11 +52,11 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
       },
     });
     ```
-3. Add Schema validation plugin
+3. Add Schema validation
     ```
     $ yarn add @itly/plugin-schema-validator
     ```
-    Load `@itly/plugin-schema-validator` and start tracking with validation
+    Load `@itly/plugin-schema-validator` and `track()`ed event's will be validated against their schema.
     ```
     import itly, { ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse } from '@itly/sdk-node';
     import SchemaValidator from '@itly/plugin-schema-validator';
