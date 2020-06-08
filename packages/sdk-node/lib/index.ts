@@ -45,6 +45,8 @@ class Itly {
   ) => itlySdk.track(userId, event);
 
   reset = () => itlySdk.reset();
+
+  getPlugin = (id: string) => itlySdk.getPlugin(id);
 }
 
 export default new Itly();

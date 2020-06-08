@@ -56,6 +56,10 @@ test('should load and track events to a custom destination (no validation)', () 
     // do nothing
   }
 
+  const customOnly = itly.getPlugin('custom');
+  // eslint-disable-next-line no-console
+  console.log('CustomPlugin.id()', customOnly!.id());
+
   expect(spy.mock.calls).toMatchSnapshot();
 
   spy.mockRestore();

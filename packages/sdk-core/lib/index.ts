@@ -205,6 +205,10 @@ class Itly {
     this.plugins.forEach((p) => p.reset());
   }
 
+  getPlugin(id: string): ItlyPlugin | undefined {
+    return this.plugins.find((p) => p.id() === id);
+  }
+
   private validate(event: ItlyEvent): boolean {
     let pluginId = 'sdk-core';
     let caughtError;

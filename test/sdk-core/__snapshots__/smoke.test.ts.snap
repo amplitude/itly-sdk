@@ -14,5 +14,9 @@ Array [
     "CustomPlugin: ",
     "track() userId='test-user-id' event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
   ],
+  Array [
+    "CustomPlugin.id()",
+    "custom",
+  ],
 ]
 `;
