@@ -119,7 +119,7 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
     ```
 # Contributing
 
-## Creating plugins
+## Creating plugin modules
 There are [hygen](https://github.com/jondot/hygen) templates for creating a new plugin.
 
 `hygen plugin new <name>` will create a new plugin module.
