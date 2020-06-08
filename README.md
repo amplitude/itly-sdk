@@ -61,6 +61,7 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
     import itly, { ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse } from '@itly/sdk-node';
     import SchemaValidator from '@itly/plugin-schema-validator';
 
+    // TODO: Add validationError handler in SchemaValidator constructor so this class isn't necessary
     class ValidationErrorHandler extends ItlyPluginBase {
       validationError(validation: ValidationResponse, event: ItlyEvent) {
           console.log('A validation error occured.', validation.message);
@@ -73,6 +74,7 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
           'Event name': {...eventSchema},
           'Another event for something': {...eventSchema},
         }),
+        // See TODO above, move to SchemaValidator constructor
         new ValidationErrorHandler(),
         ...
       ],
