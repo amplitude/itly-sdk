@@ -4,7 +4,7 @@ to: packages/plugin-<%= name %>/package.json
 {
   "name": "@itly/plugin-<%= h.changeCase.lower(name) %>",
   "version": "0.0.0",
-  "description": "<%= h.changeCase.title(name) %> Plugin ",
+  "description": "<%= h.changeCase.title(name) %> Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

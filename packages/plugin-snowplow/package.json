@@ -1,7 +1,7 @@
 {
   "name": "@itly/plugin-snowplow",
   "version": "0.0.0",
-  "description": "Snowplow Plugin (Browser)",
+  "description": "Snowplow Browser Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

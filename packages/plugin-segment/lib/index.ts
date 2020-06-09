@@ -5,10 +5,10 @@ import {
 
 export type SegmentOptions = {};
 
-export default class SegmentPlugin extends ItlyPluginBase {
+export default class SegmentBrowserPlugin extends ItlyPluginBase {
   static ID: string = 'segment';
 
-  id = () => SegmentPlugin.ID;
+  id = () => SegmentBrowserPlugin.ID;
 
   private get segment(): any {
     // eslint-disable-next-line no-restricted-globals

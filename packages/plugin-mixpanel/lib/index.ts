@@ -1,4 +1,3 @@
-
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
   ItlyOptions, ItlyEvent, ItlyProperties, ItlyPluginBase,
@@ -6,10 +5,10 @@ import {
 
 export type MixpanelOptions = {};
 
-export default class MixpanelPlugin extends ItlyPluginBase {
+export default class MixpanelBrowserPlugin extends ItlyPluginBase {
   static ID: string = 'mixpanel';
 
-  id = () => MixpanelPlugin.ID;
+  id = () => MixpanelBrowserPlugin.ID;
 
   private get mixpanel(): any {
     // eslint-disable-next-line no-restricted-globals
