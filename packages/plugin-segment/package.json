@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-segment",
-  "version": "0.0.0",
+  "version": "0.6.0",
   "description": "Segment Browser Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,10 +18,8 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk-core": "^0.5.0",
+    "@itly/sdk-core": "^0.6.0",
     "typescript": "^3.9.3"
-  },
-  "dependencies": {
   },
   "peerDependencies": {
     "@itly/sdk-core": "^0.5.0"
