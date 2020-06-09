@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.4.0...v0.5.0) (2020-06-09)
+
+
+### Features
+
+* added ItlyOptions.validationOptions ([7e3bc99](https://github.com/iterativelyhq/itly-sdk/commit/7e3bc998f8a7e1de36bd37a1e3d6cefcf72a6239))
+* added optional validationErrorHandler to SchemaValidator ([a35b68a](https://github.com/iterativelyhq/itly-sdk/commit/a35b68acc545d25f50f8447513a70293a4c48050))
+
+
+
+
+
 # [0.4.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.3.0...v0.4.0) (2020-06-06)
 
 **Note:** Version bump only for package @itly/plugin-schema-validator

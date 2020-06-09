@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.4.0...v0.5.0) (2020-06-09)
+
+
+### Bug Fixes
+
+* added getPlugin(id: string) to sdk-core and sdk-node ([7e4c82f](https://github.com/iterativelyhq/itly-sdk/commit/7e4c82f115292f6e246200401c61952a87be8168))
+* removed ItlyOptions from plugin-amplitude-node ([f00bd64](https://github.com/iterativelyhq/itly-sdk/commit/f00bd64ad3df84c8af1bb4a72980d557c2b2daeb))
+* removed ItlyOptions from plugin-mixpanel-node ([8486da4](https://github.com/iterativelyhq/itly-sdk/commit/8486da4e800dc380b88c524274ed8928ba578da0))
+* removed ItlyOptions from plugin-segment-node ([93e412f](https://github.com/iterativelyhq/itly-sdk/commit/93e412f5e58276e692264386c5cc6345d3f6813f))
+
+
+### Features
+
+* added browser SDK module @itly/sdk ([00a87af](https://github.com/iterativelyhq/itly-sdk/commit/00a87afe46194eed936b23b6fedf00eea786b1e2))
+* added ItlyOptions.validationOptions ([7e3bc99](https://github.com/iterativelyhq/itly-sdk/commit/7e3bc998f8a7e1de36bd37a1e3d6cefcf72a6239))
+* added optional validationErrorHandler to SchemaValidator ([a35b68a](https://github.com/iterativelyhq/itly-sdk/commit/a35b68acc545d25f50f8447513a70293a4c48050))
+
+
+
+
+
 # [0.4.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.3.0...v0.4.0) (2020-06-06)
 
 
