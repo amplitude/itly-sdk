@@ -1,0 +1,26 @@
+{
+  "name": "@itly/sdk",
+  "version": "0.0.0",
+  "description": "Browser Iteratively SDK ",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "itly",
+    "sdk",
+    "iteratively",
+    "sdk"
+  ],
+  "author": "Iteratively",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "@itly/sdk-core": "^0.4.0"
+  }
+}
