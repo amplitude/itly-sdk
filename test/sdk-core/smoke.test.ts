@@ -24,7 +24,6 @@ test('should load and track events to a custom destination (no validation)', () 
     name: 'Event No Properties',
     id: '26af925a-be3a-40e5-947d-33da66a5352f',
     version: '1-0-0',
-    properties: {},
   });
 
   itly.track(userId, {

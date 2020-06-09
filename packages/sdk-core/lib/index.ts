@@ -32,7 +32,7 @@ export type ItlyProperties = {
 
 export type ItlyEvent = {
   name: string;
-  properties: ItlyProperties;
+  properties?: ItlyProperties;
   id: string;
   version: string;
 };
