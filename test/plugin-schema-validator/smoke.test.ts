@@ -37,7 +37,13 @@ const testParams: TestParams[] = [
         optionalEnum: 'Value 1',
       },
       plugins: [
-        new SchemaValidator(testSchemas),
+        new SchemaValidator(testSchemas, (validation, event, schema) => {
+          // eslint-disable-next-line no-console
+          console.log(
+            `SchemaValidator validationError() event='${event.name}' message='${validation.message}' schema=`,
+            JSON.stringify(schema),
+          );
+        }),
         new CustomPlugin(),
       ],
       validationOptions: {

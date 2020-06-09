@@ -7,6 +7,14 @@ import {
   ValidationResponse,
 } from '@itly/sdk-core';
 
+export type ValidationResponseHandler = (
+  validation: ValidationResponse,
+  event: ItlyEvent,
+  schema: any
+) => any;
+
+const DEFAULT_VALIDATION_RESPONSE_HANDLER: ValidationResponseHandler = () => {};
+
 export default class SchemaValidatorPlugin extends ItlyPluginBase {
   static ID: string = 'schema-validator';
 
@@ -16,11 +24,14 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
 
   private ajv: Ajv.Ajv;
 
-  constructor(schemas: { [id: string]: any }) {
+  private validationErrorHandler: ValidationResponseHandler;
+
+  constructor(schemas: { [id: string]: any }, validationErrorHandler?: ValidationResponseHandler) {
     super();
     this.schemas = schemas;
     this.ajv = new Ajv();
     this.validators = {};
+    this.validationErrorHandler = validationErrorHandler || DEFAULT_VALIDATION_RESPONSE_HANDLER;
   }
 
   id = () => SchemaValidatorPlugin.ID;
@@ -61,5 +72,9 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
       valid: true,
       pluginId: this.id(),
     };
+  }
+
+  validationError(validation: ValidationResponse, event: ItlyEvent) {
+    this.validationErrorHandler(validation, event, this.schemas[event.id]);
   }
 }
