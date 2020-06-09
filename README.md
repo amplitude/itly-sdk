@@ -2,7 +2,7 @@
 Iteratively analytics SDKs and plugins for Javascript and Typescript
 
 # Installation
-1. Update your `.npmrc` to use our Gemfury registry for @itly modules:
+1. Update your `.npmrc` to use our Gemfury registry for `@itly` modules:
     ```
     @itly:registry=https://npm.fury.io/itly/
     //npm.fury.io/itly/:_authToken=2irLyg-8E37HWhKmt5giYVH2ziVuC2pCQ
@@ -20,20 +20,18 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
 3. Use the Itly SDK
     ```
     import itly from '@itly/sdk-node';
-    import AmplitudePlugin, { AmplitudeOptions } from '@itly/plugin-amplitude-node';
-    import MixpanelPlugin, { MixpanelOptions } from '@itly/plugin-mixpanel-node';
-    import SegmentPlugin, { SegmentOptions } from '@itly/plugin-segment-node';
+    import AmplitudePlugin from '@itly/plugin-amplitude-node';
+    import MixpanelPlugin from '@itly/plugin-mixpanel-node';
+    import SegmentPlugin from '@itly/plugin-segment-node';
 
     itly.load({
       context: {
         someGlobalValue: 'On all events',
       },
       plugins: [
-        // NOTICE: itlyOptions to be removed from plugin constructors
-        // NOTICE: Instead use the ItlyPlugin.load(options) hook
-        new AmplitudePlugin(itlyOptions, 'AMPLITUDE-KEY', { ...amplitudeOptions }),
-        new MixpanelPlugin(itlyOptions, 'MIXPANEL-KEY', { ...mixpanelOptions }),
-        new SegmentPlugin(itlyOptions, 'SEGMENT-KEY', { ...segmentOptions }),
+        new AmplitudePlugin('AMPLITUDE-KEY'),
+        new MixpanelPlugin('MIXPANEL-KEY'),
+        new SegmentPlugin('SEGMENT-KEY'),
       ],
     });
 
@@ -58,25 +56,22 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
     ```
     Load `@itly/plugin-schema-validator` and `track()`ed event's will be validated against their schema.
     ```
-    import itly, { ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse } from '@itly/sdk-node';
+    import itly, {
+      ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse,
+    } from '@itly/sdk-node';
     import SchemaValidator from '@itly/plugin-schema-validator';
-
-    // TODO: Add validationError handler in SchemaValidator constructor so this class isn't necessary
-    class ValidationErrorHandler extends ItlyPluginBase {
-      validationError(validation: ValidationResponse, event: ItlyEvent) {
-          console.log('A validation error occured.', validation.message);
-      }
-    }
 
     itly.load({
       plugins: [
-        new SchemaValidator({
-          'Event name': {...eventSchema},
-          'Another event for something': {...eventSchema},
-        }),
-        // See TODO above, move to SchemaValidator constructor
-        new ValidationErrorHandler(),
-        ...
+        new SchemaValidator(
+          {
+            'Event name': {...eventSchema},
+            'Another event for something': {...eventSchema},
+          },
+          (validation, event, schema) => console.log(
+            `Validation Error! event='${event.name}' message='${validation.message}'`,
+          );
+        ),
       ],
     });
 
@@ -89,20 +84,22 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
     ```
 4. Create your own plugin
     ```
-    import itly, { ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse } from '@itly/sdk-node';
+    import itly, {
+      ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse,
+    } from '@itly/sdk-node';
 
     class CustomPlugin extends ItlyPluginBase {
       id = () => 'custom';
 
-      load(): void {...}
+      load(options: ItlyOptions): void {...}
 
       alias(userId: string, previousId?: string): void {...}
 
       group(userId: string | undefined, groupId: string, properties?: ItlyProperties): void {...}
 
-      identify(userId: string | undefined, properties?: ItlyProperties): void {...}
+      identify(userId?: string, properties?: ItlyProperties): void {...}
 
-      page(userId: string | undefined, category: string | undefined, name: string | undefined, properties?: ItlyProperties): void {...}
+      page(userId?: string, category?: string, name?: string, properties?: ItlyProperties): void {...}
 
       reset(): void {...}
 
