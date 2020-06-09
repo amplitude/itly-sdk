@@ -28,6 +28,10 @@ Array [
     "track() userId='test-user-id' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
   ],
   Array [
+    "SchemaValidator validationError() event='EventMaxIntForTest' message='Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/aa0f08ac-8928-4569-a524-c1699e7da6f4/version/1.0.0\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"EventMaxIntForTest\\",\\"description\\":\\"Event to test schema validation\\",\\"type\\":\\"object\\",\\"properties\\":{\\"intMax10\\":{\\"description\\":\\"property to test schema validation\\",\\"type\\":\\"integer\\",\\"maximum\\":10}},\\"additionalProperties\\":false,\\"required\\":[\\"intMax10\\"]}",
+  ],
+  Array [
     "CustomPlugin: ",
     "validationError() event='EventMaxIntForTest' plugin=schema-validator message=Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
   ],
