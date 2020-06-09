@@ -1,0 +1,29 @@
+{
+  "name": "@itly/plugin-snowplow",
+  "version": "0.0.0",
+  "description": "Snowplow Plugin (Browser)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "itly",
+    "sdk",
+    "iteratively",
+    "plugin"
+  ],
+  "author": "Iteratively",
+  "license": "ISC",
+  "devDependencies": {
+    "@itly/sdk-core": "^0.5.0",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "@itly/sdk-core": "^0.5.0"
+  }
+}
