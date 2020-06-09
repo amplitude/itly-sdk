@@ -6,6 +6,7 @@ import {
 
 export type SnowplowOptions = {
   url: string;
+  config: {};
 };
 
 export default class SnowplowBrowserPlugin extends ItlyPluginBase {
@@ -19,7 +20,7 @@ export default class SnowplowBrowserPlugin extends ItlyPluginBase {
 
   id = () => SnowplowBrowserPlugin.ID;
 
-  constructor(readonly vendor: string, snowplowOptions?: SnowplowOptions) {
+  constructor(readonly vendor: string, snowplowOptions: SnowplowOptions) {
     super();
     if (!this.snowplow) {
       // Snowplow (https://github.com/snowplow/snowplow/wiki/1-General-parameters-for-the-Javascript-tracker#21-loading-snowplowjs)
@@ -27,12 +28,7 @@ export default class SnowplowBrowserPlugin extends ItlyPluginBase {
       // eslint-disable-next-line
       ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)};p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","//d1fc8wv8zag5ca.cloudfront.net/2.10.2/sp.js","snowplow"));
     }
-    this.snowplow(
-      'newTracker',
-      'itly',
-      snowplowOptions && snowplowOptions.url,
-      snowplowOptions,
-    );
+    this.snowplow('newTracker', 'itly', snowplowOptions.url, snowplowOptions.config);
   }
 
   identify(userId: string | undefined, properties?: ItlyProperties) {
