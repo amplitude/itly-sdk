@@ -1,6 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should load, track events and VALIDATE schema 1`] = `
+exports[`load, track, validate - validationOptions={default} 1`] = `
+Array [
+  Array [
+    "CustomPlugin: ",
+    "track() userId='test-user-id' event='Event No Properties' properties={}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='test-user-id' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='EventMaxIntForTest' plugin=schema-validator message=Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
+  ],
+]
+`;
+
+exports[`load, track, validate - validationOptions={trackInvalid: true} 1`] = `
 Array [
   Array [
     "CustomPlugin: ",

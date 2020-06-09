@@ -2,6 +2,7 @@ import itlySdk, {
   ItlyOptions,
   ItlyEvent, ItlyProperties,
   ItlyPlugin, ItlyPluginBase,
+  ValidationOptions,
   ValidationResponse,
 } from '@itly/sdk-core';
 
@@ -11,6 +12,7 @@ export {
   ItlyPluginBase,
   ItlyEvent,
   ItlyProperties,
+  ValidationOptions,
   ValidationResponse,
 };
 

@@ -20,6 +20,10 @@ export interface ItlyOptions {
    * Default is none.
    */
   context?: ItlyProperties;
+  /**
+   * Configure validation handling
+   */
+  validationOptions?: ValidationOptions;
 }
 
 export type ItlyProperties = {
@@ -32,6 +36,11 @@ export type ItlyEvent = {
   id: string;
   version: string;
 };
+
+export type ValidationOptions = {
+  disabled: boolean,
+  trackInvalid: boolean;
+}
 
 export type ValidationResponse = {
   valid: boolean;
@@ -93,7 +102,10 @@ export class ItlyPluginBase implements ItlyPlugin {
 
   // Validation methods
   validate(event: ItlyEvent): ValidationResponse {
-    return { valid: true };
+    return {
+      valid: true,
+      pluginId: this.id(),
+    };
   }
 
   validationError(validationResponse: ValidationResponse, event: ItlyEvent): void {}
@@ -103,6 +115,11 @@ class Itly {
   private options: ItlyOptions | undefined = undefined;
 
   private plugins: ItlyPlugin[] = [];
+
+  private validationOptions: ValidationOptions = {
+    disabled: false,
+    trackInvalid: false,
+  };
 
   load(options: ItlyOptions) {
     if (this.options) {
@@ -115,7 +132,8 @@ class Itly {
       return;
     }
 
-    this.plugins = options.plugins || [];
+    this.plugins = options.plugins || this.plugins;
+    this.validationOptions = options.validationOptions || this.validationOptions;
 
     if (options.context) {
       this.validate({
@@ -146,14 +164,16 @@ class Itly {
       return;
     }
 
-    this.validate({
+    const identifyEvent = {
       name: 'identify',
       properties: identifyProperties || {},
       id: 'identify',
       version: '0-0-0',
-    });
+    };
 
-    this.plugins.forEach((p) => p.identify(userId, identifyProperties));
+    this.runIfValid(identifyEvent, () => {
+      this.plugins.forEach((p) => p.identify(userId, identifyProperties));
+    });
   }
 
   group(userId:string | undefined, groupId: string, groupProperties?: ItlyProperties) {
@@ -161,14 +181,16 @@ class Itly {
       return;
     }
 
-    this.validate({
+    const groupEvent = {
       name: 'group',
       properties: groupProperties || {},
       id: 'group',
       version: '0-0-0',
-    });
+    };
 
-    this.plugins.forEach((p) => p.group(userId, groupId, groupProperties));
+    this.runIfValid(groupEvent, () => {
+      this.plugins.forEach((p) => p.group(userId, groupId, groupProperties));
+    });
   }
 
   page(
@@ -181,14 +203,16 @@ class Itly {
       return;
     }
 
-    this.validate({
+    const pageEvent = {
       name: 'page',
       properties: pageProperties || {},
       id: 'page',
       version: '0-0-0',
-    });
+    };
 
-    this.plugins.forEach((p) => p.page(userId, category, name, pageProperties));
+    this.runIfValid(pageEvent, () => {
+      this.plugins.forEach((p) => p.page(userId, category, name, pageProperties));
+    });
   }
 
   track(userId: string | undefined, event: ItlyEvent) {
@@ -196,9 +220,9 @@ class Itly {
       return;
     }
 
-    this.validate(event);
-
-    this.plugins.forEach((p) => p.track(userId, event));
+    this.runIfValid(event, () => {
+      this.plugins.forEach((p) => p.track(userId, event));
+    });
   }
 
   reset() {
@@ -241,11 +265,6 @@ class Itly {
       this.plugins.forEach((p) => p.validationError(validation, event));
     }
 
-    // If we caught an Error pay it forward
-    if (caughtError) {
-      throw caughtError;
-    }
-
     return validation.valid;
   }
 
@@ -255,6 +274,19 @@ class Itly {
     }
 
     return !this.options.disabled;
+  }
+
+  private runIfValid(event: ItlyEvent, cb: () => any): void {
+    let shouldRun = true;
+    if (!this.validationOptions.disabled) {
+      shouldRun = this.validate(event);
+      if (this.validationOptions.trackInvalid) {
+        shouldRun = true;
+      }
+    }
+    if (shouldRun) {
+      cb();
+    }
   }
 }
 

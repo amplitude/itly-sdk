@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import Ajv from 'ajv';
 import {
-  ItlyOptions,
   ItlyEvent,
   ItlyPluginBase,
   ValidationResponse,
@@ -10,8 +9,6 @@ import {
 
 export default class SchemaValidatorPlugin extends ItlyPluginBase {
   static ID: string = 'schema-validator';
-
-  private environment: 'development' | 'production';
 
   private schemas: { [id: string]: any };
 
@@ -21,7 +18,6 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
 
   constructor(schemas: { [id: string]: any }) {
     super();
-    this.environment = 'production';
     this.schemas = schemas;
     this.ajv = new Ajv();
     this.validators = {};
@@ -29,21 +25,7 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
 
   id = () => SchemaValidatorPlugin.ID;
 
-  load(options: ItlyOptions) {
-    this.environment = options.environment || this.environment;
-  }
-
   validate(event: ItlyEvent): ValidationResponse {
-    const validation = this.getValidationResponse(event);
-
-    if (!validation.valid && this.environment !== 'production') {
-      throw new Error(validation.message);
-    }
-
-    return validation;
-  }
-
-  private getValidationResponse(event: ItlyEvent) {
     // Check that we have a schema for this event
     if (!this.schemas[event.id]) {
       return {
