@@ -18,7 +18,7 @@ export default class AmplitudeBrowserPlugin extends ItlyPluginBase {
 
   id = () => AmplitudeBrowserPlugin.ID;
 
-  constructor(apiKey: string, amplitudeOptions: AmplitudeOptions) {
+  constructor(apiKey: string, amplitudeOptions?: AmplitudeOptions) {
     super();
     if (!this.amplitude) {
       // Amplitude (https://help.amplitude.com/hc/en-us/articles/115001361248-JavaScript-SDK-Installation)
