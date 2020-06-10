@@ -40,6 +40,7 @@ export type ItlyEvent = {
 export type ValidationOptions = {
   disabled: boolean,
   trackInvalid: boolean;
+  errorOnInvalid: boolean;
 }
 
 export type ValidationResponse = {
@@ -119,6 +120,7 @@ class Itly {
   private validationOptions: ValidationOptions = {
     disabled: false,
     trackInvalid: false,
+    errorOnInvalid: false,
   };
 
   load(options: ItlyOptions) {
@@ -235,7 +237,6 @@ class Itly {
 
   private validate(event: ItlyEvent): boolean {
     let pluginId = 'sdk-core';
-    let caughtError;
 
     // Default to true
     let validation: ValidationResponse = {
@@ -252,7 +253,6 @@ class Itly {
       });
     } catch (e) {
       // Catch errors in validate() method
-      caughtError = e;
       validation = {
         valid: false,
         pluginId,
@@ -263,6 +263,10 @@ class Itly {
     // If validation failed call validationError hook
     if (!validation.valid) {
       this.plugins.forEach((p) => p.validationError(validation, event));
+
+      if (this.validationOptions.errorOnInvalid) {
+        throw new Error(`Validation Error: ${validation.message}`);
+      }
     }
 
     return validation.valid;

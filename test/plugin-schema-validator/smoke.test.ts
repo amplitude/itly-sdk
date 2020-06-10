@@ -1,54 +1,58 @@
 /* eslint-disable import/no-unresolved,  no-unused-vars, global-require, import/extensions */
-import { ItlyOptions } from '../../packages/sdk-core/lib';
+import { ItlyOptions, ItlyPlugin } from '../../packages/sdk-core/lib';
 import SchemaValidator from '../../packages/plugin-schema-validator/lib';
 import CustomPlugin from '../../test/src/CustomPlugin';
 
 const testSchemas = require('../data/basic-schema.json');
-
-const userId = 'test-user-id';
-let spyConsoleLog: jest.SpyInstance;
 
 type TestParams = {
   name: string;
   options: ItlyOptions,
 };
 
+const userId = 'test-user-id';
+let spyConsoleLog: jest.SpyInstance;
+
+const plugins: ItlyPlugin[] = [
+  new SchemaValidator(testSchemas, (validation, event, schema) => {
+    // eslint-disable-next-line no-console
+    console.log(
+      `SchemaValidator validationError() event='${event.name}' message='${validation.message}' schema=`,
+      JSON.stringify(schema),
+    );
+  }),
+  new CustomPlugin(),
+];
+
 const testParams: TestParams[] = [
   {
-    name: 'load, track, validate - validationOptions={default}',
+    name: 'load, track, validate - validationOptions=DEFAULT',
     options: {
       environment: 'production',
-      context: {
-        requiredString: 'A required string',
-        optionalEnum: 'Value 1',
-      },
-      plugins: [
-        new SchemaValidator(testSchemas),
-        new CustomPlugin(),
-      ],
+      plugins,
     },
   },
   {
     name: 'load, track, validate - validationOptions={trackInvalid: true}',
     options: {
       environment: 'production',
-      context: {
-        requiredString: 'A required string',
-        optionalEnum: 'Value 1',
-      },
-      plugins: [
-        new SchemaValidator(testSchemas, (validation, event, schema) => {
-          // eslint-disable-next-line no-console
-          console.log(
-            `SchemaValidator validationError() event='${event.name}' message='${validation.message}' schema=`,
-            JSON.stringify(schema),
-          );
-        }),
-        new CustomPlugin(),
-      ],
+      plugins,
       validationOptions: {
         disabled: false,
         trackInvalid: true,
+        errorOnInvalid: false,
+      },
+    },
+  },
+  {
+    name: 'load, track, validate - validationOptions={errorOnInvalid: true}',
+    options: {
+      environment: 'production',
+      plugins,
+      validationOptions: {
+        disabled: false,
+        trackInvalid: false,
+        errorOnInvalid: true,
       },
     },
   },

@@ -127,6 +127,7 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
       validationOptions: {
         disabled: false,
         trackInvalid: false,
+        errorOnInvalid: false,
       },
       plugins: [
         new SchemaValidatorPlugin(
