@@ -132,8 +132,8 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
       plugins: [
         new SchemaValidatorPlugin(
           {
-            'Event name': {...eventSchema},
-            'Another event for something': {...eventSchema},
+            'My Event': {"type":"object","properties":{"numToValidate":{"type":"integer","maximum":10}},"additionalProperties":false,"required":["propToValidate"]},
+            'Another event for something': {...},
           },
           (validation, event, schema) => console.log(
             `Validation Error! event='${event.name}' message='${validation.message}'`,
@@ -142,12 +142,16 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
       ],
     });
 
-    itly.track({
-      name: 'Event name',
-      properties: {
-          'a-property-to-validate': 'a value checked against schema',
-      },
-    });
+    // Validates and tracks
+    itly.track({ name: 'My Event', properties: { numToValidate: 5 }});
+
+    // Validation error on Event data that doesn't match schema
+    itly.track({ name: 'My Event', properties: {}});
+    itly.track({ name: 'My Event', properties: { numToValidate: 20 }});
+    itly.track({ name: 'My Event', properties: { unsupportedProp: 'will cause error' }});
+
+    // Validation error for Event missing schema
+    itly.track({ name: 'No schema' });
     ```
 
 # Create an Itly Plugin
