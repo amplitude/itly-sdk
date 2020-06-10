@@ -118,7 +118,7 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
     ```
     $ yarn add @itly/plugin-schema-validator
     ```
-2. Import and setup `SchemaValidatorPlugin`, add it to the `load()`ed `plugins`. Now all `track()`ed event's will be validated against their schema. Validation handling can be configured via `ItlyOptions.validationOptions`.
+2. Import and setup `SchemaValidatorPlugin`, add it to the `load()`ed `plugins`. Now all `track()`ed event's will be validated against their schema. Validation handling can be configured via (optional) `validationOptions`.
     ```
     import itly from '@itly/sdk';
     import SchemaValidatorPlugin from '@itly/plugin-schema-validator';
@@ -151,7 +151,7 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
     ```
 
 # Create an Itly Plugin
-1. Extend the `ItlyPluginBase` class and overide the lifecycle hooks you are interested in. Alternatively you can choose to implement the full `ItlyPlugin` interface.
+1. Extend the `ItlyPluginBase` class and overide some or all of the lifecycle hooks. Alternatively you can implement the full `ItlyPlugin` interface.
     ```
     import itly, {
       ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse,
