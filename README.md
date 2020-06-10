@@ -1,11 +1,22 @@
-# @itly/sdk-modules
+# Iteratively SDK
 Track and validate analytics with a unified, extensible interface that works with all your 3rd party analytics providers.
 
 The Iteratively SDK and plugins for Javascript and Typescript make it easy to support analytics providers such as Amplitude, Mixpanel, Segment, Snowplow, etc. Use an existing plugin or implement your own!
 
 The SDK also supports event validation. For JSON schema validation see `@itly/plugin-schema-validator`.
 
-## Modules:
+# Overview
+* [Modules](#modules)
+* [Setup](#setup)
+  * [Browser](#browser)
+  * [Node](#node)
+  * [Event Validation](#event-validation)
+* [Create a Plugin](#create-an-itly-plugin)
+* [Contributing](#contributing)
+  * [Add plugin modules](#creating-plugin-modules)
+  * [Commits](#commits)
+
+# Modules
 All modules are JS/TS compatiable but divided by platform (browser vs server).
 
 * Browser
