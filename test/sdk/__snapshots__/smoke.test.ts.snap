@@ -16,7 +16,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event No Properties' properties={}",
+    "track() userId='undefined' event='Event No Properties' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",

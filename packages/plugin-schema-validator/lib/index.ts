@@ -37,8 +37,9 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
   id = () => SchemaValidatorPlugin.ID;
 
   validate(event: ItlyEvent): ValidationResponse {
+    const schemaKey = this.getSchemaKey(event);
     // Check that we have a schema for this event
-    if (!this.schemas[event.id]) {
+    if (!this.schemas[schemaKey]) {
       return {
         valid: false,
         message: `Event ${event.name} not found in tracking plan.`,
@@ -47,11 +48,11 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
     }
 
     // Compile validator for this event if needed
-    if (!this.validators[event.id]) {
-      this.validators[event.id] = this.ajv.compile(this.schemas[event.id]);
+    if (!this.validators[schemaKey]) {
+      this.validators[schemaKey] = this.ajv.compile(this.schemas[schemaKey]);
     }
 
-    const validator = (this.validators[event.id]);
+    const validator = this.validators[schemaKey];
     if (event.properties && !(validator(event.properties) === true)) {
       const errors = validator.errors.map((e: any) => {
         let extra = '';
@@ -75,6 +76,11 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
   }
 
   validationError(validation: ValidationResponse, event: ItlyEvent) {
-    this.validationErrorHandler(validation, event, this.schemas[event.id]);
+    const schemaKey = this.getSchemaKey(event);
+    this.validationErrorHandler(validation, event, this.schemas[schemaKey]);
+  }
+
+  getSchemaKey(event: ItlyEvent) {
+    return event.name;
   }
 }

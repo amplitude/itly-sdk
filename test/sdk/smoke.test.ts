@@ -32,15 +32,10 @@ test('should load and track events to a custom destination (no validation)', () 
 
   itly.track({
     name: 'Event No Properties',
-    id: '26af925a-be3a-40e5-947d-33da66a5352f',
-    version: '1-0-0',
-    properties: {},
   });
 
   itly.track({
     name: 'Event With All Properties',
-    id: '311ba144-8532-4474-a9bd-8b430625e29a',
-    version: '1-0-0',
     properties: {
       requiredString: 'A required string',
       requiredNumber: 2.0,
@@ -56,8 +51,6 @@ test('should load and track events to a custom destination (no validation)', () 
   try {
     itly.track({
       name: 'EventMaxIntForTest',
-      id: 'aa0f08ac-8928-4569-a524-c1699e7da6f4',
-      version: '1-0-0',
       properties: {
         intMax10: 20,
       },
