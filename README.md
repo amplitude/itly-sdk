@@ -1,7 +1,29 @@
-# itly-sdk
-Iteratively analytics SDKs and plugins for Javascript and Typescript
+# @itly/sdk-modules
+Track and validate analytics with a unified, extensible interface that works with all your 3rd party analytics providers.
 
-# Installation
+The Iteratively SDK and plugins for Javascript and Typescript make it easy to support analytics providers such as Amplitude, Mixpanel, Segment, Snowplow, etc. Use an existing plugin or implement your own!
+
+The SDK also supports event validation. For JSON schema validation see `@itly/plugin-schema-validator`.
+
+## Modules:
+All modules are JS/TS compatiable but divided by platform (browser vs server).
+
+* Browser
+  * `@itly/sdk`
+  * `@itly/plugin-amplitude` 
+  * `@itly/plugin-mixpanel`
+  * `@itly/plugin-segment`
+  * `@itly/plugin-snowplow`
+* Node
+  * `@itly/sdk-node`
+  * `@itly/plugin-amplitude-node` 
+  * `@itly/plugin-mixpanel-node`
+  * `@itly/plugin-segment-node`
+* Core
+  * `@itly/sdk-core`
+  * `@itly/plugin-schema-validator`
+
+# Setup
 1. Update your `.npmrc` to use our Gemfury registry for `@itly` modules:
     ```
     @itly:registry=https://npm.fury.io/itly/
@@ -12,12 +34,51 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
     $ echo "@itly:registry=https://npm.fury.io/itly/\n//npm.fury.io/itly/:_authToken=2irLyg-8E37HWhKmt5giYVH2ziVuC2pCQ" >> .npmrc
     ```
 
-2. Add Itly SDK and plugins to your project:
+# Browser
+1. Add `@itly/sdk` (Itly *Browser* SDK) and plugins to your project:
+    ```
+    $ yarn add @itly/sdk
+    $ yarn add @itly/plugin-amplitude @itly/plugin-mixpanel @itly/plugin-segment
+    ```
+2. Import `itly` and plugins, `load()` configuration, and start `track()`ing.
+    ```
+    import itly from '@itly/sdk';
+    import AmplitudePlugin from '@itly/plugin-amplitude';
+    import MixpanelPlugin from '@itly/plugin-mixpanel';
+    import SegmentPlugin from '@itly/plugin-segment';
+
+    itly.load({
+      environment: 'production',
+      context: {
+        someGlobalValue: 'On all events',
+      },
+      plugins: [
+        new AmplitudePlugin('AMPLITUDE-KEY'),
+        new MixpanelPlugin('MIXPANEL-KEY'),
+        new SegmentPlugin('SEGMENT-KEY'),
+      ],
+    });
+
+    itly.identify('anon', { userProp: 1 });
+    itly.alias('some-user', 'anon');
+    itly.group('my-group', { groupProp: 'anything' });
+
+    itly.track({
+      name: 'My Event',
+      properties: {
+        'a-property': 'a value',
+        someNum: 42,
+        awesome: true,
+      },
+    });
+    ```
+# Node
+2. Add `@itly/sdk-node` (Itly *Node* SDK) and plugins to your project:
     ```
     $ yarn add @itly/sdk-node
     $ yarn add @itly/plugin-amplitude-node @itly/plugin-mixpanel-node @itly/plugin-segment-node
     ```
-3. Use the Itly SDK
+3. Import `itly` and plugins, `load()` configuration, and start `track()`ing.
     ```
     import itly from '@itly/sdk-node';
     import AmplitudePlugin from '@itly/plugin-amplitude-node';
@@ -25,6 +86,7 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
     import SegmentPlugin from '@itly/plugin-segment-node';
 
     itly.load({
+      environment: 'production',
       context: {
         someGlobalValue: 'On all events',
       },
@@ -37,33 +99,37 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
 
     const userId = 'some-user';
 
-    itly.identify('anon', { userProp: 1 }));
+    itly.identify('anon', { userProp: 1 });
     itly.alias(userId, 'anon');
     itly.group(userId, 'my-group', { groupProp: 'anything' });
 
     itly.track(userId, {
       name: 'My Event',
       properties: {
-        'a-property': 'a value'
+        'a-property': 'a value',
         someNum: 42,
         awesome: true,
       },
     });
     ```
-3. Add Schema validation
+
+# Event Validation
+1. Add `@itly/plugin-schema-validator` to your project. This plugin works for both `@itly/sdk` and `@itly/sdk-node`.
     ```
     $ yarn add @itly/plugin-schema-validator
     ```
-    Load `@itly/plugin-schema-validator` and `track()`ed event's will be validated against their schema.
+2. Import and setup `SchemaValidatorPlugin`, add it to the `load()`ed `plugins`. Now all `track()`ed event's will be validated against their schema. Validation handling can be configured via `ItlyOptions.validationOptions`.
     ```
-    import itly, {
-      ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse,
-    } from '@itly/sdk-node';
-    import SchemaValidator from '@itly/plugin-schema-validator';
+    import itly from '@itly/sdk';
+    import SchemaValidatorPlugin from '@itly/plugin-schema-validator';
 
     itly.load({
+      validationOptions: {
+        disabled: false,
+        trackInvalid: false,
+      },
       plugins: [
-        new SchemaValidator(
+        new SchemaValidatorPlugin(
           {
             'Event name': {...eventSchema},
             'Another event for something': {...eventSchema},
@@ -75,14 +141,16 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
       ],
     });
 
-    itly.track(userId, {
+    itly.track({
       name: 'Event name',
       properties: {
           'a-property-to-validate': 'a value checked against schema',
       },
     });
     ```
-4. Create your own plugin
+
+# Create an Itly Plugin
+1. Extend the `ItlyPluginBase` class and overide the lifecycle hooks you are interested in. Alternatively you can choose to implement the full `ItlyPlugin` interface.
     ```
     import itly, {
       ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse,
@@ -106,9 +174,11 @@ Iteratively analytics SDKs and plugins for Javascript and Typescript
       track(userId: string | undefined, event: ItlyEvent): void {...}
 
       validationError(validation: ValidationResponse, event: ItlyEvent): void {...}
+
+      validate(event: ItlyEvent): ValidationResponse {...}
     }
     ```
-    Add to load options:
+2. Add your Plugin to `plugins` during `itly.load()`.
     ```
     itly.load({
       plugins: [new CustomPlugin()],
