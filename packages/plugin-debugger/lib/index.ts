@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import {
   ItlyEvent, ItlyProperties, ItlyPluginBase, ValidationResponse,
-} from '@itly/sdk';
+} from '@itly/sdk-core';
 
 export type DebuggerOptions = {
   url: string,
