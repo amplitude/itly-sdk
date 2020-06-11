@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
+import fetch from 'node-fetch';
 import {
   ItlyEvent, ItlyProperties, ItlyPluginBase, ValidationResponse,
-} from '@itly/sdk';
+} from '@itly/sdk-node';
 
 export type DebuggerOptions = {
   url: string,
@@ -33,8 +34,8 @@ type TrackModel = {
 
 export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export default class DebuggerPlugin extends ItlyPluginBase {
-  static ID: string = 'debugger';
+export default class DebuggerNodePlugin extends ItlyPluginBase {
+  static ID: string = 'debugger-node';
 
   private buffer: TrackModel[] = [];
 
@@ -54,7 +55,7 @@ export default class DebuggerPlugin extends ItlyPluginBase {
   }
 
   // overrides ItlyPluginBase.id
-  id = () => DebuggerPlugin.ID;
+  id = () => DebuggerNodePlugin.ID;
 
   // overrides ItlyPluginBase.track
   track(userId: string | undefined, event: ItlyEvent): void {
