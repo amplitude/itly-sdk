@@ -1,11 +1,22 @@
-# @itly/sdk-modules
+# Iteratively SDK
 Track and validate analytics with a unified, extensible interface that works with all your 3rd party analytics providers.
 
 The Iteratively SDK and plugins for Javascript and Typescript make it easy to support analytics providers such as Amplitude, Mixpanel, Segment, Snowplow, etc. Use an existing plugin or implement your own!
 
 The SDK also supports event validation. For JSON schema validation see `@itly/plugin-schema-validator`.
 
-## Modules:
+# Overview
+* [Modules](#modules)
+* [Setup](#setup)
+  * [Browser](#browser)
+  * [Node](#node)
+  * [Event Validation](#event-validation)
+* [Create a Plugin](#create-an-itly-plugin)
+* [Contributing](#contributing)
+  * [Add plugin modules](#creating-plugin-modules)
+  * [Commits](#commits)
+
+# Modules
 All modules are JS/TS compatiable but divided by platform (browser vs server).
 
 * Browser
@@ -118,7 +129,7 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
     ```
     $ yarn add @itly/plugin-schema-validator
     ```
-2. Import and setup `SchemaValidatorPlugin`, add it to the `load()`ed `plugins`. Now all `track()`ed event's will be validated against their schema. Validation handling can be configured via `ItlyOptions.validationOptions`.
+2. Import and setup `SchemaValidatorPlugin`, add it to the `load()`ed `plugins`. Now all `track()`ed event's will be validated against their schema. Validation handling can be configured via (optional) `validationOptions`.
     ```
     import itly from '@itly/sdk';
     import SchemaValidatorPlugin from '@itly/plugin-schema-validator';
@@ -132,8 +143,8 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
       plugins: [
         new SchemaValidatorPlugin(
           {
-            'Event name': {...eventSchema},
-            'Another event for something': {...eventSchema},
+            'My Event': {"type":"object","properties":{"numToValidate":{"type":"integer","maximum":10}},"additionalProperties":false,"required":["propToValidate"]},
+            'Another event for something': {...},
           },
           (validation, event, schema) => console.log(
             `Validation Error! event='${event.name}' message='${validation.message}'`,
@@ -142,16 +153,20 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
       ],
     });
 
-    itly.track({
-      name: 'Event name',
-      properties: {
-          'a-property-to-validate': 'a value checked against schema',
-      },
-    });
+    // Validates and tracks
+    itly.track({ name: 'My Event', properties: { numToValidate: 5 }});
+
+    // Validation error on Event data that doesn't match schema
+    itly.track({ name: 'My Event', properties: {}});
+    itly.track({ name: 'My Event', properties: { numToValidate: 20 }});
+    itly.track({ name: 'My Event', properties: { unsupportedProp: 'will cause error' }});
+
+    // Validation error for Event missing schema
+    itly.track({ name: 'No schema' });
     ```
 
 # Create an Itly Plugin
-1. Extend the `ItlyPluginBase` class and overide the lifecycle hooks you are interested in. Alternatively you can choose to implement the full `ItlyPlugin` interface.
+1. Extend the `ItlyPluginBase` class and overide some or all of the lifecycle hooks. Alternatively you can implement the full `ItlyPlugin` interface.
     ```
     import itly, {
       ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse,

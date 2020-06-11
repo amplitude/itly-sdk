@@ -33,8 +33,8 @@ export type ItlyProperties = {
 export type ItlyEvent = {
   name: string;
   properties?: ItlyProperties;
-  id: string;
-  version: string;
+  id?: string;
+  version?: string;
 };
 
 export type ValidationOptions = {
