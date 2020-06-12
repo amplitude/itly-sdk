@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "clean": "lerna exec -- rimraf dist",
+    "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "lint": "eslint --ext .ts ./",
     "test": "jest --runInBand",

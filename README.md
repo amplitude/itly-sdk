@@ -202,6 +202,39 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
     ```
 # Contributing
 
+## Working with the project
+This project uses [Lerna](https://github.com/lerna/lerna) to manage multiple modules.
+
+[`package.json`](package.json) includes `bootstrap`, `build`, `lint`, `test`, and `release` scripts that call the necessary `lerna` commands.
+
+
+1. Before building the first time, and any time you add a new module, you need to have `lerna` create symlinks for the local `@itly` modules. This allows you to develop against the local version of the `@itly` modules rather than having to publish them.
+    ```
+    $ yarn bootstrap
+    ```
+
+2. If you have already bootstrapped you can `build` instead.
+    ```
+    $ yarn build
+    ```
+
+3. Lint
+    ```
+    $ yarn lint
+    ```
+
+4. Test
+    ```
+    $ yarn test
+    ```
+
+5. Release
+Authenticate with the registry, then run the `release` script to update the module versions, changelog, and publish them to Gemfury.
+    ```
+    $ npm login --registry=https://npm.fury.io/itly
+    $ yarn release
+    ```
+
 ## Creating plugin modules
 There are [hygen](https://github.com/jondot/hygen) templates for creating a new plugin.
 
