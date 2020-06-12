@@ -1,0 +1,29 @@
+{
+  "name": "@itly/plugin-debugger",
+  "version": "0.7.0",
+  "description": "Debugger Plugin",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "itly",
+    "sdk",
+    "iteratively",
+    "plugin"
+  ],
+  "author": "Iteratively",
+  "license": "ISC",
+  "devDependencies": {
+    "@itly/sdk-core": "^0.7.0",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "@itly/sdk-core": "^0.5.0"
+  }
+}
