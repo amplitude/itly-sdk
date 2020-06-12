@@ -4,6 +4,10 @@ exports[`should load and track events to a custom destination (no validation) 1`
 Array [
   Array [
     "CustomPlugin: ",
+    "load() environment='production' disabled=undefined plugins=[custom] context={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\"} validationOptions=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
     "identify() userId='undefined' properties={\\"userProp\\":1}",
   ],
   Array [
@@ -16,15 +20,15 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event No Properties' properties=undefined",
+    "track() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\"}",
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
+    "track() userId='undefined' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20}",
   ],
   Array [
     "CustomPlugin.id()",

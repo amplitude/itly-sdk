@@ -223,7 +223,17 @@ class Itly {
     }
 
     this.runIfValid(event, () => {
-      this.plugins.forEach((p) => p.track(userId, event));
+      const mergedEvent = (!this.options!.context)
+        ? event
+        : {
+          ...event,
+          properties: {
+            ...this.options!.context,
+            ...event.properties,
+          },
+        };
+
+      this.plugins.forEach((p) => p.track(userId, mergedEvent));
     });
   }
 

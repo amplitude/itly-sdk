@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this, no-unused-vars, import/no-unresolved, import/extensions */
 import {
+  ItlyOptions,
   ItlyEvent,
   ItlyProperties,
   ItlyPluginBase,
@@ -30,8 +31,13 @@ export default class CustomPlugin extends ItlyPluginBase {
     this.log(`identify() userId='${userId}' properties=${this.stringify(properties)}`);
   }
 
-  init(): void {
-    this.log('init()');
+  load(options: ItlyOptions): void {
+    this.log(`load() \
+environment='${options.environment}' \
+disabled=${options.disabled} \
+plugins=[${options.plugins ? options.plugins.map((p) => p.id()).join(', ') : ''}] \
+context=${this.stringify(options.context)} \
+validationOptions=${this.stringify(options.validationOptions)}`);
   }
 
   page(userId?: string, category?: string, name?: string, properties?: ItlyProperties): void {

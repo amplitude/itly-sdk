@@ -4,6 +4,10 @@ exports[`load, track, validate - validationOptions={errorOnInvalid: true} 1`] = 
 Array [
   Array [
     "CustomPlugin: ",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context=undefined validationOptions={\\"disabled\\":false,\\"trackInvalid\\":false,\\"errorOnInvalid\\":true}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "track() userId='test-user-id' event='Event No Properties' properties={}",
   ],
   Array [
@@ -29,6 +33,10 @@ exports[`load, track, validate - validationOptions={trackInvalid: true} 1`] = `
 Array [
   Array [
     "CustomPlugin: ",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context=undefined validationOptions={\\"disabled\\":false,\\"trackInvalid\\":true,\\"errorOnInvalid\\":false}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "track() userId='test-user-id' event='Event No Properties' properties={}",
   ],
   Array [
@@ -52,6 +60,10 @@ Array [
 
 exports[`load, track, validate - validationOptions=DEFAULT 1`] = `
 Array [
+  Array [
+    "CustomPlugin: ",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context=undefined validationOptions=undefined",
+  ],
   Array [
     "CustomPlugin: ",
     "track() userId='test-user-id' event='Event No Properties' properties={}",
