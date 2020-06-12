@@ -11,7 +11,7 @@ export default class MixpanelNodePlugin extends ItlyPluginBase {
 
   private mixpanel: Mixpanel.Mixpanel;
 
-  constructor(apiKey: string, mixpanelOptions: MixpanelOptions) {
+  constructor(apiKey: string, mixpanelOptions?: MixpanelOptions) {
     super();
     this.mixpanel = Mixpanel.init(apiKey, mixpanelOptions);
   }
