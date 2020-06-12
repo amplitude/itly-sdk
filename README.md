@@ -13,6 +13,7 @@ The SDK also supports event validation. For JSON schema validation see `@itly/pl
   * [Event Validation](#event-validation)
 * [Create a Plugin](#create-an-itly-plugin)
 * [Contributing](#contributing)
+  * [Working with the project](#working-with-the-project)
   * [Add plugin modules](#creating-plugin-modules)
   * [Commits](#commits)
 
