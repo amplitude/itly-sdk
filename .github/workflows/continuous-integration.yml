@@ -32,18 +32,15 @@ jobs:
           ${{ runner.os }}-
     
     - name: Install
-      run: yarn --frozen-lockfile
-    
-    - name: Lerna bootstrap
       run: |
         npm i -g lerna
-        lerna bootstrap
+        yarn --frozen-lockfile
+    
+    - name: Build
+      run: lerna bootstrap # build runs as part of bootstrap
     
     - name: Lint
       run: yarn lint
-    
-    - name: Build
-      run: yarn build
     
     - name: Test
       run: yarn test:dist
