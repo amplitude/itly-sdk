@@ -26,6 +26,30 @@ export interface ItlyOptions {
   validationOptions?: ValidationOptions;
 }
 
+export interface Options {
+  /**
+   * The current environment (development or production). Default is development.
+   */
+  environment: 'development' | 'production';
+  /**
+   * Whether calls to the Itly SDK should be no-ops. Default is false.
+   */
+  disabled: boolean;
+  /**
+   * Analytics provider-specific configuration. Default is null.
+   */
+  plugins: ItlyPlugin[];
+  /**
+   * Additional context properties to add to all events. Set to object or an object resolver.
+   * Default is none.
+   */
+  context?: ItlyProperties;
+  /**
+   * Configure validation handling
+   */
+  validationOptions: ValidationOptions;
+}
+
 export type ItlyProperties = {
   [name: string]: any;
 };
@@ -75,6 +99,18 @@ export interface ItlyPlugin {
   validationError(validation: ValidationResponse, event: ItlyEvent): void;
 }
 
+const DEFAULT_OPTIONS: Options = {
+  environment: 'development',
+  validationOptions: {
+    disabled: false,
+    trackInvalid: false,
+    errorOnInvalid: false,
+  },
+  plugins: [],
+  context: undefined,
+  disabled: false,
+};
+
 export class ItlyPluginBase implements ItlyPlugin {
   id(): string { throw new Error('ItlyPlugin id() is required. Overide id() method returning a unique id.'); }
 
@@ -113,29 +149,28 @@ export class ItlyPluginBase implements ItlyPlugin {
 }
 
 class Itly {
-  private options: ItlyOptions | undefined = undefined;
+  private options: Options | undefined = undefined;
 
-  private plugins: ItlyPlugin[] = [];
+  private plugins = DEFAULT_OPTIONS.plugins;
 
-  private validationOptions: ValidationOptions = {
-    disabled: false,
-    trackInvalid: false,
-    errorOnInvalid: false,
-  };
+  private validationOptions = DEFAULT_OPTIONS.validationOptions;
 
   load(options: ItlyOptions) {
     if (this.options) {
       throw new Error('Itly is already initialized.');
     }
 
-    this.options = options;
+    this.options = {
+      ...DEFAULT_OPTIONS,
+      ...options,
+    };
 
     if (!this.isInitializedAndEnabled()) {
       return;
     }
 
-    this.plugins = options.plugins || this.plugins;
-    this.validationOptions = options.validationOptions || this.validationOptions;
+    this.plugins = this.options!.plugins;
+    this.validationOptions = this.options!.validationOptions;
 
     if (options.context) {
       this.validate({
