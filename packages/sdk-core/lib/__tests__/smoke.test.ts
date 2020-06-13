@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved, import/extensions, global-require */
-/* eslint-disable no-unused-vars, class-methods-use-this */
+/* eslint-disable no-unused-vars, no-console, class-methods-use-this */
 import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
 
 class CustomPlugin {
@@ -89,6 +89,7 @@ const testParams: TestParams[] = [
 ];
 
 const userId = 'test-user-id';
+const tempUserId = 'temp-user-id';
 const groupId = 'test-group-id';
 let spyConsoleLog: jest.SpyInstance;
 
@@ -106,19 +107,37 @@ describe('should load and track events to a custom destination (no validation)',
     async (name: string, { options }: TestParams) => {
       const itly = requireForTestEnv(__dirname);
 
-      // Try tracking before load, should throw errror
+      // Try tracking before load, should throw error
       try {
         itly.identify(userId);
       } catch (e) {
-      // eslint-disable-next-line no-console
         console.log(`Caught expected error. ${e.message}`);
       }
 
+      // Load
       itly.load(options);
 
+      // Try load() again, should throw errror
+      try {
+        itly.load(options);
+      } catch (e) {
+        console.log(`Caught expected error. ${e.message}`);
+      }
+
       itly.identify(undefined);
+      itly.identify(tempUserId);
+      itly.identify(tempUserId, {
+        userProp: 'A user property value',
+      });
+
       itly.alias(userId);
+      itly.alias(userId, tempUserId);
+
       itly.group(userId, groupId);
+
+      itly.page(userId, 'page category', 'page name', {
+        pageProp: 'a page property',
+      });
 
       itly.track(userId, {
         name: 'Event No Properties',

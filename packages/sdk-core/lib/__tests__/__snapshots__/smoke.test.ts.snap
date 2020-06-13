@@ -10,8 +10,19 @@ Array [
     "load() environment='production' disabled=undefined plugins=[custom] context={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\"} validationOptions=undefined",
   ],
   Array [
+    "Caught expected error. Itly is already initialized.",
+  ],
+  Array [
     "CustomPlugin: ",
     "identify() userId='undefined' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties={\\"userProp\\":\\"A user property value\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -19,7 +30,15 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='temp-user-id'",
+  ],
+  Array [
+    "CustomPlugin: ",
     "group() userId='test-user-id' groupId='test-group-id' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "page() userId='test-user-id' category='page category' name='page name' properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -50,8 +69,19 @@ Array [
     "load() environment='production' disabled=undefined plugins=[custom] context=undefined validationOptions=undefined",
   ],
   Array [
+    "Caught expected error. Itly is already initialized.",
+  ],
+  Array [
     "CustomPlugin: ",
     "identify() userId='undefined' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties={\\"userProp\\":\\"A user property value\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -59,7 +89,15 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='temp-user-id'",
+  ],
+  Array [
+    "CustomPlugin: ",
     "group() userId='test-user-id' groupId='test-group-id' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "page() userId='test-user-id' category='page category' name='page name' properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
