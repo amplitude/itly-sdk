@@ -1,26 +1,32 @@
-/* eslint-disable import/no-unresolved,  no-unused-vars, global-require, import/extensions */
-import { ItlyOptions, ItlyPlugin } from '../../packages/sdk-core/lib';
-import SchemaValidator from '../../packages/plugin-schema-validator/lib';
-import CustomPlugin from '../../test/src/CustomPlugin';
+/* eslint-disable no-unused-vars, global-require */
+/* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
+import {
+  ItlyOptions, ItlyPlugin, ItlyEvent, ValidationResponse,
+} from '@itly/sdk-core';
+import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
+import {
+  TestParams,
+  requireForTestEnv,
+} from '../../../../__tests__/util';
 
-const testSchemas = require('../data/basic-schema.json');
+const SchemaValidator = requireForTestEnv(__dirname);
 
-type TestParams = {
-  name: string;
-  options: ItlyOptions,
-};
+const testSchemas = require('../../../../__tests__/data/basic-schema.json');
 
 const userId = 'test-user-id';
 let spyConsoleLog: jest.SpyInstance;
 
 const plugins: ItlyPlugin[] = [
-  new SchemaValidator(testSchemas, (validation, event, schema) => {
+  new SchemaValidator(
+    testSchemas,
+    (validation: ValidationResponse, event: ItlyEvent, schema: any) => {
     // eslint-disable-next-line no-console
-    console.log(
-      `SchemaValidator validationError() event='${event.name}' message='${validation.message}' schema=`,
-      JSON.stringify(schema),
-    );
-  }),
+      console.log(
+        `SchemaValidator validationError() event='${event.name}' message='${validation.message}' schema=`,
+        JSON.stringify(schema),
+      );
+    },
+  ),
   new CustomPlugin(),
 ];
 
@@ -69,7 +75,7 @@ afterEach(() => {
 
 test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
   async (name: string, { options }: TestParams) => {
-    const { default: itly } = require('../../packages/sdk-core/lib');
+    const { default: itly } = require('@itly/sdk-core');
 
     itly.load(options);
 

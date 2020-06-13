@@ -14,6 +14,11 @@ The SDK also supports event validation. For JSON schema validation see `@itly/pl
 * [Create a Plugin](#create-an-itly-plugin)
 * [Contributing](#contributing)
   * [Working with the project](#working-with-the-project)
+    + [Setup](#setup-1)
+    + [Build](#build)
+    + [Lint](#lint)
+    + [Test](#test)
+    + [Release](#release)
   * [Add plugin modules](#creating-plugin-modules)
   * [Commits](#commits)
 
@@ -209,28 +214,41 @@ This project uses [Lerna](https://github.com/lerna/lerna) to manage multiple mod
 [`package.json`](package.json) includes `bootstrap`, `build`, `lint`, `test`, and `release` scripts that call the necessary `lerna` commands.
 
 
-1. Before building the first time, and any time you add a new module, you need to have `lerna` create symlinks for the local `@itly` modules. This allows you to develop against the local version of the `@itly` modules rather than having to publish them.
+1. ### Setup
+
+    Before building the first time, and any time you add a new module, you need to run `yarn setup`.
+    This will install dependencies, create symlinks for the local modules, and allow you to develop against the local copy of the `@itly` modules rather than having to publish new versions for each change.
     ```
-    $ yarn bootstrap
+    $ yarn setup
     ```
 
-2. If you have already bootstrapped you can `build` instead.
+2. ### Build
+
+    If you have already run `setup` you can use `build` to compile all modules.
     ```
     $ yarn build
     ```
 
-3. Lint
+3. ### Lint
+
     ```
     $ yarn lint
     ```
 
-4. Test
+4. ### Test
+
+    By default tests will run against the source files
     ```
     $ yarn test
     ```
+    Built distributions can be tested as well
+    ```
+    $ yarn test:build
+    ```
 
-5. Release
-Authenticate with the registry, then run the `release` script to update the module versions, changelog, and publish them to Gemfury.
+5. ### Release
+
+    Authenticate with the registry, then run the `release` script to update the module versions, changelog, and publish them to Gemfury.
     ```
     $ npm login --registry=https://npm.fury.io/itly
     $ yarn release

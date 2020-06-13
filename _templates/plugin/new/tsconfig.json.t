@@ -10,9 +10,14 @@ to: packages/plugin-<%= name %>/tsconfig.json
         "strict": true,
         "esModuleInterop": true
     },
+    "include": [
+        "lib/**/*"
+    ],
     "exclude": [
         "node_modules",
-        "dist/",
-        "test/"
+        "coverage",
+        "dist",
+        "**/__tests__/**",
+        "**/__mocks__/**",
     ]
 }
