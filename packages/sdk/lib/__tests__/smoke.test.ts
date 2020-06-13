@@ -25,7 +25,11 @@ test('should load and track events to a custom destination (no validation)', () 
   itly.alias(userId);
 
   itly.group('a-group-id', {
-    aGroupProp: 'test value',
+    groupProp: 'test value',
+  });
+
+  itly.page('page category', 'page name', {
+    pageProp: 'a page property',
   });
 
   itly.track({

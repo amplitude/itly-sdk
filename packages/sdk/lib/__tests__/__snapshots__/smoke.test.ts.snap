@@ -16,7 +16,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "group() userId='undefined' groupId='a-group-id' properties={\\"aGroupProp\\":\\"test value\\"}",
+    "group() userId='undefined' groupId='a-group-id' properties={\\"groupProp\\":\\"test value\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "page() userId='undefined' category='page category' name='page name' properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
