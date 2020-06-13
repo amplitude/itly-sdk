@@ -4,6 +4,7 @@ import itlySdk, {
   ItlyPlugin, ItlyPluginBase,
   ValidationOptions,
   ValidationResponse,
+  DebuggerOptions,
 } from '@itly/sdk-core';
 
 export {
@@ -14,6 +15,7 @@ export {
   ItlyProperties,
   ValidationOptions,
   ValidationResponse,
+  DebuggerOptions,
 };
 
 class Itly {

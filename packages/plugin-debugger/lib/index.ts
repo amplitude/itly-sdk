@@ -3,7 +3,7 @@ import {
   ItlyEvent, ItlyProperties, ItlyPluginBase, ValidationResponse,
 } from '@itly/sdk-core';
 
-export type DebuggerOptions = {
+export type DebuggerPluginOptions = {
   url: string,
   debugLevel?: 'full' | 'metadataOnly',
   batchSize?: number,
@@ -38,7 +38,7 @@ export default class DebuggerPlugin extends ItlyPluginBase {
 
   private buffer: TrackModel[] = [];
 
-  private config: Required<DebuggerOptions> = {
+  private config: Required<DebuggerPluginOptions> = {
     url: '',
     debugLevel: 'full',
     batchSize: 100,
@@ -46,7 +46,7 @@ export default class DebuggerPlugin extends ItlyPluginBase {
     flushInterval: 1000,
   };
 
-  constructor(private apiKey: string, debuggerOptions: DebuggerOptions) {
+  constructor(private apiKey: string, debuggerOptions: DebuggerPluginOptions) {
     super();
     this.config = { ...this.config, ...debuggerOptions };
 

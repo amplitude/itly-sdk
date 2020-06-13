@@ -24,6 +24,10 @@ export interface ItlyOptions {
    * Configure validation handling
    */
   validationOptions?: ValidationOptions;
+  /**
+   * Configure debugger settings
+   */
+  debuggerOptions?: DebuggerOptions;
 }
 
 export type ItlyProperties = {
@@ -47,6 +51,11 @@ export type ValidationResponse = {
   valid: boolean;
   message?: string;
   pluginId?: string;
+};
+
+export type DebuggerOptions = {
+  disabled: boolean;
+  debugLevel?: 'full' | 'metadataOnly';
 };
 
 export interface ItlyPlugin {
