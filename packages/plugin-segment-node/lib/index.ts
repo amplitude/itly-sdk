@@ -17,9 +17,9 @@ export default class SegmentNodePlugin extends ItlyPluginBase {
 
   private segment: Segment;
 
-  constructor(apiKey: string, segmentOptions?: SegmentOptions) {
+  constructor(writeKey: string, segmentOptions?: SegmentOptions) {
     super();
-    this.segment = new Segment(apiKey, segmentOptions);
+    this.segment = new Segment(writeKey, segmentOptions);
   }
 
   id = () => SegmentNodePlugin.ID;
