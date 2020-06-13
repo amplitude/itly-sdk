@@ -154,7 +154,5 @@ describe('should load and track events to a custom destination (no validation)',
       console.log('CustomPlugin.id()', customOnly!.id());
 
       expect(spyConsoleLog.mock.calls).toMatchSnapshot();
-
-      spyConsoleLog.mockRestore();
     });
 });

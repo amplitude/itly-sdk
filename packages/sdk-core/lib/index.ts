@@ -284,7 +284,7 @@ class Itly {
 
   private isInitializedAndEnabled() {
     if (!this.options) {
-      throw new Error('Itly is not yet initialized. Have you called `itly.init()` on app start?');
+      throw new Error('Itly is not yet initialized. Have you called `itly.load()` on app start?');
     }
 
     return !this.options.disabled;

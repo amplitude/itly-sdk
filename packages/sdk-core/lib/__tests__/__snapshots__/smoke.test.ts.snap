@@ -3,7 +3,7 @@
 exports[`should load and track events to a custom destination (no validation) context = 2 properties 1`] = `
 Array [
   Array [
-    "Caught expected error. Itly is not yet initialized. Have you called \`itly.init()\` on app start?",
+    "Caught expected error. Itly is not yet initialized. Have you called \`itly.load()\` on app start?",
   ],
   Array [
     "CustomPlugin: ",
@@ -43,7 +43,7 @@ Array [
 exports[`should load and track events to a custom destination (no validation) context = undefined 1`] = `
 Array [
   Array [
-    "Caught expected error. Itly is not yet initialized. Have you called \`itly.init()\` on app start?",
+    "Caught expected error. Itly is not yet initialized. Have you called \`itly.load()\` on app start?",
   ],
   Array [
     "CustomPlugin: ",

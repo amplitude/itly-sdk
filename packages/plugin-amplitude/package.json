@@ -7,7 +7,7 @@
   "scripts": {
     "prepublish": "yarn run build",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\""
+    "test": "jest --runInBand"
   },
   "keywords": [
     "itly",
@@ -19,6 +19,9 @@
   "license": "ISC",
   "devDependencies": {
     "@itly/sdk-core": "^0.7.1",
+    "@types/jest": "^26.0.0",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0",
     "typescript": "^3.9.3"
   },
   "peerDependencies": {

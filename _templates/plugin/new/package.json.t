@@ -22,6 +22,9 @@ to: packages/plugin-<%= name %>/package.json
   "license": "ISC",
   "devDependencies": {
     "<%= itlySdkModule %>": "<%= itlySdkVersion %>",
+    "@types/jest": "^26.0.0",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0",
     "typescript": "^3.9.3"
   },
   "dependencies": {
