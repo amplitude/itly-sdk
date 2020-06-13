@@ -1,6 +1,6 @@
 {
   "name": "@itly/sdk",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Browser Iteratively SDK ",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,6 +24,6 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@itly/sdk-core": "^0.7.1"
+    "@itly/sdk-core": "^0.8.0"
   }
 }

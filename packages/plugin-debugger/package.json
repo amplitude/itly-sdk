@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-debugger",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Debugger Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,10 +18,8 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk-core": "^0.7.0",
+    "@itly/sdk-core": "^0.8.0",
     "typescript": "^3.9.3"
-  },
-  "dependencies": {
   },
   "peerDependencies": {
     "@itly/sdk-core": "^0.5.0"

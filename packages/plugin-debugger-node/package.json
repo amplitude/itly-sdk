@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-debugger-node",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Debugger Node Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,9 +18,9 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk-node": "^0.7.0",
-    "typescript": "^3.9.3",
-    "@types/node-fetch": "^2.5.7"
+    "@itly/sdk-node": "^0.8.0",
+    "@types/node-fetch": "^2.5.7",
+    "typescript": "^3.9.3"
   },
   "dependencies": {
     "node-fetch": "^2.6.0"
