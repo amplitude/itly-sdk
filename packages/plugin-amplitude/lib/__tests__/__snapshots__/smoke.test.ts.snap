@@ -1,24 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AmplitudePlugin dummy test 1`] = `
+exports[`load, identify, alias, group, track, reset 1`] = `
 Array [
   Array [
-    "init()",
+    "amplitude.getInstance().init()",
     "[\\"an-amplitude-api-key\\",null,null]",
   ],
   Array [
     "Caught expected error. Itly is not yet initialized. Have you called \`itly.load()\` on app start?",
   ],
   Array [
-    "logEvent()",
+    "amplitude.getInstance().setUserId()",
+    "[\\"temp-user-id\\"]",
+  ],
+  Array [
+    "amplitude.Identify.set()",
+    "[\\"userProp\\",\\"A user property value\\"]",
+  ],
+  Array [
+    "amplitude.getInstance().identify()",
+    "[{}]",
+  ],
+  Array [
+    "amplitude.getInstance().logEvent()",
     "[\\"Event No Properties\\",null]",
   ],
   Array [
-    "logEvent()",
+    "amplitude.getInstance().logEvent()",
     "[\\"Event With All Properties\\",{\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}]",
   ],
   Array [
-    "logEvent()",
+    "amplitude.getInstance().logEvent()",
     "[\\"EventMaxIntForTest\\",{\\"intMax10\\":20}]",
   ],
   Array [
@@ -26,11 +38,11 @@ Array [
     "amplitude",
   ],
   Array [
-    "setUserId()",
+    "amplitude.getInstance().setUserId()",
     "[null]",
   ],
   Array [
-    "regenerateDeviceId()",
+    "amplitude.getInstance().regenerateDeviceId()",
     "[]",
   ],
 ]

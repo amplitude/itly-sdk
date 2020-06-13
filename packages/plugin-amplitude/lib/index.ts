@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  ItlyOptions, ItlyEvent, ItlyProperties, ItlyPluginBase,
+  ItlyEvent, ItlyProperties, ItlyPluginBase,
 } from '@itly/sdk-core';
 
 export type AmplitudeOptions = {};

@@ -25,7 +25,7 @@ const plugins: ItlyPlugin[] = [
 
 const testParams: TestParams[] = [
   {
-    name: '<%= ClassName %> dummy test',
+    name: '<%= ClassName %> test',
     options: {
       environment: 'production',
       plugins,

@@ -14,7 +14,7 @@ let spyConsoleLog: jest.SpyInstance;
 
 const testParams: TestParams[] = [
   {
-    name: 'AmplitudePlugin dummy test',
+    name: 'load, identify, alias, group, track, reset',
     options: {
       environment: 'production',
       plugins: [],
@@ -45,16 +45,23 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
   async (name: string, { options }: TestParams) => {
     const { default: itly } = require('@itly/sdk-core');
 
-    const mocks: { [key: string]: any } = {};
+    const instanceMocks: { [key: string]: any } = {};
     ['init', 'identify', 'track', 'setUserId', 'regenerateDeviceId', 'logEvent'].forEach((mockMethod) => {
-      mocks[mockMethod] = jest.fn().mockImplementation(
-        (...args) => methodArgLoggerMock(mockMethod, ...args),
+      instanceMocks[mockMethod] = jest.fn().mockImplementation(
+        (...args) => methodArgLoggerMock(`amplitude.getInstance().${mockMethod}`, ...args),
+      );
+    });
+
+    const identifyMocks: { [key: string]: any } = {};
+    ['set'].forEach((mockMethod) => {
+      identifyMocks[mockMethod] = jest.fn().mockImplementation(
+        (...args) => methodArgLoggerMock(`amplitude.Identify.${mockMethod}`, ...args),
       );
     });
 
     const spyAmplitudePlugin = jest.spyOn(AmplitudePlugin, 'getGlobalAmplitude').mockImplementation(() => ({
-      Identify: jest.fn(),
-      getInstance: () => mocks,
+      Identify: () => identifyMocks,
+      getInstance: () => instanceMocks,
     }));
 
     const plugin = new AmplitudePlugin('an-amplitude-api-key');
@@ -73,7 +80,11 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     });
 
     itly.identify(undefined);
-    itly.alias(userId);
+    itly.identify('temp-user-id');
+    itly.identify(undefined, {
+      userProp: 'A user property value',
+    });
+    itly.alias(userId, 'temp-user-id');
     itly.group(userId, groupId);
 
     itly.track(userId, {
