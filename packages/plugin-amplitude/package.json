@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-amplitude",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Amplitude Browser Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk-core": "^0.8.0",
+    "@itly/sdk-core": "^0.8.1",
     "@types/jest": "^26.0.0",
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0",
@@ -26,5 +26,6 @@
   },
   "peerDependencies": {
     "@itly/sdk-core": "^0.7.1"
-  }
+  },
+  "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }

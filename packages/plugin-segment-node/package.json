@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-segment-node",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Segment Node Plugin ",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk-node": "^0.8.0",
+    "@itly/sdk-node": "^0.8.1",
     "typescript": "^3.9.3"
   },
   "dependencies": {
@@ -27,5 +27,6 @@
   },
   "peerDependencies": {
     "@itly/sdk-node": "^0.3.0"
-  }
+  },
+  "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }
