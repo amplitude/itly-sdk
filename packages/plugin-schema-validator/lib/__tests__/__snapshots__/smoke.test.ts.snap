@@ -63,16 +63,20 @@ Array [
     "group() userId='test-user-id' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
   ],
   Array [
-    "SchemaValidator validationError() event='page' message='Event page not found in tracking plan.' schema=",
+    "CustomPlugin: ",
+    "page() userId='test-user-id' category='page category 1' name='page name 1' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='page' message=''page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}' schema=",
     undefined,
   ],
   Array [
     "CustomPlugin: ",
-    "validationError() event='page' plugin=schema-validator message=Event page not found in tracking plan.",
+    "validationError() event='page' plugin=schema-validator message='page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "Caught validation error.",
-    "Validation Error: Event page not found in tracking plan.",
+    "Validation Error: 'page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -160,16 +164,20 @@ Array [
     "group() userId='test-user-id' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
   ],
   Array [
-    "SchemaValidator validationError() event='page' message='Event page not found in tracking plan.' schema=",
+    "CustomPlugin: ",
+    "page() userId='test-user-id' category='page category 1' name='page name 1' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='page' message=''page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}' schema=",
     undefined,
   ],
   Array [
     "CustomPlugin: ",
-    "validationError() event='page' plugin=schema-validator message=Event page not found in tracking plan.",
+    "validationError() event='page' plugin=schema-validator message='page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
-    "page() userId='test-user-id' category='page category' name='page name' properties={\\"pageProp\\":\\"a page property\\"}",
+    "page() userId='test-user-id' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -245,12 +253,16 @@ Array [
     "group() userId='test-user-id' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
   ],
   Array [
-    "SchemaValidator validationError() event='page' message='Event page not found in tracking plan.' schema=",
+    "CustomPlugin: ",
+    "page() userId='test-user-id' category='page category 1' name='page name 1' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='page' message=''page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}' schema=",
     undefined,
   ],
   Array [
     "CustomPlugin: ",
-    "validationError() event='page' plugin=schema-validator message=Event page not found in tracking plan.",
+    "validationError() event='page' plugin=schema-validator message='page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -326,12 +338,16 @@ Array [
     "group() userId='test-user-id' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
   ],
   Array [
-    "SchemaValidator validationError() event='page' message='Event page not found in tracking plan.' schema=",
+    "CustomPlugin: ",
+    "page() userId='test-user-id' category='page category 1' name='page name 1' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='page' message=''page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}' schema=",
     undefined,
   ],
   Array [
     "CustomPlugin: ",
-    "validationError() event='page' plugin=schema-validator message=Event page not found in tracking plan.",
+    "validationError() event='page' plugin=schema-validator message='page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -407,12 +423,16 @@ Array [
     "group() userId='test-user-id' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
   ],
   Array [
-    "SchemaValidator validationError() event='page' message='Event page not found in tracking plan.' schema=",
+    "CustomPlugin: ",
+    "page() userId='test-user-id' category='page category 1' name='page name 1' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='page' message=''page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}' schema=",
     undefined,
   ],
   Array [
     "CustomPlugin: ",
-    "validationError() event='page' plugin=schema-validator message=Event page not found in tracking plan.",
+    "validationError() event='page' plugin=schema-validator message='page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",

@@ -15,6 +15,15 @@ export type ValidationResponseHandler = (
 
 const DEFAULT_VALIDATION_RESPONSE_HANDLER: ValidationResponseHandler = () => {};
 
+const SYSTEM_EVENTS = ['identify', 'context', 'group', 'page'];
+function isSystemEvent(name: string) {
+  return SYSTEM_EVENTS.includes(name);
+}
+
+function isEmpty(obj: any) {
+  return obj === undefined || Object.keys(obj).length === 0;
+}
+
 export default class SchemaValidatorPlugin extends ItlyPluginBase {
   static ID: string = 'schema-validator';
 
@@ -40,6 +49,22 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
     const schemaKey = this.getSchemaKey(event);
     // Check that we have a schema for this event
     if (!this.schemas[schemaKey]) {
+      if (isSystemEvent(schemaKey)) {
+        // pass system events by default
+        if (isEmpty(event.properties)) {
+          return {
+            valid: true,
+            pluginId: this.id(),
+          };
+        }
+
+        return {
+          valid: false,
+          message: `'${event.name}' schema is empty but properties were found. properties=${JSON.stringify(event.properties)}`,
+          pluginId: this.id(),
+        };
+      }
+
       return {
         valid: false,
         message: `Event ${event.name} not found in tracking plan.`,

@@ -139,7 +139,13 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     });
 
     try {
-      itly.page(userId, 'page category', 'page name', {
+      itly.page(userId, 'page category 1', 'page name 1');
+    } catch (e) {
+      console.log('Caught validation error.', e.message);
+    }
+
+    try {
+      itly.page(userId, 'page category 2', 'page name 2', {
         pageProp: 'a page property',
       });
     } catch (e) {
