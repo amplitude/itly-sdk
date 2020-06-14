@@ -13,8 +13,8 @@ const DEFAULT_IMPORT_PATHS: ImportPathMap = {
 
 export default function requireForTestEnv(
   dirname: string,
-  testEnv?: TestEnv,
   pathMap = DEFAULT_IMPORT_PATHS,
+  testEnv?: TestEnv,
 ) {
   const TEST_ENV = (testEnv || process.env.TEST_ENV || DEFAULT_TEST_ENV) as TestEnv;
 

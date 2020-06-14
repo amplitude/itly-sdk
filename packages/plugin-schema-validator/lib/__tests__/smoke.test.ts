@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars, global-require */
+/* eslint-disable no-unused-vars, global-require, no-console */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
 import {
   ItlyOptions, ItlyPlugin, ItlyEvent, ValidationResponse,
@@ -13,8 +13,14 @@ const SchemaValidator = requireForTestEnv(__dirname);
 
 const testSchemas = require('../../../../__tests__/data/basic-schema.json');
 
-const userId = 'test-user-id';
-let spyConsoleLog: jest.SpyInstance;
+const context = {
+  requiredString: 'is required',
+  optionalEnum: 'Value 1',
+};
+
+const identifyProps = {
+  requiredNumber: 42,
+};
 
 const plugins: ItlyPlugin[] = [
   new SchemaValidator(
@@ -35,6 +41,7 @@ const testParams: TestParams[] = [
     name: 'load, track, validate - validationOptions=DEFAULT',
     options: {
       environment: 'production',
+      context,
       plugins,
     },
   },
@@ -42,6 +49,7 @@ const testParams: TestParams[] = [
     name: 'load, track, validate - validationOptions={trackInvalid: true}',
     options: {
       environment: 'production',
+      context,
       plugins,
       validationOptions: {
         disabled: false,
@@ -54,6 +62,7 @@ const testParams: TestParams[] = [
     name: 'load, track, validate - validationOptions={errorOnInvalid: true}',
     options: {
       environment: 'production',
+      context,
       plugins,
       validationOptions: {
         disabled: false,
@@ -62,7 +71,29 @@ const testParams: TestParams[] = [
       },
     },
   },
+  {
+    name: 'load, track, validate w/ context=\'undefined\'',
+    options: {
+      environment: 'production',
+      context: undefined,
+      plugins,
+    },
+  },
+  {
+    name: 'load, track, validate w/ context=\'{}\'',
+    options: {
+      environment: 'production',
+      context: {},
+      plugins,
+    },
+  },
 ];
+
+// Test vars
+const userId = 'test-user-id';
+const tempUserId = 'temp-user-id';
+const groupId = 'test-group-id';
+let spyConsoleLog: jest.SpyInstance;
 
 beforeEach(() => {
   jest.resetModules();
@@ -78,6 +109,42 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     const { default: itly } = require('@itly/sdk-core');
 
     itly.load(options);
+
+    itly.identify(undefined, identifyProps);
+    itly.identify(tempUserId, identifyProps);
+    try {
+      itly.identify(tempUserId);
+    } catch (e) {
+      console.log('Caught validation error.', e.message);
+    }
+    try {
+      itly.identify(tempUserId, {
+        badProp: 'unsupported property',
+      });
+    } catch (e) {
+      console.log('Caught validation error.', e.message);
+    }
+
+    itly.alias(userId);
+    itly.alias(userId, tempUserId);
+
+    try {
+      itly.group(userId, groupId);
+    } catch (e) {
+      console.log('Caught validation error.', e.message);
+    }
+    itly.group(userId, groupId, {
+      requiredBoolean: true,
+      optionalString: undefined,
+    });
+
+    try {
+      itly.page(userId, 'page category', 'page name', {
+        pageProp: 'a page property',
+      });
+    } catch (e) {
+      console.log('Caught validation error.', e.message);
+    }
 
     itly.track(userId, {
       name: 'Event No Properties',
@@ -106,8 +173,6 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
         },
       });
     } catch (e) {
-      // do nothing
-      // eslint-disable-next-line no-console
       console.log('Caught validation error.', e.message);
     }
 

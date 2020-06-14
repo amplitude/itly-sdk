@@ -172,16 +172,16 @@ class Itly {
     this.plugins = this.options!.plugins;
     this.validationOptions = this.options!.validationOptions;
 
-    if (options.context) {
-      this.validate({
-        name: 'context',
-        properties: options.context,
-        id: 'context',
-        version: '0-0-0',
-      });
-    }
+    const contextEvent = {
+      name: 'context',
+      properties: options.context || {},
+      id: 'context',
+      version: '0-0-0',
+    };
 
-    this.plugins.forEach((p) => p.load(options));
+    this.runIfValid(contextEvent, () => this.plugins.forEach(
+      (p) => p.load(options),
+    ));
   }
 
   alias(userId: string, previousId?: string) {
@@ -208,9 +208,9 @@ class Itly {
       version: '0-0-0',
     };
 
-    this.runIfValid(identifyEvent, () => {
-      this.plugins.forEach((p) => p.identify(userId, identifyProperties));
-    });
+    this.runIfValid(identifyEvent, () => this.plugins.forEach(
+      (p) => p.identify(userId, identifyProperties),
+    ));
   }
 
   group(userId:string | undefined, groupId: string, groupProperties?: ItlyProperties) {
@@ -225,9 +225,9 @@ class Itly {
       version: '0-0-0',
     };
 
-    this.runIfValid(groupEvent, () => {
-      this.plugins.forEach((p) => p.group(userId, groupId, groupProperties));
-    });
+    this.runIfValid(groupEvent, () => this.plugins.forEach(
+      (p) => p.group(userId, groupId, groupProperties),
+    ));
   }
 
   page(
@@ -247,9 +247,9 @@ class Itly {
       version: '0-0-0',
     };
 
-    this.runIfValid(pageEvent, () => {
-      this.plugins.forEach((p) => p.page(userId, category, name, pageProperties));
-    });
+    this.runIfValid(pageEvent, () => this.plugins.forEach(
+      (p) => p.page(userId, category, name, pageProperties),
+    ));
   }
 
   track(userId: string | undefined, event: ItlyEvent) {
