@@ -15,28 +15,34 @@ export type SegmentOptions = {
 export default class SegmentNodePlugin extends ItlyPluginBase {
   static ID = 'segment';
 
-  private segment: Segment;
+  private segment?: Segment;
 
-  constructor(writeKey: string, segmentOptions?: SegmentOptions) {
+  constructor(
+    private writeKey: string,
+    private options?: SegmentOptions,
+  ) {
     super();
-    this.segment = new Segment(writeKey, segmentOptions);
   }
 
   id = () => SegmentNodePlugin.ID;
 
+  load() {
+    this.segment = new Segment(this.writeKey, this.options);
+  }
+
   alias(userId: string, previousId: string) {
-    this.segment.alias({ userId, previousId });
+    this.segment!.alias({ userId, previousId });
   }
 
   identify(userId: string, properties: ItlyProperties | undefined) {
-    this.segment.identify({
+    this.segment!.identify({
       userId,
       traits: { ...properties },
     });
   }
 
   group(userId: string, groupId: string, properties: ItlyProperties | undefined) {
-    this.segment.group({
+    this.segment!.group({
       userId,
       groupId,
       traits: properties,
@@ -44,7 +50,7 @@ export default class SegmentNodePlugin extends ItlyPluginBase {
   }
 
   page(userId: string, category: string, name: string, properties: ItlyProperties | undefined) {
-    this.segment.page({
+    this.segment!.page({
       userId,
       category,
       name,
@@ -53,7 +59,7 @@ export default class SegmentNodePlugin extends ItlyPluginBase {
   }
 
   track(userId: string, event: ItlyEvent) {
-    this.segment.track({
+    this.segment!.track({
       userId,
       event: event.name,
       properties: { ...event.properties },

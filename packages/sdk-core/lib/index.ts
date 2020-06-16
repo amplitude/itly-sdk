@@ -172,16 +172,15 @@ class Itly {
     this.plugins = this.options!.plugins;
     this.validationOptions = this.options!.validationOptions;
 
+    this.plugins.forEach((p) => p.load(options));
+
     const contextEvent = {
       name: 'context',
       properties: options.context || {},
       id: 'context',
       version: '0-0-0',
     };
-
-    this.runIfValid(contextEvent, () => this.plugins.forEach(
-      (p) => p.load(options),
-    ));
+    this.validate(contextEvent);
   }
 
   alias(userId: string, previousId?: string) {

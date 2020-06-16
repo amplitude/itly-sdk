@@ -59,12 +59,15 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
       );
     });
 
-    const spyAmplitudePlugin = jest.spyOn(AmplitudePlugin, 'getGlobalAmplitude').mockImplementation(() => ({
-      Identify: () => identifyMocks,
-      getInstance: () => instanceMocks,
-    }));
-
     const plugin = new AmplitudePlugin('an-amplitude-api-key');
+
+    // Mock amplitude getter
+    Object.defineProperty(plugin, 'amplitude', {
+      get: jest.fn(() => ({
+        Identify: () => identifyMocks,
+        getInstance: () => instanceMocks,
+      })),
+    });
 
     // Try tracking before load, should throw errror
     try {

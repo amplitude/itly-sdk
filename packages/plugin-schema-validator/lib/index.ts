@@ -13,7 +13,7 @@ export type ValidationResponseHandler = (
   schema: any
 ) => any;
 
-const DEFAULT_VALIDATION_RESPONSE_HANDLER: ValidationResponseHandler = () => {};
+export type SchemaMap = { [schemaKey: string]: any };
 
 const SYSTEM_EVENTS = ['identify', 'context', 'group', 'page'];
 function isSystemEvent(name: string) {
@@ -27,23 +27,23 @@ function isEmpty(obj: any) {
 export default class SchemaValidatorPlugin extends ItlyPluginBase {
   static ID: string = 'schema-validator';
 
-  private schemas: { [id: string]: any };
+  private ajv?: Ajv.Ajv;
 
-  private validators: { [id: string]: any };
+  private validators?: { [schemaKey: string]: Ajv.ValidateFunction };
 
-  private ajv: Ajv.Ajv;
-
-  private validationErrorHandler: ValidationResponseHandler;
-
-  constructor(schemas: { [id: string]: any }, validationErrorHandler?: ValidationResponseHandler) {
+  constructor(
+    private schemas: SchemaMap,
+    private validationErrorHandler: ValidationResponseHandler = () => {},
+  ) {
     super();
-    this.schemas = schemas;
-    this.ajv = new Ajv();
-    this.validators = {};
-    this.validationErrorHandler = validationErrorHandler || DEFAULT_VALIDATION_RESPONSE_HANDLER;
   }
 
   id = () => SchemaValidatorPlugin.ID;
+
+  load() {
+    this.ajv = new Ajv();
+    this.validators = {};
+  }
 
   validate(event: ItlyEvent): ValidationResponse {
     const schemaKey = this.getSchemaKey(event);
@@ -73,23 +73,26 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
     }
 
     // Compile validator for this event if needed
-    if (!this.validators[schemaKey]) {
-      this.validators[schemaKey] = this.ajv.compile(this.schemas[schemaKey]);
+    const validators = this.validators!;
+    if (!validators[schemaKey]) {
+      validators[schemaKey] = this.ajv!.compile(this.schemas[schemaKey]);
     }
 
-    const validator = this.validators[schemaKey];
+    const validator = validators[schemaKey]!;
     if (event.properties && !(validator(event.properties) === true)) {
-      const errors = validator.errors.map((e: any) => {
-        let extra = '';
-        if (e.keyword === 'additionalProperties') {
-          extra = ` (${e.params.additionalProperty})`;
-        }
-        return `\`properties${e.dataPath}\` ${e.message}${extra}.`;
-      }).join(' ');
+      const errorMessage = validator.errors
+        ? validator.errors.map((e: any) => {
+          let extra = '';
+          if (e.keyword === 'additionalProperties') {
+            extra = ` (${e.params.additionalProperty})`;
+          }
+          return `\`properties${e.dataPath}\` ${e.message}${extra}.`;
+        }).join(' ')
+        : 'An unknown error occurred during validation.';
 
       return {
         valid: false,
-        message: `Passed in ${event.name} properties did not validate against your tracking plan. ${errors}`,
+        message: `Passed in ${event.name} properties did not validate against your tracking plan. ${errorMessage}`,
         pluginId: this.id(),
       };
     }

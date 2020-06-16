@@ -9,28 +9,34 @@ export interface MixpanelOptions extends InitConfig {}
 export default class MixpanelNodePlugin extends ItlyPluginBase {
   static ID: string = 'mixpanel';
 
-  private mixpanel: Mixpanel.Mixpanel;
+  private mixpanel?: Mixpanel.Mixpanel;
 
-  constructor(apiKey: string, mixpanelOptions?: MixpanelOptions) {
+  constructor(
+    private apiKey: string,
+    private options?: MixpanelOptions,
+  ) {
     super();
-    this.mixpanel = Mixpanel.init(apiKey, mixpanelOptions);
   }
 
   id = () => MixpanelNodePlugin.ID;
 
+  load() {
+    this.mixpanel = Mixpanel.init(this.apiKey, this.options);
+  }
+
   alias(userId: string, previousId: string) {
-    this.mixpanel.alias(previousId, userId);
+    this.mixpanel!.alias(previousId, userId);
   }
 
   identify(userId: string, properties: ItlyProperties | undefined) {
-    this.mixpanel.people.set(userId, {
+    this.mixpanel!.people.set(userId, {
       distinct_id: userId,
       ...properties,
     });
   }
 
   track(userId: string, event: ItlyEvent) {
-    this.mixpanel.track(event.name, {
+    this.mixpanel!.track(event.name, {
       distinct_id: userId,
       ...event.properties,
     });

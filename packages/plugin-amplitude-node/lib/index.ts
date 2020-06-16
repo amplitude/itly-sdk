@@ -12,11 +12,13 @@ export { AmplitudeOptions };
 export default class AmplitudeNodePlugin extends ItlyPluginBase {
   static ID: string = 'amplitude';
 
-  private amplitude: Amplitude;
+  private amplitude?: Amplitude;
 
-  constructor(apiKey: string, options?: AmplitudeOptions) {
+  constructor(
+    private apiKey: string,
+    private options?: AmplitudeOptions,
+  ) {
     super();
-    this.amplitude = new Amplitude(apiKey, options);
   }
 
   // TODO: Allow passing in an instance rather than adding
@@ -32,15 +34,19 @@ export default class AmplitudeNodePlugin extends ItlyPluginBase {
 
   id = () => AmplitudeNodePlugin.ID;
 
+  load() {
+    this.amplitude = new Amplitude(this.apiKey, this.options);
+  }
+
   identify(userId: string, properties?: ItlyProperties) {
-    this.amplitude.identify({
+    this.amplitude!.identify({
       user_id: userId,
       user_properties: properties,
     });
   }
 
   track(userId: string, event: ItlyEvent) {
-    this.amplitude.track({
+    this.amplitude!.track({
       event_type: event.name,
       user_id: userId,
       event_properties: event.properties,

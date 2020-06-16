@@ -3,11 +3,11 @@
 exports[`load, identify, alias, group, track, reset 1`] = `
 Array [
   Array [
-    "amplitude.getInstance().init()",
-    "[\\"an-amplitude-api-key\\",null,null]",
+    "Caught expected error. Itly is not yet initialized. Have you called \`itly.load()\` on app start?",
   ],
   Array [
-    "Caught expected error. Itly is not yet initialized. Have you called \`itly.load()\` on app start?",
+    "amplitude.getInstance().init()",
+    "[\\"an-amplitude-api-key\\",null,null]",
   ],
   Array [
     "amplitude.getInstance().setUserId()",
