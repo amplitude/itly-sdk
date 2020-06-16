@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-amplitude-node",
-  "version": "0.8.2",
+  "version": "0.9.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk-node": "^0.8.2",
+    "@itly/sdk-node": "^0.9.0",
     "typescript": "^3.9.3"
   },
   "dependencies": {

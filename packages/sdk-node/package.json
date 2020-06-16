@@ -1,6 +1,6 @@
 {
   "name": "@itly/sdk-node",
-  "version": "0.8.2",
+  "version": "0.9.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,7 +20,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@itly/sdk-core": "^0.8.2"
+    "@itly/sdk-core": "^0.9.0"
   },
   "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }
