@@ -5,11 +5,13 @@
         "declaration": true,
         "outDir": "./dist",
         "strict": true,
-        "esModuleInterop": true,
+        "esModuleInterop": true
     },
     "exclude": [
-        "node_modules",
-        "dist/",
-        "test/"
+        "**/node_modules/**",
+        "**/coverage/**",
+        "**/dist/**",
+        "**/__tests__/**",
+        "**/__mocks__/**",
     ]
 }
