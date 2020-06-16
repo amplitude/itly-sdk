@@ -135,13 +135,13 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
     ```
     $ yarn add @itly/plugin-schema-validator
     ```
-2. Import and setup `SchemaValidatorPlugin`, add it to the `load()`ed `plugins`. Now all `track()`ed event's will be validated against their schema. Validation handling can be configured via (optional) `validationOptions`.
+2. Import and setup `SchemaValidatorPlugin`, add it to the `load()`ed `plugins`. Now all `track()`ed event's will be validated against their schema. Validation handling can be configured via (optional) `validation`.
     ```
     import itly from '@itly/sdk';
     import SchemaValidatorPlugin from '@itly/plugin-schema-validator';
 
     itly.load({
-      validationOptions: {
+      validation: {
         disabled: false,
         trackInvalid: false,
         errorOnInvalid: false,
@@ -172,32 +172,32 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
     ```
 
 # Create an Itly Plugin
-1. Extend the `ItlyPluginBase` class and overide some or all of the lifecycle hooks. Alternatively you can implement the full `ItlyPlugin` interface.
+1. Extend the `PluginBase` class and overide some or all of the lifecycle hooks. Alternatively you can implement the full `Plugin` interface.
     ```
     import itly, {
-      ItlyPluginBase, ItlyEvent, ItlyProperties, ValidationResponse,
+      Event, Options, Properties, PluginBase, Properties, ValidationResponse,
     } from '@itly/sdk-node';
 
-    class CustomPlugin extends ItlyPluginBase {
+    class CustomPlugin extends PluginBase {
       id = () => 'custom';
 
-      load(options: ItlyOptions): void {...}
+      load(options: Options): void {...}
 
       alias(userId: string, previousId?: string): void {...}
 
-      group(userId: string | undefined, groupId: string, properties?: ItlyProperties): void {...}
+      group(userId: string | undefined, groupId: string, properties?: Properties): void {...}
 
-      identify(userId?: string, properties?: ItlyProperties): void {...}
+      identify(userId?: string, properties?: Properties): void {...}
 
-      page(userId?: string, category?: string, name?: string, properties?: ItlyProperties): void {...}
+      page(userId?: string, category?: string, name?: string, properties?: Properties): void {...}
 
       reset(): void {...}
 
       track(userId: string | undefined, event: ItlyEvent): void {...}
 
-      validationError(validation: ValidationResponse, event: ItlyEvent): void {...}
+      validationError(validation: ValidationResponse, event: Event): void {...}
 
-      validate(event: ItlyEvent): ValidationResponse {...}
+      validate(event: Event): ValidationResponse {...}
     }
     ```
 2. Add your Plugin to `plugins` during `itly.load()`.
