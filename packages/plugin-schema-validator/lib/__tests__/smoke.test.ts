@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, global-require, no-console */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
 import {
-  ItlyOptions, ItlyPlugin, ItlyEvent, ValidationResponse,
+  Options, Plugin, Event, ValidationResponse,
 } from '@itly/sdk-core';
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
 import {
@@ -22,10 +22,10 @@ const identifyProps = {
   requiredNumber: 42,
 };
 
-const plugins: ItlyPlugin[] = [
+const plugins: Plugin[] = [
   new SchemaValidator(
     testSchemas,
-    (validation: ValidationResponse, event: ItlyEvent, schema: any) => {
+    (validation: ValidationResponse, event: Event, schema: any) => {
     // eslint-disable-next-line no-console
       console.log(
         `SchemaValidator validationError() event='${event.name}' message='${validation.message}' schema=`,
@@ -51,7 +51,7 @@ const testParams: TestParams[] = [
       environment: 'production',
       context,
       plugins,
-      validationOptions: {
+      validation: {
         disabled: false,
         trackInvalid: true,
         errorOnInvalid: false,
@@ -64,7 +64,7 @@ const testParams: TestParams[] = [
       environment: 'production',
       context,
       plugins,
-      validationOptions: {
+      validation: {
         disabled: false,
         trackInvalid: false,
         errorOnInvalid: true,

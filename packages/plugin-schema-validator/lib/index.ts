@@ -2,14 +2,14 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import Ajv from 'ajv';
 import {
-  ItlyEvent,
-  ItlyPluginBase,
+  Event,
+  PluginBase,
   ValidationResponse,
 } from '@itly/sdk-core';
 
 export type ValidationResponseHandler = (
   validation: ValidationResponse,
-  event: ItlyEvent,
+  event: Event,
   schema: any
 ) => any;
 
@@ -24,7 +24,7 @@ function isEmpty(obj: any) {
   return obj === undefined || Object.keys(obj).length === 0;
 }
 
-export default class SchemaValidatorPlugin extends ItlyPluginBase {
+export default class SchemaValidatorPlugin extends PluginBase {
   static ID: string = 'schema-validator';
 
   private ajv?: Ajv.Ajv;
@@ -45,7 +45,7 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
     this.validators = {};
   }
 
-  validate(event: ItlyEvent): ValidationResponse {
+  validate(event: Event): ValidationResponse {
     const schemaKey = this.getSchemaKey(event);
     // Check that we have a schema for this event
     if (!this.schemas[schemaKey]) {
@@ -103,12 +103,12 @@ export default class SchemaValidatorPlugin extends ItlyPluginBase {
     };
   }
 
-  validationError(validation: ValidationResponse, event: ItlyEvent) {
+  validationError(validation: ValidationResponse, event: Event) {
     const schemaKey = this.getSchemaKey(event);
     this.validationErrorHandler(validation, event, this.schemas[schemaKey]);
   }
 
-  getSchemaKey(event: ItlyEvent) {
+  getSchemaKey(event: Event) {
     return event.name;
   }
 }

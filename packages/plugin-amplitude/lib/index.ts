@@ -2,12 +2,12 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  ItlyEvent, ItlyProperties, ItlyPluginBase,
+  Event, Properties, PluginBase,
 } from '@itly/sdk-core';
 
 export type AmplitudeOptions = {};
 
-export default class AmplitudeBrowserPlugin extends ItlyPluginBase {
+export default class AmplitudeBrowserPlugin extends PluginBase {
   static ID: string = 'amplitude';
 
   get amplitude(): any {
@@ -35,7 +35,7 @@ export default class AmplitudeBrowserPlugin extends ItlyPluginBase {
     this.amplitude.getInstance().init(this.apiKey, undefined, this.options);
   }
 
-  identify(userId: string | undefined, properties?: ItlyProperties) {
+  identify(userId: string | undefined, properties?: Properties) {
     if (userId) {
       this.amplitude.getInstance().setUserId(userId);
     }
@@ -54,7 +54,7 @@ export default class AmplitudeBrowserPlugin extends ItlyPluginBase {
     }
   }
 
-  track(userId: string | undefined, event: ItlyEvent) {
+  track(userId: string | undefined, event: Event) {
     this.amplitude.getInstance().logEvent(
       event.name,
       event.properties,

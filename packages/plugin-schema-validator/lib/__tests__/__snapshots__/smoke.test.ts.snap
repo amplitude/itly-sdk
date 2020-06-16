@@ -4,7 +4,7 @@ exports[`load, track, validate - validationOptions={errorOnInvalid: true} 1`] = 
 Array [
   Array [
     "CustomPlugin: ",
-    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validationOptions={\\"disabled\\":false,\\"trackInvalid\\":false,\\"errorOnInvalid\\":true}",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validation={\\"disabled\\":false,\\"trackInvalid\\":false,\\"errorOnInvalid\\":true}",
   ],
   Array [
     "CustomPlugin: ",
@@ -105,7 +105,7 @@ exports[`load, track, validate - validationOptions={trackInvalid: true} 1`] = `
 Array [
   Array [
     "CustomPlugin: ",
-    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validationOptions={\\"disabled\\":false,\\"trackInvalid\\":true,\\"errorOnInvalid\\":false}",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validation={\\"disabled\\":false,\\"trackInvalid\\":true,\\"errorOnInvalid\\":false}",
   ],
   Array [
     "CustomPlugin: ",
@@ -206,7 +206,7 @@ exports[`load, track, validate - validationOptions=DEFAULT 1`] = `
 Array [
   Array [
     "CustomPlugin: ",
-    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validationOptions=undefined",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validation=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -287,7 +287,7 @@ exports[`load, track, validate w/ context='{}' 1`] = `
 Array [
   Array [
     "CustomPlugin: ",
-    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={} validationOptions=undefined",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={} validation=undefined",
   ],
   Array [
     "SchemaValidator validationError() event='context' message='Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.' schema=",
@@ -376,7 +376,7 @@ exports[`load, track, validate w/ context='undefined' 1`] = `
 Array [
   Array [
     "CustomPlugin: ",
-    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context=undefined validationOptions=undefined",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context=undefined validation=undefined",
   ],
   Array [
     "SchemaValidator validationError() event='context' message='Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.' schema=",

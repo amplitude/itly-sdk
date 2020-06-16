@@ -1,7 +1,7 @@
 
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  ItlyPluginBase, ItlyEvent, ItlyProperties,
+  PluginBase, Event, Properties,
 } from '@itly/sdk-node';
 import Segment from 'analytics-node';
 
@@ -12,7 +12,7 @@ export type SegmentOptions = {
   enable?: boolean; // (default: true)
 }
 
-export default class SegmentNodePlugin extends ItlyPluginBase {
+export default class SegmentNodePlugin extends PluginBase {
   static ID = 'segment';
 
   private segment?: Segment;
@@ -34,14 +34,14 @@ export default class SegmentNodePlugin extends ItlyPluginBase {
     this.segment!.alias({ userId, previousId });
   }
 
-  identify(userId: string, properties: ItlyProperties | undefined) {
+  identify(userId: string, properties: Properties | undefined) {
     this.segment!.identify({
       userId,
       traits: { ...properties },
     });
   }
 
-  group(userId: string, groupId: string, properties: ItlyProperties | undefined) {
+  group(userId: string, groupId: string, properties: Properties | undefined) {
     this.segment!.group({
       userId,
       groupId,
@@ -49,7 +49,7 @@ export default class SegmentNodePlugin extends ItlyPluginBase {
     });
   }
 
-  page(userId: string, category: string, name: string, properties: ItlyProperties | undefined) {
+  page(userId: string, category: string, name: string, properties: Properties | undefined) {
     this.segment!.page({
       userId,
       category,
@@ -58,7 +58,7 @@ export default class SegmentNodePlugin extends ItlyPluginBase {
     });
   }
 
-  track(userId: string, event: ItlyEvent) {
+  track(userId: string, event: Event) {
     this.segment!.track({
       userId,
       event: event.name,

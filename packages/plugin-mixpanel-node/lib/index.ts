@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  ItlyPluginBase, ItlyEvent, ItlyProperties,
+  PluginBase, Event, Properties,
 } from '@itly/sdk-node';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
 export interface MixpanelOptions extends InitConfig {}
 
-export default class MixpanelNodePlugin extends ItlyPluginBase {
+export default class MixpanelNodePlugin extends PluginBase {
   static ID: string = 'mixpanel';
 
   private mixpanel?: Mixpanel.Mixpanel;
@@ -28,14 +28,14 @@ export default class MixpanelNodePlugin extends ItlyPluginBase {
     this.mixpanel!.alias(previousId, userId);
   }
 
-  identify(userId: string, properties: ItlyProperties | undefined) {
+  identify(userId: string, properties: Properties | undefined) {
     this.mixpanel!.people.set(userId, {
       distinct_id: userId,
       ...properties,
     });
   }
 
-  track(userId: string, event: ItlyEvent) {
+  track(userId: string, event: Event) {
     this.mixpanel!.track(event.name, {
       distinct_id: userId,
       ...event.properties,

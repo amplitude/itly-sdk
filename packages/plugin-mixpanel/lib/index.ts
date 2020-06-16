@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  ItlyOptions, ItlyEvent, ItlyProperties, ItlyPluginBase,
+  Options, Event, Properties, PluginBase,
 } from '@itly/sdk-core';
 
 export type MixpanelOptions = {};
 
-export default class MixpanelBrowserPlugin extends ItlyPluginBase {
+export default class MixpanelBrowserPlugin extends PluginBase {
   static ID: string = 'mixpanel';
 
   id = () => MixpanelBrowserPlugin.ID;
@@ -37,7 +37,7 @@ export default class MixpanelBrowserPlugin extends ItlyPluginBase {
     this.mixpanel.alias(userId, previousId);
   }
 
-  identify(userId: string | undefined, properties: ItlyProperties | undefined) {
+  identify(userId: string | undefined, properties: Properties | undefined) {
     if (userId) {
       this.mixpanel.identify(userId);
     }
@@ -47,7 +47,7 @@ export default class MixpanelBrowserPlugin extends ItlyPluginBase {
     }
   }
 
-  track(userId: string | undefined, event: ItlyEvent) {
+  track(userId: string | undefined, event: Event) {
     this.mixpanel.track(
       event.name,
       event.properties,

@@ -1,18 +1,18 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import itlySdk, {
-  ItlyOptions,
-  ItlyEvent, ItlyProperties,
-  ItlyPlugin, ItlyPluginBase,
+  Options,
+  Event, Properties,
+  Plugin, PluginBase,
   ValidationOptions,
   ValidationResponse,
 } from '@itly/sdk-core';
 
 export {
-  ItlyOptions,
-  ItlyPlugin,
-  ItlyPluginBase,
-  ItlyEvent,
-  ItlyProperties,
+  Options,
+  Plugin,
+  PluginBase,
+  Event,
+  Properties,
   ValidationOptions,
   ValidationResponse,
 };
@@ -20,7 +20,7 @@ export {
 // Itly Browser SDK
 class Itly {
   load = (
-    options: ItlyOptions,
+    options: Options,
   ) => itlySdk.load(options);
 
   alias = (
@@ -28,19 +28,19 @@ class Itly {
   ) => itlySdk.alias(userId, previousId);
 
   identify = (
-    userId: string | undefined, identifyProperties?: ItlyProperties,
+    userId: string | undefined, identifyProperties?: Properties,
   ) => itlySdk.identify(userId, identifyProperties);
 
   group = (
-    groupId: string, groupProperties?: ItlyProperties,
+    groupId: string, groupProperties?: Properties,
   ) => itlySdk.group(undefined, groupId, groupProperties);
 
   page = (
-    category: string, name: string, pageProperties?: ItlyProperties,
+    category: string, name: string, pageProperties?: Properties,
   ) => itlySdk.page(undefined, category, name, pageProperties);
 
   track = (
-    event: ItlyEvent,
+    event: Event,
   ) => itlySdk.track(undefined, event);
 
   reset = () => itlySdk.reset();
