@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.2](https://github.com/iterativelyhq/itly-sdk/compare/v0.9.1...v0.9.2) (2020-06-17)
+
+
+### Bug Fixes
+
+* removed DebugOptions from sdk and sdk-node ([e769a46](https://github.com/iterativelyhq/itly-sdk/commit/e769a46ce24e56b4525f6055048d1aaab690ce7d))
+
+
+
+
+
 ## [0.9.1](https://github.com/iterativelyhq/itly-sdk/compare/v0.9.0...v0.9.1) (2020-06-17)
 
 
