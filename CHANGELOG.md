@@ -3,6 +3,91 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.8.3...v0.9.0) (2020-06-16)
+
+
+### Bug Fixes
+
+* moved plugin setup logic into load() hook rather than constructors ([f704ba4](https://github.com/iterativelyhq/itly-sdk/commit/f704ba485fc50967c8f73498230b88f8553768a5))
+* updated all plugins to extend base tsconfig.json ([8cf5a6e](https://github.com/iterativelyhq/itly-sdk/commit/8cf5a6e412e23a5a6ad059cd37acb08f5ae552ce))
+
+
+### Features
+
+* removed Itly prefix from core classes ([b512e6d](https://github.com/iterativelyhq/itly-sdk/commit/b512e6d828cd307b95f879ea9b4d1aa0054494ca))
+
+
+
+
+
+## [0.8.3](https://github.com/iterativelyhq/itly-sdk/compare/v0.8.2...v0.8.3) (2020-06-14)
+
+
+### Bug Fixes
+
+* fixed plugin-schema-validator support for default events ([2f42ebb](https://github.com/iterativelyhq/itly-sdk/commit/2f42ebb56be5fc6b4686cf704c7281b1146a1ce5))
+
+
+
+
+
+## [0.8.2](https://github.com/iterativelyhq/itly-sdk/compare/v0.8.1...v0.8.2) (2020-06-14)
+
+
+### Bug Fixes
+
+* updated sdk-core to always validate context properties ([b678990](https://github.com/iterativelyhq/itly-sdk/commit/b6789909834cb9939289e3c98fb4b202119eb7ed))
+
+
+
+
+
+## [0.8.1](https://github.com/iterativelyhq/itly-sdk/compare/v0.8.0...v0.8.1) (2020-06-13)
+
+**Note:** Version bump only for package root
+
+
+
+
+
+# [0.8.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.7.1...v0.8.0) (2020-06-13)
+
+
+### Bug Fixes
+
+* cleaned up plugin-amplitude tests and added coverage ([82f4b2a](https://github.com/iterativelyhq/itly-sdk/commit/82f4b2a1cef22b6c1b5b9d8c644902695e5a2582))
+* made plugin-mixpanel-node MixpanelOptions optional ([59650f4](https://github.com/iterativelyhq/itly-sdk/commit/59650f405ec0cf2a223d9deafc8dde83066af438))
+* made tests to be per module with common jest.config.base.js ([1b8f1cd](https://github.com/iterativelyhq/itly-sdk/commit/1b8f1cd968d90a698ecf12d0a3f34dc5cf76cb0b))
+* removed unecessary second build in CI ([0110793](https://github.com/iterativelyhq/itly-sdk/commit/01107936eed37d3bfbcab8cd2d1501d112256a89))
+* renamed 'writeKey' in Segment plugins ([57c9137](https://github.com/iterativelyhq/itly-sdk/commit/57c9137d4bbeac4c89a3dd0f6faa7150fe4fe3b2))
+* set defaults for ItlyOptions before load(options) callbacks ([066b59b](https://github.com/iterativelyhq/itly-sdk/commit/066b59bf1aaf208f05f800b89e95bb9687361910))
+* updated CI workflow to run tests against built packages ([f650c33](https://github.com/iterativelyhq/itly-sdk/commit/f650c33a1cffe0ad56d1ef37ec1a99622e4aa1c0))
+* updated debugger plugin package version (using `lerna bootstrap`) ([f0e0882](https://github.com/iterativelyhq/itly-sdk/commit/f0e088239c2d9f3cd58ace1b1119ba56c56ede01))
+
+
+### Features
+
+* add test code coverage for @itly/sdk ([69a9374](https://github.com/iterativelyhq/itly-sdk/commit/69a93749b46d44dd4d871ffb7ea9c6301b59dac6))
+* added debugger plugin, draft for browser ([c013b5f](https://github.com/iterativelyhq/itly-sdk/commit/c013b5f6ee92d6eddae2e9d48fb2793b569136d4))
+* added debugger-node plugin, draft for nodejs (requires node-fetch) ([655e02b](https://github.com/iterativelyhq/itly-sdk/commit/655e02bf75393bf057f27c88fd624eead7edc8fd))
+* added test code coverage for sdk-core ([4587a43](https://github.com/iterativelyhq/itly-sdk/commit/4587a43e4aa36a5143e306283537b1f343aca7e9))
+* added tests for plugin-ampltude ([13cbbf8](https://github.com/iterativelyhq/itly-sdk/commit/13cbbf8ec7c573e4d2007eead6ad18c232884522))
+
+
+
+
+
+## [0.7.1](https://github.com/iterativelyhq/itly-sdk/compare/v0.7.0...v0.7.1) (2020-06-12)
+
+
+### Bug Fixes
+
+* context properties are now included on all track() events ([5552ea2](https://github.com/iterativelyhq/itly-sdk/commit/5552ea27aea23e0dce26477da91467bf15cddaf5))
+
+
+
+
+
 # [0.7.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.6.1...v0.7.0) (2020-06-11)
 
 

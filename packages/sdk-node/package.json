@@ -1,13 +1,13 @@
 {
   "name": "@itly/sdk-node",
-  "version": "0.7.0",
+  "version": "0.9.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "prepublish": "yarn run build",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "keywords": [
     "itly",
@@ -20,7 +20,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@itly/sdk-core": "^0.7.0"
+    "@itly/sdk-core": "^0.9.0"
   },
-  "gitHead": "88572132d529b16d004f3647ec12853d9c7c414a"
+  "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }

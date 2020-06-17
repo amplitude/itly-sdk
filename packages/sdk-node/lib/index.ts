@@ -1,18 +1,18 @@
 import itlySdk, {
-  ItlyOptions,
-  ItlyEvent, ItlyProperties,
-  ItlyPlugin, ItlyPluginBase,
+  Options,
+  Event, Properties,
+  Plugin, PluginBase,
   ValidationOptions,
   ValidationResponse,
   DebuggerOptions,
 } from '@itly/sdk-core';
 
 export {
-  ItlyOptions,
-  ItlyPlugin,
-  ItlyPluginBase,
-  ItlyEvent,
-  ItlyProperties,
+  Options,
+  Plugin,
+  PluginBase,
+  Event,
+  Properties,
   ValidationOptions,
   ValidationResponse,
   DebuggerOptions,
@@ -20,7 +20,7 @@ export {
 
 class Itly {
   load = (
-    options: ItlyOptions,
+    options: Options,
   ) => itlySdk.load(options);
 
   alias = (
@@ -32,20 +32,20 @@ class Itly {
    * @param userId The user's ID.
    */
   identify = (
-    userId: string | undefined, identifyProperties?: ItlyProperties,
+    userId: string | undefined, identifyProperties?: Properties,
   ) => itlySdk.identify(userId, identifyProperties);
 
   group = (
-    userId:string | undefined, groupId: string, groupProperties?: ItlyProperties,
+    userId:string | undefined, groupId: string, groupProperties?: Properties,
   ) => itlySdk.group(userId, groupId, groupProperties);
 
   page = (
-    userId: string | undefined, category: string, name: string, pageProperties?: ItlyProperties,
+    userId: string | undefined, category: string, name: string, pageProperties?: Properties,
   ) => itlySdk.page(userId, category, name, pageProperties);
 
   track = (
     userId: string | undefined,
-    event: ItlyEvent,
+    event: Event,
   ) => itlySdk.track(userId, event);
 
   reset = () => itlySdk.reset();

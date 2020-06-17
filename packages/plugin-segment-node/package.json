@@ -1,13 +1,13 @@
 {
   "name": "@itly/plugin-segment-node",
-  "version": "0.7.0",
+  "version": "0.9.0",
   "description": "Segment Node Plugin ",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "prepublish": "yarn run build",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "keywords": [
     "itly",
@@ -18,7 +18,7 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk-node": "^0.7.0",
+    "@itly/sdk-node": "^0.9.0",
     "typescript": "^3.9.3"
   },
   "dependencies": {
@@ -27,5 +27,6 @@
   },
   "peerDependencies": {
     "@itly/sdk-node": "^0.3.0"
-  }
+  },
+  "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }

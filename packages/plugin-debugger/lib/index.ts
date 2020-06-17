@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import {
-  ItlyEvent, ItlyProperties, ItlyPluginBase, ValidationResponse,
+  Event, Properties, PluginBase, ValidationResponse,
 } from '@itly/sdk-core';
 
 export type DebuggerPluginOptions = {
@@ -24,7 +24,7 @@ type TrackModel = {
   eventId?: string;
   eventSchemaVersion?: string;
   eventName?: string;
-  properties: ItlyProperties,
+  properties: Properties,
   valid: boolean;
   validation: {
     details: string;
@@ -33,7 +33,7 @@ type TrackModel = {
 
 export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export default class DebuggerPlugin extends ItlyPluginBase {
+export default class DebuggerPlugin extends PluginBase {
   static ID: string = 'debugger';
 
   private buffer: TrackModel[] = [];
@@ -53,39 +53,39 @@ export default class DebuggerPlugin extends ItlyPluginBase {
     this.startCheck();
   }
 
-  // overrides ItlyPluginBase.id
+  // overrides PluginBase.id
   id = () => DebuggerPlugin.ID;
 
-  // overrides ItlyPluginBase.track
-  track(userId: string | undefined, event: ItlyEvent): void {
+  // overrides PluginBase.track
+  track(userId: string | undefined, event: Event): void {
     this.push(
       this.toTrackModel(TrackType.track, event, { ...event.properties, userId }),
     );
   }
 
-  // overrides ItlyPluginBase.validationError
-  validationError(validationResponse: ValidationResponse, event: ItlyEvent): void {
+  // overrides PluginBase.validationError
+  validationError(validationResponse: ValidationResponse, event: Event): void {
     this.push(
       this.toTrackModel(TrackType.track, event, event.properties, validationResponse),
     );
   }
 
-  // overrides ItlyPluginBase.group
-  group(userId: string | undefined, groupId: string, properties?: ItlyProperties): void {
+  // overrides PluginBase.group
+  group(userId: string | undefined, groupId: string, properties?: Properties): void {
     this.push(
       this.toTrackModel(TrackType.group, undefined, { ...properties, userId, groupId }),
     );
   }
 
-  // overrides ItlyPluginBase.identify
-  identify(userId?: string, properties?: ItlyProperties): void {
+  // overrides PluginBase.identify
+  identify(userId?: string, properties?: Properties): void {
     this.push(
       this.toTrackModel(TrackType.identify, undefined, { ...properties, userId }),
     );
   }
 
-  // overrides ItlyPluginBase.page
-  page(userId?: string, category?: string, name?: string, properties?: ItlyProperties): void {
+  // overrides PluginBase.page
+  page(userId?: string, category?: string, name?: string, properties?: Properties): void {
     this.push(
       this.toTrackModel(TrackType.page, undefined, {
         ...properties, userId, category, name,
@@ -93,7 +93,7 @@ export default class DebuggerPlugin extends ItlyPluginBase {
     );
   }
 
-  private toTrackModel(type: TrackType, event?: ItlyEvent, properties?: ItlyProperties,
+  private toTrackModel(type: TrackType, event?: Event, properties?: Properties,
     validation?: ValidationResponse): TrackModel {
     const model = {
       type,

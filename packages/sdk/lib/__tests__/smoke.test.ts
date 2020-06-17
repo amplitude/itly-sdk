@@ -1,14 +1,12 @@
 /* eslint-disable import/no-unresolved, global-require, import/extensions */
-import itly from '../../packages/sdk/lib';
-import CustomPlugin from '../../test/src/CustomPlugin';
-
-// const testSchemas = require('./schemas/basic-schema.json');
-// new SchemaValidator(testSchemas),
+import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
+import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
 
 test('should load and track events to a custom destination (no validation)', () => {
   const spy = jest.spyOn(console, 'log');
-
   const userId = 'test-user-id';
+
+  const itly = requireForTestEnv(__dirname);
 
   // new SchemaValidator(testSchemas)
   itly.load({
@@ -27,7 +25,11 @@ test('should load and track events to a custom destination (no validation)', () 
   itly.alias(userId);
 
   itly.group('a-group-id', {
-    aGroupProp: 'test value',
+    groupProp: 'test value',
+  });
+
+  itly.page('page category', 'page name', {
+    pageProp: 'a page property',
   });
 
   itly.track({

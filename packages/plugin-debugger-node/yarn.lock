@@ -2,18 +2,6 @@
 # yarn lockfile v1
 
 
-"@itly/sdk-core@^0.4.0":
-  version "0.4.0"
-  resolved "https://npm.fury.io/itly/~/up/ver_j1tZ2/%40itly%2Fsdk-core-0.4.0.tgz#dcb34133683d0c2a5931d3fdd67cf5431f8d74fc"
-  integrity sha1-3LNBM2g9DCpZMdP91nz1Qx+NdPw=
-
-"@itly/sdk-node@^0.4.0":
-  version "0.4.0"
-  resolved "https://npm.fury.io/itly/~/up/ver_O82gW/%40itly%2Fsdk-node-0.4.0.tgz#9e837ccee0b780fe853a3581c5dc7ff643be9f2e"
-  integrity sha1-noN8zuC3gP6FOjWBxdx/9kO+ny4=
-  dependencies:
-    "@itly/sdk-core" "^0.4.0"
-
 "@types/node-fetch@^2.5.7":
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.5.7.tgz#20a2afffa882ab04d44ca786449a276f9f6bbf3c"

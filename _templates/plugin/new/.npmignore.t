@@ -1,4 +1,8 @@
 ---
 to: packages/plugin-<%= name %>/.npmignore
 ---
-lib/
+**/__mocks__/**
+**/__tests__/**
+lib
+tsconfig.json
+tsconfig.tsbuildinfo

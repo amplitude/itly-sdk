@@ -3,6 +3,72 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.8.3...v0.9.0) (2020-06-16)
+
+
+### Bug Fixes
+
+* moved plugin setup logic into load() hook rather than constructors ([f704ba4](https://github.com/iterativelyhq/itly-sdk/commit/f704ba485fc50967c8f73498230b88f8553768a5))
+* updated all plugins to extend base tsconfig.json ([8cf5a6e](https://github.com/iterativelyhq/itly-sdk/commit/8cf5a6e412e23a5a6ad059cd37acb08f5ae552ce))
+
+
+### Features
+
+* removed Itly prefix from core classes ([b512e6d](https://github.com/iterativelyhq/itly-sdk/commit/b512e6d828cd307b95f879ea9b4d1aa0054494ca))
+
+
+
+
+
+## [0.8.3](https://github.com/iterativelyhq/itly-sdk/compare/v0.8.2...v0.8.3) (2020-06-14)
+
+
+### Bug Fixes
+
+* fixed plugin-schema-validator support for default events ([2f42ebb](https://github.com/iterativelyhq/itly-sdk/commit/2f42ebb56be5fc6b4686cf704c7281b1146a1ce5))
+
+
+
+
+
+## [0.8.2](https://github.com/iterativelyhq/itly-sdk/compare/v0.8.1...v0.8.2) (2020-06-14)
+
+
+### Bug Fixes
+
+* updated sdk-core to always validate context properties ([b678990](https://github.com/iterativelyhq/itly-sdk/commit/b6789909834cb9939289e3c98fb4b202119eb7ed))
+
+
+
+
+
+## [0.8.1](https://github.com/iterativelyhq/itly-sdk/compare/v0.8.0...v0.8.1) (2020-06-13)
+
+**Note:** Version bump only for package @itly/plugin-schema-validator
+
+
+
+
+
+# [0.8.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.7.1...v0.8.0) (2020-06-13)
+
+
+### Bug Fixes
+
+* made tests to be per module with common jest.config.base.js ([1b8f1cd](https://github.com/iterativelyhq/itly-sdk/commit/1b8f1cd968d90a698ecf12d0a3f34dc5cf76cb0b))
+
+
+
+
+
+## [0.7.1](https://github.com/iterativelyhq/itly-sdk/compare/v0.7.0...v0.7.1) (2020-06-12)
+
+**Note:** Version bump only for package @itly/plugin-schema-validator
+
+
+
+
+
 # [0.7.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.6.1...v0.7.0) (2020-06-11)
 
 
