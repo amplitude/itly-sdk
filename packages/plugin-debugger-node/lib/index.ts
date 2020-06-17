@@ -4,12 +4,13 @@ import {
   Event, Properties, PluginBase, ValidationResponse,
 } from '@itly/sdk-node';
 
-export type DebuggerPluginOptions = {
+export type DebuggerOptions = {
   url: string,
   debugLevel?: 'full' | 'metadataOnly',
   batchSize?: number,
   flushAt?: number,
-  flushInterval?: number
+  flushInterval?: number,
+  disabled?: boolean,
 };
 
 enum TrackType {
@@ -39,15 +40,16 @@ export default class DebuggerNodePlugin extends PluginBase {
 
   private buffer: TrackModel[] = [];
 
-  private config: Required<DebuggerPluginOptions> = {
+  private config: Required<DebuggerOptions> = {
     url: '',
     debugLevel: 'full',
     batchSize: 100,
     flushAt: 10,
     flushInterval: 1000,
+    disabled: false,
   };
 
-  constructor(private apiKey: string, debuggerOptions: DebuggerPluginOptions) {
+  constructor(private apiKey: string, debuggerOptions: DebuggerOptions) {
     super();
     this.config = { ...this.config, ...debuggerOptions };
   }
@@ -55,7 +57,13 @@ export default class DebuggerNodePlugin extends PluginBase {
   // overrides PluginBase.id
   id = () => DebuggerNodePlugin.ID;
 
-  load = () => this.startCheck();
+  load = () => {
+    if (this.config.disabled) {
+      return;
+    }
+
+    this.startCheck();
+  }
 
   // overrides PluginBase.track
   track(userId: string | undefined, event: Event): void {
@@ -87,6 +95,10 @@ export default class DebuggerNodePlugin extends PluginBase {
 
   // overrides PluginBase.page
   page(userId?: string, category?: string, name?: string, properties?: Properties): void {
+    if (this.config.disabled) {
+      return;
+    }
+
     this.push(
       this.toTrackModel(TrackType.page, undefined, {
         ...properties, userId, category, name,

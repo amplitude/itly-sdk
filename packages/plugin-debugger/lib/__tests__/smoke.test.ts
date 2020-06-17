@@ -23,36 +23,19 @@ afterEach(() => {
   itly = undefined;
 });
 
-test('should load if itly is NOT disabled', () => {
+test('should not crash on load', () => {
   const debuggerPlugin = new DebuggerPlugin(
     debuggerApiKey,
-    { url: 'https://localhost:4000' },
+    {
+      disabled: true,
+      url: 'https://localhost:4000',
+    },
   );
 
-  const spyDebuggerPluginLoad = jest.spyOn(debuggerPlugin, 'load');
-
-  itly.load({
-    environment: 'production',
-    plugins: [debuggerPlugin],
-    disabled: false,
-  });
-
-  expect(spyDebuggerPluginLoad).toHaveBeenCalled();
-});
-
-test('should NOT load if itly is enabled', () => {
-  const debuggerPlugin = new DebuggerPlugin(
-    debuggerApiKey,
-    { url: 'https://localhost:4000' },
-  );
-
-  const spyDebuggerPluginLoad = jest.spyOn(debuggerPlugin, 'load');
-
-  itly.load({
-    environment: 'production',
-    plugins: [debuggerPlugin],
-    disabled: true,
-  });
-
-  expect(spyDebuggerPluginLoad).not.toHaveBeenCalled();
+  expect(() => {
+    itly.load({
+      environment: 'production',
+      plugins: [debuggerPlugin],
+    });
+  }).not.toThrow();
 });

@@ -24,10 +24,6 @@ export interface Options {
    * Configure validation handling
    */
   validation?: ValidationOptions;
-  /**
-   * Configure debugger settings
-   */
-  debugger?: DebuggerOptions;
 }
 
 export type Properties = {
@@ -51,11 +47,6 @@ export type ValidationResponse = {
   valid: boolean;
   message?: string;
   pluginId?: string;
-};
-
-export type DebuggerOptions = {
-  disabled: boolean;
-  debugLevel?: 'full' | 'metadataOnly';
 };
 
 export interface Plugin {
