@@ -49,12 +49,12 @@ export default class DebuggerPlugin extends PluginBase {
   constructor(private apiKey: string, debuggerOptions: DebuggerPluginOptions) {
     super();
     this.config = { ...this.config, ...debuggerOptions };
-
-    this.startCheck();
   }
 
   // overrides PluginBase.id
   id = () => DebuggerPlugin.ID;
+
+  load = () => this.startCheck();
 
   // overrides PluginBase.track
   track(userId: string | undefined, event: Event): void {
