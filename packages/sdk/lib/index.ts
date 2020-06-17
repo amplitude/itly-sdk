@@ -5,7 +5,6 @@ import itlySdk, {
   Plugin, PluginBase,
   ValidationOptions,
   ValidationResponse,
-  DebuggerOptions,
 } from '@itly/sdk-core';
 
 export {
@@ -16,7 +15,6 @@ export {
   Properties,
   ValidationOptions,
   ValidationResponse,
-  DebuggerOptions,
 };
 
 // Itly Browser SDK
