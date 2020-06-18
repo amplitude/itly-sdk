@@ -95,10 +95,6 @@ export default class DebuggerNodePlugin extends PluginBase {
 
   // overrides PluginBase.page
   page(userId?: string, category?: string, name?: string, properties?: Properties): void {
-    if (this.config.disabled) {
-      return;
-    }
-
     this.push(
       this.toTrackModel(TrackType.page, undefined, {
         ...properties, userId, category, name,
@@ -156,6 +152,10 @@ export default class DebuggerNodePlugin extends PluginBase {
   }
 
   private push(model: TrackModel) {
+    if (this.config.disabled) {
+      return;
+    }
+
     this.buffer.push(model);
     if (this.buffer.length >= this.config.flushAt) {
       this.flush();
