@@ -21,7 +21,7 @@ enum TrackType {
 
 type TrackModel = {
   type: TrackType;
-  dateSent: Date;
+  dateSent: string;
   eventId?: string;
   eventSchemaVersion?: string;
   eventName?: string;
@@ -103,9 +103,9 @@ export default class DebuggerPlugin extends PluginBase {
 
   private toTrackModel(type: TrackType, event?: Event, properties?: Properties,
     validation?: ValidationResponse): TrackModel {
-    const model = {
+    const model: TrackModel = {
       type,
-      dateSent: new Date(new Date().getTime()),
+      dateSent: (new Date()).toISOString(),
       eventId: event ? event.id : undefined,
       eventSchemaVersion: event ? event.version : undefined,
       eventName: event ? event.name : undefined,
