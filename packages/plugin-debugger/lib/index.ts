@@ -73,9 +73,19 @@ export default class DebuggerPlugin extends PluginBase {
 
   // overrides PluginBase.validationError
   validationError(validationResponse: ValidationResponse, event: Event): void {
-    this.push(
-      this.toTrackModel(TrackType.track, event, event.properties, validationResponse),
-    );
+    switch (event.id) {
+      case TrackType.group:
+      case TrackType.identify:
+      case TrackType.page:
+        this.push(
+          this.toTrackModel(event.id, undefined, event.properties, validationResponse),
+        );
+        break;
+      default:
+        this.push(
+          this.toTrackModel(TrackType.track, event, event.properties, validationResponse),
+        );
+    }
   }
 
   // overrides PluginBase.group
