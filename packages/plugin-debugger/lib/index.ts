@@ -137,7 +137,7 @@ export default class DebuggerPlugin extends PluginBase {
     if (validation) {
       model.valid = validation.valid;
       if (this.config.debugLevel === 'full') {
-        model.validation.details = `${validation.pluginId}: ${validation.message}`;
+        model.validation.details = validation.message || '';
       }
     }
 
