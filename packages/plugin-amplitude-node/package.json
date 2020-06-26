@@ -25,7 +25,7 @@
     "amplitude": "^5.0.2"
   },
   "peerDependencies": {
-    "@itly/sdk-node": "^0.2.0"
+    "@itly/sdk-node": "^0.9.2"
   },
   "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }
