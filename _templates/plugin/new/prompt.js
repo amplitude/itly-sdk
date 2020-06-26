@@ -19,6 +19,6 @@ module.exports = [
     type: 'input',
     name: 'itlySdkVersion',
     message: 'Itly SDK version?',
-    initial: '^0.7.1',
+    initial: '^0.9.2',
   },
 ];

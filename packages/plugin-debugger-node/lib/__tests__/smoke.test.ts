@@ -1,22 +1,17 @@
----
-to: packages/plugin-<%= name %>/lib/__tests__/smoke.test.ts
----
-<%
-  ClassName = h.changeCase.pascal(name) + 'Plugin'
-  VarName = h.changeCase.camel(name) + 'Plugin'
-%>
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
 import { requireForTestEnv } from '../../../../__tests__/util';
 
-const <%= ClassName %> = requireForTestEnv(__dirname);
+const DebuggerNodePlugin = requireForTestEnv(__dirname);
+
+const debuggerApiKey = 'test-debugger-api-key';
 
 let itly: any;
 
 beforeEach(() => {
   jest.resetModules();
 
-  itly = require('<%= itlySdkModule %>').default;
+  itly = require('@itly/sdk-node').default;
 });
 
 afterEach(() => {
@@ -24,12 +19,18 @@ afterEach(() => {
 });
 
 test('should not crash on load', () => {
-  const <%= VarName %> = new <%= ClassName %>();
+  const debuggerPlugin = new DebuggerNodePlugin(
+    debuggerApiKey,
+    {
+      disabled: true,
+      url: 'https://localhost:4000',
+    },
+  );
 
   expect(() => {
     itly.load({
       environment: 'production',
-      plugins: [<%= VarName %>],
+      plugins: [debuggerPlugin],
     });
   }).not.toThrow();
 });

@@ -9,7 +9,8 @@ export type DebuggerOptions = {
   debugLevel?: 'full' | 'metadataOnly',
   batchSize?: number,
   flushAt?: number,
-  flushInterval?: number
+  flushInterval?: number,
+  disabled?: boolean,
 };
 
 enum TrackType {
@@ -21,7 +22,7 @@ enum TrackType {
 
 type TrackModel = {
   type: TrackType;
-  dateSent: Date;
+  dateSent: string;
   eventId?: string;
   eventSchemaVersion?: string;
   eventName?: string;
@@ -45,17 +46,24 @@ export default class DebuggerNodePlugin extends PluginBase {
     batchSize: 100,
     flushAt: 10,
     flushInterval: 1000,
+    disabled: false,
   };
 
   constructor(private apiKey: string, debuggerOptions: DebuggerOptions) {
     super();
     this.config = { ...this.config, ...debuggerOptions };
-
-    this.startCheck();
   }
 
   // overrides PluginBase.id
   id = () => DebuggerNodePlugin.ID;
+
+  load = () => {
+    if (this.config.disabled) {
+      return;
+    }
+
+    this.startCheck();
+  }
 
   // overrides PluginBase.track
   track(userId: string | undefined, event: Event): void {
@@ -66,9 +74,19 @@ export default class DebuggerNodePlugin extends PluginBase {
 
   // overrides PluginBase.validationError
   validationError(validationResponse: ValidationResponse, event: Event): void {
-    this.push(
-      this.toTrackModel(TrackType.track, event, event.properties, validationResponse),
-    );
+    switch (event.id) {
+      case TrackType.group:
+      case TrackType.identify:
+      case TrackType.page:
+        this.push(
+          this.toTrackModel(event.id, undefined, event.properties, validationResponse),
+        );
+        break;
+      default:
+        this.push(
+          this.toTrackModel(TrackType.track, event, event.properties, validationResponse),
+        );
+    }
   }
 
   // overrides PluginBase.group
@@ -96,9 +114,9 @@ export default class DebuggerNodePlugin extends PluginBase {
 
   private toTrackModel(type: TrackType, event?: Event, properties?: Properties,
     validation?: ValidationResponse): TrackModel {
-    const model = {
+    const model: TrackModel = {
       type,
-      dateSent: new Date(new Date().getTime()),
+      dateSent: (new Date()).toISOString(),
       eventId: event ? event.id : undefined,
       eventSchemaVersion: event ? event.version : undefined,
       eventName: event ? event.name : undefined,
@@ -120,7 +138,7 @@ export default class DebuggerNodePlugin extends PluginBase {
     if (validation) {
       model.valid = validation.valid;
       if (this.config.debugLevel === 'full') {
-        model.validation.details = `${validation.pluginId}: ${validation.message}`;
+        model.validation.details = validation.message || '';
       }
     }
 
@@ -144,6 +162,10 @@ export default class DebuggerNodePlugin extends PluginBase {
   }
 
   private push(model: TrackModel) {
+    if (this.config.disabled) {
+      return;
+    }
+
     this.buffer.push(model);
     if (this.buffer.length >= this.config.flushAt) {
       this.flush();

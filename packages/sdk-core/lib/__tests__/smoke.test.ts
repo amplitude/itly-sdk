@@ -88,6 +88,7 @@ const testParams: TestParams[] = [
   },
 ];
 
+let itly: any;
 const userId = 'test-user-id';
 const tempUserId = 'temp-user-id';
 const groupId = 'test-group-id';
@@ -96,17 +97,19 @@ let spyConsoleLog: jest.SpyInstance;
 describe('should load and track events to a custom destination (no validation)', () => {
   beforeEach(() => {
     jest.resetModules();
+
+    itly = requireForTestEnv(__dirname);
+
     spyConsoleLog = jest.spyOn(console, 'log');
   });
 
   afterEach(() => {
     spyConsoleLog.mockRestore();
+    itly = undefined;
   });
 
   test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     async (name: string, { options }: TestParams) => {
-      const itly = requireForTestEnv(__dirname);
-
       // Try tracking before load, should throw error
       try {
         itly.identify(userId);
@@ -174,4 +177,28 @@ describe('should load and track events to a custom destination (no validation)',
 
       expect(spyConsoleLog.mock.calls).toMatchSnapshot();
     });
+
+  test('should call Plugin.load() if itly is NOT disabled', () => {
+    const plugin = new CustomPlugin();
+    const spyPluginLoad = jest.spyOn(plugin, 'load');
+
+    itly.load({
+      plugins: [plugin],
+      disabled: false,
+    });
+
+    expect(spyPluginLoad).toHaveBeenCalled();
+  });
+
+  test('should NOT call Plugin.load() if itly is disabled', () => {
+    const plugin = new CustomPlugin();
+    const spyPluginLoad = jest.spyOn(plugin, 'load');
+
+    itly.load({
+      plugins: [plugin],
+      disabled: true,
+    });
+
+    expect(spyPluginLoad).not.toHaveBeenCalled();
+  });
 });

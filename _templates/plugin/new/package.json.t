@@ -10,7 +10,7 @@ to: packages/plugin-<%= name %>/package.json
   "scripts": {
     "prepublish": "yarn run build",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --runInBand"
   },
   "keywords": [
     "itly",
