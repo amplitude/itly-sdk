@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/extensions, import/no-unresolved */
 import itlySdk, {
   Options,
-  Event, Properties,
+  Event, Properties, ItlyBrowser,
 } from './base';
 
 // Itly Browser SDK
-class Itly {
+class Itly implements ItlyBrowser {
   load = (
     options: Options,
   ) => itlySdk.load(options);

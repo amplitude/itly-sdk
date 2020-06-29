@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import itlySdk, {
   Options,
   Event, Properties,
   Plugin, PluginBase,
   ValidationOptions,
   ValidationResponse,
+  ItlyNode,
 } from '@itly/sdk-core';
 
 export {
@@ -16,7 +18,7 @@ export {
   ValidationResponse,
 };
 
-class Itly {
+class Itly implements ItlyNode {
   load = (
     options: Options,
   ) => itlySdk.load(options);

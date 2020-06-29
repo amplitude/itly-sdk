@@ -6,6 +6,8 @@ import {
   Plugin, PluginBase,
   ValidationOptions,
   ValidationResponse,
+  ItlyBrowser,
+  ItlyNode,
 } from './base';
 
 export {
@@ -16,10 +18,12 @@ export {
   Properties,
   ValidationOptions,
   ValidationResponse,
+  ItlyBrowser,
+  ItlyNode,
 };
 
 // eslint-disable-next-line import/no-mutable-exports
-let itly: any;
+let itly;
 
 const p = process as any;
 if (
@@ -29,9 +33,11 @@ if (
   // Jest JSDOM
   || (typeof navigator === 'object' && navigator.userAgent && navigator.userAgent.includes('jsdom'))
 ) {
-  itly = require('./browser').default;
+  const browser = require('./browser');
+  itly = browser.default as ItlyBrowser;
 } else {
-  itly = require('./node').default;
+  const node = require('./node');
+  itly = node.default as ItlyNode;
 }
 
 export default itly;

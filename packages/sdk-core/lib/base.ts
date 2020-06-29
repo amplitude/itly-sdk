@@ -76,7 +76,7 @@ export interface Plugin {
 }
 
 export class PluginBase implements Plugin {
-  id(): string { throw new Error('Plugin id() is required. Overide id() method returning a unique id.'); }
+  id(): string { throw new Error('Plugin id() is required. Override id() method returning a unique id.'); }
 
   load(options: Options): void {}
 
@@ -110,6 +110,44 @@ export class PluginBase implements Plugin {
   }
 
   validationError(validationResponse: ValidationResponse, event: Event): void {}
+}
+
+export interface ItlyBrowser {
+  load: (options: Options) => void;
+
+  alias: (userId: string, previousId?: string) => void;
+
+  identify: (userId: string | undefined, identifyProperties?: Properties) => void;
+
+  group: (groupId: string, groupProperties?: Properties) => void;
+
+  page: (category: string, name: string, pageProperties?: Properties) => void;
+
+  track: (event: Event) => void;
+
+  reset: () => void;
+
+  getPlugin: (id: string) => Plugin | undefined;
+}
+
+export interface ItlyNode {
+  load: (options: Options) => void;
+
+  alias: (userId: string, previousId?: string) => void;
+
+  identify: (userId: string | undefined, identifyProperties?: Properties) => void;
+
+  group: (userId: string | undefined, groupId: string, groupProperties?: Properties) => void;
+
+  page: (
+    userId: string | undefined, category: string, name: string, pageProperties?: Properties,
+  ) => void;
+
+  track: (userId: string | undefined, event: Event) => void;
+
+  reset: () => void;
+
+  getPlugin: (id: string) => Plugin | undefined;
 }
 
 const DEFAULT_OPTIONS: Options = {

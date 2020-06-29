@@ -2,15 +2,16 @@
  * Test for Browser version of SDK
  * @jest-environment jsdom
  */
-/* eslint-disable import/no-unresolved, global-require, import/extensions */
+/* eslint-disable import/no-unresolved, global-require, import/extensions, no-unused-vars */
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
 import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
+import { ItlyBrowser } from '../index';
 
 test('should load and track events to a custom destination (no validation)', () => {
   const spy = jest.spyOn(console, 'log');
   const userId = 'test-user-id';
 
-  const itly = requireForTestEnv(__dirname);
+  const itly = requireForTestEnv(__dirname) as ItlyBrowser;
 
   // new SchemaValidator(testSchemas)
   itly.load({
