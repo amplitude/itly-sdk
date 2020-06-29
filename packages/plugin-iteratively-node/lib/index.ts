@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import fetch from 'node-fetch';
 import {
-  Event, Properties, PluginBase, ValidationResponse,
+  Environment, Event, Properties, PluginBase, ValidationResponse,
 } from '@itly/sdk-node';
 
-export type DebuggerOptions = {
+export type IterativelyOptions = {
   url: string,
-  debugLevel?: 'full' | 'metadataOnly',
+  environment: Environment,
+  redactValues?: boolean,
   batchSize?: number,
   flushAt?: number,
   flushInterval?: number,
@@ -35,27 +36,35 @@ type TrackModel = {
 
 export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export default class DebuggerNodePlugin extends PluginBase {
-  static ID: string = 'debugger-node';
+export default class IterativelyNodePlugin extends PluginBase {
+  static ID: string = 'iteratively-node';
 
   private buffer: TrackModel[] = [];
 
-  private config: Required<DebuggerOptions> = {
+  private config: Required<IterativelyOptions> = {
     url: '',
-    debugLevel: 'full',
+    environment: 'development',
+    redactValues: false,
     batchSize: 100,
     flushAt: 10,
     flushInterval: 1000,
     disabled: false,
   };
 
-  constructor(private apiKey: string, debuggerOptions: DebuggerOptions) {
+  constructor(private apiKey: string, iterativelyOptions: IterativelyOptions) {
     super();
-    this.config = { ...this.config, ...debuggerOptions };
+
+    // adjusts config values in accordance with provided environment value
+    if (iterativelyOptions.environment === 'production') {
+      this.config.disabled = true;
+    }
+
+    // allows consumer to override any config value
+    this.config = { ...this.config, ...iterativelyOptions };
   }
 
   // overrides PluginBase.id
-  id = () => DebuggerNodePlugin.ID;
+  id = () => IterativelyNodePlugin.ID;
 
   load = () => {
     if (this.config.disabled) {
@@ -68,7 +77,7 @@ export default class DebuggerNodePlugin extends PluginBase {
   // overrides PluginBase.track
   track(userId: string | undefined, event: Event): void {
     this.push(
-      this.toTrackModel(TrackType.track, event, { ...event.properties, userId }),
+      this.toTrackModel(TrackType.track, event, event.properties),
     );
   }
 
@@ -92,23 +101,21 @@ export default class DebuggerNodePlugin extends PluginBase {
   // overrides PluginBase.group
   group(userId: string | undefined, groupId: string, properties?: Properties): void {
     this.push(
-      this.toTrackModel(TrackType.group, undefined, { ...properties, userId, groupId }),
+      this.toTrackModel(TrackType.group, undefined, properties),
     );
   }
 
   // overrides PluginBase.identify
   identify(userId?: string, properties?: Properties): void {
     this.push(
-      this.toTrackModel(TrackType.identify, undefined, { ...properties, userId }),
+      this.toTrackModel(TrackType.identify, undefined, properties),
     );
   }
 
   // overrides PluginBase.page
   page(userId?: string, category?: string, name?: string, properties?: Properties): void {
     this.push(
-      this.toTrackModel(TrackType.page, undefined, {
-        ...properties, userId, category, name,
-      }),
+      this.toTrackModel(TrackType.page, undefined, properties),
     );
   }
 
@@ -128,16 +135,16 @@ export default class DebuggerNodePlugin extends PluginBase {
     };
 
     if (properties) {
-      if (this.config.debugLevel === 'full') {
-        model.properties = properties;
-      } else {
+      if (this.config.redactValues) {
         model.properties = Object.keys(properties).reduce((o, key) => ({ ...o, [key]: null }), {});
+      } else {
+        model.properties = properties || {};
       }
     }
 
     if (validation) {
       model.valid = validation.valid;
-      if (this.config.debugLevel === 'full') {
+      if (!this.config.redactValues) {
         model.validation.details = validation.message || '';
       }
     }
@@ -148,16 +155,20 @@ export default class DebuggerNodePlugin extends PluginBase {
   private async flush() {
     while (this.buffer.length > 0) {
       const objects = this.buffer.splice(0, this.config.batchSize);
-      await fetch(this.config.url, {
-        method: 'post',
-        headers: {
-          authorization: `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          objects,
-        }),
-      });
+      try {
+        await fetch(this.config.url, {
+          method: 'post',
+          headers: {
+            authorization: `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            objects,
+          }),
+        });
+      } catch (e) {
+        // do nothing
+      }
     }
   }
 

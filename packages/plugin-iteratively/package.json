@@ -1,7 +1,7 @@
 {
-  "name": "@itly/plugin-debugger",
+  "name": "@itly/plugin-iteratively",
   "version": "0.9.2",
-  "description": "Debugger Plugin",
+  "description": "Iteratively Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
