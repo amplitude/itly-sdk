@@ -22,10 +22,16 @@ export {
 let itly: any;
 
 const p = process as any;
-if (typeof p === 'undefined' || p.type === 'renderer' || p.browser === true || p.__nwjs) {
-  itly = require('./browser');
+if (
+  typeof p === 'undefined'
+  // Electron renderer / nwjs process
+  || (p.type === 'renderer' || p.browser === true || p.__nwjs)
+  // Jest JSDOM
+  || (typeof navigator === 'object' && navigator.userAgent && navigator.userAgent.includes('jsdom'))
+) {
+  itly = require('./browser').default;
 } else {
-  itly = require('./node');
+  itly = require('./node').default;
 }
 
 export default itly;
