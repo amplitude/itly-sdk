@@ -22,6 +22,14 @@ export {
   ItlyNode,
 };
 
+const itlyBrowser = require('./browser').default as ItlyBrowser;
+const itlyNode = require('./node').default as ItlyNode;
+
+export {
+  itlyBrowser,
+  itlyNode,
+};
+
 // eslint-disable-next-line import/no-mutable-exports
 let itly;
 
@@ -33,11 +41,10 @@ if (
   // Jest JSDOM
   || (typeof navigator === 'object' && navigator.userAgent && navigator.userAgent.includes('jsdom'))
 ) {
-  const browser = require('./browser');
-  itly = browser.default as ItlyBrowser;
+  itly = itlyBrowser;
 } else {
-  const node = require('./node');
-  itly = node.default as ItlyNode;
+  // const node = require('./node');
+  itly = itlyNode;
 }
 
 export default itly;
