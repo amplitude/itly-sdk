@@ -6,7 +6,7 @@
     "setup": "yarn install && lerna bootstrap",
     "build": "lerna run build",
     "lint": "eslint --ext .ts ./",
-    "test": "jest --runInBand --silent",
+    "test": "jest --runInBand",
     "test:build": "yarn clean && lerna bootstrap && yarn lint && yarn test:dist",
     "test:dist": "cross-env TEST_ENV=dist yarn test",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",

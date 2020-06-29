@@ -98,7 +98,10 @@ describe('should load and track events to a custom destination (no validation)',
   beforeEach(() => {
     jest.resetModules();
 
-    itly = requireForTestEnv(__dirname);
+    // TODO: Get rid of default
+    itly = require('../index').default.default; // requireForTestEnv(__dirname);
+
+    // console.log('itly', itly);
 
     spyConsoleLog = jest.spyOn(console, 'log');
   });

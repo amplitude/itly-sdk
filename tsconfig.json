@@ -7,6 +7,9 @@
         "strict": true,
         "esModuleInterop": true
     },
+    "include": [
+        "**/*"
+    ],
     "exclude": [
         "**/node_modules/**",
         "**/coverage/**",
