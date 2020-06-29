@@ -1,7 +1,7 @@
 {
   "name": "@itly/plugin-iteratively",
   "version": "0.9.2",
-  "description": "Iteratively Plugin",
+  "description": "Iteratively Browser Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

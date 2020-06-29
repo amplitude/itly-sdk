@@ -35,7 +35,7 @@ type TrackModel = {
 
 export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export default class IterativelyPlugin extends PluginBase {
+export default class IterativelyBrowserPlugin extends PluginBase {
   static ID: string = 'iteratively';
 
   private buffer: TrackModel[] = [];
@@ -63,7 +63,7 @@ export default class IterativelyPlugin extends PluginBase {
   }
 
   // overrides PluginBase.id
-  id = () => IterativelyPlugin.ID;
+  id = () => IterativelyBrowserPlugin.ID;
 
   load = () => {
     if (this.config.disabled) {
@@ -137,7 +137,7 @@ export default class IterativelyPlugin extends PluginBase {
       if (this.config.redactValues) {
         model.properties = Object.keys(properties).reduce((o, key) => ({ ...o, [key]: null }), {});
       } else {
-        model.properties = properties || {};
+        model.properties = properties;
       }
     }
 
