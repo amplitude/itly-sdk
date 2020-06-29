@@ -1,0 +1,462 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`load, track, validate - validationOptions={errorOnInvalid: true} 1`] = `
+Array [
+  Array [
+    "CustomPlugin: ",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validation={\\"disabled\\":false,\\"trackInvalid\\":false,\\"errorOnInvalid\\":true}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
+  ],
+  Array [
+    "SchemaValidator validationError() event='identify' message='Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/identify\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Identify\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"optionalArray\\":{\\"description\\":\\"Description for identify optionalArray\\",\\"type\\":\\"array\\",\\"uniqueItems\\":false,\\"items\\":{\\"type\\":\\"string\\"}},\\"requiredNumber\\":{\\"description\\":\\"Description for identify requiredNumber\\",\\"type\\":\\"number\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredNumber\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='identify' plugin=schema-validator message=Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.",
+  ],
+  Array [
+    "Caught validation error.",
+    "Validation Error: Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.",
+  ],
+  Array [
+    "SchemaValidator validationError() event='identify' message='Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/identify\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Identify\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"optionalArray\\":{\\"description\\":\\"Description for identify optionalArray\\",\\"type\\":\\"array\\",\\"uniqueItems\\":false,\\"items\\":{\\"type\\":\\"string\\"}},\\"requiredNumber\\":{\\"description\\":\\"Description for identify requiredNumber\\",\\"type\\":\\"number\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredNumber\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='identify' plugin=schema-validator message=Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).",
+  ],
+  Array [
+    "Caught validation error.",
+    "Validation Error: Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='undefined'",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='temp-user-id'",
+  ],
+  Array [
+    "SchemaValidator validationError() event='group' message='Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/group\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Group\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"requiredBoolean\\":{\\"description\\":\\"Description for group requiredBoolean\\",\\"type\\":\\"boolean\\"},\\"optionalString\\":{\\"description\\":\\"Description for group optionalString\\",\\"type\\":\\"string\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredBoolean\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='group' plugin=schema-validator message=Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.",
+  ],
+  Array [
+    "Caught validation error.",
+    "Validation Error: Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='page' message=''page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}' schema=",
+    undefined,
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='page' plugin=schema-validator message='page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
+  ],
+  Array [
+    "Caught validation error.",
+    "Validation Error: 'page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+  ],
+  Array [
+    "SchemaValidator validationError() event='EventMaxIntForTest' message='Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/aa0f08ac-8928-4569-a524-c1699e7da6f4/version/1.0.0\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"EventMaxIntForTest\\",\\"description\\":\\"Event to test schema validation\\",\\"type\\":\\"object\\",\\"properties\\":{\\"intMax10\\":{\\"description\\":\\"property to test schema validation\\",\\"type\\":\\"integer\\",\\"maximum\\":10}},\\"additionalProperties\\":false,\\"required\\":[\\"intMax10\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='EventMaxIntForTest' plugin=schema-validator message=Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
+  ],
+  Array [
+    "Caught validation error.",
+    "Validation Error: Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
+  ],
+]
+`;
+
+exports[`load, track, validate - validationOptions={trackInvalid: true} 1`] = `
+Array [
+  Array [
+    "CustomPlugin: ",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validation={\\"disabled\\":false,\\"trackInvalid\\":true,\\"errorOnInvalid\\":false}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
+  ],
+  Array [
+    "SchemaValidator validationError() event='identify' message='Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/identify\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Identify\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"optionalArray\\":{\\"description\\":\\"Description for identify optionalArray\\",\\"type\\":\\"array\\",\\"uniqueItems\\":false,\\"items\\":{\\"type\\":\\"string\\"}},\\"requiredNumber\\":{\\"description\\":\\"Description for identify requiredNumber\\",\\"type\\":\\"number\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredNumber\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='identify' plugin=schema-validator message=Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='identify' message='Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/identify\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Identify\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"optionalArray\\":{\\"description\\":\\"Description for identify optionalArray\\",\\"type\\":\\"array\\",\\"uniqueItems\\":false,\\"items\\":{\\"type\\":\\"string\\"}},\\"requiredNumber\\":{\\"description\\":\\"Description for identify requiredNumber\\",\\"type\\":\\"number\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredNumber\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='identify' plugin=schema-validator message=Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='undefined'",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='temp-user-id'",
+  ],
+  Array [
+    "SchemaValidator validationError() event='group' message='Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/group\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Group\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"requiredBoolean\\":{\\"description\\":\\"Description for group requiredBoolean\\",\\"type\\":\\"boolean\\"},\\"optionalString\\":{\\"description\\":\\"Description for group optionalString\\",\\"type\\":\\"string\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredBoolean\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='group' plugin=schema-validator message=Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "group() userId='undefined' groupId='test-group-id' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='page' message=''page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}' schema=",
+    undefined,
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='page' plugin=schema-validator message='page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "page() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+  ],
+  Array [
+    "SchemaValidator validationError() event='EventMaxIntForTest' message='Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/aa0f08ac-8928-4569-a524-c1699e7da6f4/version/1.0.0\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"EventMaxIntForTest\\",\\"description\\":\\"Event to test schema validation\\",\\"type\\":\\"object\\",\\"properties\\":{\\"intMax10\\":{\\"description\\":\\"property to test schema validation\\",\\"type\\":\\"integer\\",\\"maximum\\":10}},\\"additionalProperties\\":false,\\"required\\":[\\"intMax10\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='EventMaxIntForTest' plugin=schema-validator message=Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20}",
+  ],
+]
+`;
+
+exports[`load, track, validate - validationOptions=DEFAULT 1`] = `
+Array [
+  Array [
+    "CustomPlugin: ",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validation=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
+  ],
+  Array [
+    "SchemaValidator validationError() event='identify' message='Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/identify\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Identify\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"optionalArray\\":{\\"description\\":\\"Description for identify optionalArray\\",\\"type\\":\\"array\\",\\"uniqueItems\\":false,\\"items\\":{\\"type\\":\\"string\\"}},\\"requiredNumber\\":{\\"description\\":\\"Description for identify requiredNumber\\",\\"type\\":\\"number\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredNumber\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='identify' plugin=schema-validator message=Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.",
+  ],
+  Array [
+    "SchemaValidator validationError() event='identify' message='Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/identify\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Identify\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"optionalArray\\":{\\"description\\":\\"Description for identify optionalArray\\",\\"type\\":\\"array\\",\\"uniqueItems\\":false,\\"items\\":{\\"type\\":\\"string\\"}},\\"requiredNumber\\":{\\"description\\":\\"Description for identify requiredNumber\\",\\"type\\":\\"number\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredNumber\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='identify' plugin=schema-validator message=Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='undefined'",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='temp-user-id'",
+  ],
+  Array [
+    "SchemaValidator validationError() event='group' message='Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/group\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Group\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"requiredBoolean\\":{\\"description\\":\\"Description for group requiredBoolean\\",\\"type\\":\\"boolean\\"},\\"optionalString\\":{\\"description\\":\\"Description for group optionalString\\",\\"type\\":\\"string\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredBoolean\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='group' plugin=schema-validator message=Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='page' message=''page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}' schema=",
+    undefined,
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='page' plugin=schema-validator message='page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+  ],
+  Array [
+    "SchemaValidator validationError() event='EventMaxIntForTest' message='Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/aa0f08ac-8928-4569-a524-c1699e7da6f4/version/1.0.0\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"EventMaxIntForTest\\",\\"description\\":\\"Event to test schema validation\\",\\"type\\":\\"object\\",\\"properties\\":{\\"intMax10\\":{\\"description\\":\\"property to test schema validation\\",\\"type\\":\\"integer\\",\\"maximum\\":10}},\\"additionalProperties\\":false,\\"required\\":[\\"intMax10\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='EventMaxIntForTest' plugin=schema-validator message=Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
+  ],
+]
+`;
+
+exports[`load, track, validate w/ context='{}' 1`] = `
+Array [
+  Array [
+    "CustomPlugin: ",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context={} validation=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='context' message='Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/context\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Context\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"requiredString\\":{\\"description\\":\\"description for context requiredString\\",\\"type\\":\\"string\\"},\\"optionalEnum\\":{\\"description\\":\\"description for context optionalEnum\\",\\"enum\\":[\\"Value 1\\",\\"Value 2\\"]}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredString\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='context' plugin=schema-validator message=Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
+  ],
+  Array [
+    "SchemaValidator validationError() event='identify' message='Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/identify\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Identify\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"optionalArray\\":{\\"description\\":\\"Description for identify optionalArray\\",\\"type\\":\\"array\\",\\"uniqueItems\\":false,\\"items\\":{\\"type\\":\\"string\\"}},\\"requiredNumber\\":{\\"description\\":\\"Description for identify requiredNumber\\",\\"type\\":\\"number\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredNumber\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='identify' plugin=schema-validator message=Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.",
+  ],
+  Array [
+    "SchemaValidator validationError() event='identify' message='Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/identify\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Identify\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"optionalArray\\":{\\"description\\":\\"Description for identify optionalArray\\",\\"type\\":\\"array\\",\\"uniqueItems\\":false,\\"items\\":{\\"type\\":\\"string\\"}},\\"requiredNumber\\":{\\"description\\":\\"Description for identify requiredNumber\\",\\"type\\":\\"number\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredNumber\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='identify' plugin=schema-validator message=Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='undefined'",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='temp-user-id'",
+  ],
+  Array [
+    "SchemaValidator validationError() event='group' message='Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/group\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Group\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"requiredBoolean\\":{\\"description\\":\\"Description for group requiredBoolean\\",\\"type\\":\\"boolean\\"},\\"optionalString\\":{\\"description\\":\\"Description for group optionalString\\",\\"type\\":\\"string\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredBoolean\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='group' plugin=schema-validator message=Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='page' message=''page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}' schema=",
+    undefined,
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='page' plugin=schema-validator message='page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='Event No Properties' properties={}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+  ],
+  Array [
+    "SchemaValidator validationError() event='EventMaxIntForTest' message='Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/aa0f08ac-8928-4569-a524-c1699e7da6f4/version/1.0.0\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"EventMaxIntForTest\\",\\"description\\":\\"Event to test schema validation\\",\\"type\\":\\"object\\",\\"properties\\":{\\"intMax10\\":{\\"description\\":\\"property to test schema validation\\",\\"type\\":\\"integer\\",\\"maximum\\":10}},\\"additionalProperties\\":false,\\"required\\":[\\"intMax10\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='EventMaxIntForTest' plugin=schema-validator message=Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
+  ],
+]
+`;
+
+exports[`load, track, validate w/ context='undefined' 1`] = `
+Array [
+  Array [
+    "CustomPlugin: ",
+    "load() environment='production' disabled=undefined plugins=[schema-validator, custom] context=undefined validation=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='context' message='Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/context\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Context\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"requiredString\\":{\\"description\\":\\"description for context requiredString\\",\\"type\\":\\"string\\"},\\"optionalEnum\\":{\\"description\\":\\"description for context optionalEnum\\",\\"enum\\":[\\"Value 1\\",\\"Value 2\\"]}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredString\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='context' plugin=schema-validator message=Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
+  ],
+  Array [
+    "SchemaValidator validationError() event='identify' message='Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/identify\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Identify\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"optionalArray\\":{\\"description\\":\\"Description for identify optionalArray\\",\\"type\\":\\"array\\",\\"uniqueItems\\":false,\\"items\\":{\\"type\\":\\"string\\"}},\\"requiredNumber\\":{\\"description\\":\\"Description for identify requiredNumber\\",\\"type\\":\\"number\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredNumber\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='identify' plugin=schema-validator message=Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.",
+  ],
+  Array [
+    "SchemaValidator validationError() event='identify' message='Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/identify\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Identify\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"optionalArray\\":{\\"description\\":\\"Description for identify optionalArray\\",\\"type\\":\\"array\\",\\"uniqueItems\\":false,\\"items\\":{\\"type\\":\\"string\\"}},\\"requiredNumber\\":{\\"description\\":\\"Description for identify requiredNumber\\",\\"type\\":\\"number\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredNumber\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='identify' plugin=schema-validator message=Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='undefined'",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "alias() userId='test-user-id' previousId='temp-user-id'",
+  ],
+  Array [
+    "SchemaValidator validationError() event='group' message='Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/group\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"Group\\",\\"description\\":\\"\\",\\"type\\":\\"object\\",\\"properties\\":{\\"requiredBoolean\\":{\\"description\\":\\"Description for group requiredBoolean\\",\\"type\\":\\"boolean\\"},\\"optionalString\\":{\\"description\\":\\"Description for group optionalString\\",\\"type\\":\\"string\\"}},\\"additionalProperties\\":false,\\"required\\":[\\"requiredBoolean\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='group' plugin=schema-validator message=Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
+  ],
+  Array [
+    "SchemaValidator validationError() event='page' message=''page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}' schema=",
+    undefined,
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='page' plugin=schema-validator message='page' schema is empty but properties were found. properties={\\"pageProp\\":\\"a page property\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='Event No Properties' properties={}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+  ],
+  Array [
+    "SchemaValidator validationError() event='EventMaxIntForTest' message='Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.' schema=",
+    "{\\"$id\\":\\"https://iterative.ly/company/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/aa0f08ac-8928-4569-a524-c1699e7da6f4/version/1.0.0\\",\\"$schema\\":\\"http://json-schema.org/draft-07/schema#\\",\\"title\\":\\"EventMaxIntForTest\\",\\"description\\":\\"Event to test schema validation\\",\\"type\\":\\"object\\",\\"properties\\":{\\"intMax10\\":{\\"description\\":\\"property to test schema validation\\",\\"type\\":\\"integer\\",\\"maximum\\":10}},\\"additionalProperties\\":false,\\"required\\":[\\"intMax10\\"]}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validationError() event='EventMaxIntForTest' plugin=schema-validator message=Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
+  ],
+]
+`;

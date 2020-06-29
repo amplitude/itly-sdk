@@ -1,3 +1,7 @@
+/**
+ * Test for Node version of plugin-schema-validator
+ * @jest-environment node
+ */
 /* eslint-disable no-unused-vars, global-require, no-console */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
 import {
