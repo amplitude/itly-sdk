@@ -1,12 +1,11 @@
-/* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
+/* eslint-disable no-unused-vars, class-methods-use-this */
 import itly, {
   Options,
   Event, Properties,
   Plugin, PluginBase,
   ValidationOptions,
   ValidationResponse,
-// @ts-ignore
-} from '@itly/sdk-core/browser';
+} from '@itly/sdk-core/dist/browser';
 
 export {
   Options,

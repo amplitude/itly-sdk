@@ -5,8 +5,7 @@ import itly, {
   Plugin, PluginBase,
   ValidationOptions,
   ValidationResponse,
-// @ts-ignore
-} from '@itly/sdk-core/node';
+} from '@itly/sdk-core/dist/node';
 
 export {
   Environment,

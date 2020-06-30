@@ -4,6 +4,14 @@
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md",
+    "build-info.json",
+    "dist/",
+    "package.json"
+  ],
   "scripts": {
     "prepublish": "yarn run build",
     "build": "tsc",
