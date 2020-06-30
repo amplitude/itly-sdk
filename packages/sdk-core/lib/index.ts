@@ -2,8 +2,11 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/extensions, import/no-unresolved */
 import {
   Options,
-  Event, Properties,
-  Plugin, PluginBase,
+  Environment,
+  Event,
+  Properties,
+  Plugin,
+  PluginBase,
   ValidationOptions,
   ValidationResponse,
   ItlyBrowser,
@@ -12,6 +15,7 @@ import {
 
 export {
   Options,
+  Environment,
   Plugin,
   PluginBase,
   Event,
