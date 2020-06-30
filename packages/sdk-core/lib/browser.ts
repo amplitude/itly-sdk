@@ -1,38 +1,55 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/extensions, import/no-unresolved */
-import itlySdk, {
+import itly, {
   Options,
-  Event, Properties, ItlyBrowser,
+  Environment,
+  Event,
+  Properties,
+  Plugin,
+  PluginBase,
+  ValidationOptions,
+  ValidationResponse,
 } from './base';
 
+export {
+  Options,
+  Environment,
+  Plugin,
+  PluginBase,
+  Event,
+  Properties,
+  ValidationOptions,
+  ValidationResponse,
+};
+
 // Itly Browser SDK
-class Itly implements ItlyBrowser {
+export class ItlyBrowser {
   load = (
     options: Options,
-  ) => itlySdk.load(options);
+  ) => itly.load(options);
 
   alias = (
     userId: string, previousId?: string,
-  ) => itlySdk.alias(userId, previousId);
+  ) => itly.alias(userId, previousId);
 
   identify = (
     userId: string | undefined, identifyProperties?: Properties,
-  ) => itlySdk.identify(userId, identifyProperties);
+  ) => itly.identify(userId, identifyProperties);
 
   group = (
     groupId: string, groupProperties?: Properties,
-  ) => itlySdk.group(undefined, groupId, groupProperties);
+  ) => itly.group(undefined, groupId, groupProperties);
 
   page = (
     category: string, name: string, pageProperties?: Properties,
-  ) => itlySdk.page(undefined, category, name, pageProperties);
+  ) => itly.page(undefined, category, name, pageProperties);
 
   track = (
     event: Event,
-  ) => itlySdk.track(undefined, event);
+  ) => itly.track(undefined, event);
 
-  reset = () => itlySdk.reset();
+  reset = () => itly.reset();
 
-  getPlugin = (id: string) => itlySdk.getPlugin(id);
+  getPlugin = (id: string) => itly.getPlugin(id);
 }
 
-export default new Itly();
+export default new ItlyBrowser();

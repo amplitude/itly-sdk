@@ -5,13 +5,12 @@
 /* eslint-disable import/no-unresolved, global-require, import/extensions, no-unused-vars */
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
 import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
-import { ItlyBrowser } from '../index';
 
 test('should load and track events to a custom destination (no validation)', () => {
   const spy = jest.spyOn(console, 'log');
   const userId = 'test-user-id';
 
-  const itly = requireForTestEnv(__dirname) as ItlyBrowser;
+  const itly = requireForTestEnv(__dirname);
 
   // new SchemaValidator(testSchemas)
   itly.load({

@@ -1,8 +1,7 @@
-
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
   PluginBase, Event, Properties,
-} from '@itly/sdk-node';
+} from '@itly/sdk-core';
 import Segment from 'analytics-node';
 
 export type SegmentOptions = {

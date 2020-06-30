@@ -1,10 +1,10 @@
-/* eslint-disable no-unused-vars, class-methods-use-this */
+/* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Options,
   Event,
   Properties,
   PluginBase,
-} from '@itly/sdk-node';
+// @ts-ignore
+} from '@itly/sdk-core';
 import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };

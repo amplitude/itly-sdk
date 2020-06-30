@@ -1,5 +1,5 @@
-/* eslint-disable global-require, import/no-unresolved, no-underscore-dangle */
-/* eslint-disable no-unused-vars, class-methods-use-this, import/extensions, import/no-unresolved */
+/* eslint-disable global-require, import/extensions, import/no-unresolved */
+/* eslint-disable no-underscore-dangle */
 import {
   Options,
   Environment,
@@ -9,8 +9,6 @@ import {
   PluginBase,
   ValidationOptions,
   ValidationResponse,
-  ItlyBrowser,
-  ItlyNode,
 } from './base';
 
 export {
@@ -22,16 +20,6 @@ export {
   Properties,
   ValidationOptions,
   ValidationResponse,
-  ItlyBrowser,
-  ItlyNode,
-};
-
-const itlyBrowser = require('./browser').default as ItlyBrowser;
-const itlyNode = require('./node').default as ItlyNode;
-
-export {
-  itlyBrowser,
-  itlyNode,
 };
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -45,10 +33,9 @@ if (
   // Jest JSDOM
   || (typeof navigator === 'object' && navigator.userAgent && navigator.userAgent.includes('jsdom'))
 ) {
-  itly = itlyBrowser;
+  itly = require('./browser').default;
 } else {
-  // const node = require('./node');
-  itly = itlyNode;
+  itly = require('./node').default;
 }
 
 export default itly;

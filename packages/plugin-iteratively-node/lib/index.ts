@@ -2,7 +2,7 @@
 import fetch from 'node-fetch';
 import {
   Environment, Event, Properties, PluginBase, ValidationResponse,
-} from '@itly/sdk-node';
+} from '@itly/sdk-core';
 
 export type IterativelyOptions = {
   url: string,

@@ -11,7 +11,7 @@ let itly: any;
 beforeEach(() => {
   jest.resetModules();
 
-  itly = require('@itly/sdk-node').default;
+  itly = require('@itly/sdk-core').default;
 });
 
 afterEach(() => {
