@@ -6,7 +6,7 @@ export interface Options {
   /**
    * The current environment (development or production). Default is development.
    */
-  environment?: 'development' | 'production';
+  environment?: Environment;
   /**
    * Whether calls to the Itly SDK should be no-ops. Default is false.
    */
@@ -25,6 +25,8 @@ export interface Options {
    */
   validation?: ValidationOptions;
 }
+
+export type Environment = 'development' | 'production';
 
 export type Properties = {
   [name: string]: any;

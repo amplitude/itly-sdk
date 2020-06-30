@@ -2,16 +2,21 @@
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
 import { requireForTestEnv } from '../../../../__tests__/util';
 
-const DebuggerNodePlugin = requireForTestEnv(__dirname);
+const IterativelyPlugin = requireForTestEnv(__dirname);
 
-const debuggerApiKey = 'test-debugger-api-key';
+const iterativelyApiKey = 'test-iteratively-api-key';
 
 let itly: any;
 
 beforeEach(() => {
   jest.resetModules();
 
-  itly = require('@itly/sdk-node').default;
+  itly = require('@itly/sdk-core').default;
+
+  // NOTE: Create a script to prevent - 'TypeError: Cannot read property 'parentNode' of undefined'
+  // https://github.com/walmartlabs/little-loader/issues/53
+  const script = document.createElement('script');
+  document.body.appendChild(script);
 });
 
 afterEach(() => {
@@ -19,8 +24,8 @@ afterEach(() => {
 });
 
 test('should not crash on load', () => {
-  const debuggerPlugin = new DebuggerNodePlugin(
-    debuggerApiKey,
+  const iterativelyPlugin = new IterativelyPlugin(
+    iterativelyApiKey,
     {
       disabled: true,
       url: 'https://localhost:4000',
@@ -30,7 +35,7 @@ test('should not crash on load', () => {
   expect(() => {
     itly.load({
       environment: 'production',
-      plugins: [debuggerPlugin],
+      plugins: [iterativelyPlugin],
     });
   }).not.toThrow();
 });

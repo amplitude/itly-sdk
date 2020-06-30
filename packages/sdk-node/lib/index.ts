@@ -1,5 +1,5 @@
 import itlySdk, {
-  Options,
+  Environment, Options,
   Event, Properties,
   Plugin, PluginBase,
   ValidationOptions,
@@ -7,6 +7,7 @@ import itlySdk, {
 } from '@itly/sdk-core';
 
 export {
+  Environment,
   Options,
   Plugin,
   PluginBase,
