@@ -9,12 +9,13 @@
     "CHANGELOG.md",
     "README.md",
     "build-info.json",
-    "dist/",
+    "*.js",
+    "*.ts",
     "package.json"
   ],
   "scripts": {
     "prepublish": "yarn run build",
-    "prepublishOnly": "yarn run build && node ./prepublish-setup && cp -r ./dist/* . && rm -rf ./dist",
+    "prepublishOnly": "yarn run build && node ./build/prepublish-setup && cp -r ./dist/* . && rm -rf ./dist",
     "postpublish": "git clean -fd",
     "build": "tsc",
     "clean": "rimraf dist/*",

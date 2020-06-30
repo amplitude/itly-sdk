@@ -1,14 +1,22 @@
-import * as fs from 'fs';
+const fs = require('fs');
+
+const DIST_PATH = 'dist/'
+const MODULE_PATH = `${__dirname}/..`;
 
 function prepublishSetup() {
-  const source = fs.readFileSync(`${__dirname}/package.json`).toString('utf-8');
-  const sourceObj = JSON.parse(source);
-  sourceObj.scripts = {};
-  sourceObj.devDependencies = {};
-  if (sourceObj.main.startsWith('dist/')) {
-    sourceObj.main = sourceObj.main.slice(5);
-  }
-  fs.writeFileSync(`${__dirname}/package.json`, Buffer.from(JSON.stringify(sourceObj, null, 2), 'utf-8'));
+  const source = fs.readFileSync(`${MODULE_PATH}/package.json`).toString('utf-8');
+  const packageJson = JSON.parse(source);
+
+  packageJson.scripts = {};
+  packageJson.devDependencies = {};
+
+  ['main', 'types'].forEach((field) => {
+    if (packageJson[field]) {
+      packageJson[field] = packageJson[field].replace(DIST_PATH, '');
+    }
+  });
+
+  fs.writeFileSync(`${MODULE_PATH}/package.json`, Buffer.from(JSON.stringify(packageJson, null, 2), 'utf-8'));
   // fs.writeFileSync(`${__dirname}/version.txt`, Buffer.from(sourceObj.version, 'utf-8'));
   // fs.copyFileSync(`${__dirname}/../.npmignore`, `${__dirname}/.npmignore`);
 }
