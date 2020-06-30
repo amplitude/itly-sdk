@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.9.2...v1.0.0) (2020-06-30)
+
+
+### Bug Fixes
+
+* don't add validator name/ID into validation.details property ([1b5b22c](https://github.com/iterativelyhq/itly-sdk/commit/1b5b22c44fd0e5df3dab50a4a83e675224767975))
+* fixed config.disabled in plugin-debugger-node ([d957e28](https://github.com/iterativelyhq/itly-sdk/commit/d957e286f1ec4da0247a3dd9184d8354889f3ad1))
+* renamed debugger plugin to iteratively plugin ([265f4ea](https://github.com/iterativelyhq/itly-sdk/commit/265f4eabaa1003df6ee0c2c39c38aeb7bca1205a))
+* renamed redactValues -> omitValues in IterativelyOptions ([1583335](https://github.com/iterativelyhq/itly-sdk/commit/15833356fe706512e9a171df085354928ba75eaa))
+* unified iteratively plugin ids for node & browser ([b0e199a](https://github.com/iterativelyhq/itly-sdk/commit/b0e199aa2a0d0ee49696dd644a4dca7252805c33))
+* updated debugger TrackModel.dateSent, it's string now ([93555cf](https://github.com/iterativelyhq/itly-sdk/commit/93555cf0b448ee84ebe706fb1867f79ecd26641b))
+* updated DebuggerPlugin.validationError() to send correct TrackType ([85ddacd](https://github.com/iterativelyhq/itly-sdk/commit/85ddacd554e5bc04e55a1409e90e4341208142c7))
+* updated hygen plugin templates ([0301288](https://github.com/iterativelyhq/itly-sdk/commit/0301288fcfb612573a931f812aff17d8edf5bc4b))
+
+
+
+
+
 ## [0.9.2](https://github.com/iterativelyhq/itly-sdk/compare/v0.9.1...v0.9.2) (2020-06-17)
 
 
