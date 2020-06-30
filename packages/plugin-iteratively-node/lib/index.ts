@@ -7,7 +7,7 @@ import {
 export type IterativelyOptions = {
   url: string,
   environment: Environment,
-  redactValues?: boolean,
+  omitValues?: boolean,
   batchSize?: number,
   flushAt?: number,
   flushInterval?: number,
@@ -44,7 +44,7 @@ export default class IterativelyNodePlugin extends PluginBase {
   private config: Required<IterativelyOptions> = {
     url: '',
     environment: 'development',
-    redactValues: false,
+    omitValues: false,
     batchSize: 100,
     flushAt: 10,
     flushInterval: 1000,
@@ -135,7 +135,7 @@ export default class IterativelyNodePlugin extends PluginBase {
     };
 
     if (properties) {
-      if (this.config.redactValues) {
+      if (this.config.omitValues) {
         model.properties = Object.keys(properties).reduce((o, key) => ({ ...o, [key]: null }), {});
       } else {
         model.properties = properties;
@@ -144,7 +144,7 @@ export default class IterativelyNodePlugin extends PluginBase {
 
     if (validation) {
       model.valid = validation.valid;
-      if (!this.config.redactValues) {
+      if (!this.config.omitValues) {
         model.validation.details = validation.message || '';
       }
     }
