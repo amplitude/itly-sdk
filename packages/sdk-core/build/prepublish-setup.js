@@ -7,7 +7,10 @@ function prepublishSetup() {
   const source = fs.readFileSync(`${MODULE_PATH}/package.json`).toString('utf-8');
   const packageJson = JSON.parse(source);
 
-  packageJson.scripts = {};
+  packageJson.scripts = {
+    // Need to keep postpublish so it can run after publishing
+    postpublish: packageJson.scripts.postpublish,
+  };
   packageJson.devDependencies = {};
 
   ['main', 'types'].forEach((field) => {
