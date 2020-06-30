@@ -43,7 +43,7 @@ const methodArgLoggerMock = (methodName: string, ...args: any[]) => {
 
 test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
   async (name: string, { options }: TestParams) => {
-    const { default: itly } = require('@itly/sdk-core');
+    const { default: itly } = require('@itly/sdk');
 
     const instanceMocks: { [key: string]: any } = {};
     ['init', 'identify', 'track', 'setUserId', 'regenerateDeviceId', 'logEvent'].forEach((mockMethod) => {

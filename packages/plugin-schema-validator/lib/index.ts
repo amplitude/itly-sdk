@@ -5,7 +5,7 @@ import {
   Event,
   PluginBase,
   ValidationResponse,
-} from '@itly/sdk-core';
+} from '@itly/sdk';
 
 export type ValidationResponseHandler = (
   validation: ValidationResponse,

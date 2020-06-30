@@ -281,7 +281,7 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@itly/sdk-core@^0.7.1":
+"@itly/sdk@^0.7.1":
   version "0.7.1"
   resolved "https://npm.fury.io/itly/~/up/ver_23gBmy/%40itly%2Fsdk-core-0.7.1.tgz#d2ccd4b24dd0793a545389641df987fbffaa09a4"
   integrity sha1-0szUsk3QeTpUU4lkHfmH+/+qCaQ=

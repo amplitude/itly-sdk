@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
   PluginBase, Event, Properties,
-} from '@itly/sdk-core';
+} from '@itly/sdk';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
 export interface MixpanelOptions extends InitConfig {}

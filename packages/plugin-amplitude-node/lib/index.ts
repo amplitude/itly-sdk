@@ -4,7 +4,7 @@ import {
   Properties,
   PluginBase,
 // @ts-ignore
-} from '@itly/sdk-core';
+} from '@itly/sdk';
 import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };

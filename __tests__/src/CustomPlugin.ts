@@ -5,7 +5,7 @@ import {
   Properties,
   PluginBase,
   ValidationResponse,
-} from '../../packages/sdk-core/lib';
+} from '../../packages/sdk/lib';
 
 export default class CustomPlugin extends PluginBase {
   LOG_TAG = 'CustomPlugin';

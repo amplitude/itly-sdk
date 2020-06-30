@@ -66,7 +66,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.8.1](https://github.com/iterativelyhq/itly-sdk/compare/v0.8.0...v0.8.1) (2020-06-13)
 
-**Note:** Version bump only for package @itly/sdk-core
+**Note:** Version bump only for package @itly/sdk
 
 
 
@@ -127,7 +127,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [0.6.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.5.0...v0.6.0) (2020-06-09)
 
-**Note:** Version bump only for package @itly/sdk-core
+**Note:** Version bump only for package @itly/sdk
 
 
 
@@ -151,7 +151,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [0.4.0](https://github.com/iterativelyhq/itly-sdk/compare/v0.3.0...v0.4.0) (2020-06-06)
 
-**Note:** Version bump only for package @itly/sdk-core
+**Note:** Version bump only for package @itly/sdk
 
 
 

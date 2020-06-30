@@ -3,7 +3,7 @@
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
   Event, Properties, PluginBase,
-} from '@itly/sdk-core';
+} from '@itly/sdk';
 
 export type AmplitudeOptions = {};
 

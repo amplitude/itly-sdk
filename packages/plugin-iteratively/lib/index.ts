@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import {
   Environment, Event, Properties, PluginBase, ValidationResponse,
-} from '@itly/sdk-core';
+} from '@itly/sdk';
 
 export type IterativelyOptions = {
   url: string,
