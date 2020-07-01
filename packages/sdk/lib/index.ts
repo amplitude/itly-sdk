@@ -38,4 +38,5 @@ if (
   itly = require('./node').default;
 }
 
+export { itly };
 export default itly;

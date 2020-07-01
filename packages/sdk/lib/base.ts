@@ -314,4 +314,6 @@ class Itly {
   }
 }
 
-export default new Itly();
+const itly = new Itly();
+export { itly };
+export default itly;

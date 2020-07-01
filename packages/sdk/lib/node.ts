@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/extensions, import/no-unresolved */
-import itly, {
+import {
+  itly as itlyBase,
   Options,
   Environment,
   Event,
@@ -25,32 +26,34 @@ export {
 export class ItlyNode {
   load = (
     options: Options,
-  ) => itly.load(options);
+  ) => itlyBase.load(options);
 
   alias = (
     userId: string, previousId?: string,
-  ) => itly.alias(userId, previousId);
+  ) => itlyBase.alias(userId, previousId);
 
   identify = (
     userId: string | undefined, identifyProperties?: Properties,
-  ) => itly.identify(userId, identifyProperties);
+  ) => itlyBase.identify(userId, identifyProperties);
 
   group = (
     userId:string | undefined, groupId: string, groupProperties?: Properties,
-  ) => itly.group(userId, groupId, groupProperties);
+  ) => itlyBase.group(userId, groupId, groupProperties);
 
   page = (
     userId: string | undefined, category: string, name: string, pageProperties?: Properties,
-  ) => itly.page(userId, category, name, pageProperties);
+  ) => itlyBase.page(userId, category, name, pageProperties);
 
   track = (
     userId: string | undefined,
     event: Event,
-  ) => itly.track(userId, event);
+  ) => itlyBase.track(userId, event);
 
-  reset = () => itly.reset();
+  reset = () => itlyBase.reset();
 
-  getPlugin = (id: string) => itly.getPlugin(id);
+  getPlugin = (id: string) => itlyBase.getPlugin(id);
 }
 
-export default new ItlyNode();
+const itly = new ItlyNode();
+export { itly };
+export default itly;
