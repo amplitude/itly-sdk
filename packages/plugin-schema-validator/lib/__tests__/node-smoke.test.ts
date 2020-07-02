@@ -110,7 +110,7 @@ afterEach(() => {
 
 test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
   async (name: string, { options }: TestParams) => {
-    const { default: itly } = require('@itly/sdk');
+    const { itly } = require('@itly/sdk');
 
     itly.load(options);
 
