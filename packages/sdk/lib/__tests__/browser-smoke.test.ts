@@ -1,4 +1,8 @@
-/* eslint-disable import/no-unresolved, global-require, import/extensions */
+/**
+ * Test for Browser version of SDK
+ * @jest-environment jsdom
+ */
+/* eslint-disable import/no-unresolved, global-require, import/extensions, no-unused-vars */
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
 import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
 

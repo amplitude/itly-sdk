@@ -1,12 +1,11 @@
-
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
   Options, Event, Properties, PluginBase,
-} from '@itly/sdk-core';
+} from '@itly/sdk';
 
 export type SnowplowOptions = {
   url: string;
-  config: {};
+  config?: {};
 };
 
 export default class SnowplowBrowserPlugin extends PluginBase {
@@ -46,8 +45,9 @@ export default class SnowplowBrowserPlugin extends PluginBase {
   }
 
   track(userId: string | undefined, event: Event) {
+    const schemaVer = event.version && event.version.replace(/\./g, '-');
     this.snowplow('trackSelfDescribingEvent', {
-      schema: `iglu:${this.vendor}/${event.id}/jsonschema/${event.version}`,
+      schema: `iglu:${this.vendor}/${event.id}/jsonschema/${schemaVer}`,
       data: event.properties,
     });
   }

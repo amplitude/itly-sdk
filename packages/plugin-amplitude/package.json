@@ -18,14 +18,14 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk-core": "1.0.0",
+    "@itly/sdk": "^1.0.0",
     "@types/jest": "^26.0.0",
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.3"
   },
   "peerDependencies": {
-    "@itly/sdk-core": "^0.7.1"
+    "@itly/sdk": "^1.0.0"
   },
   "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }

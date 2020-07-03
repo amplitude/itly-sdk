@@ -47,6 +47,9 @@ typings/
 # TypeScript cache
 *.tsbuildinfo
 
+# NPM configuration
+.npmrc
+
 # Optional npm cache directory
 .npm
 

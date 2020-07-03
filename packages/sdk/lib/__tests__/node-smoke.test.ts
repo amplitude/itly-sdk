@@ -1,3 +1,7 @@
+/**
+ * Test NODE version of SDK
+ * @jest-environment node
+ */
 /* eslint-disable import/no-unresolved, import/extensions, global-require */
 /* eslint-disable no-unused-vars, no-console, class-methods-use-this */
 import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
@@ -99,6 +103,8 @@ describe('should load and track events to a custom destination (no validation)',
     jest.resetModules();
 
     itly = requireForTestEnv(__dirname);
+
+    // console.log('itly', itly);
 
     spyConsoleLog = jest.spyOn(console, 'log');
   });

@@ -9,8 +9,11 @@ module.exports = {
   },
   testRegex: '(/__tests__/.*.(test|spec)).(jsx?|tsx?)$',
   testPathIgnorePatterns: [
-    '/node_modules',
+    'node_modules',
     '/dist',
+    '__tests__/src/',
+    '__tests__/data/',
+    '__tests__/util/',
   ],
   // testEnvironment: 'node',
   // setupFilesAfterEnv: ['./jest.setup.js'],

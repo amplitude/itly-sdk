@@ -1,8 +1,12 @@
+/**
+ * Test for Node version of plugin-schema-validator
+ * @jest-environment node
+ */
 /* eslint-disable no-unused-vars, global-require, no-console */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
 import {
   Options, Plugin, Event, ValidationResponse,
-} from '@itly/sdk-core';
+} from '@itly/sdk';
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
 import {
   TestParams,
@@ -106,7 +110,7 @@ afterEach(() => {
 
 test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
   async (name: string, { options }: TestParams) => {
-    const { default: itly } = require('@itly/sdk-core');
+    const { itly } = require('@itly/sdk');
 
     itly.load(options);
 

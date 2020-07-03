@@ -1,14 +1,19 @@
-/* eslint-disable no-unused-vars, class-methods-use-this */
-import itlySdk, {
+/* eslint-disable global-require, import/extensions, import/no-unresolved */
+/* eslint-disable no-underscore-dangle */
+import {
   Options,
-  Event, Properties,
-  Plugin, PluginBase,
+  Environment,
+  Event,
+  Properties,
+  Plugin,
+  PluginBase,
   ValidationOptions,
   ValidationResponse,
-} from '@itly/sdk-core';
+} from './base';
 
 export {
   Options,
+  Environment,
   Plugin,
   PluginBase,
   Event,
@@ -17,35 +22,21 @@ export {
   ValidationResponse,
 };
 
-// Itly Browser SDK
-class Itly {
-  load = (
-    options: Options,
-  ) => itlySdk.load(options);
+// eslint-disable-next-line import/no-mutable-exports
+let itly;
 
-  alias = (
-    userId: string, previousId?: string,
-  ) => itlySdk.alias(userId, previousId);
-
-  identify = (
-    userId: string | undefined, identifyProperties?: Properties,
-  ) => itlySdk.identify(userId, identifyProperties);
-
-  group = (
-    groupId: string, groupProperties?: Properties,
-  ) => itlySdk.group(undefined, groupId, groupProperties);
-
-  page = (
-    category: string, name: string, pageProperties?: Properties,
-  ) => itlySdk.page(undefined, category, name, pageProperties);
-
-  track = (
-    event: Event,
-  ) => itlySdk.track(undefined, event);
-
-  reset = () => itlySdk.reset();
-
-  getPlugin = (id: string) => itlySdk.getPlugin(id);
+const p = process as any;
+if (
+  typeof p === 'undefined'
+  // Electron renderer / nwjs process
+  || (p.type === 'renderer' || p.browser === true || p.__nwjs)
+  // Jest JSDOM
+  || (typeof navigator === 'object' && navigator.userAgent && navigator.userAgent.includes('jsdom'))
+) {
+  itly = require('./browser').default;
+} else {
+  itly = require('./node').default;
 }
 
-export default new Itly();
+export { itly };
+export default itly;

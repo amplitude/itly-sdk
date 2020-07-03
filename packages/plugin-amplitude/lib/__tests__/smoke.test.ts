@@ -43,7 +43,7 @@ const methodArgLoggerMock = (methodName: string, ...args: any[]) => {
 
 test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
   async (name: string, { options }: TestParams) => {
-    const { default: itly } = require('@itly/sdk-core');
+    const { itly } = require('@itly/sdk');
 
     const instanceMocks: { [key: string]: any } = {};
     ['init', 'identify', 'track', 'setUserId', 'regenerateDeviceId', 'logEvent'].forEach((mockMethod) => {
@@ -88,13 +88,13 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
       userProp: 'A user property value',
     });
     itly.alias(userId, 'temp-user-id');
-    itly.group(userId, groupId);
+    itly.group(groupId);
 
-    itly.track(userId, {
+    itly.track({
       name: 'Event No Properties',
     });
 
-    itly.track(userId, {
+    itly.track({
       name: 'Event With All Properties',
       properties: {
         requiredString: 'A required string',
@@ -109,7 +109,7 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     });
 
     try {
-      itly.track(userId, {
+      itly.track({
         name: 'EventMaxIntForTest',
         properties: {
           intMax10: 20,

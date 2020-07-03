@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  Options,
   Event,
   Properties,
   PluginBase,
-} from '@itly/sdk-node';
+} from '@itly/sdk';
 import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };

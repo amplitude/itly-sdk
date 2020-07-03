@@ -11,7 +11,7 @@ let itly: any;
 beforeEach(() => {
   jest.resetModules();
 
-  itly = require('@itly/sdk-core').default;
+  itly = require('@itly/sdk').default;
 
   // NOTE: Create a script to prevent - 'TypeError: Cannot read property 'parentNode' of undefined'
   // https://github.com/walmartlabs/little-loader/issues/53

@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable max-classes-per-file */
+/* eslint-disable no-unused-vars, class-methods-use-this, max-classes-per-file */
 
 export interface Options {
   /**
@@ -78,7 +76,7 @@ export interface Plugin {
 }
 
 export class PluginBase implements Plugin {
-  id(): string { throw new Error('Plugin id() is required. Overide id() method returning a unique id.'); }
+  id(): string { throw new Error('Plugin id() is required. Override id() method returning a unique id.'); }
 
   load(options: Options): void {}
 
@@ -316,4 +314,6 @@ class Itly {
   }
 }
 
-export default new Itly();
+const itly = new Itly();
+export { itly };
+export default itly;

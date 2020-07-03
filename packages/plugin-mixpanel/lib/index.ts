@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
   Options, Event, Properties, PluginBase,
-} from '@itly/sdk-core';
+} from '@itly/sdk';
 
 export type MixpanelOptions = {};
 

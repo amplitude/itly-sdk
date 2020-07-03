@@ -7,6 +7,9 @@ The SDK also supports event validation. For JSON schema validation see `@itly/pl
 
 # Overview
 * [Modules](#modules)
+  * [Core](#isomorphic-browser-and-node)
+  * [Browser](#browser-plugins)
+  * [Node](#node-plugins)
 * [Setup](#setup)
   * [Browser](#browser)
   * [Node](#node)
@@ -23,24 +26,25 @@ The SDK also supports event validation. For JSON schema validation see `@itly/pl
   * [Commits](#commits)
 
 # Modules
-All modules are JS/TS compatiable but divided by platform (browser vs server).
+All modules are JS/TS compatible but some plugins are divided by platform (browser vs server).
 
-* Browser
+#### Isomorphic (Browser and Node)
   * `@itly/sdk`
+  * `@itly/plugin-schema-validator`
+#### Browser Plugins 
   * `@itly/plugin-amplitude` 
   * `@itly/plugin-mixpanel`
   * `@itly/plugin-segment`
   * `@itly/plugin-snowplow`
-* Node
-  * `@itly/sdk-node`
+  * `@itly/plugin-iteratively`
+#### Node Plugins
   * `@itly/plugin-amplitude-node` 
   * `@itly/plugin-mixpanel-node`
   * `@itly/plugin-segment-node`
-* Core
-  * `@itly/sdk-core`
-  * `@itly/plugin-schema-validator`
+  * `@itly/plugin-iteratively-node` 
 
-# Setup
+# Usage
+## Setup
 1. Update your `.npmrc` to use our Gemfury registry for `@itly` modules:
     ```
     @itly:registry=https://npm.fury.io/itly/
@@ -51,8 +55,8 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
     $ echo "@itly:registry=https://npm.fury.io/itly/\n//npm.fury.io/itly/:_authToken=2irLyg-8E37HWhKmt5giYVH2ziVuC2pCQ" >> .npmrc
     ```
 
-# Browser
-1. Add `@itly/sdk` (Itly *Browser* SDK) and plugins to your project:
+## Browser
+1. Add `@itly/sdk` and browser plugins to your project:
     ```
     $ yarn add @itly/sdk
     $ yarn add @itly/plugin-amplitude @itly/plugin-mixpanel @itly/plugin-segment
@@ -89,15 +93,15 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
       },
     });
     ```
-# Node
-2. Add `@itly/sdk-node` (Itly *Node* SDK) and plugins to your project:
+## Node
+2. Add `@itly/sdk` and Node specific plugins to your project:
     ```
-    $ yarn add @itly/sdk-node
+    $ yarn add @itly/sdk
     $ yarn add @itly/plugin-amplitude-node @itly/plugin-mixpanel-node @itly/plugin-segment-node
     ```
 3. Import `itly` and plugins, `load()` configuration, and start `track()`ing.
     ```
-    import itly from '@itly/sdk-node';
+    import itly from '@itly/sdk';
     import AmplitudePlugin from '@itly/plugin-amplitude-node';
     import MixpanelPlugin from '@itly/plugin-mixpanel-node';
     import SegmentPlugin from '@itly/plugin-segment-node';
@@ -131,7 +135,7 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
     ```
 
 # Event Validation
-1. Add `@itly/plugin-schema-validator` to your project. This plugin works for both `@itly/sdk` and `@itly/sdk-node`.
+1. Add `@itly/plugin-schema-validator` to your project.
     ```
     $ yarn add @itly/plugin-schema-validator
     ```
@@ -172,11 +176,11 @@ All modules are JS/TS compatiable but divided by platform (browser vs server).
     ```
 
 # Create an Itly Plugin
-1. Extend the `PluginBase` class and overide some or all of the lifecycle hooks. Alternatively you can implement the full `Plugin` interface.
+1. Extend the `PluginBase` class and override some or all of the lifecycle hooks. Alternatively you can implement the full `Plugin` interface.
     ```
     import itly, {
       Event, Options, Properties, PluginBase, Properties, ValidationResponse,
-    } from '@itly/sdk-node';
+    } from '@itly/sdk';
 
     class CustomPlugin extends PluginBase {
       id = () => 'custom';
