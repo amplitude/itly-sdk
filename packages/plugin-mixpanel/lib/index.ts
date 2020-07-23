@@ -50,7 +50,7 @@ export default class MixpanelBrowserPlugin extends PluginBase {
   track(userId: string | undefined, event: Event) {
     this.mixpanel.track(
       event.name,
-      event.properties,
+      { ...event.properties },
     );
   }
 
