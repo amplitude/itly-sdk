@@ -36,10 +36,14 @@ type TrackModel = {
 
 export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+export const CLEAN_UP_PROCESS_EVENT: string = 'cleanup';
+
 export default class IterativelyNodePlugin extends PluginBase {
   static ID: string = 'iteratively';
 
   private buffer: TrackModel[] = [];
+
+  private cancellationToken = false;
 
   private config: Required<IterativelyOptions> = {
     url: '',
@@ -184,7 +188,11 @@ export default class IterativelyNodePlugin extends PluginBase {
   }
 
   private async startCheck() {
-    while (true) {
+    this.addCleanupCallback(async () => {
+      await this.shutdown();
+    });
+
+    while (!this.cancellationToken) {
       await this.check();
     }
   }
@@ -194,5 +202,31 @@ export default class IterativelyNodePlugin extends PluginBase {
       this.flush();
     }
     await wait(this.config.flushInterval);
+  }
+
+  public async shutdown() {
+    if (this.cancellationToken) {
+      console.log('plugin-iteratively-node is already shutdown.');
+    } else {
+      this.cancellationToken = true;
+      // empty the queue
+      await this.flush();
+    }
+  }
+
+  private addCleanupCallback(callback = () => {}) {
+    // attach user callback to the process event emitter
+    // if no callback, it will still exit gracefully on Ctrl-C
+    process.on(CLEAN_UP_PROCESS_EVENT, callback);
+
+    // do app specific cleaning before exiting
+    // @ts-ignore
+    process.on('exit', () => process.emit(CLEAN_UP_PROCESS_EVENT));
+
+    // catch ctrl+c event and exit normally
+    process.on('SIGINT', () => process.exit(2));
+
+    // catch uncaught exceptions, trace, then exit normally
+    process.on('uncaughtException', (e) => process.exit(99));
   }
 }
