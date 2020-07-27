@@ -10,9 +10,11 @@ The SDK also supports event validation. For JSON schema validation see `@itly/pl
   * [Core](#isomorphic-browser-and-node)
   * [Browser](#browser-plugins)
   * [Node](#node-plugins)
-* [Setup](#setup)
+* [Usage](#setup)
   * [Browser](#browser)
   * [Node](#node)
+  * [Differences between Browser and Node](#differences-between-browser-and-node)
+  * [SDK Types for TypeScript](#sdk-types-for-typescript)
   * [Event Validation](#event-validation)
 * [Create a Plugin](#create-an-itly-plugin)
 * [Contributing](#contributing)
@@ -44,17 +46,6 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
   * `@itly/plugin-iteratively-node` 
 
 # Usage
-## Setup
-1. Update your `.npmrc` to use our Gemfury registry for `@itly` modules:
-    ```
-    @itly:registry=https://npm.fury.io/itly/
-    //npm.fury.io/itly/:_authToken=2irLyg-8E37HWhKmt5giYVH2ziVuC2pCQ
-    ```
-    Bash one liner to update `.npmrc`:
-    ```
-    $ echo "@itly:registry=https://npm.fury.io/itly/\n//npm.fury.io/itly/:_authToken=2irLyg-8E37HWhKmt5giYVH2ziVuC2pCQ" >> .npmrc
-    ```
-
 ## Browser
 1. Add `@itly/sdk` and browser plugins to your project:
     ```
@@ -94,12 +85,12 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
     });
     ```
 ## Node
-2. Add `@itly/sdk` and Node specific plugins to your project:
+1. Add `@itly/sdk` and Node specific plugins to your project:
     ```
     $ yarn add @itly/sdk
     $ yarn add @itly/plugin-amplitude-node @itly/plugin-mixpanel-node @itly/plugin-segment-node
     ```
-3. Import `itly` and plugins, `load()` configuration, and start `track()`ing.
+2. Import `itly` and plugins, `load()` configuration, and start `track()`ing.
     ```
     import itly from '@itly/sdk';
     import AmplitudePlugin from '@itly/plugin-amplitude-node';
@@ -133,6 +124,33 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
       },
     });
     ```
+## Differences between Browser and Node
+The `@itly/sdk` has slightly different interfaces for Browser and Node.
+
+The Browser is single-tenant and requires a User ID only on `identify` and `alias`.
+  
+Node is multi-tenant and requires a User ID on all SDK methods including `group` and `track`.
+
+The Plugin interface is the same on both platforms and has an (optional) User ID on all callbacks.
+
+## SDK Types for TypeScript
+The `@itly/sdk` is isomorphic and automatically provides the implementation for your specific platform. As a result the
+ following works great in JavaScript for both the browser and Node.js.
+```
+// Untyped Itly SDK for your platform
+import itly from '@itly/sdk';
+```
+    
+Unfortunately in TypeScript this import is of type `any`. If you would like a strongly typed object you need to specify 
+the platform as well.
+```
+// Strongly typed Browser SDK
+import itly from '@itly/sdk/browser';
+```
+```
+// Strongly typed Node SDK
+import itly from '@itly/sdk/node';
+```
 
 # Event Validation
 1. Add `@itly/plugin-schema-validator` to your project.
