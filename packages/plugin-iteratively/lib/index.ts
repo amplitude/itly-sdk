@@ -33,12 +33,12 @@ type TrackModel = {
   };
 };
 
-export const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export default class IterativelyBrowserPlugin extends PluginBase {
   static ID: string = 'iteratively';
 
   private buffer: TrackModel[] = [];
+
+  private timer: ReturnType<typeof setTimeout> | null = null;
 
   private config: Required<IterativelyOptions> = {
     url: '',
@@ -64,14 +64,6 @@ export default class IterativelyBrowserPlugin extends PluginBase {
 
   // overrides PluginBase.id
   id = () => IterativelyBrowserPlugin.ID;
-
-  load = () => {
-    if (this.config.disabled) {
-      return;
-    }
-
-    this.startCheck();
-  }
 
   // overrides PluginBase.track
   track(userId: string | undefined, event: Event): void {
@@ -152,6 +144,14 @@ export default class IterativelyBrowserPlugin extends PluginBase {
   }
 
   private async flush() {
+    if (this.config.disabled) {
+      return;
+    }
+
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
     while (this.buffer.length > 0) {
       const objects = this.buffer.splice(0, this.config.batchSize);
       try {
@@ -169,6 +169,8 @@ export default class IterativelyBrowserPlugin extends PluginBase {
         // do nothing
       }
     }
+
+    this.timer = null;
   }
 
   private push(model: TrackModel) {
@@ -177,21 +179,14 @@ export default class IterativelyBrowserPlugin extends PluginBase {
     }
 
     this.buffer.push(model);
+
     if (this.buffer.length >= this.config.flushAt) {
       this.flush();
+      return;
     }
-  }
 
-  private async startCheck() {
-    while (true) {
-      await this.check();
+    if (!this.timer && this.config.flushInterval) {
+      this.timer = setTimeout(this.flush.bind(this), this.config.flushInterval);
     }
-  }
-
-  private async check() {
-    if (this.buffer.length > 0) {
-      this.flush();
-    }
-    await wait(this.config.flushInterval);
   }
 }
