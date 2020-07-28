@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/iterativelyhq/itly-sdk/compare/v1.1.0...v1.1.1) (2020-07-28)
+
+
+### Bug Fixes
+
+* protected event.properties from mutation in plugin-mixpanel ([996e5a5](https://github.com/iterativelyhq/itly-sdk/commit/996e5a57287ea37a02ca749c9644f02d7f6da90e))
+
+
+
+
+
 # [1.1.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.0.0...v1.1.0) (2020-07-06)
 
 

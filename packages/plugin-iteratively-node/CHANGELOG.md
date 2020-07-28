@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/iterativelyhq/itly-sdk/compare/v1.1.0...v1.1.1) (2020-07-28)
+
+
+### Bug Fixes
+
+* removed buffer check loop from plugin-iteratively-node ([1f3c4dc](https://github.com/iterativelyhq/itly-sdk/commit/1f3c4dc7dd0f6b1b18b07e849e97d0f58ba7d6ef))
+
+
+
+
+
 # [1.1.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.0.0...v1.1.0) (2020-07-06)
 
 
