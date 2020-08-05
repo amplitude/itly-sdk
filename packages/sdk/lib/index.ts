@@ -25,9 +25,12 @@ export {
 // eslint-disable-next-line import/no-mutable-exports
 let itly;
 
-const p = process as any;
+const p = typeof process === 'undefined'
+  ? undefined
+  : process as any;
+
 if (
-  typeof p === 'undefined'
+  !p
   // Electron renderer / nwjs process
   || (p.type === 'renderer' || p.browser === true || p.__nwjs)
   // Jest JSDOM
