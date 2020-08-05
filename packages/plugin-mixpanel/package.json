@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-mixpanel",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Mixpanel Browser Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk": "1.1.1",
+    "@itly/sdk": "^1.1.2",
     "typescript": "^3.9.3"
   },
   "peerDependencies": {
