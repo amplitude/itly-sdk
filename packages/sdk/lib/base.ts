@@ -35,6 +35,11 @@ export type Event = {
   properties?: Properties;
   id?: string;
   version?: string;
+  metadata?: {
+    mparticle?: {
+      [name: string]: any;
+    }
+  };
 };
 
 export type ValidationOptions = {

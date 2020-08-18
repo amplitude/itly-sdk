@@ -1,0 +1,33 @@
+{
+  "name": "@itly/plugin-mparticle",
+  "version": "1.1.0",
+  "description": "mParticle Browser Plugin",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "tsc",
+    "test": "jest --runInBand"
+  },
+  "keywords": [
+    "itly",
+    "sdk",
+    "iteratively",
+    "plugin"
+  ],
+  "author": "Iteratively",
+  "license": "ISC",
+  "devDependencies": {
+    "@itly/sdk": "^1.1.0",
+    "@types/jest": "^26.0.0",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "@itly/mparticle-web-sdk": "^2.11.15"
+  },
+  "peerDependencies": {
+    "@itly/sdk": "^1.0.0"
+  }
+}
