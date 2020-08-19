@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
+/* eslint-disable no-underscore-dangle */
 import {
   Options, Event, Properties, PluginBase,
 } from '@itly/sdk';
@@ -7,7 +8,6 @@ import Mparticle from '@itly/mparticle-web-sdk';
 export type MparticleOptions = {
   itly?: any,
   isDevelopmentMode?: boolean,
-  requestConfig?: boolean,
 };
 
 export default class MparticleBrowserPlugin extends PluginBase {
@@ -27,8 +27,11 @@ export default class MparticleBrowserPlugin extends PluginBase {
   id = () => MparticleBrowserPlugin.ID;
 
   load() {
-    Mparticle.init(this.apiKey, this.options);
     this.mparticle = Mparticle.getInstance();
+    if (!this.mparticle?._Store) {
+      Mparticle.init(this.apiKey, this.options);
+      this.mparticle = Mparticle.getInstance();
+    }
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties) {
@@ -36,7 +39,7 @@ export default class MparticleBrowserPlugin extends PluginBase {
   }
 
   track(userId: string | undefined, event: Event) {
-    const meta = event.metadata?.mparticle;
+    const meta = event.metadata?.[MparticleBrowserPlugin.ID];
     this.mparticle.logEvent(
       event.name,
       meta?.eventType || Mparticle.EventType.Other,
