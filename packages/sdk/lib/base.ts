@@ -36,9 +36,9 @@ export type Event = {
   id?: string;
   version?: string;
   metadata?: {
-    mparticle?: {
+    [name: string]: {
       [name: string]: any;
-    }
+    };
   };
 };
 
