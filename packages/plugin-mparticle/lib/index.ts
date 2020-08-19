@@ -5,12 +5,15 @@ import {
 import Mparticle from '@itly/mparticle-web-sdk';
 
 export type MparticleOptions = {
+  itly?: any,
   isDevelopmentMode?: boolean,
   requestConfig?: boolean,
 };
 
 export default class MparticleBrowserPlugin extends PluginBase {
   static ID: string = 'mparticle';
+
+  private $itly = 'audit';
 
   private mparticle?: any;
 
@@ -24,7 +27,8 @@ export default class MparticleBrowserPlugin extends PluginBase {
   id = () => MparticleBrowserPlugin.ID;
 
   load() {
-    this.mparticle = Mparticle.init(this.apiKey, this.options);
+    Mparticle.init(this.apiKey, this.options);
+    this.mparticle = Mparticle.getInstance();
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties) {
@@ -36,7 +40,10 @@ export default class MparticleBrowserPlugin extends PluginBase {
     this.mparticle.logEvent(
       event.name,
       meta?.eventType || Mparticle.EventType.Other,
-      event.properties,
+      {
+        $itly: this.$itly,
+        ...event.properties,
+      },
       meta?.customFlags,
     );
   }
