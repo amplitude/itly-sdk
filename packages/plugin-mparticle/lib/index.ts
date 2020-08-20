@@ -28,7 +28,10 @@ export default class MparticleBrowserPlugin extends PluginBase {
 
   load() {
     this.mparticle = Mparticle.getInstance();
-    if (!this.mparticle?._Store) {
+    try {
+      // validates that mparticle instance is initialized
+      this.mparticle.getDeviceId();
+    } catch {
       Mparticle.init(this.apiKey, this.options);
       this.mparticle = Mparticle.getInstance();
     }
