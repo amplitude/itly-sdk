@@ -30,16 +30,18 @@ export type Properties = {
   [name: string]: any;
 };
 
+export type EventMetadata = {
+  [name: string]: {
+    [name: string]: any;
+  };
+};
+
 export type Event = {
   name: string;
   properties?: Properties;
   id?: string;
   version?: string;
-  metadata?: {
-    [name: string]: {
-      [name: string]: any;
-    };
-  };
+  metadata?: EventMetadata;
 };
 
 export type ValidationOptions = {
