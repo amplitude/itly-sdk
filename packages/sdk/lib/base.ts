@@ -161,6 +161,12 @@ class Itly {
         ? DEFAULT_PROD_OPTIONS
         : DEFAULT_DEV_OPTIONS),
       ...options,
+      validation: {
+        ...(options?.environment === 'production'
+          ? DEFAULT_PROD_VALIDATION_OPTIONS
+          : DEFAULT_DEV_VALIDATION_OPTIONS),
+        ...options?.validation,
+      },
     };
 
     if (!this.isInitializedAndEnabled()) {
