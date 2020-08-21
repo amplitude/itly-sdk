@@ -6,7 +6,6 @@ import {
 import Mparticle from '@itly/mparticle-web-sdk';
 
 export type MparticleOptions = {
-  itly?: any,
   isDevelopmentMode?: boolean,
 };
 

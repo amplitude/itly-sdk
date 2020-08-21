@@ -119,24 +119,37 @@ export class PluginBase implements Plugin {
   validationError(validationResponse: ValidationResponse, event: Event): void {}
 }
 
-const DEFAULT_OPTIONS: Options = {
+const DEFAULT_DEV_VALIDATION_OPTIONS: ValidationOptions = {
+  disabled: false,
+  trackInvalid: false,
+  errorOnInvalid: true,
+};
+
+const DEFAULT_PROD_VALIDATION_OPTIONS: ValidationOptions = {
+  ...DEFAULT_DEV_VALIDATION_OPTIONS,
+  errorOnInvalid: false,
+};
+
+const DEFAULT_DEV_OPTIONS: Options = {
   environment: 'development',
   context: undefined,
   plugins: [],
-  validation: {
-    disabled: false,
-    trackInvalid: false,
-    errorOnInvalid: false,
-  },
+  validation: DEFAULT_DEV_VALIDATION_OPTIONS,
   disabled: false,
+};
+
+const DEFAULT_PROD_OPTIONS: Options = {
+  ...DEFAULT_DEV_OPTIONS,
+  environment: 'production',
+  validation: DEFAULT_PROD_VALIDATION_OPTIONS,
 };
 
 class Itly {
   private options: Options | undefined = undefined;
 
-  private plugins = DEFAULT_OPTIONS.plugins!;
+  private plugins = DEFAULT_DEV_OPTIONS.plugins!;
 
-  private validationOptions = DEFAULT_OPTIONS.validation!;
+  private validationOptions = DEFAULT_DEV_OPTIONS.validation!;
 
   load(options: Options) {
     if (this.options) {
@@ -144,7 +157,9 @@ class Itly {
     }
 
     this.options = {
-      ...DEFAULT_OPTIONS,
+      ...(options?.environment === 'production'
+        ? DEFAULT_PROD_OPTIONS
+        : DEFAULT_DEV_OPTIONS),
       ...options,
     };
 
