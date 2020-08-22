@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-mparticle",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "mParticle Browser Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk": "^1.1.0",
+    "@itly/sdk": "^1.2.0",
     "@types/jest": "^26.0.0",
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0",
