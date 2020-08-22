@@ -296,11 +296,16 @@
 
 "@itly/mparticle-web-sdk@^2.11.15":
   version "2.11.15"
-  resolved "http://localhost:4873/@itly%2fmparticle-web-sdk/-/mparticle-web-sdk-2.11.15.tgz#bbea7f00df802878e88f4a7de0eaa15f7cb1b8c6"
-  integrity sha512-s5EIJ038XYCR2wDyxH2okPqxEmI4YP32PYLuhvrH/LVv+L9pSbwAgdE5tLlK3Hl5Hr3IDHd4sdANMtFnMqUVsg==
+  resolved "https://registry.yarnpkg.com/@itly/mparticle-web-sdk/-/mparticle-web-sdk-2.11.15.tgz#40cc91d007e3e2b7ae3632e87bd7522df9ed9d15"
+  integrity sha512-TLpNwg/TCXNPS7WPDatW1923r94kdddG55H7DqFHHaJzPl3wyMkugN5U3CJRJ+1vOpUNiFujN2vxNW3P/QqIWg==
   dependencies:
     "@babel/runtime" "^7.6.0"
     slugify "^1.3.6"
+
+"@itly/sdk@^1.1.0":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@itly/sdk/-/sdk-1.1.2.tgz#ea09bdc532f447176c1ae18eb76f0fb3cfc4ba79"
+  integrity sha512-jFWGLtSBecNqeoRcdK1NbliXdNv2UeZokw3JHs/isw4ynU3ssk/XpB07nXMNjC0bV40wsMx0IVYD31zKJHyrgA==
 
 "@jest/console@^26.3.0":
   version "26.3.0"
