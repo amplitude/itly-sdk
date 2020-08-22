@@ -1,13 +1,13 @@
 {
-  "name": "@itly/plugin-segment",
+  "name": "@itly/plugin-mparticle",
   "version": "1.2.0",
-  "description": "Segment Browser Plugin",
+  "description": "mParticle Browser Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "prepublish": "yarn run build",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\""
+    "test": "jest --runInBand"
   },
   "keywords": [
     "itly",
@@ -19,10 +19,15 @@
   "license": "ISC",
   "devDependencies": {
     "@itly/sdk": "^1.2.0",
+    "@types/jest": "^26.0.0",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0",
     "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "@itly/mparticle-web-sdk": "^2.11.15"
   },
   "peerDependencies": {
     "@itly/sdk": "^1.0.0"
-  },
-  "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
+  }
 }
