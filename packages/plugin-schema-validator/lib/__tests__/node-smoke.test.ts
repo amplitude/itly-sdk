@@ -92,7 +92,7 @@ let spyConsoleLog: jest.SpyInstance;
 
 beforeEach(() => {
   jest.resetModules();
-  spyConsoleLog = jest.spyOn(console, 'log');
+  spyConsoleLog = jest.spyOn(console, 'log').mockImplementation();
 });
 
 afterEach(() => {

@@ -14,7 +14,7 @@ export interface Options {
    */
   plugins?: Plugin[];
   /**
-   * Additional context properties to add to all events. Set to object or an object resolver.
+   * Additional context properties to add to all events.
    * Default is none.
    */
   context?: Properties;

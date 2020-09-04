@@ -14,7 +14,19 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "validate() event='identify' properties={}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "identify() userId='undefined' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "postIdentify() userId='undefined' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='identify' properties={}",
   ],
   Array [
     "CustomPlugin: ",
@@ -22,7 +34,19 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='identify' properties={\\"userProp\\":\\"A user property value\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "identify() userId='temp-user-id' properties={\\"userProp\\":\\"A user property value\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "postIdentify() userId='temp-user-id' properties={\\"userProp\\":\\"A user property value\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -34,7 +58,19 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "validate() event='group' properties={}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "group() userId='test-user-id' groupId='test-group-id' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='page' properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -42,7 +78,31 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "postPage() userId='test-user-id' category='page category' name='page name' properties={\\"pageProp\\":\\"a page property\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='Event No Properties' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='context' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "track() userId='test-user-id' event='Event No Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "postTrack() userId='test-user-id' event='Event No Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='context' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -50,7 +110,23 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "postTrack() userId='test-user-id' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='context' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "track() userId='test-user-id' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin.id()",
@@ -73,7 +149,19 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "validate() event='identify' properties={}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "identify() userId='undefined' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "postIdentify() userId='undefined' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='identify' properties={}",
   ],
   Array [
     "CustomPlugin: ",
@@ -81,7 +169,19 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='identify' properties={\\"userProp\\":\\"A user property value\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "identify() userId='temp-user-id' properties={\\"userProp\\":\\"A user property value\\"}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "postIdentify() userId='temp-user-id' properties={\\"userProp\\":\\"A user property value\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -93,7 +193,19 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "validate() event='group' properties={}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "group() userId='test-user-id' groupId='test-group-id' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='page' properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -101,7 +213,23 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "postPage() userId='test-user-id' category='page category' name='page name' properties={\\"pageProp\\":\\"a page property\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='Event No Properties' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
     "track() userId='test-user-id' event='Event No Properties' properties=undefined",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "postTrack() userId='test-user-id' event='Event No Properties' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -109,7 +237,19 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
+    "postTrack() userId='test-user-id' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "validate() event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
+  ],
+  Array [
+    "CustomPlugin: ",
     "track() userId='test-user-id' event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
+  ],
+  Array [
+    "CustomPlugin: ",
+    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"intMax10\\":20} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin.id()",
