@@ -51,8 +51,4 @@ validation=${this.stringify(options.validation)}`);
   track(userId: string | undefined, event: Event): void {
     this.log(`track() userId='${userId}' event='${event.name}' properties=${this.stringify(event.properties)}`);
   }
-
-  validationError(validation: ValidationResponse, event: Event) {
-    this.log(`validationError() event='${event.name}' plugin=${validation.pluginId} message=${validation.message}`);
-  }
 }

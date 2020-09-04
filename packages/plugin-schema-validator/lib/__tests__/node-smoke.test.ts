@@ -27,16 +27,7 @@ const identifyProps = {
 };
 
 const plugins: Plugin[] = [
-  new SchemaValidator(
-    testSchemas,
-    (validation: ValidationResponse, event: Event, schema: any) => {
-    // eslint-disable-next-line no-console
-      console.log(
-        `SchemaValidator validationError() event='${event.name}' message='${validation.message}' schema=`,
-        JSON.stringify(schema),
-      );
-    },
-  ),
+  new SchemaValidator(testSchemas),
   new CustomPlugin(),
 ];
 

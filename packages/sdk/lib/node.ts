@@ -37,7 +37,7 @@ export class ItlyNode {
   ) => itlyBase.identify(userId, identifyProperties);
 
   group = (
-    userId:string | undefined, groupId: string, groupProperties?: Properties,
+    userId: string | undefined, groupId: string, groupProperties?: Properties,
   ) => itlyBase.group(userId, groupId, groupProperties);
 
   page = (

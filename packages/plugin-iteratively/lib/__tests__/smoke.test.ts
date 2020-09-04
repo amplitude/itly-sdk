@@ -265,7 +265,7 @@ test('should post track validation error', async () => {
     message: 'test validation error message',
   };
 
-  iterativelyPlugin.validationError(validationError, event);
+  iterativelyPlugin.postTrack(undefined, event, [validationError]);
 
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
@@ -317,7 +317,7 @@ test('should omit validation error details if configured', async () => {
     message: 'test validation error message',
   };
 
-  iterativelyPlugin.validationError(validationError, event);
+  iterativelyPlugin.postTrack(undefined, event, [validationError]);
 
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);

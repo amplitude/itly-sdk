@@ -12,7 +12,6 @@ test('should load and track events to a custom destination (no validation)', () 
 
   const itly = requireForTestEnv(__dirname);
 
-  // new SchemaValidator(testSchemas)
   itly.load({
     environment: 'production',
     context: {
