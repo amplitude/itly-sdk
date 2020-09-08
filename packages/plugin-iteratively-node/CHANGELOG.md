@@ -13,7 +13,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### BREAKING CHANGES
 
-* ValidationResponse renamed to ValidationResult, validationError method removed, validationErrorHandler removed in plugin-schema-validator
+* validationError method removed, validationErrorHandler removed in plugin-schema-validator
 
 
 
