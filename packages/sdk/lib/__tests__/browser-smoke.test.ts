@@ -7,12 +7,11 @@ import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
 import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
 
 test('should load and track events to a custom destination (no validation)', () => {
-  const spy = jest.spyOn(console, 'log');
+  const spy = jest.spyOn(console, 'log').mockImplementation();
   const userId = 'test-user-id';
 
   const itly = requireForTestEnv(__dirname);
 
-  // new SchemaValidator(testSchemas)
   itly.load({
     environment: 'production',
     context: {

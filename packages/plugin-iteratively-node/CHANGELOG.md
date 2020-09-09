@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.2.0...v1.3.0) (2020-09-08)
+
+
+### Features
+
+* extended Plugin interface with post* lifecycle methods (ITLY-1041) ([1ea87db](https://github.com/iterativelyhq/itly-sdk/commit/1ea87dba2649ffe9c6a850a98d673de0189844fd))
+
+
+### BREAKING CHANGES
+
+* validationError method removed, validationErrorHandler removed in plugin-schema-validator
+
+
+
+
+
 # [1.2.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.1.2...v1.2.0) (2020-08-22)
 
 **Note:** Version bump only for package @itly/plugin-iteratively-node

@@ -7,12 +7,6 @@ import {
   ValidationResponse,
 } from '@itly/sdk';
 
-export type ValidationResponseHandler = (
-  validation: ValidationResponse,
-  event: Event,
-  schema: any
-) => any;
-
 export type SchemaMap = { [schemaKey: string]: any };
 
 const SYSTEM_EVENTS = ['identify', 'context', 'group', 'page'];
@@ -33,18 +27,20 @@ export default class SchemaValidatorPlugin extends PluginBase {
 
   constructor(
     private schemas: SchemaMap,
-    private validationErrorHandler: ValidationResponseHandler = () => {},
   ) {
     super();
   }
 
+  // overrides PluginBase.id
   id = () => SchemaValidatorPlugin.ID;
 
+  // overrides PluginBase.load
   load() {
     this.ajv = new Ajv();
     this.validators = {};
   }
 
+  // overrides PluginBase.validate
   validate(event: Event): ValidationResponse {
     const schemaKey = this.getSchemaKey(event);
     // Check that we have a schema for this event
@@ -101,11 +97,6 @@ export default class SchemaValidatorPlugin extends PluginBase {
       valid: true,
       pluginId: this.id(),
     };
-  }
-
-  validationError(validation: ValidationResponse, event: Event) {
-    const schemaKey = this.getSchemaKey(event);
-    this.validationErrorHandler(validation, event, this.schemas[schemaKey]);
   }
 
   getSchemaKey(event: Event) {

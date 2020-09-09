@@ -66,56 +66,54 @@ export default class IterativelyNodePlugin extends PluginBase {
   // overrides PluginBase.id
   id = () => IterativelyNodePlugin.ID;
 
-  // overrides PluginBase.track
-  track(userId: string | undefined, event: Event): void {
-    this.push(
-      this.toTrackModel(TrackType.track, event, event.properties),
-    );
+  // overrides PluginBase.postIdentify
+  postIdentify(
+    userId: string | undefined,
+    properties: Properties | undefined,
+    validationResponses: ValidationResponse[],
+  ): void {
+    this.push(this.toTrackModel(TrackType.identify, undefined, properties, validationResponses));
   }
 
-  // overrides PluginBase.validationError
-  validationError(validationResponse: ValidationResponse, event: Event): void {
-    switch (event.id) {
-      case TrackType.group:
-      case TrackType.identify:
-      case TrackType.page:
-        this.push(
-          this.toTrackModel(event.id, undefined, event.properties, validationResponse),
-        );
-        break;
-      default:
-        this.push(
-          this.toTrackModel(TrackType.track, event, event.properties, validationResponse),
-        );
-    }
+  // overrides PluginBase.postGroup
+  postGroup(
+    userId: string | undefined,
+    groupId: string,
+    properties: Properties | undefined,
+    validationResponses: ValidationResponse[],
+  ): void {
+    this.push(this.toTrackModel(TrackType.group, undefined, properties, validationResponses));
   }
 
-  // overrides PluginBase.group
-  group(userId: string | undefined, groupId: string, properties?: Properties): void {
-    this.push(
-      this.toTrackModel(TrackType.group, undefined, properties),
-    );
+  // overrides PluginBase.postPage
+  postPage(
+    userId: string | undefined,
+    category: string | undefined,
+    name: string | undefined,
+    properties: Properties | undefined,
+    validationResponses: ValidationResponse[],
+  ): void {
+    this.push(this.toTrackModel(TrackType.page, undefined, properties, validationResponses));
   }
 
-  // overrides PluginBase.identify
-  identify(userId?: string, properties?: Properties): void {
-    this.push(
-      this.toTrackModel(TrackType.identify, undefined, properties),
-    );
+  // overrides PluginBase.postTrack
+  postTrack(
+    userId: string | undefined,
+    event: Event,
+    validationResponses: ValidationResponse[],
+  ): void {
+    this.push(this.toTrackModel(TrackType.track, event, event.properties, validationResponses));
   }
 
-  // overrides PluginBase.page
-  page(userId?: string, category?: string, name?: string, properties?: Properties): void {
-    this.push(
-      this.toTrackModel(TrackType.page, undefined, properties),
-    );
-  }
-
-  private toTrackModel(type: TrackType, event?: Event, properties?: Properties,
-    validation?: ValidationResponse): TrackModel {
+  private toTrackModel(
+    type: TrackType,
+    event?: Event,
+    properties?: Properties,
+    validationResponses?: ValidationResponse[],
+  ): TrackModel {
     const model: TrackModel = {
       type,
-      dateSent: (new Date()).toISOString(),
+      dateSent: new Date().toISOString(),
       eventId: event ? event.id : undefined,
       eventSchemaVersion: event ? event.version : undefined,
       eventName: event ? event.name : undefined,
@@ -134,10 +132,11 @@ export default class IterativelyNodePlugin extends PluginBase {
       }
     }
 
-    if (validation) {
-      model.valid = validation.valid;
+    if (validationResponses) {
+      const invalidResult = validationResponses.find((vr) => !vr.valid);
+      model.valid = !invalidResult;
       if (!this.config.omitValues) {
-        model.validation.details = validation.message || '';
+        model.validation.details = invalidResult?.message || '';
       }
     }
 

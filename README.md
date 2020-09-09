@@ -157,7 +157,7 @@ import itly from '@itly/sdk/node';
     ```
     $ yarn add @itly/plugin-schema-validator
     ```
-2. Import and setup `SchemaValidatorPlugin`, add it to the `load()`ed `plugins`. Now all `track()`ed event's will be validated against their schema. Validation handling can be configured via (optional) `validation`.
+2. Import and setup `SchemaValidatorPlugin`, add it to the `load()`ed `plugins`. Now all `track()`ed event's will be validated against their schema.
     ```
     import itly from '@itly/sdk';
     import SchemaValidatorPlugin from '@itly/plugin-schema-validator';
@@ -174,9 +174,6 @@ import itly from '@itly/sdk/node';
             'My Event': {"type":"object","properties":{"numToValidate":{"type":"integer","maximum":10}},"additionalProperties":false,"required":["propToValidate"]},
             'Another event for something': {...},
           },
-          (validation, event, schema) => console.log(
-            `Validation Error! event='${event.name}' message='${validation.message}'`,
-          );
         ),
       ],
     });
@@ -216,8 +213,6 @@ import itly from '@itly/sdk/node';
       reset(): void {...}
 
       track(userId: string | undefined, event: ItlyEvent): void {...}
-
-      validationError(validation: ValidationResponse, event: Event): void {...}
 
       validate(event: Event): ValidationResponse {...}
     }

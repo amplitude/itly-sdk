@@ -27,16 +27,7 @@ const identifyProps = {
 };
 
 const plugins: Plugin[] = [
-  new SchemaValidator(
-    testSchemas,
-    (validation: ValidationResponse, event: Event, schema: any) => {
-    // eslint-disable-next-line no-console
-      console.log(
-        `SchemaValidator validationError() event='${event.name}' message='${validation.message}' schema=`,
-        JSON.stringify(schema),
-      );
-    },
-  ),
+  new SchemaValidator(testSchemas),
   new CustomPlugin(),
 ];
 
@@ -44,22 +35,9 @@ const testParams: TestParams[] = [
   {
     name: 'load, track, validate - validationOptions=DEFAULT',
     options: {
-      environment: 'production',
+      environment: 'production', // i.e. trackInvalid: true
       context,
       plugins,
-    },
-  },
-  {
-    name: 'load, track, validate - validationOptions={trackInvalid: true}',
-    options: {
-      environment: 'production',
-      context,
-      plugins,
-      validation: {
-        disabled: false,
-        trackInvalid: true,
-        errorOnInvalid: false,
-      },
     },
   },
   {
@@ -101,14 +79,14 @@ let spyConsoleLog: jest.SpyInstance;
 
 beforeEach(() => {
   jest.resetModules();
-  spyConsoleLog = jest.spyOn(console, 'log');
+  spyConsoleLog = jest.spyOn(console, 'log').mockImplementation();
 });
 
 afterEach(() => {
   spyConsoleLog.mockRestore();
 });
 
-test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
+test.only.each(testParams.map((test) => [test.name, test]) as any[])('%s',
   async (name: string, { options }: TestParams) => {
     const { itly } = require('@itly/sdk');
 

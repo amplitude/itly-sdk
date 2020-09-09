@@ -14,7 +14,7 @@ export interface Options {
    */
   plugins?: Plugin[];
   /**
-   * Additional context properties to add to all events. Set to object or an object resolver.
+   * Additional context properties to add to all events.
    * Default is none.
    */
   context?: Properties;
@@ -45,10 +45,10 @@ export type Event = {
 };
 
 export type ValidationOptions = {
-  disabled: boolean,
+  disabled: boolean;
   trackInvalid: boolean;
   errorOnInvalid: boolean;
-}
+};
 
 export type ValidationResponse = {
   valid: boolean;
@@ -59,42 +59,88 @@ export type ValidationResponse = {
 export interface Plugin {
   id(): string;
 
-  // Tracking methods
   load(options: Options): void;
+
+  // validation methods
+  validate(event: Event): ValidationResponse;
+
+  // tracking methods
   alias(userId: string, previousId: string | undefined): void;
+
   identify(userId: string | undefined, properties: Properties | undefined): void;
-  group(
+
+  postIdentify(
+    userId: string | undefined,
+    properties: Properties | undefined,
+    validationResponses: ValidationResponse[],
+  ): void;
+
+  group(userId: string | undefined, groupId: string, properties?: Properties | undefined): void;
+
+  postGroup(
     userId: string | undefined,
     groupId: string,
-    properties?: Properties | undefined
+    properties: Properties | undefined,
+    validationResponses: ValidationResponse[],
   ): void;
+
   page(
     userId: string | undefined,
     category: string | undefined,
     name: string | undefined,
-    properties: Properties | undefined
+    properties: Properties | undefined,
   ): void;
-  track(userId: string | undefined, event: Event): void;
-  reset(): void;
 
-  // Validation methods
-  validate(event: Event): ValidationResponse;
-  validationError(validation: ValidationResponse, event: Event): void;
+  postPage(
+    userId: string | undefined,
+    category: string | undefined,
+    name: string | undefined,
+    properties: Properties | undefined,
+    validationResponses: ValidationResponse[],
+  ): void;
+
+  track(userId: string | undefined, event: Event): void;
+
+  postTrack(
+    userId: string | undefined,
+    event: Event,
+    validationResponses: ValidationResponse[],
+  ): void;
+
+  reset(): void;
 }
 
 export class PluginBase implements Plugin {
-  id(): string { throw new Error('Plugin id() is required. Override id() method returning a unique id.'); }
+  id(): string {
+    throw new Error('Plugin id() is required. Override id() method returning a unique id.');
+  }
 
   load(options: Options): void {}
+
+  // validation methods
+  validate(event: Event): ValidationResponse {
+    return {
+      valid: true,
+    };
+  }
 
   alias(userId: string, previousId: string | undefined): void {}
 
   identify(userId: string | undefined, properties: Properties | undefined): void {}
 
-  group(
+  postIdentify(
+    userId: string | undefined,
+    properties: Properties | undefined,
+    validationResponses: ValidationResponse[],
+  ): void {}
+
+  group(userId: string | undefined, groupId: string, properties?: Properties | undefined): void {}
+
+  postGroup(
     userId: string | undefined,
     groupId: string,
-    properties?: Properties | undefined,
+    properties: Properties | undefined,
+    validationResponses: ValidationResponse[],
   ): void {}
 
   page(
@@ -104,19 +150,19 @@ export class PluginBase implements Plugin {
     properties: Properties | undefined,
   ): void {}
 
+  postPage(
+    userId: string | undefined,
+    category: string | undefined,
+    name: string | undefined,
+    properties: Properties | undefined,
+    validationResponses: ValidationResponse[],
+  ): void {}
+
   track(userId: string | undefined, event: Event): void {}
 
+  postTrack(userId: string | undefined, event: Event, validationResponses: ValidationResponse[]): void {}
+
   reset(): void {}
-
-  // Validation methods
-  validate(event: Event): ValidationResponse {
-    return {
-      valid: true,
-      pluginId: this.id(),
-    };
-  }
-
-  validationError(validationResponse: ValidationResponse, event: Event): void {}
 }
 
 const DEFAULT_DEV_VALIDATION_OPTIONS: ValidationOptions = {
@@ -127,6 +173,7 @@ const DEFAULT_DEV_VALIDATION_OPTIONS: ValidationOptions = {
 
 const DEFAULT_PROD_VALIDATION_OPTIONS: ValidationOptions = {
   ...DEFAULT_DEV_VALIDATION_OPTIONS,
+  trackInvalid: true,
   errorOnInvalid: false,
 };
 
@@ -157,14 +204,10 @@ class Itly {
     }
 
     this.options = {
-      ...(options?.environment === 'production'
-        ? DEFAULT_PROD_OPTIONS
-        : DEFAULT_DEV_OPTIONS),
+      ...(options?.environment === 'production' ? DEFAULT_PROD_OPTIONS : DEFAULT_DEV_OPTIONS),
       ...options,
       validation: {
-        ...(options?.environment === 'production'
-          ? DEFAULT_PROD_VALIDATION_OPTIONS
-          : DEFAULT_DEV_VALIDATION_OPTIONS),
+        ...(options?.environment === 'production' ? DEFAULT_PROD_VALIDATION_OPTIONS : DEFAULT_DEV_VALIDATION_OPTIONS),
         ...options?.validation,
       },
     };
@@ -176,15 +219,8 @@ class Itly {
     this.plugins = this.options.plugins!;
     this.validationOptions = this.options.validation!;
 
+    // invoke load() on every plugin
     this.plugins.forEach((p) => p.load(options));
-
-    const contextEvent = {
-      name: 'context',
-      properties: options.context || {},
-      id: 'context',
-      version: '0-0-0',
-    };
-    this.validate(contextEvent);
   }
 
   alias(userId: string, previousId?: string) {
@@ -195,10 +231,6 @@ class Itly {
     this.plugins.forEach((p) => p.alias(userId, previousId));
   }
 
-  /**
-   * Identify a user and set or update that user's properties.
-   * @param userId The user's ID.
-   */
   identify(userId: string | undefined, identifyProperties?: Properties) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -211,12 +243,15 @@ class Itly {
       version: '0-0-0',
     };
 
-    this.runIfValid(identifyEvent, () => this.plugins.forEach(
-      (p) => p.identify(userId, identifyProperties),
-    ));
+    this.runIfValid(
+      identifyEvent,
+      () => this.plugins.forEach((p) => p.identify(userId, identifyProperties)),
+      (validationResponses) =>
+        this.plugins.forEach((p) => p.postIdentify(userId, identifyProperties, validationResponses)),
+    );
   }
 
-  group(userId:string | undefined, groupId: string, groupProperties?: Properties) {
+  group(userId: string | undefined, groupId: string, groupProperties?: Properties) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -228,17 +263,15 @@ class Itly {
       version: '0-0-0',
     };
 
-    this.runIfValid(groupEvent, () => this.plugins.forEach(
-      (p) => p.group(userId, groupId, groupProperties),
-    ));
+    this.runIfValid(
+      groupEvent,
+      () => this.plugins.forEach((p) => p.group(userId, groupId, groupProperties)),
+      (validationResponses) =>
+        this.plugins.forEach((p) => p.postGroup(userId, groupId, groupProperties, validationResponses)),
+    );
   }
 
-  page(
-    userId: string | undefined,
-    category: string,
-    name: string,
-    pageProperties?: Properties,
-  ) {
+  page(userId: string | undefined, category: string, name: string, pageProperties?: Properties) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -250,9 +283,12 @@ class Itly {
       version: '0-0-0',
     };
 
-    this.runIfValid(pageEvent, () => this.plugins.forEach(
-      (p) => p.page(userId, category, name, pageProperties),
-    ));
+    this.runIfValid(
+      pageEvent,
+      () => this.plugins.forEach((p) => p.page(userId, category, name, pageProperties)),
+      (validationResponses) =>
+        this.plugins.forEach((p) => p.postPage(userId, category, name, pageProperties, validationResponses)),
+    );
   }
 
   track(userId: string | undefined, event: Event) {
@@ -260,19 +296,15 @@ class Itly {
       return;
     }
 
-    this.runIfValid(event, () => {
-      const mergedEvent = (!this.options!.context)
-        ? event
-        : {
-          ...event,
-          properties: {
-            ...this.options!.context,
-            ...event.properties,
-          },
-        };
+    const context = this.options?.context;
+    const mergedEvent = this.mergeContext(event, context);
 
-      this.plugins.forEach((p) => p.track(userId, mergedEvent));
-    });
+    this.runIfValid(
+      event,
+      () => this.plugins.forEach((p) => p.track(userId, mergedEvent)),
+      (validationResponses) => this.plugins.forEach((p) => p.postTrack(userId, mergedEvent, validationResponses)),
+      context,
+    );
   }
 
   reset() {
@@ -283,41 +315,27 @@ class Itly {
     return this.plugins.find((p) => p.id() === id);
   }
 
-  private validate(event: Event): boolean {
-    let pluginId = 'sdk-core';
+  private validate(event: Event): ValidationResponse[] {
+    const pluginId = 'sdk-core';
+    const validationResponses: ValidationResponse[] = [];
 
-    // Default to true
-    let validation: ValidationResponse = {
-      valid: true,
-      pluginId,
-    };
-
-    // Loop over plugins and stop if valid === false
     try {
-      this.plugins.every((p) => {
-        pluginId = p.id();
-        validation = p.validate(event);
-        return validation.valid;
-      });
+      validationResponses.push(
+        ...this.plugins.map<ValidationResponse>((p) => ({
+          ...p.validate(event),
+          pluginId: p.id(),
+        })),
+      );
     } catch (e) {
-      // Catch errors in validate() method
-      validation = {
+      // catch errors in validate() method
+      validationResponses.push({
         valid: false,
         pluginId,
         message: e.message,
-      };
+      });
     }
 
-    // If validation failed call validationError hook
-    if (!validation.valid) {
-      this.plugins.forEach((p) => p.validationError(validation, event));
-
-      if (this.validationOptions.errorOnInvalid) {
-        throw new Error(`Validation Error: ${validation.message}`);
-      }
-    }
-
-    return validation.valid;
+    return validationResponses;
   }
 
   private isInitializedAndEnabled() {
@@ -328,17 +346,62 @@ class Itly {
     return !this.options.disabled;
   }
 
-  private runIfValid(event: Event, cb: () => any): void {
+  private runIfValid(
+    event: Event,
+    run: () => any,
+    postRun: (validationResponses: ValidationResponse[]) => any,
+    context?: Properties,
+  ): void {
+    // #1 validation phase
     let shouldRun = true;
+
+    // invoke validate() on every plugin if required
+    let validationResponses: ValidationResponse[] = [];
     if (!this.validationOptions.disabled) {
-      shouldRun = this.validate(event);
-      if (this.validationOptions.trackInvalid) {
-        shouldRun = true;
+      validationResponses = [
+        ...this.validate(event),
+        ...context ? this.validate(this.getContextEvent(context)) : [],
+      ];
+      shouldRun = this.validationOptions.trackInvalid || validationResponses.every((vr) => vr.valid);
+    }
+
+    // #2 track phase
+    // invoke track(), group(), identify(), page() on every plugin if allowed
+    if (shouldRun) {
+      run();
+    }
+
+    // invoke postTrack(), postGroup(), postIdentify(), postPage() on every plugin
+    postRun(validationResponses);
+
+    // #3 response phase
+    if (this.validationOptions.errorOnInvalid) {
+      const invalidResult = validationResponses.find((vr) => !vr.valid);
+      if (invalidResult) {
+        throw new Error(`Validation Error: ${invalidResult.message}`);
       }
     }
-    if (shouldRun) {
-      cb();
-    }
+  }
+
+  private mergeContext(event: Event, context?: Properties): Event {
+    return context
+      ? {
+        ...event,
+        properties: {
+          ...context,
+          ...event.properties,
+        },
+      }
+      : event;
+  }
+
+  private getContextEvent(context: Properties): Event {
+    return {
+      name: 'context',
+      properties: context || {},
+      id: 'context',
+      version: '0-0-0',
+    };
   }
 }
 

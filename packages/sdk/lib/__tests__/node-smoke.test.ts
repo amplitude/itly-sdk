@@ -4,65 +4,8 @@
  */
 /* eslint-disable import/no-unresolved, import/extensions, global-require */
 /* eslint-disable no-unused-vars, no-console, class-methods-use-this */
+import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
 import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
-
-class CustomPlugin {
-  LOG_TAG = 'CustomPlugin';
-
-  // eslint-disable-next-line no-console
-  private log = (...messages: any[]) => console.log(`${this.LOG_TAG}: `, ...messages);
-
-  private stringify = (object: any) => JSON.stringify(object);
-
-  id(): string {
-    return 'custom';
-  }
-
-  alias(userId: string, previousId: string | undefined): void {
-    this.log(`alias() userId='${userId}' previousId='${previousId}'`);
-  }
-
-  group(userId: string | undefined, groupId: string, properties?: any): void {
-    this.log(`group() userId='${userId}' groupId='${groupId}' properties=${this.stringify(properties)}`);
-  }
-
-  identify(userId: string | undefined, properties?: any): void {
-    this.log(`identify() userId='${userId}' properties=${this.stringify(properties)}`);
-  }
-
-  load(options: any): void {
-    this.log(`load() \
-environment='${options.environment}' \
-disabled=${options.disabled} \
-plugins=[${options.plugins ? options.plugins.map((p: any) => p.id()).join(', ') : ''}] \
-context=${this.stringify(options.context)} \
-validationOptions=${this.stringify(options.validationOptions)}`);
-  }
-
-  page(userId?: string, category?: string, name?: string, properties?: any): void {
-    this.log(`page() userId='${userId}' category='${category}' name='${name}' properties=${this.stringify(properties)}`);
-  }
-
-  reset(): void {
-    this.log('reset()');
-  }
-
-  track(userId: string | undefined, event: any): void {
-    this.log(`track() userId='${userId}' event='${event.name}' properties=${this.stringify(event.properties)}`);
-  }
-
-  validate() {
-    return {
-      valid: true,
-      pluginId: this.id(),
-    };
-  }
-
-  validationError(validation: any, event: any) {
-    this.log(`validationError() event='${event.name}' plugin=${validation.pluginId} message=${validation.message}`);
-  }
-}
-
 
 const plugins = [new CustomPlugin()];
 
@@ -104,9 +47,7 @@ describe('should load and track events to a custom destination (no validation)',
 
     itly = requireForTestEnv(__dirname);
 
-    // console.log('itly', itly);
-
-    spyConsoleLog = jest.spyOn(console, 'log');
+    spyConsoleLog = jest.spyOn(console, 'log').mockImplementation();
   });
 
   afterEach(() => {
