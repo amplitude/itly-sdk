@@ -40,6 +40,7 @@ export type Event = {
   name: string;
   properties?: Properties;
   id?: string;
+  slug?: string;
   version?: string;
   metadata?: EventMetadata;
 };

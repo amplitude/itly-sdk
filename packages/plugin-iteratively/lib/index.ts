@@ -26,6 +26,7 @@ type TrackModel = {
   eventId?: string;
   eventSchemaVersion?: string;
   eventName?: string;
+  eventSlug?: string;
   properties: Properties;
   valid: boolean;
   validation: {
@@ -116,6 +117,7 @@ export default class IterativelyBrowserPlugin extends PluginBase {
       eventId: event ? event.id : undefined,
       eventSchemaVersion: event ? event.version : undefined,
       eventName: event ? event.name : undefined,
+      eventSlug: event ? event.slug : undefined,
       properties: {},
       valid: true,
       validation: {
