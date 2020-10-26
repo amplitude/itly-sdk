@@ -22,6 +22,15 @@ export interface Options {
    * Configure validation handling
    */
   validation?: ValidationOptions;
+  /**
+   * Logger to use for Iteratively output messages
+   */
+  logger?: Logger;
+}
+
+export type PluginLoadOptions = {
+  environment: Environment;
+  logger: Logger;
 }
 
 export type Environment = 'development' | 'production';
@@ -56,10 +65,17 @@ export type ValidationResponse = {
   pluginId?: string;
 };
 
+export interface Logger {
+  debug(message: string): void;
+  info(message: string): void;
+  warn(message: string): void;
+  error(message: string): void;
+}
+
 export interface Plugin {
   id(): string;
 
-  load(options: Options): void;
+  load(options: PluginLoadOptions): void;
 
   // validation methods
   validate(event: Event): ValidationResponse;
@@ -115,7 +131,7 @@ export class PluginBase implements Plugin {
     throw new Error('Plugin id() is required. Override id() method returning a unique id.');
   }
 
-  load(options: Options): void {}
+  load(options: PluginLoadOptions): void {}
 
   // validation methods
   validate(event: Event): ValidationResponse {
@@ -191,12 +207,34 @@ const DEFAULT_PROD_OPTIONS: Options = {
   validation: DEFAULT_PROD_VALIDATION_OPTIONS,
 };
 
+export class LOGGERS {
+  static readonly NONE: Logger = {
+    debug(message: string) {},
+    info(message: string) {},
+    warn(message: string) {},
+    error(message: string) {},
+  }
+
+  static readonly CONSOLE: Logger = {
+    // eslint-disable-next-line no-console
+    debug(message: string) { console.debug(message); },
+    // eslint-disable-next-line no-console
+    info(message: string) { console.info(message); },
+    // eslint-disable-next-line no-console
+    warn(message: string) { console.warn(message); },
+    // eslint-disable-next-line no-console
+    error(message: string) { console.error(message); },
+  }
+}
+
 class Itly {
   private options: Options | undefined = undefined;
 
   private plugins = DEFAULT_DEV_OPTIONS.plugins!;
 
   private validationOptions = DEFAULT_DEV_OPTIONS.validation!;
+
+  private logger: Logger = LOGGERS.NONE;
 
   load(options: Options) {
     if (this.options) {
@@ -216,11 +254,15 @@ class Itly {
       return;
     }
 
+    this.logger = this.options.logger || this.logger;
     this.plugins = this.options.plugins!;
     this.validationOptions = this.options.validation!;
 
     // invoke load() on every plugin
-    this.plugins.forEach((p) => p.load(options));
+    this.runOnAllPlugins('load', (p) => p.load({
+      environment: this.options!.environment!,
+      logger: this.logger,
+    }));
   }
 
   alias(userId: string, previousId?: string) {
@@ -228,7 +270,7 @@ class Itly {
       return;
     }
 
-    this.plugins.forEach((p) => p.alias(userId, previousId));
+    this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId));
   }
 
   identify(userId: string | undefined, identifyProperties?: Properties) {
@@ -243,11 +285,13 @@ class Itly {
       version: '0-0-0',
     };
 
-    this.runIfValid(
+    this.validateAndRunOnAllPlugins(
+      'identify',
       identifyEvent,
-      () => this.plugins.forEach((p) => p.identify(userId, identifyProperties)),
-      (validationResponses) =>
-        this.plugins.forEach((p) => p.postIdentify(userId, identifyProperties, validationResponses)),
+      (p, e) => p.identify(userId, identifyProperties),
+      (p, e, validationResponses) => p.postIdentify(
+        userId, identifyProperties, validationResponses,
+      ),
     );
   }
 
@@ -263,11 +307,13 @@ class Itly {
       version: '0-0-0',
     };
 
-    this.runIfValid(
+    this.validateAndRunOnAllPlugins(
+      'group',
       groupEvent,
-      () => this.plugins.forEach((p) => p.group(userId, groupId, groupProperties)),
-      (validationResponses) =>
-        this.plugins.forEach((p) => p.postGroup(userId, groupId, groupProperties, validationResponses)),
+      (p, e) => p.group(userId, groupId, groupProperties),
+      (p, e, validationResponses) => p.postGroup(
+        userId, groupId, groupProperties, validationResponses,
+      ),
     );
   }
 
@@ -283,11 +329,13 @@ class Itly {
       version: '0-0-0',
     };
 
-    this.runIfValid(
+    this.validateAndRunOnAllPlugins(
+      'page',
       pageEvent,
-      () => this.plugins.forEach((p) => p.page(userId, category, name, pageProperties)),
-      (validationResponses) =>
-        this.plugins.forEach((p) => p.postPage(userId, category, name, pageProperties, validationResponses)),
+      (p, e) => p.page(userId, category, name, pageProperties),
+      (p, e, validationResponses) => p.postPage(
+        userId, category, name, pageProperties, validationResponses,
+      ),
     );
   }
 
@@ -299,16 +347,19 @@ class Itly {
     const context = this.options?.context;
     const mergedEvent = this.mergeContext(event, context);
 
-    this.runIfValid(
+    this.validateAndRunOnAllPlugins(
+      'track',
       event,
-      () => this.plugins.forEach((p) => p.track(userId, mergedEvent)),
-      (validationResponses) => this.plugins.forEach((p) => p.postTrack(userId, mergedEvent, validationResponses)),
+      (p, e) => p.track(userId, mergedEvent),
+      (p, e, validationResponses) => p.postTrack(
+        userId, mergedEvent, validationResponses,
+      ),
       context,
     );
   }
 
   reset() {
-    this.plugins.forEach((p) => p.reset());
+    this.runOnAllPlugins('reset', (p) => p.reset());
   }
 
   getPlugin(id: string): Plugin | undefined {
@@ -327,6 +378,7 @@ class Itly {
         })),
       );
     } catch (e) {
+      this.logger.error(`Error validating '${event.name}'. ${e.message}`);
       // catch errors in validate() method
       validationResponses.push({
         valid: false,
@@ -346,10 +398,11 @@ class Itly {
     return !this.options.disabled;
   }
 
-  private runIfValid(
+  private validateAndRunOnAllPlugins(
+    op: string,
     event: Event,
-    run: () => any,
-    postRun: (validationResponses: ValidationResponse[]) => any,
+    method: (plugin: Plugin, event: Event) => any,
+    postMethod: (plugin: Plugin, event: Event, validationResponses: ValidationResponse[]) => any,
     context?: Properties,
   ): void {
     // #1 validation phase
@@ -368,11 +421,14 @@ class Itly {
     // #2 track phase
     // invoke track(), group(), identify(), page() on every plugin if allowed
     if (shouldRun) {
-      run();
+      this.runOnAllPlugins(op, (p) => method(p, event));
     }
 
     // invoke postTrack(), postGroup(), postIdentify(), postPage() on every plugin
-    postRun(validationResponses);
+    this.runOnAllPlugins(
+      `post${this.capitalize(op)}`,
+      (p) => postMethod(p, event, validationResponses),
+    );
 
     // #3 response phase
     if (this.validationOptions.errorOnInvalid) {
@@ -402,6 +458,20 @@ class Itly {
       id: 'context',
       version: '0-0-0',
     };
+  }
+
+  private runOnAllPlugins(op: string, method: (p: Plugin) => any) {
+    this.plugins.forEach((plugin) => {
+      try {
+        method(plugin);
+      } catch (e) {
+        this.logger.error(`Error in ${plugin.id()}.${op}(). ${e.message}.`);
+      }
+    });
+  }
+
+  private capitalize(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 }
 

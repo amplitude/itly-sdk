@@ -7,8 +7,11 @@ import {
   Properties,
   Plugin,
   PluginBase,
+  PluginLoadOptions,
   ValidationOptions,
   ValidationResponse,
+  Logger,
+  LOGGERS,
 } from './base';
 
 export {
@@ -16,10 +19,13 @@ export {
   Environment,
   Plugin,
   PluginBase,
+  PluginLoadOptions,
   Event,
   Properties,
   ValidationOptions,
   ValidationResponse,
+  Logger,
+  LOGGERS,
 };
 
 // Itly Node SDK is the same as base (for now)
