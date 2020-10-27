@@ -1,4 +1,7 @@
-
+/**
+ * Test for Node version of plugin-testing
+ * @jest-environment node
+ */
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
 // eslint-disable-next-line max-classes-per-file
@@ -28,7 +31,7 @@ class StreamPausedEvent {}
 beforeEach(() => {
   jest.resetModules();
 
-  itly = require('@itly/sdk/node').default;
+  itly = require('@itly/sdk').default;
   testingPlugin = new TestingPlugin();
 
   itly.load({
