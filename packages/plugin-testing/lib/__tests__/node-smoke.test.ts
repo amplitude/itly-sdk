@@ -52,17 +52,15 @@ describe('TestingPlugin/node', () => {
     expect(testingPlugin.all()).toHaveLength(3);
     expect(testingPlugin.all(userId)).toHaveLength(3);
 
-    expect(testingPlugin.all()).toEqual([
-      expect.arrayContaining([userId, dataSearchedEvent1]),
-      expect.arrayContaining([userId, dataSearchedEvent2]),
-      expect.arrayContaining([userId, dataSearchedEvent3]),
-    ]);
-
-    expect(testingPlugin.all(userId)).toEqual([
+    const arrOfEvents = [
       dataSearchedEvent1,
       dataSearchedEvent2,
       dataSearchedEvent3,
-    ]);
+    ];
+
+    expect(testingPlugin.all()).toEqual(arrOfEvents);
+    expect(testingPlugin.all(userId)).toEqual(arrOfEvents);
+    expect(testingPlugin.all('random')).toEqual([]);
   });
 
   it('plugin.ofType', () => {
@@ -80,6 +78,7 @@ describe('TestingPlugin/node', () => {
     expect(testingPlugin.ofType(DataSearchedEvent)).toEqual([dataSearchedEvent1, dataSearchedEvent2, dataSearchedEvent3]);
     // eslint-disable-next-line max-len
     expect(testingPlugin.ofType(DataSearchedEvent, userId2)).toEqual([dataSearchedEvent3]);
+    expect(testingPlugin.ofType(DataSearchedEvent, 'random')).toEqual([]);
   });
 
   it('plugin.firstOfType', () => {
@@ -94,9 +93,10 @@ describe('TestingPlugin/node', () => {
     itly.track(userId2, dataFilteredEvent);
     itly.track(userId3, streamPausedEvent);
 
-    expect(testingPlugin.firstOfType(StreamPausedEvent)).toEqual(expect.arrayContaining([streamPausedEvent]));
-    expect(testingPlugin.firstOfType(StreamPausedEvent, userId3)).toEqual(expect.arrayContaining([streamPausedEvent]));
+    expect(testingPlugin.firstOfType(StreamPausedEvent)).toEqual(streamPausedEvent);
+    expect(testingPlugin.firstOfType(StreamPausedEvent, userId3)).toEqual(streamPausedEvent);
     expect(testingPlugin.firstOfType(StreamPausedEvent, userId2)).toEqual(null);
+    expect(testingPlugin.firstOfType(DataSearchedEvent, userId2)).toEqual(null);
   });
 
   it('plugin.reset', () => {
@@ -109,9 +109,9 @@ describe('TestingPlugin/node', () => {
 
     expect(testingPlugin.all()).toHaveLength(3);
     expect(testingPlugin.all()).toEqual([
-      expect.arrayContaining([userId, dataSearchedEvent1]),
-      expect.arrayContaining([userId, dataSearchedEvent2]),
-      expect.arrayContaining([userId, dataSearchedEvent3]),
+      dataSearchedEvent1,
+      dataSearchedEvent2,
+      dataSearchedEvent3,
     ]);
 
     testingPlugin.reset();

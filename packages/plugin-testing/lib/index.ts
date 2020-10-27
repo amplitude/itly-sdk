@@ -48,7 +48,7 @@ export default class TestingPlugin extends PluginBase implements ITestingPlugin 
       }, []);
     }
 
-    return calls.map(this.mapEmptyUserId);
+    return calls.map(this.mapMethodArgs);
   }
 
   ofType(ctor: Function, userId?: string) {
@@ -59,7 +59,7 @@ export default class TestingPlugin extends PluginBase implements ITestingPlugin 
 
   firstOfType(ctor: Function, userId?: string) {
     const tuple = this.safelyGetCalls('track').find(([id, ev]) => ev instanceof ctor && (!userId || userId === id));
-    return tuple ? this.mapEmptyUserId(tuple) : null;
+    return tuple ? this.mapMethodArgs(tuple) : null;
   }
 
   alias(...args: any[]) {
@@ -96,11 +96,7 @@ export default class TestingPlugin extends PluginBase implements ITestingPlugin 
     return this.calls.get(prop) || [];
   }
 
-  private mapEmptyUserId(tuple: MethodArgs) {
-    const [id, ev] = tuple;
-    if (id === undefined) {
-      return ev;
-    }
-    return tuple;
+  private mapMethodArgs([id, ev]: MethodArgs) {
+    return ev;
   }
 }
