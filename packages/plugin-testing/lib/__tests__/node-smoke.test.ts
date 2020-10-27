@@ -3,6 +3,7 @@
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
 // eslint-disable-next-line max-classes-per-file
 import { requireForTestEnv } from '../../../../__tests__/util';
+// eslint-disable-next-line no-unused-vars
 import { ITestingPlugin } from '../index';
 
 const TestingPlugin = requireForTestEnv(__dirname);
@@ -11,11 +12,13 @@ let itly: any;
 let testingPlugin: ITestingPlugin;
 
 class DataSearchedEvent {
+  // eslint-disable-next-line no-useless-constructor,no-unused-vars,no-empty-function
   constructor(public properties: any) {
   }
 }
 
 class DataFilteredEvent {
+  // eslint-disable-next-line no-useless-constructor,no-unused-vars,no-empty-function
   constructor(public properties: any) {
   }
 }
@@ -78,8 +81,8 @@ describe('TestingPlugin/node', () => {
 
   it('plugin.firstOfType', () => {
     const userId1 = 'user1';
-    const userId2 = 'user1';
-    const userId3 = 'user1';
+    const userId2 = 'user2';
+    const userId3 = 'user3';
     const dataSearchedEvent = new DataSearchedEvent({ page: 'Stream' });
     const dataFilteredEvent = new DataFilteredEvent({ page: 'Stream' });
     const streamPausedEvent = new StreamPausedEvent();
@@ -90,6 +93,7 @@ describe('TestingPlugin/node', () => {
 
     expect(testingPlugin.firstOfType(StreamPausedEvent)).toEqual(expect.arrayContaining([streamPausedEvent]));
     expect(testingPlugin.firstOfType(StreamPausedEvent, userId3)).toEqual(expect.arrayContaining([streamPausedEvent]));
+    expect(testingPlugin.firstOfType(StreamPausedEvent, userId2)).toEqual(null);
   });
 
   it('plugin.reset', () => {

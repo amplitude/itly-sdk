@@ -1,7 +1,9 @@
 
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
+// eslint-disable-next-line max-classes-per-file
 import { requireForTestEnv } from '../../../../__tests__/util';
+// eslint-disable-next-line no-unused-vars
 import { ITestingPlugin } from '../index';
 
 const TestingPlugin = requireForTestEnv(__dirname);
@@ -10,11 +12,13 @@ let itly: any;
 let testingPlugin: ITestingPlugin;
 
 class DataSearchedEvent {
+  // eslint-disable-next-line no-useless-constructor,no-unused-vars,no-empty-function
   constructor(public properties: any) {
   }
 }
 
 class DataFilteredEvent {
+  // eslint-disable-next-line no-unused-vars,no-useless-constructor,no-empty-function
   constructor(public properties: any) {
   }
 }
