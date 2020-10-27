@@ -207,15 +207,14 @@ const DEFAULT_PROD_OPTIONS: Options = {
   validation: DEFAULT_PROD_VALIDATION_OPTIONS,
 };
 
-export class LOGGERS {
-  static readonly NONE: Logger = {
+const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.freeze({
+  NONE: {
     debug(message: string) {},
     info(message: string) {},
     warn(message: string) {},
     error(message: string) {},
-  }
-
-  static readonly CONSOLE: Logger = {
+  },
+  CONSOLE: {
     // eslint-disable-next-line no-console
     debug(message: string) { console.debug(message); },
     // eslint-disable-next-line no-console
@@ -224,8 +223,8 @@ export class LOGGERS {
     warn(message: string) { console.warn(message); },
     // eslint-disable-next-line no-console
     error(message: string) { console.error(message); },
-  }
-}
+  },
+});
 
 class Itly {
   private options: Options | undefined = undefined;
@@ -476,5 +475,5 @@ class Itly {
 }
 
 const itly = new Itly();
-export { itly };
+export { itly, LOGGERS };
 export default itly;
