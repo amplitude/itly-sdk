@@ -7,6 +7,7 @@ import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
 import ErrorPlugin from '../../../../__tests__/src/ErrorPlugin';
 import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
 import DummyPlugin from '../../../../__tests__/src/DummyPlugin';
+import TestingPlugin from '../../../plugin-testing/lib';
 
 beforeEach(() => {
   jest.resetModules();
@@ -77,6 +78,79 @@ test('should load and track events to a custom destination (no validation)', () 
   expect(consoleSpy.mock.calls).toMatchSnapshot();
 
   consoleSpy.mockRestore();
+});
+
+test('should load and track events with properly merged context', () => {
+  const testingPlugin = new TestingPlugin();
+  const userId = 'test-user-id';
+  const context = {
+    requiredString: 'A required string',
+    optionalEnum: 'Value 1',
+  };
+
+  class TrackingEvent {
+    name = 'Event With All Properties';
+
+    // eslint-disable-next-line no-useless-constructor,no-empty-function
+    constructor(public properties: any) {
+    }
+  }
+
+  const itly = requireForTestEnv(__dirname);
+
+  itly.load({
+    environment: 'production',
+    context,
+    plugins: [testingPlugin],
+  });
+
+  itly.identify(undefined, {
+    userProp: 1,
+  });
+
+  itly.alias(userId);
+
+  itly.group('a-group-id', {
+    groupProp: 'test value',
+  });
+
+  itly.page('page category', 'page name', {
+    pageProp: 'a page property',
+  });
+
+  itly.track({
+    name: 'Event No Properties',
+  });
+
+  itly.track(new TrackingEvent({
+    requiredNumber: 2.0,
+    requiredInteger: 42,
+    requiredEnum: 'Enum1',
+    requiredBoolean: false,
+    requiredConst: 'some-const-value',
+    requiredArray: ['required', 'array'],
+    optionalString: 'I\'m optional!',
+  }));
+
+  const trackingEvent = new TrackingEvent({
+    requiredNumber: 2.0,
+    requiredInteger: 42,
+    requiredEnum: 'Enum1',
+    requiredBoolean: false,
+    requiredConst: 'some-const-value',
+    requiredArray: ['required', 'array'],
+    optionalString: 'I\'m optional!',
+    ...context,
+  });
+
+  expect(testingPlugin.all()).toEqual([
+    {
+      name: 'Event No Properties',
+      properties: { ...context },
+    },
+    trackingEvent,
+  ]);
+  expect(testingPlugin.firstOfType(TrackingEvent)).toEqual(trackingEvent);
 });
 
 test('other plugins should continue if another plugin throws errors in callback methods', () => {
