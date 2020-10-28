@@ -200,7 +200,7 @@ import itly from '@itly/sdk/node';
     class CustomPlugin extends PluginBase {
       id = () => 'custom';
 
-      load(options: Options): void {...}
+      load(options: PluginLoadOptions): void {...}
 
       alias(userId: string, previousId?: string): void {...}
 

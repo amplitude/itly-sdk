@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.3.0...v1.4.0) (2020-10-28)
+
+
+### Features
+
+* added plugin-testing ([fb411bb](https://github.com/iterativelyhq/itly-sdk/commit/fb411bb66f5d371e9a32cc3187c1158e68a59543))
+
+
+
+
+
 # [1.3.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.2.0...v1.3.0) (2020-09-08)
 
 **Note:** Version bump only for package @itly/plugin-mparticle

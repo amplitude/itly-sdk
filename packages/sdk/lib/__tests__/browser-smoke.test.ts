@@ -4,10 +4,16 @@
  */
 /* eslint-disable import/no-unresolved, global-require, import/extensions, no-unused-vars */
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
+import ErrorPlugin from '../../../../__tests__/src/ErrorPlugin';
 import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
+import DummyPlugin from '../../../../__tests__/src/DummyPlugin';
+
+beforeEach(() => {
+  jest.resetModules();
+});
 
 test('should load and track events to a custom destination (no validation)', () => {
-  const spy = jest.spyOn(console, 'log').mockImplementation();
+  const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
   const userId = 'test-user-id';
 
   const itly = requireForTestEnv(__dirname);
@@ -68,7 +74,53 @@ test('should load and track events to a custom destination (no validation)', () 
   // eslint-disable-next-line no-console
   console.log('CustomPlugin.id()', customOnly!.id());
 
-  expect(spy.mock.calls).toMatchSnapshot();
+  expect(consoleSpy.mock.calls).toMatchSnapshot();
 
-  spy.mockRestore();
+  consoleSpy.mockRestore();
+});
+
+test('other plugins should continue if another plugin throws errors in callback methods', () => {
+  const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+  const itly = requireForTestEnv(__dirname);
+
+  const id = 'user-id';
+  const dummyPlugin = new DummyPlugin();
+  const methodsToSpyOn: string[] = [
+    'load',
+    'alias',
+    'identify', 'group', 'page', 'track',
+    'postIdentify', 'postGroup', 'postTrack',
+    'reset',
+  ];
+
+  const pluginSpies: { [key: string]: jest.SpyInstance } = {};
+  methodsToSpyOn.forEach((method) => {
+    pluginSpies[method] = jest.spyOn(dummyPlugin, method as any);
+  });
+
+  itly.load({
+    environment: 'production',
+    plugins: [
+      new ErrorPlugin(),
+      dummyPlugin,
+    ],
+  });
+  itly.identify('tmp-id');
+  itly.alias(id, 'tmp-id');
+  itly.group('group-id');
+  itly.page('category', 'name');
+  itly.track({
+    name: 'my-event',
+    properties: {
+      prop: 'a value',
+    },
+  });
+  itly.reset();
+
+  methodsToSpyOn.forEach((method) => {
+    expect(pluginSpies[method]).toHaveBeenCalledTimes(1);
+  });
+
+  expect(consoleSpy.mock.calls).toMatchSnapshot();
+  consoleSpy.mockRestore();
 });

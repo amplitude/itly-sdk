@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this, no-unused-vars, import/no-unresolved, import/extensions */
 import {
-  Options, Event, Properties, PluginBase, ValidationResponse,
+  PluginLoadOptions, Event, Properties, PluginBase, ValidationResponse,
 } from '../../packages/sdk/lib';
 
 export default class CustomPlugin extends PluginBase {
@@ -15,13 +15,8 @@ export default class CustomPlugin extends PluginBase {
     return 'custom';
   }
 
-  load(options: Options): void {
-    this.log(`load() \
-environment='${options.environment}' \
-disabled=${options.disabled} \
-plugins=[${options.plugins ? options.plugins.map((p) => p.id()).join(', ') : ''}] \
-context=${this.stringify(options.context)} \
-validation=${this.stringify(options.validation)}`);
+  load(options: PluginLoadOptions): void {
+    this.log(`load() environment='${options.environment}'`);
   }
 
   validate(event: Event): ValidationResponse {
