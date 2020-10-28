@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.3.0...v1.4.0) (2020-10-28)
+
+
+### Bug Fixes
+
+* wrapped individual plugin method calls in try catch ([932417c](https://github.com/iterativelyhq/itly-sdk/commit/932417c4630e5d51340e8af03bbe50c00b710a74))
+
+
+
+
+
 # [1.3.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.2.0...v1.3.0) (2020-09-08)
 
 
