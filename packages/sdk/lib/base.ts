@@ -439,14 +439,11 @@ class Itly {
   }
 
   private mergeContext(event: Event, context?: Properties): Event {
-    if (!context) {
-      return event;
-    }
-
-    const eventCopy = Object.assign(Object.create(Object.getPrototypeOf(event)), event);
-    eventCopy.properties = { ...context, ...event.properties };
-
-    return eventCopy;
+    return context
+      ? Object.assign(Object.create(Object.getPrototypeOf(event)), event, {
+        properties: { ...context, ...event.properties },
+      })
+      : event;
   }
 
   private getContextEvent(context: Properties): Event {
