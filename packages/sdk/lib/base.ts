@@ -440,13 +440,9 @@ class Itly {
 
   private mergeContext(event: Event, context?: Properties): Event {
     return context
-      ? {
-        ...event,
-        properties: {
-          ...context,
-          ...event.properties,
-        },
-      }
+      ? Object.assign(Object.create(Object.getPrototypeOf(event)), event, {
+        properties: { ...context, ...event.properties },
+      })
       : event;
   }
 
