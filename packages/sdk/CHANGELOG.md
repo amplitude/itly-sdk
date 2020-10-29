@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/iterativelyhq/itly-sdk/compare/v1.4.0...v1.4.1) (2020-10-29)
+
+
+### Bug Fixes
+
+* incorporated CR feedback ([ba51695](https://github.com/iterativelyhq/itly-sdk/commit/ba5169552072beeca9e9f268f028cfac71ae67b1))
+* make SDK merge context to an event without losing its type ([65d7c72](https://github.com/iterativelyhq/itly-sdk/commit/65d7c72d044dc4bf892041da40a9b123885fb3be))
+
+
+
+
+
 # [1.4.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.3.0...v1.4.0) (2020-10-28)
 
 
