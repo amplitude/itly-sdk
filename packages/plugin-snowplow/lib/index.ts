@@ -47,7 +47,7 @@ export default class SnowplowBrowserPlugin extends PluginBase {
   track(userId: string | undefined, event: Event) {
     const schemaVer = event.version && event.version.replace(/\./g, '-');
     this.snowplow('trackSelfDescribingEvent', {
-      schema: `iglu:${this.vendor}/${event.id}/jsonschema/${schemaVer}`,
+      schema: `iglu:${this.vendor}/${event.name}/jsonschema/${schemaVer}`,
       data: event.properties,
     });
   }
