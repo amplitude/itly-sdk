@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-snowplow",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Snowplow Browser Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
