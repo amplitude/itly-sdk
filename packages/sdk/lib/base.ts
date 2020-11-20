@@ -14,11 +14,6 @@ export interface Options {
    */
   plugins?: Plugin[];
   /**
-   * Additional context properties to add to all events.
-   * Default is none.
-   */
-  context?: Properties;
-  /**
    * Configure validation handling
    */
   validation?: ValidationOptions;
@@ -195,7 +190,6 @@ const DEFAULT_PROD_VALIDATION_OPTIONS: ValidationOptions = {
 
 const DEFAULT_DEV_OPTIONS: Options = {
   environment: 'development',
-  context: undefined,
   plugins: [],
   validation: DEFAULT_DEV_VALIDATION_OPTIONS,
   disabled: false,
@@ -235,7 +229,9 @@ class Itly {
 
   private logger: Logger = LOGGERS.NONE;
 
-  load(options: Options) {
+  private context: Properties | undefined = undefined;
+
+  load(context?: Properties, options?: Options) {
     if (this.options) {
       throw new Error('Itly is already initialized.');
     }
@@ -256,6 +252,7 @@ class Itly {
     this.logger = this.options.logger || this.logger;
     this.plugins = this.options.plugins!;
     this.validationOptions = this.options.validation!;
+    this.context = context;
 
     // invoke load() on every plugin
     this.runOnAllPlugins('load', (p) => p.load({
@@ -343,8 +340,7 @@ class Itly {
       return;
     }
 
-    const context = this.options?.context;
-    const mergedEvent = this.mergeContext(event, context);
+    const mergedEvent = this.mergeContext(event, this.context);
 
     this.validateAndRunOnAllPlugins(
       'track',
@@ -353,7 +349,7 @@ class Itly {
       (p, e, validationResponses) => p.postTrack(
         userId, mergedEvent, validationResponses,
       ),
-      context,
+      this.context,
     );
   }
 

@@ -31,8 +31,8 @@ export {
 // Itly Node SDK is the same as base (for now)
 export class ItlyNode {
   load = (
-    options: Options,
-  ) => itlyBase.load(options);
+    context?: Properties, options?: Options,
+  ) => itlyBase.load(context, options);
 
   alias = (
     userId: string, previousId?: string,

@@ -21,7 +21,7 @@ test('should not crash on load', () => {
   const mparticleBrowserPlugin = new MparticleBrowserPlugin();
 
   expect(() => {
-    itly.load({
+    itly.load(undefined, {
       environment: 'production',
       plugins: [mparticleBrowserPlugin],
     });

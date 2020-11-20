@@ -31,8 +31,8 @@ export {
 // Itly Browser SDK
 export class ItlyBrowser {
   load = (
-    options: Options,
-  ) => itlyBase.load(options);
+    context?: Properties, options?: Options,
+  ) => itlyBase.load(context, options);
 
   alias = (
     userId: string, previousId?: string,

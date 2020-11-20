@@ -9,5 +9,6 @@ import {
 
 export type TestParams = {
   name: string;
+  context?: Properties,
   options: Options,
 };

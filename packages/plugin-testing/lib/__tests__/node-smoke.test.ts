@@ -34,7 +34,7 @@ beforeEach(() => {
   itly = require('@itly/sdk').default;
   testingPlugin = new TestingPlugin();
 
-  itly.load({
+  itly.load(undefined, {
     environment: 'production',
     plugins: [testingPlugin],
   });

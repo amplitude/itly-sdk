@@ -34,17 +34,17 @@ const plugins: Plugin[] = [
 const testParams: TestParams[] = [
   {
     name: 'load, track, validate - validationOptions=DEFAULT',
+    context,
     options: {
       environment: 'production', // i.e. trackInvalid: true
-      context,
       plugins,
     },
   },
   {
     name: 'load, track, validate - validationOptions={errorOnInvalid: true}',
+    context,
     options: {
       environment: 'production',
-      context,
       plugins,
       validation: {
         disabled: false,
@@ -55,17 +55,17 @@ const testParams: TestParams[] = [
   },
   {
     name: 'load, track, validate w/ context=\'undefined\'',
+    context: undefined,
     options: {
       environment: 'production',
-      context: undefined,
       plugins,
     },
   },
   {
     name: 'load, track, validate w/ context=\'{}\'',
+    context: {},
     options: {
       environment: 'production',
-      context: {},
       plugins,
     },
   },
@@ -87,10 +87,10 @@ afterEach(() => {
 });
 
 test.only.each(testParams.map((test) => [test.name, test]) as any[])('%s',
-  async (name: string, { options }: TestParams) => {
+  async (name: string, { context: ctx, options }: TestParams) => {
     const { itly } = require('@itly/sdk');
 
-    itly.load(options);
+    itly.load(ctx, options);
 
     itly.identify(undefined, identifyProps);
     itly.identify(tempUserId, identifyProps);

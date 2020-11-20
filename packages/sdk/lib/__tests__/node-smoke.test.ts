@@ -12,12 +12,14 @@ const plugins = [new CustomPlugin()];
 
 export type TestParams = {
   name: string;
+  context: any,
   options: any,
 };
 
 const testParams: TestParams[] = [
   {
     name: 'context = undefined',
+    context: undefined,
     options: {
       environment: 'production',
       plugins,
@@ -25,13 +27,13 @@ const testParams: TestParams[] = [
   },
   {
     name: 'context = 2 properties',
+    context: {
+      requiredString: 'A required string',
+      optionalEnum: 'Value 1',
+    },
     options: {
       environment: 'production',
       plugins,
-      context: {
-        requiredString: 'A required string',
-        optionalEnum: 'Value 1',
-      },
     },
   },
 ];
@@ -57,7 +59,7 @@ describe('should load and track events to a custom destination (no validation)',
   });
 
   test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
-    async (name: string, { options }: TestParams) => {
+    async (name: string, { context, options }: TestParams) => {
       // Try tracking before load, should throw error
       try {
         itly.identify(userId);
@@ -66,11 +68,11 @@ describe('should load and track events to a custom destination (no validation)',
       }
 
       // Load
-      itly.load(options);
+      itly.load(context, options);
 
       // Try load() again, should throw errror
       try {
-        itly.load(options);
+        itly.load(context, options);
       } catch (e) {
         console.log(`Caught expected error. ${e.message}`);
       }
@@ -130,7 +132,7 @@ describe('should load and track events to a custom destination (no validation)',
     const plugin = new CustomPlugin();
     const spyPluginLoad = jest.spyOn(plugin, 'load');
 
-    itly.load({
+    itly.load(undefined, {
       plugins: [plugin],
       disabled: false,
     });
@@ -165,9 +167,8 @@ describe('should load and track events to a custom destination (no validation)',
       }
     }
 
-    itly.load({
+    itly.load(context, {
       environment: 'production',
-      context,
       plugins: [testingPlugin],
     });
 

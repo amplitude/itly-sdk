@@ -54,7 +54,7 @@ test.each([
   );
 
   expect(() => {
-    itly.load({
+    itly.load(undefined, {
       environment,
       plugins: [iterativelyPlugin],
     });
@@ -73,7 +73,7 @@ test('should not post if on production', () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -96,7 +96,7 @@ test('should post when flushAt reached', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -144,7 +144,7 @@ test('should post in flushInterval', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -196,7 +196,7 @@ test('should omit event properties if configured', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -244,7 +244,7 @@ test('should post track validation error', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -296,7 +296,7 @@ test('should omit validation error details if configured', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });

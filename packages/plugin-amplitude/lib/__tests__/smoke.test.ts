@@ -42,7 +42,7 @@ const methodArgLoggerMock = (methodName: string, ...args: any[]) => {
 };
 
 test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
-  async (name: string, { options }: TestParams) => {
+  async (name: string, { context, options }: TestParams) => {
     const { itly } = require('@itly/sdk');
 
     const instanceMocks: { [key: string]: any } = {};
@@ -77,7 +77,7 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
       console.log(`Caught expected error. ${e.message}`);
     }
 
-    itly.load({
+    itly.load(context, {
       ...options,
       plugins: [plugin].concat(options.plugins),
     });
