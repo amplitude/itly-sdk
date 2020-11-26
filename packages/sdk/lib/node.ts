@@ -54,8 +54,6 @@ export class ItlyNode {
   ) => itlyBase.track(userId, event);
 
   reset = () => itlyBase.reset();
-
-  getPlugin = (id: string) => itlyBase.getPlugin(id);
 }
 
 const itly = new ItlyNode();

@@ -303,10 +303,6 @@ class Itly {
     this.runOnAllPlugins('reset', (p) => p.reset());
   }
 
-  getPlugin(id: string): Plugin | undefined {
-    return this.plugins.find((p) => p.id === id);
-  }
-
   private validate(event: Event): ValidationResponse[] {
     const pluginId = 'sdk-core';
     const validationResponses: ValidationResponse[] = [];

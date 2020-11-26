@@ -119,10 +119,6 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     // do nothing
     }
 
-    const pluginFromItly = itly.getPlugin('amplitude');
-    // eslint-disable-next-line no-console
-    console.log('AmplitudePlugin.id', pluginFromItly!.id);
-
     itly.reset();
 
     expect(spyConsoleLog.mock.calls).toMatchSnapshot();

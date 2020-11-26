@@ -96,9 +96,5 @@ Array [
     "CustomPlugin: ",
     "postTrack() userId='undefined' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
-  Array [
-    "CustomPlugin.id",
-    "custom",
-  ],
 ]
 `;

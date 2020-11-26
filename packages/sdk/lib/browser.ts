@@ -53,8 +53,6 @@ export class ItlyBrowser {
   ) => itlyBase.track(undefined, event);
 
   reset = () => itlyBase.reset();
-
-  getPlugin = (id: string) => itlyBase.getPlugin(id);
 }
 
 const itly = new ItlyBrowser();
