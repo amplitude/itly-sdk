@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import fetch from 'node-fetch';
 import {
-  Environment, Event, Properties, PluginBase, ValidationResponse,
+  Environment, Event, Properties, Plugin, ValidationResponse,
 } from '@itly/sdk';
 
 export type IterativelyOptions = {
@@ -34,9 +34,7 @@ type TrackModel = {
   };
 };
 
-export default class IterativelyNodePlugin extends PluginBase {
-  static ID: string = 'iteratively';
-
+export default class IterativelyNodePlugin extends Plugin {
   private buffer: TrackModel[] = [];
 
   private timer: ReturnType<typeof setTimeout> | null = null;
@@ -52,7 +50,7 @@ export default class IterativelyNodePlugin extends PluginBase {
   };
 
   constructor(private apiKey: string, iterativelyOptions: IterativelyOptions) {
-    super();
+    super('iteratively');
 
     // adjusts config values in accordance with provided environment value
     if (iterativelyOptions.environment === 'production') {
@@ -63,10 +61,7 @@ export default class IterativelyNodePlugin extends PluginBase {
     this.config = { ...this.config, ...iterativelyOptions };
   }
 
-  // overrides PluginBase.id
-  id = () => IterativelyNodePlugin.ID;
-
-  // overrides PluginBase.postIdentify
+  // overrides Plugin.postIdentify
   postIdentify(
     userId: string | undefined,
     properties: Properties | undefined,
@@ -75,7 +70,7 @@ export default class IterativelyNodePlugin extends PluginBase {
     this.push(this.toTrackModel(TrackType.identify, undefined, properties, validationResponses));
   }
 
-  // overrides PluginBase.postGroup
+  // overrides Plugin.postGroup
   postGroup(
     userId: string | undefined,
     groupId: string,
@@ -85,7 +80,7 @@ export default class IterativelyNodePlugin extends PluginBase {
     this.push(this.toTrackModel(TrackType.group, undefined, properties, validationResponses));
   }
 
-  // overrides PluginBase.postPage
+  // overrides Plugin.postPage
   postPage(
     userId: string | undefined,
     category: string | undefined,
@@ -96,7 +91,7 @@ export default class IterativelyNodePlugin extends PluginBase {
     this.push(this.toTrackModel(TrackType.page, undefined, properties, validationResponses));
   }
 
-  // overrides PluginBase.postTrack
+  // overrides Plugin.postTrack
   postTrack(
     userId: string | undefined,
     event: Event,

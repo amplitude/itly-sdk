@@ -1,15 +1,11 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Options, Event, Properties, PluginBase,
+  Options, Event, Properties, Plugin,
 } from '@itly/sdk';
 
 export type SegmentOptions = {};
 
-export default class SegmentBrowserPlugin extends PluginBase {
-  static ID: string = 'segment';
-
-  id = () => SegmentBrowserPlugin.ID;
-
+export default class SegmentBrowserPlugin extends Plugin {
   private get segment(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -20,7 +16,7 @@ export default class SegmentBrowserPlugin extends PluginBase {
     private writeKey: string,
     private options?: SegmentOptions,
   ) {
-    super();
+    super('segment');
   }
 
   load() {

@@ -3,7 +3,7 @@ import {
   Options,
   Event,
   Properties,
-  PluginBase,
+  Plugin,
   ValidationResponse,
 } from '../../packages/sdk/lib';
 

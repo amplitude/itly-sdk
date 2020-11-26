@@ -34,7 +34,7 @@ Array [
     "[\\"EventMaxIntForTest\\",{\\"intMax10\\":20}]",
   ],
   Array [
-    "AmplitudePlugin.id()",
+    "AmplitudePlugin.id",
     "amplitude",
   ],
   Array [

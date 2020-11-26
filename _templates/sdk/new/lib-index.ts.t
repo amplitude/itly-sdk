@@ -5,7 +5,7 @@ to: packages/sdk-<%= name %>/lib/index.ts
 import itlySdk, {
   ItlyOptions,
   ItlyEvent, ItlyProperties,
-  ItlyPlugin, ItlyPluginBase,
+  ItlyPlugin,
   ValidationOptions,
   ValidationResponse,
 } from '<%= itlySdkModule %>';
@@ -13,7 +13,6 @@ import itlySdk, {
 export {
   ItlyOptions,
   ItlyPlugin,
-  ItlyPluginBase,
   ItlyEvent,
   ItlyProperties,
   ValidationOptions,

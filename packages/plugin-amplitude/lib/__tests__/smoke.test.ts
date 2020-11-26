@@ -121,7 +121,7 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
 
     const pluginFromItly = itly.getPlugin('amplitude');
     // eslint-disable-next-line no-console
-    console.log('AmplitudePlugin.id()', pluginFromItly!.id());
+    console.log('AmplitudePlugin.id', pluginFromItly!.id);
 
     itly.reset();
 

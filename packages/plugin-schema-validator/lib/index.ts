@@ -3,7 +3,7 @@
 import Ajv from 'ajv';
 import {
   Event,
-  PluginBase,
+  Plugin,
   ValidationResponse,
 } from '@itly/sdk';
 
@@ -18,9 +18,7 @@ function isEmpty(obj: any) {
   return obj === undefined || Object.keys(obj).length === 0;
 }
 
-export default class SchemaValidatorPlugin extends PluginBase {
-  static ID: string = 'schema-validator';
-
+export default class SchemaValidatorPlugin extends Plugin {
   private ajv?: Ajv.Ajv;
 
   private validators?: { [schemaKey: string]: Ajv.ValidateFunction };
@@ -28,19 +26,16 @@ export default class SchemaValidatorPlugin extends PluginBase {
   constructor(
     private schemas: SchemaMap,
   ) {
-    super();
+    super('schema-validator');
   }
 
-  // overrides PluginBase.id
-  id = () => SchemaValidatorPlugin.ID;
-
-  // overrides PluginBase.load
+  // overrides Plugin.load
   load() {
     this.ajv = new Ajv();
     this.validators = {};
   }
 
-  // overrides PluginBase.validate
+  // overrides Plugin.validate
   validate(event: Event): ValidationResponse {
     const schemaKey = this.getSchemaKey(event);
     // Check that we have a schema for this event
@@ -50,21 +45,21 @@ export default class SchemaValidatorPlugin extends PluginBase {
         if (isEmpty(event.properties)) {
           return {
             valid: true,
-            pluginId: this.id(),
+            pluginId: this.id,
           };
         }
 
         return {
           valid: false,
           message: `'${event.name}' schema is empty but properties were found. properties=${JSON.stringify(event.properties)}`,
-          pluginId: this.id(),
+          pluginId: this.id,
         };
       }
 
       return {
         valid: false,
         message: `Event ${event.name} not found in tracking plan.`,
-        pluginId: this.id(),
+        pluginId: this.id,
       };
     }
 
@@ -89,13 +84,13 @@ export default class SchemaValidatorPlugin extends PluginBase {
       return {
         valid: false,
         message: `Passed in ${event.name} properties did not validate against your tracking plan. ${errorMessage}`,
-        pluginId: this.id(),
+        pluginId: this.id,
       };
     }
 
     return {
       valid: true,
-      pluginId: this.id(),
+      pluginId: this.id,
     };
   }
 
