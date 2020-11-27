@@ -220,6 +220,13 @@ class Itly {
       return;
     }
 
+    if (userId != null && typeof (userId) === 'object') {
+      // eslint-disable-next-line no-param-reassign
+      identifyProperties = userId;
+      // eslint-disable-next-line no-param-reassign
+      userId = undefined;
+    }
+
     const identifyEvent = {
       name: 'identify',
       properties: identifyProperties || {},
