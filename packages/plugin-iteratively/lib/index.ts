@@ -33,7 +33,7 @@ type TrackModel = {
   };
 };
 
-export default class IterativelyBrowserPlugin extends PluginBase {
+export class IterativelyBrowserPlugin extends PluginBase {
   static ID: string = 'iteratively';
 
   private buffer: TrackModel[] = [];
@@ -189,3 +189,5 @@ export default class IterativelyBrowserPlugin extends PluginBase {
     }
   }
 }
+
+export default IterativelyBrowserPlugin;

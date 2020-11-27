@@ -7,7 +7,7 @@ import {
 
 export type AmplitudeOptions = {};
 
-export default class AmplitudeBrowserPlugin extends PluginBase {
+export class AmplitudeBrowserPlugin extends PluginBase {
   static ID: string = 'amplitude';
 
   get amplitude(): any {
@@ -66,3 +66,5 @@ export default class AmplitudeBrowserPlugin extends PluginBase {
     this.amplitude.getInstance().regenerateDeviceId();
   }
 }
+
+export default AmplitudeBrowserPlugin;

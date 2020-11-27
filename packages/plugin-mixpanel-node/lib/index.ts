@@ -6,7 +6,7 @@ import Mixpanel, { InitConfig } from 'mixpanel';
 
 export interface MixpanelOptions extends InitConfig {}
 
-export default class MixpanelNodePlugin extends PluginBase {
+export class MixpanelNodePlugin extends PluginBase {
   static ID: string = 'mixpanel';
 
   private mixpanel?: Mixpanel.Mixpanel;
@@ -42,3 +42,5 @@ export default class MixpanelNodePlugin extends PluginBase {
     });
   }
 }
+
+export default MixpanelNodePlugin;

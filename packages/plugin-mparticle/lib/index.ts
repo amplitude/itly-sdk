@@ -9,7 +9,7 @@ export type MparticleOptions = {
   isDevelopmentMode?: boolean,
 };
 
-export default class MparticleBrowserPlugin extends PluginBase {
+export class MparticleBrowserPlugin extends PluginBase {
   static ID: string = 'mparticle';
 
   private $itly = 'audit';
@@ -53,3 +53,5 @@ export default class MparticleBrowserPlugin extends PluginBase {
     );
   }
 }
+
+export default MparticleBrowserPlugin;

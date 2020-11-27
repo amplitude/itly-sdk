@@ -8,7 +8,7 @@ export type SnowplowOptions = {
   config?: {};
 };
 
-export default class SnowplowBrowserPlugin extends PluginBase {
+export class SnowplowBrowserPlugin extends PluginBase {
   static ID: string = 'snowplow';
 
   private get snowplow(): any {
@@ -52,3 +52,5 @@ export default class SnowplowBrowserPlugin extends PluginBase {
     });
   }
 }
+
+export default SnowplowBrowserPlugin;

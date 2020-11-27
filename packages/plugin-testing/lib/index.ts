@@ -18,7 +18,7 @@ export interface ITestingPlugin {
   firstOfType(ev: TrackingEvent, userId?: string): TrackingEvent;
 }
 
-export default class TestingPlugin extends PluginBase implements ITestingPlugin {
+export class TestingPlugin extends PluginBase implements ITestingPlugin {
   static ID = 'testing';
 
   id = () => TestingPlugin.ID;
@@ -100,3 +100,5 @@ export default class TestingPlugin extends PluginBase implements ITestingPlugin 
     return ev;
   }
 }
+
+export default TestingPlugin;

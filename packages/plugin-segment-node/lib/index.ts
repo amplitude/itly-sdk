@@ -11,7 +11,7 @@ export type SegmentOptions = {
   enable?: boolean; // (default: true)
 }
 
-export default class SegmentNodePlugin extends PluginBase {
+export class SegmentNodePlugin extends PluginBase {
   static ID = 'segment';
 
   private segment?: Segment;
@@ -65,3 +65,5 @@ export default class SegmentNodePlugin extends PluginBase {
     });
   }
 }
+
+export default SegmentNodePlugin;

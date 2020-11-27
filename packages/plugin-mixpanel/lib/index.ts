@@ -5,7 +5,7 @@ import {
 
 export type MixpanelOptions = {};
 
-export default class MixpanelBrowserPlugin extends PluginBase {
+export class MixpanelBrowserPlugin extends PluginBase {
   static ID: string = 'mixpanel';
 
   id = () => MixpanelBrowserPlugin.ID;
@@ -58,3 +58,5 @@ export default class MixpanelBrowserPlugin extends PluginBase {
     this.mixpanel.reset();
   }
 }
+
+export default MixpanelBrowserPlugin;

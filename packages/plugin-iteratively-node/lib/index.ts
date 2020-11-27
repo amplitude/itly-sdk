@@ -34,7 +34,7 @@ type TrackModel = {
   };
 };
 
-export default class IterativelyNodePlugin extends PluginBase {
+export class IterativelyNodePlugin extends PluginBase {
   static ID: string = 'iteratively';
 
   private buffer: TrackModel[] = [];
@@ -190,3 +190,5 @@ export default class IterativelyNodePlugin extends PluginBase {
     }
   }
 }
+
+export default IterativelyNodePlugin;

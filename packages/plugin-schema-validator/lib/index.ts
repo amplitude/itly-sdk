@@ -18,7 +18,7 @@ function isEmpty(obj: any) {
   return obj === undefined || Object.keys(obj).length === 0;
 }
 
-export default class SchemaValidatorPlugin extends PluginBase {
+export class SchemaValidatorPlugin extends PluginBase {
   static ID: string = 'schema-validator';
 
   private ajv?: Ajv.Ajv;
@@ -103,3 +103,5 @@ export default class SchemaValidatorPlugin extends PluginBase {
     return event.name;
   }
 }
+
+export default SchemaValidatorPlugin;

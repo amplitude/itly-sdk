@@ -8,7 +8,7 @@ import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };
 
-export default class AmplitudeNodePlugin extends PluginBase {
+export class AmplitudeNodePlugin extends PluginBase {
   static ID: string = 'amplitude';
 
   private amplitude?: Amplitude;
@@ -52,3 +52,5 @@ export default class AmplitudeNodePlugin extends PluginBase {
     });
   }
 }
+
+export default AmplitudeNodePlugin;

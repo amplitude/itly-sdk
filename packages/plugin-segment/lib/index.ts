@@ -5,7 +5,7 @@ import {
 
 export type SegmentOptions = {};
 
-export default class SegmentBrowserPlugin extends PluginBase {
+export class SegmentBrowserPlugin extends PluginBase {
   static ID: string = 'segment';
 
   id = () => SegmentBrowserPlugin.ID;
@@ -64,3 +64,5 @@ export default class SegmentBrowserPlugin extends PluginBase {
     this.segment.reset();
   }
 }
+
+export default SegmentBrowserPlugin;
