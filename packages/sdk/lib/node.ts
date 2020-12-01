@@ -6,7 +6,6 @@ import {
   Event,
   Properties,
   Plugin,
-  PluginBase,
   PluginLoadOptions,
   ValidationOptions,
   ValidationResponse,
@@ -18,7 +17,6 @@ export {
   Options,
   Environment,
   Plugin,
-  PluginBase,
   PluginLoadOptions,
   Event,
   Properties,
@@ -56,8 +54,6 @@ export class ItlyNode {
   ) => itlyBase.track(userId, event);
 
   reset = () => itlyBase.reset();
-
-  getPlugin = (id: string) => itlyBase.getPlugin(id);
 }
 
 const itly = new ItlyNode();

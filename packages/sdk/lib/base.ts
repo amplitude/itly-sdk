@@ -67,63 +67,9 @@ export interface Logger {
   error(message: string): void;
 }
 
-export interface Plugin {
-  id(): string;
-
-  load(options: PluginLoadOptions): void;
-
-  // validation methods
-  validate(event: Event): ValidationResponse;
-
-  // tracking methods
-  alias(userId: string, previousId: string | undefined): void;
-
-  identify(userId: string | undefined, properties: Properties | undefined): void;
-
-  postIdentify(
-    userId: string | undefined,
-    properties: Properties | undefined,
-    validationResponses: ValidationResponse[],
-  ): void;
-
-  group(userId: string | undefined, groupId: string, properties?: Properties | undefined): void;
-
-  postGroup(
-    userId: string | undefined,
-    groupId: string,
-    properties: Properties | undefined,
-    validationResponses: ValidationResponse[],
-  ): void;
-
-  page(
-    userId: string | undefined,
-    category: string | undefined,
-    name: string | undefined,
-    properties: Properties | undefined,
-  ): void;
-
-  postPage(
-    userId: string | undefined,
-    category: string | undefined,
-    name: string | undefined,
-    properties: Properties | undefined,
-    validationResponses: ValidationResponse[],
-  ): void;
-
-  track(userId: string | undefined, event: Event): void;
-
-  postTrack(
-    userId: string | undefined,
-    event: Event,
-    validationResponses: ValidationResponse[],
-  ): void;
-
-  reset(): void;
-}
-
-export class PluginBase implements Plugin {
-  id(): string {
-    throw new Error('Plugin id() is required. Override id() method returning a unique id.');
+export abstract class Plugin {
+  protected constructor(readonly id: string) {
+    this.id = id;
   }
 
   load(options: PluginLoadOptions): void {}
@@ -357,10 +303,6 @@ class Itly {
     this.runOnAllPlugins('reset', (p) => p.reset());
   }
 
-  getPlugin(id: string): Plugin | undefined {
-    return this.plugins.find((p) => p.id() === id);
-  }
-
   private validate(event: Event): ValidationResponse[] {
     const pluginId = 'sdk-core';
     const validationResponses: ValidationResponse[] = [];
@@ -369,7 +311,7 @@ class Itly {
       validationResponses.push(
         ...this.plugins.map<ValidationResponse>((p) => ({
           ...p.validate(event),
-          pluginId: p.id(),
+          pluginId: p.id,
         })),
       );
     } catch (e) {
@@ -456,7 +398,7 @@ class Itly {
       try {
         method(plugin);
       } catch (e) {
-        this.logger.error(`Error in ${plugin.id()}.${op}(). ${e.message}.`);
+        this.logger.error(`Error in ${plugin.id}.${op}(). ${e.message}.`);
       }
     });
   }
