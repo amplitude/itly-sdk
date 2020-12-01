@@ -48,7 +48,8 @@ describe('should load and track events to a custom destination (no validation)',
   beforeEach(() => {
     jest.resetModules();
 
-    itly = requireForTestEnv(__dirname);
+    const Itly = requireForTestEnv(__dirname);
+    itly = new Itly();
 
     spyConsoleLog = jest.spyOn(console, 'log').mockImplementation();
   });

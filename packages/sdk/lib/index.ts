@@ -27,7 +27,7 @@ export {
 };
 
 // eslint-disable-next-line import/no-mutable-exports
-let itly;
+let Itly;
 
 const p = typeof process === 'undefined'
   ? undefined
@@ -40,10 +40,10 @@ if (
   // Jest JSDOM
   || (typeof navigator === 'object' && navigator.userAgent && navigator.userAgent.includes('jsdom'))
 ) {
-  itly = require('./browser').default;
+  Itly = require('./browser').Itly;
 } else {
-  itly = require('./node').default;
+  Itly = require('./node').Itly;
 }
 
-export { itly };
-export default itly;
+export { Itly };
+export default Itly;

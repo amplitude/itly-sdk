@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/extensions, import/no-unresolved */
 import {
-  itly as itlyBase,
+  Itly as ItlyBase,
   Options,
   Environment,
   Event,
@@ -27,34 +27,38 @@ export {
 };
 
 // Itly Browser SDK
-export class ItlyBrowser {
+export class Itly {
+  private itly: ItlyBase;
+
+  constructor() {
+    this.itly = new ItlyBase();
+  }
+
   load = (
     context?: Properties, options?: Options,
-  ) => itlyBase.load(context, options);
+  ) => this.itly.load(context, options);
 
   alias = (
     userId: string, previousId?: string,
-  ) => itlyBase.alias(userId, previousId);
+  ) => this.itly.alias(userId, previousId);
 
   identify = (
     userId: string | undefined, identifyProperties?: Properties,
-  ) => itlyBase.identify(userId, identifyProperties);
+  ) => this.itly.identify(userId, identifyProperties);
 
   group = (
     groupId: string, groupProperties?: Properties,
-  ) => itlyBase.group(undefined, groupId, groupProperties);
+  ) => this.itly.group(undefined, groupId, groupProperties);
 
   page = (
     category: string, name: string, pageProperties?: Properties,
-  ) => itlyBase.page(undefined, category, name, pageProperties);
+  ) => this.itly.page(undefined, category, name, pageProperties);
 
   track = (
     event: Event,
-  ) => itlyBase.track(undefined, event);
+  ) => this.itly.track(undefined, event);
 
-  reset = () => itlyBase.reset();
+  reset = () => this.itly.reset();
 }
 
-const itly = new ItlyBrowser();
-export { itly };
-export default itly;
+export default Itly;

@@ -147,7 +147,7 @@ const DEFAULT_PROD_OPTIONS: Options = {
   validation: DEFAULT_PROD_VALIDATION_OPTIONS,
 };
 
-const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.freeze({
+export const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.freeze({
   NONE: {
     debug(message: string) {},
     info(message: string) {},
@@ -166,7 +166,7 @@ const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.freeze({
   },
 });
 
-class Itly {
+export class Itly {
   private options: Options | undefined = undefined;
 
   private plugins = DEFAULT_DEV_OPTIONS.plugins!;
@@ -408,6 +408,4 @@ class Itly {
   }
 }
 
-const itly = new Itly();
-export { itly, LOGGERS };
-export default itly;
+export default Itly;
