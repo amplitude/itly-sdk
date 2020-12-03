@@ -1,7 +1,7 @@
 {
   "name": "@itly/plugin-schema-validator",
   "version": "1.4.1",
-  "description": "Iteratively Schema Validator Plugin ",
+  "description": "Iteratively Schema Validator Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

@@ -1,7 +1,7 @@
 {
   "name": "@itly/plugin-amplitude-node",
   "version": "1.4.1",
-  "description": "",
+  "description": "Amplitude Node Plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
