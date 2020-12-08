@@ -1,7 +1,7 @@
 {
   "name": "@itly/plugin-mixpanel",
   "version": "1.4.1",
-  "description": "Mixpanel Browser Plugin",
+  "description": "Mixpanel Browser Plugin for Iteratively SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

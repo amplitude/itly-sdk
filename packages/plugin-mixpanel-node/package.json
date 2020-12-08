@@ -1,7 +1,7 @@
 {
   "name": "@itly/plugin-mixpanel-node",
   "version": "1.4.1",
-  "description": "Mixpanel Node Plugin",
+  "description": "Mixpanel Node Plugin for Iteratively SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
