@@ -1,7 +1,7 @@
 {
   "name": "@itly/plugin-testing",
   "version": "1.4.1",
-  "description": "Testing Plugin",
+  "description": "Testing Plugin for Iteratively SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

@@ -1,7 +1,7 @@
 {
   "name": "@itly/plugin-amplitude",
   "version": "1.4.1",
-  "description": "Amplitude Browser Plugin",
+  "description": "Amplitude Browser Plugin for Iteratively SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
