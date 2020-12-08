@@ -42,7 +42,7 @@ if (
 ) {
   Itly = require('./browser').Itly;
 } else {
-  Itly = require('./node').Itly;
+  Itly = require('./base').Itly;
 }
 
 export { Itly };
