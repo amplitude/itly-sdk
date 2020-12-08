@@ -22,7 +22,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "mixpanel": "^0.11.0"
+    "mixpanel": "^0.13.0"
   },
   "peerDependencies": {
     "@itly/sdk": "^1.0.0"
