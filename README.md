@@ -299,7 +299,7 @@ There are [hygen](https://github.com/jondot/hygen) templates for creating a new 
       added: packages/plugin-awesome-analytics/tsconfig.json
     ```
 
-3. Extend the ItlyPlugin class in `packages/<name>/lib/index.ts`
+3. Extend the Itly `Plugin` class in `packages/<name>/lib/index.ts`
     ```
     $ open packages/plugin-awesome-analytics/lib/index.ts
     ```
