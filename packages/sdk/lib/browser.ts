@@ -43,8 +43,17 @@ export class Itly {
   ) => this.itly.alias(userId, previousId);
 
   identify = (
-    userId: string | undefined, identifyProperties?: Properties,
-  ) => this.itly.identify(userId, identifyProperties);
+    userId: string | Properties | undefined, identifyProperties?: Properties,
+  ) => {
+    if (userId != null && typeof (userId) === 'object') {
+      // eslint-disable-next-line no-param-reassign
+      identifyProperties = userId;
+      // eslint-disable-next-line no-param-reassign
+      userId = undefined;
+    }
+
+    this.itly.identify(userId, identifyProperties);
+  }
 
   group = (
     groupId: string, groupProperties?: Properties,
