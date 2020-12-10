@@ -8,7 +8,10 @@ import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };
 
-export class AmplitudeNodePlugin extends PluginBase {
+/**
+ * Amplitude Node Plugin for Iteratively SDK
+ */
+export class AmplitudePlugin extends PluginBase {
   static ID: string = 'amplitude';
 
   private amplitude?: Amplitude;
@@ -31,7 +34,7 @@ export class AmplitudeNodePlugin extends PluginBase {
   //     }
   // }
 
-  id = () => AmplitudeNodePlugin.ID;
+  id = () => AmplitudePlugin.ID;
 
   load() {
     this.amplitude = new Amplitude(this.apiKey, this.options);
@@ -53,4 +56,4 @@ export class AmplitudeNodePlugin extends PluginBase {
   }
 }
 
-export default AmplitudeNodePlugin;
+export default AmplitudePlugin;

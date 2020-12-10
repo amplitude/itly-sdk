@@ -7,7 +7,10 @@ import {
 
 export type AmplitudeOptions = {};
 
-export class AmplitudeBrowserPlugin extends PluginBase {
+/**
+ * Amplitude Browser Plugin for Iteratively SDK
+ */
+export class AmplitudePlugin extends PluginBase {
   static ID: string = 'amplitude';
 
   get amplitude(): any {
@@ -23,7 +26,7 @@ export class AmplitudeBrowserPlugin extends PluginBase {
     super();
   }
 
-  id = () => AmplitudeBrowserPlugin.ID;
+  id = () => AmplitudePlugin.ID;
 
   load() {
     if (!this.amplitude) {
@@ -67,4 +70,4 @@ export class AmplitudeBrowserPlugin extends PluginBase {
   }
 }
 
-export default AmplitudeBrowserPlugin;
+export default AmplitudePlugin;

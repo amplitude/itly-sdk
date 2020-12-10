@@ -9,7 +9,10 @@ export type MparticleOptions = {
   isDevelopmentMode?: boolean,
 };
 
-export class MparticleBrowserPlugin extends PluginBase {
+/**
+ * mParticle Browser Plugin for Iteratively SDK
+ */
+export class MparticlePlugin extends PluginBase {
   static ID: string = 'mparticle';
 
   private $itly = 'audit';
@@ -23,7 +26,7 @@ export class MparticleBrowserPlugin extends PluginBase {
     super();
   }
 
-  id = () => MparticleBrowserPlugin.ID;
+  id = () => MparticlePlugin.ID;
 
   load() {
     this.mparticle = Mparticle.getInstance();
@@ -41,7 +44,7 @@ export class MparticleBrowserPlugin extends PluginBase {
   }
 
   track(userId: string | undefined, event: Event) {
-    const meta = event.metadata?.[MparticleBrowserPlugin.ID];
+    const meta = event.metadata?.[MparticlePlugin.ID];
     this.mparticle.logEvent(
       event.name,
       meta?.eventType || Mparticle.EventType.Other,
@@ -54,4 +57,4 @@ export class MparticleBrowserPlugin extends PluginBase {
   }
 }
 
-export default MparticleBrowserPlugin;
+export default MparticlePlugin;

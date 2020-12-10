@@ -34,7 +34,10 @@ type TrackModel = {
   };
 };
 
-export class IterativelyNodePlugin extends PluginBase {
+/**
+ * Iteratively Node Plugin for Iteratively SDK
+ */
+export class IterativelyPlugin extends PluginBase {
   static ID: string = 'iteratively';
 
   private buffer: TrackModel[] = [];
@@ -64,7 +67,7 @@ export class IterativelyNodePlugin extends PluginBase {
   }
 
   // overrides PluginBase.id
-  id = () => IterativelyNodePlugin.ID;
+  id = () => IterativelyPlugin.ID;
 
   // overrides PluginBase.postIdentify
   postIdentify(
@@ -191,4 +194,4 @@ export class IterativelyNodePlugin extends PluginBase {
   }
 }
 
-export default IterativelyNodePlugin;
+export default IterativelyPlugin;

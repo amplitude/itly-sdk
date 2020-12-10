@@ -5,10 +5,13 @@ import {
 
 export type SegmentOptions = {};
 
-export class SegmentBrowserPlugin extends PluginBase {
+/**
+ * Segment Browser Plugin for Iteratively SDK
+ */
+export class SegmentPlugin extends PluginBase {
   static ID: string = 'segment';
 
-  id = () => SegmentBrowserPlugin.ID;
+  id = () => SegmentPlugin.ID;
 
   private get segment(): any {
     // eslint-disable-next-line no-restricted-globals
@@ -65,4 +68,4 @@ export class SegmentBrowserPlugin extends PluginBase {
   }
 }
 
-export default SegmentBrowserPlugin;
+export default SegmentPlugin;

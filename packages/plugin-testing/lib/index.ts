@@ -18,6 +18,9 @@ export interface ITestingPlugin {
   firstOfType(ev: TrackingEvent, userId?: string): TrackingEvent;
 }
 
+/**
+ * Testing Plugin for Iteratively SDK
+ */
 export class TestingPlugin extends PluginBase implements ITestingPlugin {
   static ID = 'testing';
 

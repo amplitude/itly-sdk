@@ -6,7 +6,10 @@ import Mixpanel, { InitConfig } from 'mixpanel';
 
 export interface MixpanelOptions extends InitConfig {}
 
-export class MixpanelNodePlugin extends PluginBase {
+/**
+ * Mixpanel Node Plugin for Iteratively SDK
+ */
+export class MixpanelPlugin extends PluginBase {
   static ID: string = 'mixpanel';
 
   private mixpanel?: Mixpanel.Mixpanel;
@@ -18,7 +21,7 @@ export class MixpanelNodePlugin extends PluginBase {
     super();
   }
 
-  id = () => MixpanelNodePlugin.ID;
+  id = () => MixpanelPlugin.ID;
 
   load() {
     this.mixpanel = Mixpanel.init(this.apiKey, this.options);
@@ -43,4 +46,4 @@ export class MixpanelNodePlugin extends PluginBase {
   }
 }
 
-export default MixpanelNodePlugin;
+export default MixpanelPlugin;

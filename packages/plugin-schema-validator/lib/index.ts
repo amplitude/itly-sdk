@@ -18,6 +18,9 @@ function isEmpty(obj: any) {
   return obj === undefined || Object.keys(obj).length === 0;
 }
 
+/**
+ * Schema Validator Plugin for Iteratively SDK
+ */
 export class SchemaValidatorPlugin extends PluginBase {
   static ID: string = 'schema-validator';
 

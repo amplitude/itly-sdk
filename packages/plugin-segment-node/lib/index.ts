@@ -11,7 +11,10 @@ export type SegmentOptions = {
   enable?: boolean; // (default: true)
 }
 
-export class SegmentNodePlugin extends PluginBase {
+/**
+ * Segment Node Plugin for Iteratively SDK
+ */
+export class SegmentPlugin extends PluginBase {
   static ID = 'segment';
 
   private segment?: Segment;
@@ -23,7 +26,7 @@ export class SegmentNodePlugin extends PluginBase {
     super();
   }
 
-  id = () => SegmentNodePlugin.ID;
+  id = () => SegmentPlugin.ID;
 
   load() {
     this.segment = new Segment(this.writeKey, this.options);
@@ -66,4 +69,4 @@ export class SegmentNodePlugin extends PluginBase {
   }
 }
 
-export default SegmentNodePlugin;
+export default SegmentPlugin;

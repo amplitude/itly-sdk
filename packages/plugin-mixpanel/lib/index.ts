@@ -5,10 +5,13 @@ import {
 
 export type MixpanelOptions = {};
 
-export class MixpanelBrowserPlugin extends PluginBase {
+/**
+ * Mixpanel Browser Plugin for Iteratively SDK
+ */
+export class MixpanelPlugin extends PluginBase {
   static ID: string = 'mixpanel';
 
-  id = () => MixpanelBrowserPlugin.ID;
+  id = () => MixpanelPlugin.ID;
 
   private get mixpanel(): any {
     // eslint-disable-next-line no-restricted-globals
@@ -59,4 +62,4 @@ export class MixpanelBrowserPlugin extends PluginBase {
   }
 }
 
-export default MixpanelBrowserPlugin;
+export default MixpanelPlugin;

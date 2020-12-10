@@ -33,7 +33,10 @@ type TrackModel = {
   };
 };
 
-export class IterativelyBrowserPlugin extends PluginBase {
+/**
+ * Iteratively Browser Plugin for Iteratively SDK
+ */
+export class IterativelyPlugin extends PluginBase {
   static ID: string = 'iteratively';
 
   private buffer: TrackModel[] = [];
@@ -63,7 +66,7 @@ export class IterativelyBrowserPlugin extends PluginBase {
   }
 
   // overrides PluginBase.id
-  id = () => IterativelyBrowserPlugin.ID;
+  id = () => IterativelyPlugin.ID;
 
   // overrides PluginBase.postIdentify
   postIdentify(
@@ -190,4 +193,4 @@ export class IterativelyBrowserPlugin extends PluginBase {
   }
 }
 
-export default IterativelyBrowserPlugin;
+export default IterativelyPlugin;

@@ -8,7 +8,10 @@ export type SnowplowOptions = {
   config?: {};
 };
 
-export class SnowplowBrowserPlugin extends PluginBase {
+/**
+ * Snowplow Browser Plugin for Iteratively SDK
+ */
+export class SnowplowPlugin extends PluginBase {
   static ID: string = 'snowplow';
 
   private get snowplow(): any {
@@ -24,7 +27,7 @@ export class SnowplowBrowserPlugin extends PluginBase {
     super();
   }
 
-  id = () => SnowplowBrowserPlugin.ID;
+  id = () => SnowplowPlugin.ID;
 
   load() {
     if (!this.snowplow) {
@@ -53,4 +56,4 @@ export class SnowplowBrowserPlugin extends PluginBase {
   }
 }
 
-export default SnowplowBrowserPlugin;
+export default SnowplowPlugin;
