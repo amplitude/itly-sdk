@@ -125,6 +125,8 @@ export interface Plugin {
   ): void;
 
   reset(): void;
+
+  flush(): void;
 }
 
 export class PluginBase implements Plugin {
@@ -180,6 +182,8 @@ export class PluginBase implements Plugin {
   postTrack(userId: string | undefined, event: Event, validationResponses: ValidationResponse[]): void {}
 
   reset(): void {}
+
+  flush(): void {}
 }
 
 const DEFAULT_DEV_VALIDATION_OPTIONS: ValidationOptions = {
@@ -360,6 +364,10 @@ class Itly {
 
   reset() {
     this.runOnAllPlugins('reset', (p) => p.reset());
+  }
+
+  flush() {
+    this.runOnAllPlugins('flush', (p) => p.flush());
   }
 
   getPlugin(id: string): Plugin | undefined {

@@ -52,6 +52,8 @@ class Itly {
 
   reset = () => itlySdk.reset();
 
+  flush = () => itlySdk.flush();
+
   getPlugin = (id: string) => itlySdk.getPlugin(id);
 }
 

@@ -57,6 +57,8 @@ export class ItlyNode {
 
   reset = () => itlyBase.reset();
 
+  flush = () => itlyBase.flush();
+
   getPlugin = (id: string) => itlyBase.getPlugin(id);
 }
 

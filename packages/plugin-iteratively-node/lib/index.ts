@@ -143,7 +143,7 @@ export default class IterativelyNodePlugin extends PluginBase {
     return model;
   }
 
-  private async flush() {
+  async flush() {
     if (this.config.disabled) {
       return;
     }

@@ -64,4 +64,8 @@ export default class SegmentNodePlugin extends PluginBase {
       properties: { ...event.properties },
     });
   }
+
+  flush() {
+    this.segment!.flush();
+  }
 }
