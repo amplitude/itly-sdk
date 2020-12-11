@@ -74,7 +74,7 @@ export default class ErrorPlugin extends PluginBase {
     throw new Error('Error in reset().');
   }
 
-  flush(): void {
+  async flush() {
     throw new Error('Error in flush().');
   }
 }

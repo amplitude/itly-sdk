@@ -99,7 +99,7 @@ export default class CustomPlugin extends PluginBase {
     this.log('reset()');
   }
 
-  flush(): void {
+  async flush() {
     this.log('flush()');
   }
 }

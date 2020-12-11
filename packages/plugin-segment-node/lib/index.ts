@@ -66,6 +66,13 @@ export default class SegmentNodePlugin extends PluginBase {
   }
 
   flush() {
-    this.segment!.flush();
+    return new Promise<void>((resolve, reject) => {
+      this.segment!.flush((err: Error) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve();
+      });
+    });
   }
 }

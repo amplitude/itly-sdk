@@ -126,7 +126,7 @@ export interface Plugin {
 
   reset(): void;
 
-  flush(): void;
+  flush(): Promise<void>;
 }
 
 export class PluginBase implements Plugin {
@@ -183,7 +183,9 @@ export class PluginBase implements Plugin {
 
   reset(): void {}
 
-  flush(): void {}
+  flush(): Promise<void> {
+    return Promise.resolve();
+  }
 }
 
 const DEFAULT_DEV_VALIDATION_OPTIONS: ValidationOptions = {
@@ -366,8 +368,15 @@ class Itly {
     this.runOnAllPlugins('reset', (p) => p.reset());
   }
 
-  flush() {
-    this.runOnAllPlugins('flush', (p) => p.flush());
+  async flush() {
+    const flushPromises = this.plugins.map(async (plugin) => {
+      try {
+        await plugin.flush();
+      } catch (e) {
+        this.logger.error(`Error in ${plugin.id()}.flush(). ${e.message}.`);
+      }
+    });
+    await Promise.all(flushPromises);
   }
 
   getPlugin(id: string): Plugin | undefined {
