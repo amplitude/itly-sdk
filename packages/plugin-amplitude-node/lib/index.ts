@@ -8,7 +8,10 @@ import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };
 
-export default class AmplitudeNodePlugin extends Plugin {
+/**
+ * Amplitude Node Plugin for Iteratively SDK
+ */
+export class AmplitudePlugin extends Plugin {
   private amplitude?: Amplitude;
 
   constructor(
@@ -48,3 +51,5 @@ export default class AmplitudeNodePlugin extends Plugin {
     });
   }
 }
+
+export default AmplitudePlugin;

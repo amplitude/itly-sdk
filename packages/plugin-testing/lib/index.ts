@@ -18,7 +18,10 @@ export interface ITestingPlugin {
   firstOfType(ev: TrackingEvent, userId?: string): TrackingEvent;
 }
 
-export default class TestingPlugin extends Plugin implements ITestingPlugin {
+/**
+ * Testing Plugin for Iteratively SDK
+ */
+export class TestingPlugin extends Plugin implements ITestingPlugin {
   private calls: Map<AvailableMethodNames, MethodArgs[]> = new Map();
 
   private readonly trackingMethods: AvailableMethodNames[] = ['alias', 'identify', 'group', 'page', 'track'];
@@ -96,3 +99,5 @@ export default class TestingPlugin extends Plugin implements ITestingPlugin {
     return ev;
   }
 }
+
+export default TestingPlugin;

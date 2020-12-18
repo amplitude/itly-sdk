@@ -9,7 +9,10 @@ export type MparticleOptions = {
   isDevelopmentMode?: boolean,
 };
 
-export default class MparticleBrowserPlugin extends Plugin {
+/**
+ * mParticle Browser Plugin for Iteratively SDK
+ */
+export class MparticlePlugin extends Plugin {
   private $itly = 'audit';
 
   private mparticle?: any;
@@ -49,3 +52,5 @@ export default class MparticleBrowserPlugin extends Plugin {
     );
   }
 }
+
+export default MparticlePlugin;

@@ -3,7 +3,7 @@
 import fetch from 'node-fetch';
 import { requireForTestEnv } from '../../../../__tests__/util';
 
-const IterativelyNodePlugin = requireForTestEnv(__dirname);
+const IterativelyPlugin = requireForTestEnv(__dirname);
 
 jest.mock('node-fetch');
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -45,7 +45,7 @@ test.each([
   ['production'],
   ['development'],
 ])('should not crash on load (env: %s)', (environment) => {
-  const iterativelyPlugin = new IterativelyNodePlugin(
+  const iterativelyPlugin = new IterativelyPlugin(
     defaultTestApiKey,
     {
       url: defaultTestUrl,
@@ -64,7 +64,7 @@ test.each([
 test('should not post if on production', () => {
   const environment = 'production';
 
-  const iterativelyPlugin = new IterativelyNodePlugin(
+  const iterativelyPlugin = new IterativelyPlugin(
     defaultTestApiKey,
     {
       environment,
@@ -86,7 +86,7 @@ test('should not post if on production', () => {
 test('should post when flushAt reached', async () => {
   const environment = 'development';
 
-  const iterativelyPlugin = new IterativelyNodePlugin(
+  const iterativelyPlugin = new IterativelyPlugin(
     defaultTestApiKey,
     {
       environment,
@@ -134,7 +134,7 @@ test('should post in flushInterval', async () => {
   const environment = 'development';
   const flushInterval = 10;
 
-  const iterativelyPlugin = new IterativelyNodePlugin(
+  const iterativelyPlugin = new IterativelyPlugin(
     defaultTestApiKey,
     {
       environment,
@@ -186,7 +186,7 @@ test('should post in flushInterval', async () => {
 test('should omit event properties if configured', async () => {
   const environment = 'development';
 
-  const iterativelyPlugin = new IterativelyNodePlugin(
+  const iterativelyPlugin = new IterativelyPlugin(
     defaultTestApiKey,
     {
       environment,
@@ -235,7 +235,7 @@ test('should omit event properties if configured', async () => {
 test('should post track validation error', async () => {
   const environment = 'development';
 
-  const iterativelyPlugin = new IterativelyNodePlugin(
+  const iterativelyPlugin = new IterativelyPlugin(
     defaultTestApiKey,
     {
       environment,
@@ -286,7 +286,7 @@ test('should post track validation error', async () => {
 test('should omit validation error details if configured', async () => {
   const environment = 'development';
 
-  const iterativelyPlugin = new IterativelyNodePlugin(
+  const iterativelyPlugin = new IterativelyPlugin(
     defaultTestApiKey,
     {
       environment,

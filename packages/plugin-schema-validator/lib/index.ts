@@ -18,7 +18,10 @@ function isEmpty(obj: any) {
   return obj === undefined || Object.keys(obj).length === 0;
 }
 
-export default class SchemaValidatorPlugin extends Plugin {
+/**
+ * Schema Validator Plugin for Iteratively SDK
+ */
+export class SchemaValidatorPlugin extends Plugin {
   private ajv?: Ajv.Ajv;
 
   private validators?: { [schemaKey: string]: Ajv.ValidateFunction };
@@ -98,3 +101,5 @@ export default class SchemaValidatorPlugin extends Plugin {
     return event.name;
   }
 }
+
+export default SchemaValidatorPlugin;

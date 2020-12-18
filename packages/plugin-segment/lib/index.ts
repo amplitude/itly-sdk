@@ -5,7 +5,10 @@ import {
 
 export type SegmentOptions = {};
 
-export default class SegmentBrowserPlugin extends Plugin {
+/**
+ * Segment Browser Plugin for Iteratively SDK
+ */
+export class SegmentPlugin extends Plugin {
   private get segment(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -60,3 +63,5 @@ export default class SegmentBrowserPlugin extends Plugin {
     this.segment.reset();
   }
 }
+
+export default SegmentPlugin;
