@@ -3,7 +3,7 @@
 import Ajv from 'ajv';
 import {
   Event,
-  PluginBase,
+  Plugin,
   ValidationResponse,
 } from '@itly/sdk';
 
@@ -21,9 +21,7 @@ function isEmpty(obj: any) {
 /**
  * Schema Validator Plugin for Iteratively SDK
  */
-export class SchemaValidatorPlugin extends PluginBase {
-  static ID: string = 'schema-validator';
-
+export class SchemaValidatorPlugin extends Plugin {
   private ajv?: Ajv.Ajv;
 
   private validators?: { [schemaKey: string]: Ajv.ValidateFunction };
@@ -31,19 +29,16 @@ export class SchemaValidatorPlugin extends PluginBase {
   constructor(
     private schemas: SchemaMap,
   ) {
-    super();
+    super('schema-validator');
   }
 
-  // overrides PluginBase.id
-  id = () => SchemaValidatorPlugin.ID;
-
-  // overrides PluginBase.load
+  // overrides Plugin.load
   load() {
     this.ajv = new Ajv();
     this.validators = {};
   }
 
-  // overrides PluginBase.validate
+  // overrides Plugin.validate
   validate(event: Event): ValidationResponse {
     const schemaKey = this.getSchemaKey(event);
     // Check that we have a schema for this event
@@ -53,21 +48,21 @@ export class SchemaValidatorPlugin extends PluginBase {
         if (isEmpty(event.properties)) {
           return {
             valid: true,
-            pluginId: this.id(),
+            pluginId: this.id,
           };
         }
 
         return {
           valid: false,
           message: `'${event.name}' schema is empty but properties were found. properties=${JSON.stringify(event.properties)}`,
-          pluginId: this.id(),
+          pluginId: this.id,
         };
       }
 
       return {
         valid: false,
         message: `Event ${event.name} not found in tracking plan.`,
-        pluginId: this.id(),
+        pluginId: this.id,
       };
     }
 
@@ -92,13 +87,13 @@ export class SchemaValidatorPlugin extends PluginBase {
       return {
         valid: false,
         message: `Passed in ${event.name} properties did not validate against your tracking plan. ${errorMessage}`,
-        pluginId: this.id(),
+        pluginId: this.id,
       };
     }
 
     return {
       valid: true,
-      pluginId: this.id(),
+      pluginId: this.id,
     };
   }
 

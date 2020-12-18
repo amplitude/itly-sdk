@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Options, Event, Properties, PluginBase,
+  Options, Event, Properties, Plugin,
 } from '@itly/sdk';
 
 export type SnowplowOptions = {
@@ -11,9 +11,7 @@ export type SnowplowOptions = {
 /**
  * Snowplow Browser Plugin for Iteratively SDK
  */
-export class SnowplowPlugin extends PluginBase {
-  static ID: string = 'snowplow';
-
+export class SnowplowPlugin extends Plugin {
   private get snowplow(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -24,10 +22,8 @@ export class SnowplowPlugin extends PluginBase {
     readonly vendor: string,
     private options: SnowplowOptions,
   ) {
-    super();
+    super('snowplow');
   }
-
-  id = () => SnowplowPlugin.ID;
 
   load() {
     if (!this.snowplow) {

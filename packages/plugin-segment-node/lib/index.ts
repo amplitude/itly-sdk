@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  PluginBase, Event, Properties,
+  Plugin, Event, Properties,
 } from '@itly/sdk';
 import Segment from 'analytics-node';
 
@@ -14,19 +14,15 @@ export type SegmentOptions = {
 /**
  * Segment Node Plugin for Iteratively SDK
  */
-export class SegmentPlugin extends PluginBase {
-  static ID = 'segment';
-
+export class SegmentPlugin extends Plugin {
   private segment?: Segment;
 
   constructor(
     private writeKey: string,
     private options?: SegmentOptions,
   ) {
-    super();
+    super('segment');
   }
-
-  id = () => SegmentPlugin.ID;
 
   load() {
     this.segment = new Segment(this.writeKey, this.options);

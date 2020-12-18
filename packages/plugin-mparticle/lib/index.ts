@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 /* eslint-disable no-underscore-dangle */
 import {
-  Options, Event, Properties, PluginBase,
+  Options, Event, Properties, Plugin,
 } from '@itly/sdk';
 import Mparticle from '@itly/mparticle-web-sdk';
 
@@ -12,9 +12,7 @@ export type MparticleOptions = {
 /**
  * mParticle Browser Plugin for Iteratively SDK
  */
-export class MparticlePlugin extends PluginBase {
-  static ID: string = 'mparticle';
-
+export class MparticlePlugin extends Plugin {
   private $itly = 'audit';
 
   private mparticle?: any;
@@ -23,10 +21,8 @@ export class MparticlePlugin extends PluginBase {
     private apiKey: string,
     private options: MparticleOptions = { },
   ) {
-    super();
+    super('mparticle');
   }
-
-  id = () => MparticlePlugin.ID;
 
   load() {
     this.mparticle = Mparticle.getInstance();
@@ -44,7 +40,7 @@ export class MparticlePlugin extends PluginBase {
   }
 
   track(userId: string | undefined, event: Event) {
-    const meta = event.metadata?.[MparticlePlugin.ID];
+    const meta = event.metadata?.[this.id];
     this.mparticle.logEvent(
       event.name,
       meta?.eventType || Mparticle.EventType.Other,

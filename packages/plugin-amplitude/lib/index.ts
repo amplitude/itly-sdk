@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  Event, Properties, PluginBase,
+  Event, Properties, Plugin,
 } from '@itly/sdk';
 
 export type AmplitudeOptions = {};
@@ -10,9 +10,7 @@ export type AmplitudeOptions = {};
 /**
  * Amplitude Browser Plugin for Iteratively SDK
  */
-export class AmplitudePlugin extends PluginBase {
-  static ID: string = 'amplitude';
-
+export class AmplitudePlugin extends Plugin {
   get amplitude(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -23,10 +21,8 @@ export class AmplitudePlugin extends PluginBase {
     private apiKey: string,
     private options?: AmplitudeOptions,
   ) {
-    super();
+    super('amplitude');
   }
-
-  id = () => AmplitudePlugin.ID;
 
   load() {
     if (!this.amplitude) {

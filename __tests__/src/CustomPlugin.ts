@@ -1,9 +1,9 @@
 /* eslint-disable class-methods-use-this, no-unused-vars, import/no-unresolved, import/extensions */
 import {
-  PluginLoadOptions, Event, Properties, PluginBase, ValidationResponse,
+  PluginLoadOptions, Event, Properties, Plugin, ValidationResponse,
 } from '../../packages/sdk/lib';
 
-export default class CustomPlugin extends PluginBase {
+export default class CustomPlugin extends Plugin {
   LOG_TAG = 'CustomPlugin';
 
   // eslint-disable-next-line no-console
@@ -11,8 +11,8 @@ export default class CustomPlugin extends PluginBase {
 
   private stringify = (object: any) => JSON.stringify(object);
 
-  id(): string {
-    return 'custom';
+  constructor() {
+    super('custom');
   }
 
   load(options: PluginLoadOptions): void {

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import {
-  Environment, Event, Properties, PluginBase, ValidationResponse,
+  Environment, Event, Properties, Plugin, ValidationResponse,
 } from '@itly/sdk';
 
 export type IterativelyOptions = {
@@ -36,9 +36,7 @@ type TrackModel = {
 /**
  * Iteratively Browser Plugin for Iteratively SDK
  */
-export class IterativelyPlugin extends PluginBase {
-  static ID: string = 'iteratively';
-
+export class IterativelyPlugin extends Plugin {
   private buffer: TrackModel[] = [];
 
   private timer: ReturnType<typeof setTimeout> | null = null;
@@ -54,7 +52,7 @@ export class IterativelyPlugin extends PluginBase {
   };
 
   constructor(private apiKey: string, iterativelyOptions: IterativelyOptions) {
-    super();
+    super('iteratively');
 
     // adjusts config values in accordance with provided environment value
     if (iterativelyOptions.environment === 'production') {
@@ -65,10 +63,7 @@ export class IterativelyPlugin extends PluginBase {
     this.config = { ...this.config, ...iterativelyOptions };
   }
 
-  // overrides PluginBase.id
-  id = () => IterativelyPlugin.ID;
-
-  // overrides PluginBase.postIdentify
+  // overrides Plugin.postIdentify
   postIdentify(
     userId: string | undefined,
     properties: Properties | undefined,
@@ -77,7 +72,7 @@ export class IterativelyPlugin extends PluginBase {
     this.push(this.toTrackModel(TrackType.identify, undefined, properties, validationResponses));
   }
 
-  // overrides PluginBase.postGroup
+  // overrides Plugin.postGroup
   postGroup(
     userId: string | undefined,
     groupId: string,
@@ -87,7 +82,7 @@ export class IterativelyPlugin extends PluginBase {
     this.push(this.toTrackModel(TrackType.group, undefined, properties, validationResponses));
   }
 
-  // overrides PluginBase.postPage
+  // overrides Plugin.postPage
   postPage(
     userId: string | undefined,
     category: string | undefined,
@@ -98,7 +93,7 @@ export class IterativelyPlugin extends PluginBase {
     this.push(this.toTrackModel(TrackType.page, undefined, properties, validationResponses));
   }
 
-  // overrides PluginBase.postTrack
+  // overrides Plugin.postTrack
   postTrack(
     userId: string | undefined,
     event: Event,

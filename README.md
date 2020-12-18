@@ -191,14 +191,16 @@ import itly from '@itly/sdk/node';
     ```
 
 # Create an Itly Plugin
-1. Extend the `PluginBase` class and override some or all of the lifecycle hooks. Alternatively you can implement the full `Plugin` interface.
+1. Extend the `Plugin` class and override some or all of the lifecycle hooks. Alternatively you can implement the full `Plugin` interface.
     ```
     import itly, {
-      Event, Options, Properties, PluginBase, Properties, ValidationResponse,
+      Event, Options, Properties, Plugin, Properties, ValidationResponse,
     } from '@itly/sdk';
 
-    class CustomPlugin extends PluginBase {
-      id = () => 'custom';
+    class CustomPlugin extends Plugin {
+      constructor() {
+        super('custom');
+      }
 
       load(options: PluginLoadOptions): void {...}
 
@@ -297,7 +299,7 @@ There are [hygen](https://github.com/jondot/hygen) templates for creating a new 
       added: packages/plugin-awesome-analytics/tsconfig.json
     ```
 
-3. Extend the ItlyPluginBase class in `packages/<name>/lib/index.ts`
+3. Extend the Itly `Plugin` class in `packages/<name>/lib/index.ts`
     ```
     $ open packages/plugin-awesome-analytics/lib/index.ts
     ```

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Options, Event, Properties, PluginBase,
+  Options, Event, Properties, Plugin,
 } from '@itly/sdk';
 
 export type MixpanelOptions = {};
@@ -8,11 +8,7 @@ export type MixpanelOptions = {};
 /**
  * Mixpanel Browser Plugin for Iteratively SDK
  */
-export class MixpanelPlugin extends PluginBase {
-  static ID: string = 'mixpanel';
-
-  id = () => MixpanelPlugin.ID;
-
+export class MixpanelPlugin extends Plugin {
   private get mixpanel(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -23,7 +19,7 @@ export class MixpanelPlugin extends PluginBase {
     private apiKey: string,
     private options?: MixpanelOptions,
   ) {
-    super();
+    super('mixpanel');
   }
 
   load() {

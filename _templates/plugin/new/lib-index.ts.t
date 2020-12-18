@@ -6,11 +6,11 @@ to: packages/plugin-<%= name %>/lib/index.ts
 %>
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  Options, Event, Properties, PluginBase,
+  Options, Event, Properties, Plugin,
 } from '<%= itlySdkModule %>';
 
-export default class <%= ClassName %> extends PluginBase {
-  static ID: string = '<%= name %>';
-
-  id = () => <%= ClassName %>.ID;
+export default class <%= ClassName %> extends Plugin {
+  constructor() {
+    super('<%= name %>');
+  }
 }
