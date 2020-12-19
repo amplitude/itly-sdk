@@ -22,7 +22,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "amplitude": "^5.0.2"
+    "amplitude": "^5.1.4"
   },
   "peerDependencies": {
     "@itly/sdk": "^1.0.0"
