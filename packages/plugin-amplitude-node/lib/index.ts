@@ -3,6 +3,8 @@ import {
   Event,
   Properties,
   Plugin,
+  Logger,
+  PluginLoadOptions,
 } from '@itly/sdk';
 import Amplitude, { AmplitudeOptions } from 'amplitude';
 
@@ -13,6 +15,8 @@ export { AmplitudeOptions };
  */
 export class AmplitudePlugin extends Plugin {
   private amplitude?: Amplitude;
+
+  private logger: Logger | undefined;
 
   constructor(
     private apiKey: string,
@@ -32,23 +36,34 @@ export class AmplitudePlugin extends Plugin {
   //     }
   // }
 
-  load() {
+  load(options: PluginLoadOptions) {
     this.amplitude = new Amplitude(this.apiKey, this.options);
+    this.logger = options.logger;
   }
 
-  identify(userId: string, properties?: Properties) {
-    this.amplitude!.identify({
-      user_id: userId,
-      user_properties: properties,
-    });
+  async identify(userId: string, properties?: Properties) {
+    try {
+      const resp = await this.amplitude!.identify({
+        user_id: userId,
+        user_properties: properties,
+      });
+      this.logger!.debug(`${this.id}: ${resp}`);
+    } catch (e) {
+      this.logger!.error(`${this.id}: ${e}`);
+    }
   }
 
-  track(userId: string, event: Event) {
-    this.amplitude!.track({
-      event_type: event.name,
-      user_id: userId,
-      event_properties: event.properties,
-    });
+  async track(userId: string, event: Event) {
+    try {
+      const resp = await this.amplitude!.track({
+        event_type: event.name,
+        user_id: userId,
+        event_properties: event.properties,
+      });
+      this.logger!.debug(`${this.id}: ${JSON.stringify(resp)}`);
+    } catch (e) {
+      this.logger!.error(`${this.id}: ${e}`);
+    }
   }
 }
 
