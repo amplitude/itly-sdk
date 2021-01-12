@@ -427,7 +427,7 @@ export class Itly {
   }
 
   private canRunEventOnPlugin(event: Event, plugin: Plugin) {
-    return !event.plugins || (event.plugins[plugin.id()] ?? true);
+    return !event.plugins || (event.plugins[plugin.id] ?? true);
   }
 
   private mergeContext(event: Event, context?: Properties): Event {
