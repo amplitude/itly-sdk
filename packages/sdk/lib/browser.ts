@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/extensions, import/no-unresolved */
 import {
-  itly as itlyBase,
+  Itly as ItlyBase,
   Options,
   Environment,
   Event,
@@ -27,7 +27,13 @@ export {
 };
 
 // Itly Browser SDK
-export class ItlyBrowser {
+export class Itly {
+  private itly: ItlyBase;
+
+  constructor() {
+    this.itly = new ItlyBase();
+  }
+
   /**
    * Initialize the Itly SDK. Call once when your application starts.
    * @param context Additional context properties to add to all events.
@@ -35,7 +41,7 @@ export class ItlyBrowser {
    */
   load = (
     context?: Properties, options?: Options,
-  ) => itlyBase.load(context, options);
+  ) => this.itly.load(context, options);
 
   /**
    * Alias a user ID to another user ID.
@@ -44,7 +50,7 @@ export class ItlyBrowser {
    */
   alias = (
     userId: string, previousId?: string,
-  ) => itlyBase.alias(userId, previousId);
+  ) => this.itly.alias(userId, previousId);
 
   /**
    * Identify a user and set or update that user's properties.
@@ -61,7 +67,7 @@ export class ItlyBrowser {
       userId = undefined;
     }
 
-    itlyBase.identify(userId, identifyProperties);
+    this.itly.identify(userId, identifyProperties);
   }
 
   /**
@@ -71,7 +77,7 @@ export class ItlyBrowser {
    */
   group = (
     groupId: string, groupProperties?: Properties,
-  ) => itlyBase.group(undefined, groupId, groupProperties);
+  ) => this.itly.group(undefined, groupId, groupProperties);
 
   /**
    * Track a page view.
@@ -81,7 +87,7 @@ export class ItlyBrowser {
    */
   page = (
     category: string, name: string, pageProperties?: Properties,
-  ) => itlyBase.page(undefined, category, name, pageProperties);
+  ) => this.itly.page(undefined, category, name, pageProperties);
 
   /**
    * Track any event.
@@ -94,14 +100,12 @@ export class ItlyBrowser {
    */
   track = (
     event: Event,
-  ) => itlyBase.track(undefined, event);
+  ) => this.itly.track(undefined, event);
 
   /**
    * Reset (e.g. on logout) all analytics state for the current user and group.
    */
-  reset = () => itlyBase.reset();
+  reset = () => this.itly.reset();
 }
 
-const itly = new ItlyBrowser();
-export { itly };
-export default itly;
+export default Itly;

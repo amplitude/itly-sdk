@@ -1,6 +1,7 @@
-/* eslint-disable global-require, no-await-in-loop */
+/* eslint-disable no-await-in-loop */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
 import fetch from 'node-fetch';
+import Itly from '@itly/sdk';
 import { requireForTestEnv } from '../../../../__tests__/util';
 
 const IterativelyPlugin = requireForTestEnv(__dirname);
@@ -34,7 +35,7 @@ beforeEach(() => {
   jest.clearAllMocks();
   jest.resetModules();
 
-  itly = require('@itly/sdk').default;
+  itly = new Itly();
 });
 
 afterEach(() => {

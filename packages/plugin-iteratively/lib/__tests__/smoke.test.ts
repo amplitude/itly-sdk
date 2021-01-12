@@ -1,5 +1,6 @@
-/* eslint-disable global-require, no-await-in-loop */
+/* eslint-disable no-await-in-loop */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
+import Itly from '@itly/sdk';
 import { requireForTestEnv } from '../../../../__tests__/util';
 
 const IterativelyPlugin = requireForTestEnv(__dirname);
@@ -32,7 +33,7 @@ beforeEach(() => {
   jest.resetModules();
 
   global.fetch = jest.fn().mockImplementation();
-  itly = require('@itly/sdk').default;
+  itly = new Itly();
 
   // NOTE: Create a script to prevent - 'TypeError: Cannot read property 'parentNode' of undefined'
   // https://github.com/walmartlabs/little-loader/issues/53
