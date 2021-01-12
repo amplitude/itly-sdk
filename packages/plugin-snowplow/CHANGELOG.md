@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.5.0...v1.6.0) (2020-12-04)
+
+**Note:** Version bump only for package @itly/plugin-snowplow
+
+
+
+
+
 # [1.5.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.4.1...v1.5.0) (2020-11-06)
 
 

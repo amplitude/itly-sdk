@@ -43,6 +43,7 @@ export type EventMetadata = {
 export type Event = {
   name: string;
   properties?: Properties;
+  plugins?: Record<string, boolean>
   id?: string;
   version?: string;
   metadata?: EventMetadata;
@@ -399,13 +400,21 @@ export class Itly {
     // #2 track phase
     // invoke track(), group(), identify(), page() on every plugin if allowed
     if (shouldRun) {
-      this.runOnAllPlugins(op, (p) => method(p, event));
+      this.runOnAllPlugins(op, (p) => {
+        if (this.canRunEventOnPlugin(event, p)) {
+          method(p, event);
+        }
+      });
     }
 
     // invoke postTrack(), postGroup(), postIdentify(), postPage() on every plugin
     this.runOnAllPlugins(
       `post${this.capitalize(op)}`,
-      (p) => postMethod(p, event, validationResponses),
+      (p) => {
+        if (this.canRunEventOnPlugin(event, p)) {
+          postMethod(p, event, validationResponses);
+        }
+      },
     );
 
     // #3 response phase
@@ -415,6 +424,10 @@ export class Itly {
         throw new Error(`Validation Error: ${invalidResult.message}`);
       }
     }
+  }
+
+  private canRunEventOnPlugin(event: Event, plugin: Plugin) {
+    return !event.plugins || (event.plugins[plugin.id()] ?? true);
   }
 
   private mergeContext(event: Event, context?: Properties): Event {

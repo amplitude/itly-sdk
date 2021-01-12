@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-segment-node",
-  "version": "1.4.1",
+  "version": "1.6.0",
   "description": "Segment Node Plugin for Iteratively SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,12 +18,12 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk": "^1.4.1",
+    "@itly/sdk": "^1.6.0",
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@types/analytics-node": "^3.1.3",
-    "analytics-node": "^3.4.0-beta.1"
+    "@types/analytics-node": "^3.1.4",
+    "analytics-node": "^3.4.0-beta.3"
   },
   "peerDependencies": {
     "@itly/sdk": "^1.0.0"
