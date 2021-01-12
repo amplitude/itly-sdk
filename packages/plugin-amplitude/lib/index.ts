@@ -1,4 +1,3 @@
-
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
@@ -38,6 +37,9 @@ export class AmplitudePlugin extends Plugin {
   }
 
   identify(userId: string | undefined, properties?: Properties) {
+    const id = +new Date();
+    this.logger!.debug(`${this.id}: identify ${id}: ${userId} ${JSON.stringify(properties)}`);
+
     if (userId) {
       this.amplitude.getInstance().setUserId(userId);
     }
@@ -52,15 +54,17 @@ export class AmplitudePlugin extends Plugin {
         identifyObject.set(p, (properties as any)[p]);
       }
 
-      this.amplitude.getInstance().identify(identifyObject, this.sentCallback);
+      this.amplitude.getInstance().identify(identifyObject, this.sentCallback('identify', id));
     }
   }
 
   track(userId: string | undefined, event: Event) {
+    const id = +new Date();
+    this.logger!.debug(`${this.id}: track ${id}: ${userId} ${event.name} ${JSON.stringify(event.properties)}`);
     this.amplitude.getInstance().logEvent(
       event.name,
       event.properties,
-      this.sentCallback,
+      this.sentCallback('track', id),
     );
   }
 
@@ -69,13 +73,14 @@ export class AmplitudePlugin extends Plugin {
     this.amplitude.getInstance().regenerateDeviceId();
   }
 
-  private sentCallback = (statusCode: number, responseBody: string, details: unknown) => {
-    if (statusCode >= 200 && statusCode < 300) {
-      this.logger!.debug(`${this.id}: ${responseBody}`);
-    } else {
-      this.logger!.error(`${this.id}: ${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
-    }
-  }
+  private sentCallback = (action: string, id: number) =>
+    (statusCode: number, responseBody: string, details: unknown) => {
+      if (statusCode >= 200 && statusCode < 300) {
+        this.logger!.debug(`${this.id}: ${action} ${id}: ${responseBody}`);
+      } else {
+        this.logger!.error(`${this.id}: ${action} ${id}: ${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
+      }
+    };
 }
 
 export default AmplitudePlugin;

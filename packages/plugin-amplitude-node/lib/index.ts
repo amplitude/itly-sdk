@@ -42,27 +42,33 @@ export class AmplitudePlugin extends Plugin {
   }
 
   async identify(userId: string, properties?: Properties) {
+    const id = +new Date();
+    const payload = {
+      user_id: userId,
+      user_properties: properties,
+    };
+    this.logger!.debug(`${this.id}: identify ${id}: ${JSON.stringify(payload)}`);
     try {
-      const resp = await this.amplitude!.identify({
-        user_id: userId,
-        user_properties: properties,
-      });
-      this.logger!.debug(`${this.id}: ${resp}`);
+      const resp = await this.amplitude!.identify(payload);
+      this.logger!.debug(`${this.id}: identify ${id}: ${resp}`);
     } catch (e) {
-      this.logger!.error(`${this.id}: ${e}`);
+      this.logger!.error(`${this.id}: identify ${id}: ${e}`);
     }
   }
 
   async track(userId: string, event: Event) {
+    const id = +new Date();
+    const payload = {
+      event_type: event.name,
+      user_id: userId,
+      event_properties: event.properties,
+    };
+    this.logger!.debug(`${this.id}: track ${id}: ${JSON.stringify(payload)}`);
     try {
-      const resp = await this.amplitude!.track({
-        event_type: event.name,
-        user_id: userId,
-        event_properties: event.properties,
-      });
-      this.logger!.debug(`${this.id}: ${JSON.stringify(resp)}`);
+      const resp = await this.amplitude!.track(payload);
+      this.logger!.debug(`${this.id}: track ${id}: ${JSON.stringify(resp)}`);
     } catch (e) {
-      this.logger!.error(`${this.id}: ${e}`);
+      this.logger!.error(`${this.id}: track ${id}: ${e}`);
     }
   }
 }
