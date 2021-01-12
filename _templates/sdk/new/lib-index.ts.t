@@ -3,7 +3,7 @@ to: packages/sdk-<%= name %>/lib/index.ts
 ---
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  itly as itlySdk,
+  Itly as ItlySdk,
   Options,
   Event,
   Properties,
@@ -21,14 +21,20 @@ export {
   ValidationResponse,
 };
 
-class Itly {
+export class Itly {
+  private itly: ItlySdk;
+
+  constructor() {
+    this.itly = new ItlySdk();
+  }
+
   load = (
     options: Options,
-  ) => itlySdk.load(options);
+  ) => this.itly.load(options);
 
   alias = (
     userId: string, previousId?: string,
-  ) => itlySdk.alias(userId, previousId);
+  ) => this.itly.alias(userId, previousId);
 
   /**
    * Identify a user and set or update that user's properties.
@@ -36,24 +42,22 @@ class Itly {
    */
   identify = (
     userId: string | undefined, identifyProperties?: Properties,
-  ) => itlySdk.identify(userId, identifyProperties);
+  ) => this.itly.identify(userId, identifyProperties);
 
   group = (
     userId:string | undefined, groupId: string, groupProperties?: Properties,
-  ) => itlySdk.group(userId, groupId, groupProperties);
+  ) => this.itly.group(userId, groupId, groupProperties);
 
   page = (
     userId: string | undefined, category: string, name: string, pageProperties?: Properties,
-  ) => itlySdk.page(userId, category, name, pageProperties);
+  ) => this.itly.page(userId, category, name, pageProperties);
 
   track = (
     userId: string | undefined,
     event: Event,
-  ) => itlySdk.track(userId, event);
+  ) => this.itly.track(userId, event);
 
-  reset = () => itlySdk.reset();
+  reset = () => this.itly.reset();
 }
 
-const itly = new Itly();
-export { itly };
-export default itly;
+export default Itly;

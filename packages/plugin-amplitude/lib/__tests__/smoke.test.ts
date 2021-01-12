@@ -1,5 +1,6 @@
-/* eslint-disable no-unused-vars, global-require */
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
+import Itly from '@itly/sdk';
 import {
   TestParams,
   requireForTestEnv,
@@ -43,7 +44,7 @@ const methodArgLoggerMock = (methodName: string, ...args: any[]) => {
 
 test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
   async (name: string, { context, options }: TestParams) => {
-    const { itly } = require('@itly/sdk');
+    const itly = new Itly();
 
     const instanceMocks: { [key: string]: any } = {};
     ['init', 'identify', 'track', 'setUserId', 'regenerateDeviceId', 'logEvent'].forEach((mockMethod) => {

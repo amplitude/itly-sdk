@@ -2,7 +2,7 @@
  * Test for Browser version of SDK
  * @jest-environment jsdom
  */
-/* eslint-disable import/no-unresolved, global-require, import/extensions, no-unused-vars */
+/* eslint-disable import/no-unresolved, import/extensions, no-unused-vars */
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
 import ErrorPlugin from '../../../../__tests__/src/ErrorPlugin';
 import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
@@ -13,11 +13,13 @@ beforeEach(() => {
   jest.resetModules();
 });
 
+const Itly = requireForTestEnv(__dirname);
+
 test('should load and track events to a custom destination (no validation)', () => {
   const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
   const userId = 'test-user-id';
 
-  const itly = requireForTestEnv(__dirname);
+  const itly = new Itly();
 
   itly.load({
     requiredString: 'A required string',
@@ -91,7 +93,7 @@ test('should load and track events with properly merged context', () => {
     }
   }
 
-  const itly = requireForTestEnv(__dirname);
+  const itly = new Itly();
 
   itly.load(context, {
     environment: 'production',
@@ -149,7 +151,7 @@ test('should load and track events with properly merged context', () => {
 
 test('other plugins should continue if another plugin throws errors in callback methods', () => {
   const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-  const itly = requireForTestEnv(__dirname);
+  const itly = new Itly();
 
   const id = 'user-id';
   const dummyPlugin = new DummyPlugin();
