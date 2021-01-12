@@ -10,15 +10,15 @@ export interface Options {
    */
   disabled?: boolean;
   /**
-   * Analytics provider-specific configuration. Default is null.
+   * Extend the Itly SDK by adding plugins for common analytics trackers, validation and more.
    */
   plugins?: Plugin[];
   /**
-   * Configure validation handling
+   * Configure validation handling. Default is to track invalid events in production, but throw in other environments.
    */
   validation?: ValidationOptions;
   /**
-   * Logger to use for Iteratively output messages
+   * Logger. Default is no logging.
    */
   logger?: Logger;
 }
@@ -177,6 +177,11 @@ export class Itly {
 
   private context: Properties | undefined = undefined;
 
+  /**
+   * Initialize the Itly SDK. Call once when your application starts.
+   * @param context Additional context properties to add to all events.
+   * @param options Configuration options to initialize the Itly SDK with.
+   */
   load(context?: Properties, options?: Options) {
     if (this.options) {
       throw new Error('Itly is already initialized.');
@@ -207,6 +212,11 @@ export class Itly {
     }));
   }
 
+  /**
+   * Alias a user ID to another user ID.
+   * @param userId The user's new ID.
+   * @param previousId The user's previous ID.
+   */
   alias(userId: string, previousId?: string) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -215,6 +225,11 @@ export class Itly {
     this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId));
   }
 
+  /**
+   * Identify a user and set or update that user's properties.
+   * @param userId The user's ID.
+   * @param identifyProperties The user's properties.
+   */
   identify(userId: string | undefined, identifyProperties?: Properties) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -237,6 +252,12 @@ export class Itly {
     );
   }
 
+  /**
+   * Associate a user with a group and set or update that group's properties.
+   * @param userId The user's ID.
+   * @param groupId The group's ID.
+   * @param groupProperties The group's properties.
+   */
   group(userId: string | undefined, groupId: string, groupProperties?: Properties) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -259,6 +280,13 @@ export class Itly {
     );
   }
 
+  /**
+   * Track a page view.
+   * @param userId The user's ID.
+   * @param category The page's category.
+   * @param name The page's name.
+   * @param pageProperties The page's properties.
+   */
   page(userId: string | undefined, category: string, name: string, pageProperties?: Properties) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -281,6 +309,16 @@ export class Itly {
     );
   }
 
+  /**
+   * Track any event.
+   * @param userId The user's ID.
+   * @param event The event.
+   * @param event.name The event's name.
+   * @param event.properties The event's properties.
+   * @param event.id The event's ID.
+   * @param event.version The event's version.
+   * @param event.metadata The event's metadata.
+   */
   track(userId: string | undefined, event: Event) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -299,6 +337,9 @@ export class Itly {
     );
   }
 
+  /**
+   * Reset (e.g. on logout) all analytics state for the current user and group.
+   */
   reset() {
     this.runOnAllPlugins('reset', (p) => p.reset());
   }

@@ -33,7 +33,10 @@ type TrackModel = {
   };
 };
 
-export default class IterativelyBrowserPlugin extends Plugin {
+/**
+ * Iteratively Browser Plugin for Iteratively SDK
+ */
+export class IterativelyPlugin extends Plugin {
   private buffer: TrackModel[] = [];
 
   private timer: ReturnType<typeof setTimeout> | null = null;
@@ -184,3 +187,5 @@ export default class IterativelyBrowserPlugin extends Plugin {
     }
   }
 }
+
+export default IterativelyPlugin;

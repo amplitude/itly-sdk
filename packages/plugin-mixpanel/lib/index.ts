@@ -5,7 +5,10 @@ import {
 
 export type MixpanelOptions = {};
 
-export default class MixpanelBrowserPlugin extends Plugin {
+/**
+ * Mixpanel Browser Plugin for Iteratively SDK
+ */
+export class MixpanelPlugin extends Plugin {
   private get mixpanel(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -54,3 +57,5 @@ export default class MixpanelBrowserPlugin extends Plugin {
     this.mixpanel.reset();
   }
 }
+
+export default MixpanelPlugin;

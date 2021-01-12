@@ -7,7 +7,10 @@ import {
 
 export type AmplitudeOptions = {};
 
-export default class AmplitudeBrowserPlugin extends Plugin {
+/**
+ * Amplitude Browser Plugin for Iteratively SDK
+ */
+export class AmplitudePlugin extends Plugin {
   get amplitude(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -62,3 +65,5 @@ export default class AmplitudeBrowserPlugin extends Plugin {
     this.amplitude.getInstance().regenerateDeviceId();
   }
 }
+
+export default AmplitudePlugin;

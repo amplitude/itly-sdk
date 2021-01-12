@@ -6,7 +6,10 @@ import Mixpanel, { InitConfig } from 'mixpanel';
 
 export interface MixpanelOptions extends InitConfig {}
 
-export default class MixpanelNodePlugin extends Plugin {
+/**
+ * Mixpanel Node Plugin for Iteratively SDK
+ */
+export class MixpanelPlugin extends Plugin {
   private mixpanel?: Mixpanel.Mixpanel;
 
   constructor(
@@ -38,3 +41,5 @@ export default class MixpanelNodePlugin extends Plugin {
     });
   }
 }
+
+export default MixpanelPlugin;

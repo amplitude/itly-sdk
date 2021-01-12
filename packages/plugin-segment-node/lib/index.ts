@@ -11,7 +11,10 @@ export type SegmentOptions = {
   enable?: boolean; // (default: true)
 }
 
-export default class SegmentNodePlugin extends Plugin {
+/**
+ * Segment Node Plugin for Iteratively SDK
+ */
+export class SegmentPlugin extends Plugin {
   private segment?: Segment;
 
   constructor(
@@ -61,3 +64,5 @@ export default class SegmentNodePlugin extends Plugin {
     });
   }
 }
+
+export default SegmentPlugin;
