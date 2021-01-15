@@ -39,6 +39,8 @@ if (
   || (p.type === 'renderer' || p.browser === true || p.__nwjs)
   // Jest JSDOM
   || (typeof navigator === 'object' && navigator.userAgent && navigator.userAgent.includes('jsdom'))
+  // React Native
+  || (typeof navigator === 'object' && navigator.product && navigator.product.includes('ReactNative'))
 ) {
   Itly = require('./browser').Itly;
 } else {
