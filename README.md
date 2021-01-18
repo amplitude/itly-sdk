@@ -214,6 +214,8 @@ import itly from '@itly/sdk/node';
 
       reset(): void {...}
 
+      flush(): void {...}
+
       track(userId: string | undefined, event: ItlyEvent): void {...}
 
       validate(event: Event): ValidationResponse {...}

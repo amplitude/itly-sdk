@@ -63,6 +63,17 @@ export class SegmentPlugin extends Plugin {
       properties: { ...event.properties },
     });
   }
+
+  flush() {
+    return new Promise<void>((resolve, reject) => {
+      this.segment!.flush((err: Error) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve();
+      });
+    });
+  }
 }
 
 export default SegmentPlugin;

@@ -98,4 +98,8 @@ export default class CustomPlugin extends Plugin {
   reset(): void {
     this.log('reset()');
   }
+
+  async flush() {
+    this.log('flush()');
+  }
 }

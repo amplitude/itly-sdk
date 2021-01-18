@@ -106,6 +106,11 @@ export class Itly {
    * Reset (e.g. on logout) all analytics state for the current user and group.
    */
   reset = () => this.itly.reset();
+
+  /**
+   * Flush pending events.
+   */
+  flush = () => this.itly.flush();
 }
 
 export default Itly;
