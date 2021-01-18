@@ -1,13 +1,34 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 /* eslint-disable no-underscore-dangle */
+// eslint-disable-next-line max-classes-per-file
 import {
-  Options, Event, Properties, Plugin,
+  Event, Properties, Plugin, PluginLoadOptions, Logger,
 } from '@itly/sdk';
 import Mparticle from '@itly/mparticle-web-sdk';
 
 export type MparticleOptions = {
   isDevelopmentMode?: boolean,
 };
+
+class MparticleLogger {
+  private logger: Logger;
+
+  constructor(logger: Logger) {
+    this.logger = logger;
+  }
+
+  verbose(msg: string) {
+    this.logger.debug(msg);
+  }
+
+  warning(msg: string) {
+    this.logger.warn(msg);
+  }
+
+  error(msg: string) {
+    this.logger.error(msg);
+  }
+}
 
 /**
  * mParticle Browser Plugin for Iteratively SDK
@@ -24,13 +45,18 @@ export class MparticlePlugin extends Plugin {
     super('mparticle');
   }
 
-  load() {
+  load(options: PluginLoadOptions) {
     this.mparticle = Mparticle.getInstance();
     try {
       // validates that mparticle instance is initialized
       this.mparticle.getDeviceId();
     } catch {
-      Mparticle.init(this.apiKey, this.options);
+      const mparticleOptions = options.logger ? {
+        ...this.options,
+        logger: new MparticleLogger(options.logger),
+        logLevel: 'verbose',
+      } : this.options;
+      Mparticle.init(this.apiKey, mparticleOptions);
       this.mparticle = Mparticle.getInstance();
     }
   }
