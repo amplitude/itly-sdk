@@ -3,11 +3,12 @@ import {
   Options,
   Event,
   Properties,
-  PluginBase,
+  Plugin,
   ValidationResponse,
 } from '../../packages/sdk/lib';
 
 export type TestParams = {
   name: string;
+  context?: Properties,
   options: Options,
 };

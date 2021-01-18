@@ -6,7 +6,6 @@ import {
   Event,
   Properties,
   Plugin,
-  PluginBase,
   PluginLoadOptions,
   ValidationOptions,
   ValidationResponse,
@@ -18,7 +17,6 @@ export {
   Options,
   Environment,
   Plugin,
-  PluginBase,
   PluginLoadOptions,
   Event,
   Properties,
@@ -29,7 +27,7 @@ export {
 };
 
 // eslint-disable-next-line import/no-mutable-exports
-let itly;
+let Itly;
 
 const p = typeof process === 'undefined'
   ? undefined
@@ -44,10 +42,10 @@ if (
   // React Native
   || (typeof navigator === 'object' && navigator.product && navigator.product.includes('ReactNative'))
 ) {
-  itly = require('./browser').default;
+  Itly = require('./browser').Itly;
 } else {
-  itly = require('./node').default;
+  Itly = require('./node').Itly;
 }
 
-export { itly };
-export default itly;
+export { Itly };
+export default Itly;

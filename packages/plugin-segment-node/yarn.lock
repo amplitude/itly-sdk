@@ -10,18 +10,18 @@
     component-type "^1.2.1"
     join-component "^1.1.0"
 
-"@types/analytics-node@^3.1.3":
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/@types/analytics-node/-/analytics-node-3.1.3.tgz#1ee2fc500faec47a6b1b845540dab18c8827a067"
-  integrity sha512-Yk299LUqnyJ6fNYQkLFd0yTfUwIvgfxH3f5WEX3ib0PC5T+mZgqcOPMDhNZ4AOD/A9tXKJQeBIb6KvgzuXflaQ==
+"@types/analytics-node@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@types/analytics-node/-/analytics-node-3.1.4.tgz#35b25a721b46cbf6964098dae7dc785a4386e7ab"
+  integrity sha512-i6cqjFotMq1dEwXxyXRqnzp/HmWPCskptrVUQ1UzRIGs/zICFWM2bIJyLt6f9A9/+qE98wls1AHWPQ4WXYS0HA==
 
-analytics-node@^3.4.0-beta.1:
-  version "3.4.0-beta.1"
-  resolved "https://registry.yarnpkg.com/analytics-node/-/analytics-node-3.4.0-beta.1.tgz#f348d60fb25f15d481ad2c2bdef53c29384b4a5e"
-  integrity sha512-+0F/y4Asc5S2qhWcYss+iCob6TTXQktwbqlIk02gcZaRxpekCbnTbJu/rcaRooVHxqp9WSzUXiWCesJYPJETZQ==
+analytics-node@^3.4.0-beta.3:
+  version "3.4.0-beta.3"
+  resolved "https://registry.yarnpkg.com/analytics-node/-/analytics-node-3.4.0-beta.3.tgz#5eb0694598cff493c64faf5efc1225533a253f13"
+  integrity sha512-NIdpxiwlZ4cKgs9MDlDe89b5bg/pMq2W7XTA+cjzCM66IwW3ujZhVE49vk+zG6Yrxk0s/DXmennJ+cCQIsTKMA==
   dependencies:
     "@segment/loosely-validate-event" "^2.0.0"
-    axios "^0.18.1"
+    axios "^0.19.2"
     axios-retry "^3.0.2"
     lodash.isstring "^4.0.1"
     md5 "^2.2.1"
@@ -36,13 +36,12 @@ axios-retry@^3.0.2:
   dependencies:
     is-retry-allowed "^1.1.0"
 
-axios@^0.18.1:
-  version "0.18.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.1.tgz#ff3f0de2e7b5d180e757ad98000f1081b87bcea3"
-  integrity sha512-0BfJq4NSfQXd+SkFdrvFbG7addhYSBA2mQwISr46pD6E5iqkWg02RAs8vyTT/j0RTnoYmeXauBuSv1qKwR179g==
+axios@^0.19.2:
+  version "0.19.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
+  integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
   dependencies:
     follow-redirects "1.5.10"
-    is-buffer "^2.0.2"
 
 charenc@~0.0.1:
   version "0.0.2"
@@ -72,11 +71,6 @@ follow-redirects@1.5.10:
   integrity sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==
   dependencies:
     debug "=3.1.0"
-
-is-buffer@^2.0.2:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-2.0.4.tgz#3e572f23c8411a5cfd9557c849e3665e0b290623"
-  integrity sha512-Kq1rokWXOPXWuaMAqZiJW4XxsmD9zGx9q4aePabbn3qCRGedtH7Cm+zV8WETitMfu1wdh+Rvd6w5egwSngUX2A==
 
 is-buffer@~1.1.1:
   version "1.1.6"

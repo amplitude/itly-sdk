@@ -1,7 +1,7 @@
 {
   "name": "@itly/plugin-mixpanel-node",
-  "version": "1.6.0",
-  "description": "Mixpanel Node Plugin ",
+  "version": "1.7.0",
+  "description": "Mixpanel Node Plugin for Iteratively SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -18,11 +18,11 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk": "^1.6.0",
+    "@itly/sdk": "^1.7.0",
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "mixpanel": "^0.11.0"
+    "mixpanel": "^0.13.0"
   },
   "peerDependencies": {
     "@itly/sdk": "^1.0.0"

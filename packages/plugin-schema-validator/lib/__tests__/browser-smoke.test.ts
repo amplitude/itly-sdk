@@ -2,9 +2,9 @@
  * Test for Browser version of plugin-schema-validator
  * @jest-environment jsdom
  */
-/* eslint-disable no-unused-vars, global-require, no-console */
+/* eslint-disable no-unused-vars, no-console */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
-import {
+import Itly, {
   Options, Plugin, Event, ValidationResponse,
 } from '@itly/sdk';
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
@@ -34,17 +34,17 @@ const plugins: Plugin[] = [
 const testParams: TestParams[] = [
   {
     name: 'load, track, validate - validationOptions=DEFAULT',
+    context,
     options: {
       environment: 'production', // i.e. trackInvalid: true
-      context,
       plugins,
     },
   },
   {
     name: 'load, track, validate - validationOptions={errorOnInvalid: true}',
+    context,
     options: {
       environment: 'production',
-      context,
       plugins,
       validation: {
         disabled: false,
@@ -55,17 +55,17 @@ const testParams: TestParams[] = [
   },
   {
     name: 'load, track, validate w/ context=\'undefined\'',
+    context: undefined,
     options: {
       environment: 'production',
-      context: undefined,
       plugins,
     },
   },
   {
     name: 'load, track, validate w/ context=\'{}\'',
+    context: {},
     options: {
       environment: 'production',
-      context: {},
       plugins,
     },
   },
@@ -87,10 +87,10 @@ afterEach(() => {
 });
 
 test.only.each(testParams.map((test) => [test.name, test]) as any[])('%s',
-  async (name: string, { options }: TestParams) => {
-    const { itly } = require('@itly/sdk');
+  async (name: string, { context: ctx, options }: TestParams) => {
+    const itly = new Itly();
 
-    itly.load(options);
+    itly.load(ctx, options);
 
     itly.identify(undefined, identifyProps);
     itly.identify(tempUserId, identifyProps);

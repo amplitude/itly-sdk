@@ -2,22 +2,23 @@
 import {
   Event,
   Properties,
-  PluginBase,
+  Plugin,
 } from '@itly/sdk';
 import Amplitude, { AmplitudeOptions } from 'amplitude';
 
 export { AmplitudeOptions };
 
-export default class AmplitudeNodePlugin extends PluginBase {
-  static ID: string = 'amplitude';
-
+/**
+ * Amplitude Node Plugin for Iteratively SDK
+ */
+export class AmplitudePlugin extends Plugin {
   private amplitude?: Amplitude;
 
   constructor(
     private apiKey: string,
     private options?: AmplitudeOptions,
   ) {
-    super();
+    super('amplitude');
   }
 
   // TODO: Allow passing in an instance rather than adding
@@ -30,8 +31,6 @@ export default class AmplitudeNodePlugin extends PluginBase {
   //         this.amplitude = instanceOrApiKey;
   //     }
   // }
-
-  id = () => AmplitudeNodePlugin.ID;
 
   load() {
     this.amplitude = new Amplitude(this.apiKey, this.options);
@@ -52,3 +51,5 @@ export default class AmplitudeNodePlugin extends PluginBase {
     });
   }
 }
+
+export default AmplitudePlugin;

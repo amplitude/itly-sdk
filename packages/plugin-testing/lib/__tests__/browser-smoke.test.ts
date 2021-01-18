@@ -1,7 +1,7 @@
 
-/* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
 // eslint-disable-next-line max-classes-per-file
+import Itly from '@itly/sdk';
 import { requireForTestEnv } from '../../../../__tests__/util';
 // eslint-disable-next-line no-unused-vars
 import { ITestingPlugin } from '../index';
@@ -28,10 +28,10 @@ class StreamPausedEvent {}
 beforeEach(() => {
   jest.resetModules();
 
-  itly = require('@itly/sdk').default;
+  itly = new Itly();
   testingPlugin = new TestingPlugin();
 
-  itly.load({
+  itly.load(undefined, {
     environment: 'production',
     plugins: [testingPlugin],
   });

@@ -1,5 +1,6 @@
-/* eslint-disable global-require, no-await-in-loop */
+/* eslint-disable no-await-in-loop */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
+import Itly from '@itly/sdk';
 import { requireForTestEnv } from '../../../../__tests__/util';
 
 const IterativelyPlugin = requireForTestEnv(__dirname);
@@ -32,7 +33,7 @@ beforeEach(() => {
   jest.resetModules();
 
   global.fetch = jest.fn().mockImplementation();
-  itly = require('@itly/sdk').default;
+  itly = new Itly();
 
   // NOTE: Create a script to prevent - 'TypeError: Cannot read property 'parentNode' of undefined'
   // https://github.com/walmartlabs/little-loader/issues/53
@@ -58,7 +59,7 @@ test.each([
   );
 
   expect(() => {
-    itly.load({
+    itly.load(undefined, {
       environment,
       plugins: [iterativelyPlugin],
     });
@@ -77,7 +78,7 @@ test('should not post if on production', () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -100,7 +101,7 @@ test('should post when flushAt reached', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -148,7 +149,7 @@ test('should post in flushInterval', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -198,7 +199,7 @@ test('should post on explicit flush()', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -215,6 +216,8 @@ test('should post on explicit flush()', async () => {
   }
 
   await itly.flush();
+
+  await wait(1000);
 
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
@@ -249,7 +252,7 @@ test('should omit event properties if configured', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -297,7 +300,7 @@ test('should post track validation error', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -349,7 +352,7 @@ test('should omit validation error details if configured', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });

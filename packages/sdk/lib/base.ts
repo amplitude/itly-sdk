@@ -10,20 +10,15 @@ export interface Options {
    */
   disabled?: boolean;
   /**
-   * Analytics provider-specific configuration. Default is null.
+   * Extend the Itly SDK by adding plugins for common analytics trackers, validation and more.
    */
   plugins?: Plugin[];
   /**
-   * Additional context properties to add to all events.
-   * Default is none.
-   */
-  context?: Properties;
-  /**
-   * Configure validation handling
+   * Configure validation handling. Default is to track invalid events in production, but throw in other environments.
    */
   validation?: ValidationOptions;
   /**
-   * Logger to use for Iteratively output messages
+   * Logger. Default is no logging.
    */
   logger?: Logger;
 }
@@ -73,65 +68,9 @@ export interface Logger {
   error(message: string): void;
 }
 
-export interface Plugin {
-  id(): string;
-
-  load(options: PluginLoadOptions): void;
-
-  // validation methods
-  validate(event: Event): ValidationResponse;
-
-  // tracking methods
-  alias(userId: string, previousId: string | undefined): void;
-
-  identify(userId: string | undefined, properties: Properties | undefined): void;
-
-  postIdentify(
-    userId: string | undefined,
-    properties: Properties | undefined,
-    validationResponses: ValidationResponse[],
-  ): void;
-
-  group(userId: string | undefined, groupId: string, properties?: Properties | undefined): void;
-
-  postGroup(
-    userId: string | undefined,
-    groupId: string,
-    properties: Properties | undefined,
-    validationResponses: ValidationResponse[],
-  ): void;
-
-  page(
-    userId: string | undefined,
-    category: string | undefined,
-    name: string | undefined,
-    properties: Properties | undefined,
-  ): void;
-
-  postPage(
-    userId: string | undefined,
-    category: string | undefined,
-    name: string | undefined,
-    properties: Properties | undefined,
-    validationResponses: ValidationResponse[],
-  ): void;
-
-  track(userId: string | undefined, event: Event): void;
-
-  postTrack(
-    userId: string | undefined,
-    event: Event,
-    validationResponses: ValidationResponse[],
-  ): void;
-
-  reset(): void;
-
-  flush(): Promise<void>;
-}
-
-export class PluginBase implements Plugin {
-  id(): string {
-    throw new Error('Plugin id() is required. Override id() method returning a unique id.');
+export abstract class Plugin {
+  protected constructor(readonly id: string) {
+    this.id = id;
   }
 
   load(options: PluginLoadOptions): void {}
@@ -202,7 +141,6 @@ const DEFAULT_PROD_VALIDATION_OPTIONS: ValidationOptions = {
 
 const DEFAULT_DEV_OPTIONS: Options = {
   environment: 'development',
-  context: undefined,
   plugins: [],
   validation: DEFAULT_DEV_VALIDATION_OPTIONS,
   disabled: false,
@@ -214,7 +152,7 @@ const DEFAULT_PROD_OPTIONS: Options = {
   validation: DEFAULT_PROD_VALIDATION_OPTIONS,
 };
 
-const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.freeze({
+export const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.freeze({
   NONE: {
     debug(message: string) {},
     info(message: string) {},
@@ -233,7 +171,7 @@ const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.freeze({
   },
 });
 
-class Itly {
+export class Itly {
   private options: Options | undefined = undefined;
 
   private plugins = DEFAULT_DEV_OPTIONS.plugins!;
@@ -242,7 +180,14 @@ class Itly {
 
   private logger: Logger = LOGGERS.NONE;
 
-  load(options: Options) {
+  private context: Properties | undefined = undefined;
+
+  /**
+   * Initialize the Itly SDK. Call once when your application starts.
+   * @param context Additional context properties to add to all events.
+   * @param options Configuration options to initialize the Itly SDK with.
+   */
+  load(context?: Properties, options?: Options) {
     if (this.options) {
       throw new Error('Itly is already initialized.');
     }
@@ -263,6 +208,7 @@ class Itly {
     this.logger = this.options.logger || this.logger;
     this.plugins = this.options.plugins!;
     this.validationOptions = this.options.validation!;
+    this.context = context;
 
     // invoke load() on every plugin
     this.runOnAllPlugins('load', (p) => p.load({
@@ -271,6 +217,11 @@ class Itly {
     }));
   }
 
+  /**
+   * Alias a user ID to another user ID.
+   * @param userId The user's new ID.
+   * @param previousId The user's previous ID.
+   */
   alias(userId: string, previousId?: string) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -279,6 +230,11 @@ class Itly {
     this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId));
   }
 
+  /**
+   * Identify a user and set or update that user's properties.
+   * @param userId The user's ID.
+   * @param identifyProperties The user's properties.
+   */
   identify(userId: string | undefined, identifyProperties?: Properties) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -301,6 +257,12 @@ class Itly {
     );
   }
 
+  /**
+   * Associate a user with a group and set or update that group's properties.
+   * @param userId The user's ID.
+   * @param groupId The group's ID.
+   * @param groupProperties The group's properties.
+   */
   group(userId: string | undefined, groupId: string, groupProperties?: Properties) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -323,6 +285,13 @@ class Itly {
     );
   }
 
+  /**
+   * Track a page view.
+   * @param userId The user's ID.
+   * @param category The page's category.
+   * @param name The page's name.
+   * @param pageProperties The page's properties.
+   */
   page(userId: string | undefined, category: string, name: string, pageProperties?: Properties) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -345,13 +314,22 @@ class Itly {
     );
   }
 
+  /**
+   * Track any event.
+   * @param userId The user's ID.
+   * @param event The event.
+   * @param event.name The event's name.
+   * @param event.properties The event's properties.
+   * @param event.id The event's ID.
+   * @param event.version The event's version.
+   * @param event.metadata The event's metadata.
+   */
   track(userId: string | undefined, event: Event) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
 
-    const context = this.options?.context;
-    const mergedEvent = this.mergeContext(event, context);
+    const mergedEvent = this.mergeContext(event, this.context);
 
     this.validateAndRunOnAllPlugins(
       'track',
@@ -360,10 +338,13 @@ class Itly {
       (p, e, validationResponses) => p.postTrack(
         userId, mergedEvent, validationResponses,
       ),
-      context,
+      this.context,
     );
   }
 
+  /**
+   * Reset (e.g. on logout) all analytics state for the current user and group.
+   */
   reset() {
     this.runOnAllPlugins('reset', (p) => p.reset());
   }
@@ -373,14 +354,10 @@ class Itly {
       try {
         await plugin.flush();
       } catch (e) {
-        this.logger.error(`Error in ${plugin.id()}.flush(). ${e.message}.`);
+        this.logger.error(`Error in ${plugin.id}.flush(). ${e.message}.`);
       }
     });
     await Promise.all(flushPromises);
-  }
-
-  getPlugin(id: string): Plugin | undefined {
-    return this.plugins.find((p) => p.id() === id);
   }
 
   private validate(event: Event): ValidationResponse[] {
@@ -391,7 +368,7 @@ class Itly {
       validationResponses.push(
         ...this.plugins.map<ValidationResponse>((p) => ({
           ...p.validate(event),
-          pluginId: p.id(),
+          pluginId: p.id,
         })),
       );
     } catch (e) {
@@ -465,7 +442,7 @@ class Itly {
   }
 
   private canRunEventOnPlugin(event: Event, plugin: Plugin) {
-    return !event.plugins || (event.plugins[plugin.id()] ?? true);
+    return !event.plugins || (event.plugins[plugin.id] ?? true);
   }
 
   private mergeContext(event: Event, context?: Properties): Event {
@@ -490,7 +467,7 @@ class Itly {
       try {
         method(plugin);
       } catch (e) {
-        this.logger.error(`Error in ${plugin.id()}.${op}(). ${e.message}.`);
+        this.logger.error(`Error in ${plugin.id}.${op}(). ${e.message}.`);
       }
     });
   }
@@ -500,6 +477,4 @@ class Itly {
   }
 }
 
-const itly = new Itly();
-export { itly, LOGGERS };
-export default itly;
+export default Itly;

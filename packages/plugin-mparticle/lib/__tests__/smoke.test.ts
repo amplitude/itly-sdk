@@ -1,16 +1,15 @@
-
-/* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
+import Itly from '@itly/sdk';
 import { requireForTestEnv } from '../../../../__tests__/util';
 
-const MparticleBrowserPlugin = requireForTestEnv(__dirname);
+const MparticlePlugin = requireForTestEnv(__dirname);
 
 let itly: any;
 
 beforeEach(() => {
   jest.resetModules();
 
-  itly = require('@itly/sdk').default;
+  itly = new Itly();
 });
 
 afterEach(() => {
@@ -18,12 +17,12 @@ afterEach(() => {
 });
 
 test('should not crash on load', () => {
-  const mparticleBrowserPlugin = new MparticleBrowserPlugin();
+  const mparticlePlugin = new MparticlePlugin();
 
   expect(() => {
-    itly.load({
+    itly.load(undefined, {
       environment: 'production',
-      plugins: [mparticleBrowserPlugin],
+      plugins: [mparticlePlugin],
     });
   }).not.toThrow();
 });
