@@ -25,7 +25,7 @@
     "typescript": "^3.9.3"
   },
   "peerDependencies": {
-    "@itly/sdk": "^0.9.2"
+    "@itly/sdk": "^2.0.0"
   },
   "gitHead": "969cab7119711ffc2446a10eaab955f763938566"
 }
