@@ -58,6 +58,8 @@ export class Itly {
   ) => this.itly.track(userId, event);
 
   reset = () => this.itly.reset();
+
+  flush = () => this.itly.flush();
 }
 
 export default Itly;

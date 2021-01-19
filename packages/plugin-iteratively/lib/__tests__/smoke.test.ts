@@ -188,6 +188,57 @@ test('should post in flushInterval', async () => {
   });
 });
 
+test('should post on explicit flush()', async () => {
+  const environment = 'development';
+
+  const iterativelyPlugin = new IterativelyPlugin(
+    defaultTestApiKey,
+    {
+      environment,
+      url: defaultTestUrl,
+    },
+  );
+
+  itly.load(undefined, {
+    environment,
+    plugins: [iterativelyPlugin],
+  });
+
+  const events = [0, 1].map((i) => ({
+    ...defaultTestEvent,
+    properties: {
+      iteration: i,
+    },
+  }));
+
+  for (let i = 0; i < events.length; i += 1) {
+    itly.track(events[i]);
+  }
+
+  await itly.flush();
+
+  await wait(1000);
+
+  expect(fetch).toHaveBeenCalledTimes(1);
+  expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
+
+  expect(JSON.parse((fetch as any).mock.calls[0][1].body)).toMatchObject({
+    objects: expect.arrayContaining(
+      events.map((event) => expect.objectContaining({
+        type: 'track',
+        eventId: event.id,
+        eventName: event.name,
+        eventSchemaVersion: event.version,
+        properties: event.properties,
+        valid: true,
+        validation: {
+          details: '',
+        },
+      })),
+    ),
+  });
+});
+
 test('should omit event properties if configured', async () => {
   const environment = 'development';
 

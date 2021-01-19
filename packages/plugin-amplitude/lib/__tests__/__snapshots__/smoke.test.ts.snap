@@ -6,10 +6,6 @@ Array [
     "Caught expected error. Itly is not yet initialized. Have you called \`itly.load()\` on app start?",
   ],
   Array [
-    "amplitude.getInstance().init()",
-    "[\\"an-amplitude-api-key\\",null,null]",
-  ],
-  Array [
     "amplitude.getInstance().setUserId()",
     "[\\"temp-user-id\\"]",
   ],

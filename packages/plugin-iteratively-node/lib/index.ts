@@ -141,7 +141,7 @@ export class IterativelyPlugin extends Plugin {
     return model;
   }
 
-  private async flush() {
+  async flush() {
     if (this.config.disabled) {
       return;
     }

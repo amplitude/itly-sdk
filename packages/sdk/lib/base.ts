@@ -121,6 +121,10 @@ export abstract class Plugin {
   postTrack(userId: string | undefined, event: Event, validationResponses: ValidationResponse[]): void {}
 
   reset(): void {}
+
+  flush(): Promise<void> {
+    return Promise.resolve();
+  }
 }
 
 const DEFAULT_DEV_VALIDATION_OPTIONS: ValidationOptions = {
@@ -343,6 +347,17 @@ export class Itly {
    */
   reset() {
     this.runOnAllPlugins('reset', (p) => p.reset());
+  }
+
+  async flush() {
+    const flushPromises = this.plugins.map(async (plugin) => {
+      try {
+        await plugin.flush();
+      } catch (e) {
+        this.logger.error(`Error in ${plugin.id}.flush(). ${e.message}.`);
+      }
+    });
+    await Promise.all(flushPromises);
   }
 
   private validate(event: Event): ValidationResponse[] {
