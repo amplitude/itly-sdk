@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import fetch from 'node-fetch';
 import {
-  Environment, Event, Properties, Plugin, ValidationResponse,
+  Environment, Event, Properties, Plugin, ValidationResponse, Logger, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type IterativelyOptions = {
@@ -52,6 +52,8 @@ export class IterativelyPlugin extends Plugin {
     disabled: false,
   };
 
+  private logger: Logger | undefined;
+
   constructor(private apiKey: string, iterativelyOptions: IterativelyOptions) {
     super('iteratively');
 
@@ -62,6 +64,11 @@ export class IterativelyPlugin extends Plugin {
 
     // allows consumer to override any config value
     this.config = { ...this.config, ...iterativelyOptions };
+  }
+
+  // overrides Plugin.load
+  load(options: PluginLoadOptions) {
+    this.logger = options.logger;
   }
 
   // overrides Plugin.postIdentify
@@ -152,6 +159,8 @@ export class IterativelyPlugin extends Plugin {
 
     while (this.buffer.length > 0) {
       const objects = this.buffer.splice(0, this.config.batchSize);
+      const id = +new Date();
+      this.logger!.debug(`${this.id}: flush(request) ${id}: ${objects.length} objects`);
       try {
         await fetch(this.config.url, {
           method: 'post',
@@ -163,8 +172,9 @@ export class IterativelyPlugin extends Plugin {
             objects,
           }),
         });
+        this.logger!.debug(`${this.id}: flush(response) ${id}: success`);
       } catch (e) {
-        // do nothing
+        this.logger!.error(`${this.id}: flush(response) ${id}: ${e}`);
       }
     }
 
@@ -175,6 +185,8 @@ export class IterativelyPlugin extends Plugin {
     if (this.config.disabled) {
       return;
     }
+
+    this.logger!.debug(`${this.id}: push(): ${JSON.stringify(model)}`);
 
     this.buffer.push(model);
 
