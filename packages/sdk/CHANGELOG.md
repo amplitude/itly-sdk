@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.6.0...v2.0.0) (2021-01-20)
+
+
+### Bug Fixes
+
+* added code docs to all SDK methods ([72b7915](https://github.com/iterativelyhq/itly-sdk/commit/72b7915742fbd0519b471b18c4f00d6d23bccd69))
+* added simple README's to all  packages ([b3a6eb2](https://github.com/iterativelyhq/itly-sdk/commit/b3a6eb2f7083f0e6e4107b2aa740e962c77128c6))
+* core Itly shouldn’t be a singleton ([79c0e63](https://github.com/iterativelyhq/itly-sdk/commit/79c0e63fb938a6e1741cf36bec477c0733bf7a8e))
+* fixed merge conflict with per event destination changes ([7f949ad](https://github.com/iterativelyhq/itly-sdk/commit/7f949ad428b4411aff7d464ff9eae1adc511b263))
+* move browser-specific code to browser.ts ([9bac4df](https://github.com/iterativelyhq/itly-sdk/commit/9bac4df9ec19ecf4499ce40882c6efd186cc849e))
+* moved code from codegen to SDK ([00ef906](https://github.com/iterativelyhq/itly-sdk/commit/00ef9060cc3d25bfd0c55434728fa2d1a5c1fab1))
+* re-export base types in node sdk ([52d470d](https://github.com/iterativelyhq/itly-sdk/commit/52d470d9c24f8baee8276ddd93e5a11ee9f5d930))
+* remove getPlugin() method in itly-sdk ([32d4b14](https://github.com/iterativelyhq/itly-sdk/commit/32d4b14195b1bd44d27db8c56a7d4553e81e9137))
+* removed unnecessary node.ts ([b5f2006](https://github.com/iterativelyhq/itly-sdk/commit/b5f20062273e61d27a8632e305fc8d822a50d6a5))
+* separate context from Options ([dc6aeb6](https://github.com/iterativelyhq/itly-sdk/commit/dc6aeb6d24df060900e6e7c568d9f7854bf621a5))
+* update Plugin to accept id in constructor ([86be0ef](https://github.com/iterativelyhq/itly-sdk/commit/86be0ef59b950c68c9f1fa842fbfa70ec9c73bb6))
+
+
+### Features
+
+* added flush method ([0213284](https://github.com/iterativelyhq/itly-sdk/commit/0213284a8fab0b3f3beb1d12e14358c873d31027))
+* flush method returns Promise ([d0aaac7](https://github.com/iterativelyhq/itly-sdk/commit/d0aaac7f5623c0f698b1b9c06875dc9707f2bd58))
+* new version 2.0.0 ([8843dc2](https://github.com/iterativelyhq/itly-sdk/commit/8843dc26d6bdb1854101e871007c72d55b27170c))
+
+
+### BREAKING CHANGES
+
+* separated context from Options in itly.load()
+* browser and node Itly no longer a singleton
+
+
+
+
+
 # [1.6.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.5.0...v1.6.0) (2020-12-04)
 
 
