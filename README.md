@@ -54,22 +54,23 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
     ```
 2. Import `itly` and plugins, `load()` configuration, and start `track()`ing.
     ```
-    import itly from '@itly/sdk';
-    import AmplitudePlugin from '@itly/plugin-amplitude';
-    import MixpanelPlugin from '@itly/plugin-mixpanel';
-    import SegmentPlugin from '@itly/plugin-segment';
+    import { Itly } from '@itly/sdk';
+    import { AmplitudePlugin } from '@itly/plugin-amplitude';
+    import { MixpanelPlugin } from '@itly/plugin-mixpanel';
+    import { SegmentPlugin } from '@itly/plugin-segment';
 
-    itly.load({
-      environment: 'production',
-      context: {
-        someGlobalValue: 'On all events',
-      },
-      plugins: [
-        new AmplitudePlugin('AMPLITUDE-KEY'),
-        new MixpanelPlugin('MIXPANEL-KEY'),
-        new SegmentPlugin('SEGMENT-KEY'),
-      ],
-    });
+    const itly = new Itly();
+    itly.load(
+      { someGlobalValue: 'On all events' },     
+      {
+        environment: 'production',
+        plugins: [
+          new AmplitudePlugin('AMPLITUDE-KEY'),
+          new MixpanelPlugin('MIXPANEL-KEY'),
+          new SegmentPlugin('SEGMENT-KEY'),
+        ],
+      }
+    );
 
     itly.identify('anon', { userProp: 1 });
     itly.alias('some-user', 'anon');
@@ -92,22 +93,23 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
     ```
 2. Import `itly` and plugins, `load()` configuration, and start `track()`ing.
     ```
-    import itly from '@itly/sdk';
-    import AmplitudePlugin from '@itly/plugin-amplitude-node';
-    import MixpanelPlugin from '@itly/plugin-mixpanel-node';
-    import SegmentPlugin from '@itly/plugin-segment-node';
+    import { Itly } from '@itly/sdk';
+    import { AmplitudePlugin } from '@itly/plugin-amplitude-node';
+    import { MixpanelPlugin } from '@itly/plugin-mixpanel-node';
+    import { SegmentPlugin } from '@itly/plugin-segment-node';
 
-    itly.load({
-      environment: 'production',
-      context: {
-        someGlobalValue: 'On all events',
-      },
-      plugins: [
-        new AmplitudePlugin('AMPLITUDE-KEY'),
-        new MixpanelPlugin('MIXPANEL-KEY'),
-        new SegmentPlugin('SEGMENT-KEY'),
-      ],
-    });
+    const itly = new Itly();
+    itly.load(
+      {  someGlobalValue: 'On all events' },
+      {
+        environment: 'production',
+        plugins: [
+          new AmplitudePlugin('AMPLITUDE-KEY'),
+          new MixpanelPlugin('MIXPANEL-KEY'),
+          new SegmentPlugin('SEGMENT-KEY'),
+        ],
+      }
+    );
 
     const userId = 'some-user';
 
@@ -138,18 +140,18 @@ The `@itly/sdk` is isomorphic and automatically provides the implementation for 
  following works great in JavaScript for both the browser and Node.js.
 ```
 // Untyped Itly SDK for your platform
-import itly from '@itly/sdk';
+import { Itly } from '@itly/sdk';
 ```
     
 Unfortunately in TypeScript this import is of type `any`. If you would like a strongly typed object you need to specify 
 the platform as well.
 ```
 // Strongly typed Browser SDK
-import itly from '@itly/sdk/browser';
+import { Itly } from '@itly/sdk/browser';
 ```
 ```
 // Strongly typed Node SDK
-import itly from '@itly/sdk/node';
+import { Itly } from '@itly/sdk/node';
 ```
 
 # Event Validation
@@ -159,10 +161,11 @@ import itly from '@itly/sdk/node';
     ```
 2. Import and setup `SchemaValidatorPlugin`, add it to the `load()`ed `plugins`. Now all `track()`ed event's will be validated against their schema.
     ```
-    import itly from '@itly/sdk';
-    import SchemaValidatorPlugin from '@itly/plugin-schema-validator';
+    import { Itly } from '@itly/sdk';
+    import { SchemaValidatorPlugin } from '@itly/plugin-schema-validator';
 
-    itly.load({
+    const itly = new Itly();
+    itly.load(undefined, {
       validation: {
         disabled: false,
         trackInvalid: false,
@@ -223,7 +226,7 @@ import itly from '@itly/sdk/node';
     ```
 2. Add your Plugin to `plugins` during `itly.load()`.
     ```
-    itly.load({
+    itly.load(undefined, {
       plugins: [new CustomPlugin()],
     });
     ```
@@ -292,7 +295,7 @@ There are [hygen](https://github.com/jondot/hygen) templates for creating a new 
 
     ✔ Author? · Iteratively
     ✔ Itly SDK? · @itly/sdk
-    ✔ Itly SDK version? · ^0.1.2
+    ✔ Itly SDK version? · ^2.0.0
 
     Loaded templates: _templates
       added: packages/plugin-awesome-analytics/.npmignore
