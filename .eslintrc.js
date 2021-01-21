@@ -4,7 +4,10 @@ module.exports = {
     es6: true,
     jest: true,
   },
-  extends: ['airbnb-base'],
+  extends: [
+    // 'plugin:@typescript-eslint/recommended',
+    'airbnb-base',
+  ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -27,6 +30,8 @@ module.exports = {
       },
     ],
     'implicit-arrow-linebreak': 'off',
+    'import/prefer-default-export': 'off',
+    'import/extensions': 'off',
     // 'function-paren-newline': ['off'],
   },
 };

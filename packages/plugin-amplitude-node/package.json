@@ -1,7 +1,7 @@
 {
   "name": "@itly/plugin-amplitude-node",
-  "version": "1.6.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "Amplitude Node Plugin for Iteratively SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -18,14 +18,14 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk": "^1.6.0",
+    "@itly/sdk": "^2.0.0",
     "typescript": "^3.9.3"
   },
   "dependencies": {
     "amplitude": "^5.1.4"
   },
   "peerDependencies": {
-    "@itly/sdk": "^1.0.0"
+    "@itly/sdk": "^2.0.0"
   },
   "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }

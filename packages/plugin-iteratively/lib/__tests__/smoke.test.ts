@@ -1,5 +1,6 @@
-/* eslint-disable global-require, no-await-in-loop */
+/* eslint-disable no-await-in-loop */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
+import Itly from '@itly/sdk';
 import { requireForTestEnv } from '../../../../__tests__/util';
 
 const IterativelyPlugin = requireForTestEnv(__dirname);
@@ -32,7 +33,7 @@ beforeEach(() => {
   jest.resetModules();
 
   global.fetch = jest.fn().mockImplementation();
-  itly = require('@itly/sdk').default;
+  itly = new Itly();
 
   // NOTE: Create a script to prevent - 'TypeError: Cannot read property 'parentNode' of undefined'
   // https://github.com/walmartlabs/little-loader/issues/53
@@ -58,7 +59,7 @@ test.each([
   );
 
   expect(() => {
-    itly.load({
+    itly.load(undefined, {
       environment,
       plugins: [iterativelyPlugin],
     });
@@ -77,7 +78,7 @@ test('should not post if on production', () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -100,7 +101,7 @@ test('should post when flushAt reached', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -148,7 +149,7 @@ test('should post in flushInterval', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -187,6 +188,57 @@ test('should post in flushInterval', async () => {
   });
 });
 
+test('should post on explicit flush()', async () => {
+  const environment = 'development';
+
+  const iterativelyPlugin = new IterativelyPlugin(
+    defaultTestApiKey,
+    {
+      environment,
+      url: defaultTestUrl,
+    },
+  );
+
+  itly.load(undefined, {
+    environment,
+    plugins: [iterativelyPlugin],
+  });
+
+  const events = [0, 1].map((i) => ({
+    ...defaultTestEvent,
+    properties: {
+      iteration: i,
+    },
+  }));
+
+  for (let i = 0; i < events.length; i += 1) {
+    itly.track(events[i]);
+  }
+
+  await itly.flush();
+
+  await wait(1000);
+
+  expect(fetch).toHaveBeenCalledTimes(1);
+  expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
+
+  expect(JSON.parse((fetch as any).mock.calls[0][1].body)).toMatchObject({
+    objects: expect.arrayContaining(
+      events.map((event) => expect.objectContaining({
+        type: 'track',
+        eventId: event.id,
+        eventName: event.name,
+        eventSchemaVersion: event.version,
+        properties: event.properties,
+        valid: true,
+        validation: {
+          details: '',
+        },
+      })),
+    ),
+  });
+});
+
 test('should omit event properties if configured', async () => {
   const environment = 'development';
 
@@ -200,7 +252,7 @@ test('should omit event properties if configured', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -248,7 +300,7 @@ test('should post track validation error', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -300,7 +352,7 @@ test('should omit validation error details if configured', async () => {
     },
   );
 
-  itly.load({
+  itly.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });

@@ -1,7 +1,7 @@
 {
   "name": "@itly/sdk",
-  "version": "1.6.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "Iteratively SDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

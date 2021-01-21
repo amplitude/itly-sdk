@@ -1,11 +1,11 @@
 /* eslint-disable class-methods-use-this, no-unused-vars, import/no-unresolved, import/extensions */
 import {
-  PluginLoadOptions, Event, Properties, PluginBase, ValidationResponse,
+  PluginLoadOptions, Event, Properties, Plugin, ValidationResponse,
 } from '../../packages/sdk/lib';
 
-export default class ErrorPlugin extends PluginBase {
-  id(): string {
-    return 'error-plugin';
+export default class ErrorPlugin extends Plugin {
+  constructor() {
+    super('error-plugin');
   }
 
   load(options: PluginLoadOptions): void {
@@ -15,7 +15,7 @@ export default class ErrorPlugin extends PluginBase {
   validate(event: Event): ValidationResponse {
     return {
       valid: true,
-      pluginId: this.id(),
+      pluginId: this.id,
     };
   }
 
@@ -72,5 +72,9 @@ export default class ErrorPlugin extends PluginBase {
 
   reset(): void {
     throw new Error('Error in reset().');
+  }
+
+  async flush() {
+    throw new Error('Error in flush().');
   }
 }

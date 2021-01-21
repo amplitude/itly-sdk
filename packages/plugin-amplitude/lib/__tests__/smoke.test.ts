@@ -1,5 +1,6 @@
-/* eslint-disable no-unused-vars, global-require */
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
+import Itly from '@itly/sdk';
 import {
   TestParams,
   requireForTestEnv,
@@ -42,8 +43,8 @@ const methodArgLoggerMock = (methodName: string, ...args: any[]) => {
 };
 
 test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
-  async (name: string, { options }: TestParams) => {
-    const { itly } = require('@itly/sdk');
+  async (name: string, { context, options }: TestParams) => {
+    const itly = new Itly();
 
     const instanceMocks: { [key: string]: any } = {};
     ['init', 'identify', 'track', 'setUserId', 'regenerateDeviceId', 'logEvent'].forEach((mockMethod) => {
@@ -77,7 +78,7 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
       console.log(`Caught expected error. ${e.message}`);
     }
 
-    itly.load({
+    itly.load(context, {
       ...options,
       plugins: [plugin].concat(options.plugins),
     });
@@ -118,10 +119,6 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     } catch (e) {
     // do nothing
     }
-
-    const pluginFromItly = itly.getPlugin('amplitude');
-    // eslint-disable-next-line no-console
-    console.log('AmplitudePlugin.id()', pluginFromItly!.id());
 
     itly.reset();
 

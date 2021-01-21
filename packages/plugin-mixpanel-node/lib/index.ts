@@ -1,24 +1,23 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  PluginBase, Event, Properties,
+  Plugin, Event, Properties,
 } from '@itly/sdk';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
 export interface MixpanelOptions extends InitConfig {}
 
-export default class MixpanelNodePlugin extends PluginBase {
-  static ID: string = 'mixpanel';
-
+/**
+ * Mixpanel Node Plugin for Iteratively SDK
+ */
+export class MixpanelPlugin extends Plugin {
   private mixpanel?: Mixpanel.Mixpanel;
 
   constructor(
     private apiKey: string,
     private options?: MixpanelOptions,
   ) {
-    super();
+    super('mixpanel');
   }
-
-  id = () => MixpanelNodePlugin.ID;
 
   load() {
     this.mixpanel = Mixpanel.init(this.apiKey, this.options);
@@ -42,3 +41,5 @@ export default class MixpanelNodePlugin extends PluginBase {
     });
   }
 }
+
+export default MixpanelPlugin;

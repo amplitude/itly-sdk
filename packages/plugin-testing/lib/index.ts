@@ -1,7 +1,7 @@
 
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  PluginBase, Event as TrackingEvent,
+  Plugin, Event as TrackingEvent,
 } from '@itly/sdk';
 
 type MethodArgs = any[];
@@ -18,17 +18,16 @@ export interface ITestingPlugin {
   firstOfType(ev: TrackingEvent, userId?: string): TrackingEvent;
 }
 
-export default class TestingPlugin extends PluginBase implements ITestingPlugin {
-  static ID = 'testing';
-
-  id = () => TestingPlugin.ID;
-
+/**
+ * Testing Plugin for Iteratively SDK
+ */
+export class TestingPlugin extends Plugin implements ITestingPlugin {
   private calls: Map<AvailableMethodNames, MethodArgs[]> = new Map();
 
   private readonly trackingMethods: AvailableMethodNames[] = ['alias', 'identify', 'group', 'page', 'track'];
 
   constructor() {
-    super();
+    super('testing');
     this.init();
   }
 
@@ -100,3 +99,5 @@ export default class TestingPlugin extends PluginBase implements ITestingPlugin 
     return ev;
   }
 }
+
+export default TestingPlugin;

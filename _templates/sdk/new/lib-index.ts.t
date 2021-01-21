@@ -2,57 +2,64 @@
 to: packages/sdk-<%= name %>/lib/index.ts
 ---
 /* eslint-disable no-unused-vars, class-methods-use-this */
-import itlySdk, {
-  ItlyOptions,
-  ItlyEvent, ItlyProperties,
-  ItlyPlugin, ItlyPluginBase,
+import {
+  Itly as ItlySdk,
+  Options,
+  Event,
+  Properties,
+  Plugin,
   ValidationOptions,
   ValidationResponse,
 } from '<%= itlySdkModule %>';
 
 export {
-  ItlyOptions,
-  ItlyPlugin,
-  ItlyPluginBase,
-  ItlyEvent,
-  ItlyProperties,
+  Options,
+  Plugin,
+  Event,
+  Properties,
   ValidationOptions,
   ValidationResponse,
 };
 
-class Itly {
+export class Itly {
+  private itly: ItlySdk;
+
+  constructor() {
+    this.itly = new ItlySdk();
+  }
+
   load = (
-    options: ItlyOptions,
-  ) => itlySdk.load(options);
+    options: Options,
+  ) => this.itly.load(options);
 
   alias = (
     userId: string, previousId?: string,
-  ) => itlySdk.alias(userId, previousId);
+  ) => this.itly.alias(userId, previousId);
 
   /**
    * Identify a user and set or update that user's properties.
    * @param userId The user's ID.
    */
   identify = (
-    userId: string | undefined, identifyProperties?: ItlyProperties,
-  ) => itlySdk.identify(userId, identifyProperties);
+    userId: string | undefined, identifyProperties?: Properties,
+  ) => this.itly.identify(userId, identifyProperties);
 
   group = (
-    userId:string | undefined, groupId: string, groupProperties?: ItlyProperties,
-  ) => itlySdk.group(userId, groupId, groupProperties);
+    userId:string | undefined, groupId: string, groupProperties?: Properties,
+  ) => this.itly.group(userId, groupId, groupProperties);
 
   page = (
-    userId: string | undefined, category: string, name: string, pageProperties?: ItlyProperties,
-  ) => itlySdk.page(userId, category, name, pageProperties);
+    userId: string | undefined, category: string, name: string, pageProperties?: Properties,
+  ) => this.itly.page(userId, category, name, pageProperties);
 
   track = (
     userId: string | undefined,
-    event: ItlyEvent,
-  ) => itlySdk.track(userId, event);
+    event: Event,
+  ) => this.itly.track(userId, event);
 
-  reset = () => itlySdk.reset();
+  reset = () => this.itly.reset();
 
-  getPlugin = (id: string) => itlySdk.getPlugin(id);
+  flush = () => this.itly.flush();
 }
 
-export default new Itly();
+export default Itly;

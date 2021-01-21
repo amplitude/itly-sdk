@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/extensions, import/no-unresolved */
 import {
-  itly as itlyBase,
+  Itly as ItlyBase,
   Options,
   Environment,
   Event,
   Properties,
   Plugin,
-  PluginBase,
   PluginLoadOptions,
   ValidationOptions,
   ValidationResponse,
@@ -18,7 +17,6 @@ export {
   Options,
   Environment,
   Plugin,
-  PluginBase,
   PluginLoadOptions,
   Event,
   Properties,
@@ -29,36 +27,90 @@ export {
 };
 
 // Itly Browser SDK
-export class ItlyBrowser {
-  load = (
-    options: Options,
-  ) => itlyBase.load(options);
+export class Itly {
+  private itly: ItlyBase;
 
+  constructor() {
+    this.itly = new ItlyBase();
+  }
+
+  /**
+   * Initialize the Itly SDK. Call once when your application starts.
+   * @param context Additional context properties to add to all events.
+   * @param options Configuration options to initialize the Itly SDK with.
+   */
+  load = (
+    context?: Properties, options?: Options,
+  ) => this.itly.load(context, options);
+
+  /**
+   * Alias a user ID to another user ID.
+   * @param userId The user's new ID.
+   * @param previousId The user's previous ID.
+   */
   alias = (
     userId: string, previousId?: string,
-  ) => itlyBase.alias(userId, previousId);
+  ) => this.itly.alias(userId, previousId);
 
+  /**
+   * Identify a user and set or update that user's properties.
+   * @param userId The user's ID.
+   * @param identifyProperties The user's properties.
+   */
   identify = (
-    userId: string | undefined, identifyProperties?: Properties,
-  ) => itlyBase.identify(userId, identifyProperties);
+    userId: string | Properties | undefined, identifyProperties?: Properties,
+  ) => {
+    if (userId != null && typeof (userId) === 'object') {
+      // eslint-disable-next-line no-param-reassign
+      identifyProperties = userId;
+      // eslint-disable-next-line no-param-reassign
+      userId = undefined;
+    }
 
+    this.itly.identify(userId, identifyProperties);
+  }
+
+  /**
+   * Associate the current user with a group and set or update that group's properties.
+   * @param groupId The group's ID.
+   * @param groupProperties The group's properties.
+   */
   group = (
     groupId: string, groupProperties?: Properties,
-  ) => itlyBase.group(undefined, groupId, groupProperties);
+  ) => this.itly.group(undefined, groupId, groupProperties);
 
+  /**
+   * Track a page view.
+   * @param category The page's category.
+   * @param name The page's name.
+   * @param pageProperties The page's properties.
+   */
   page = (
     category: string, name: string, pageProperties?: Properties,
-  ) => itlyBase.page(undefined, category, name, pageProperties);
+  ) => this.itly.page(undefined, category, name, pageProperties);
 
+  /**
+   * Track any event.
+   * @param event The event.
+   * @param event.name The event's name.
+   * @param event.properties The event's properties.
+   * @param event.id The event's ID.
+   * @param event.version The event's version.
+   * @param event.metadata The event's metadata.
+   */
   track = (
     event: Event,
-  ) => itlyBase.track(undefined, event);
+  ) => this.itly.track(undefined, event);
 
-  reset = () => itlyBase.reset();
+  /**
+   * Reset (e.g. on logout) all analytics state for the current user and group.
+   */
+  reset = () => this.itly.reset();
 
-  getPlugin = (id: string) => itlyBase.getPlugin(id);
+  /**
+   * Flush pending events.
+   */
+  flush = () => this.itly.flush();
 }
 
-const itly = new ItlyBrowser();
-export { itly };
-export default itly;
+export default Itly;
