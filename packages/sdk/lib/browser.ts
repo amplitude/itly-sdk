@@ -36,12 +36,15 @@ export class Itly {
 
   /**
    * Initialize the Itly SDK. Call once when your application starts.
-   * @param context Additional context properties to add to all events.
-   * @param options Configuration options to initialize the Itly SDK with.
+   * @param params.context Additional context properties to add to all events.
+   * @param params.options Configuration options to initialize the Itly SDK with.
    */
   load = (
-    context?: Properties, options?: Options,
-  ) => this.itly.load(context, options);
+    params? : {
+      context?: Properties,
+      options?: Options,
+    },
+  ) => this.itly.load(params);
 
   /**
    * Alias a user ID to another user ID.

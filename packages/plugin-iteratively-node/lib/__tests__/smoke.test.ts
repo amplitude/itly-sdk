@@ -55,9 +55,11 @@ test.each([
   );
 
   expect(() => {
-    itly.load(undefined, {
-      environment,
-      plugins: [iterativelyPlugin],
+    itly.load({
+      options: {
+        environment,
+        plugins: [iterativelyPlugin],
+      },
     });
   }).not.toThrow();
 });
@@ -74,9 +76,11 @@ test('should not post if on production', () => {
     },
   );
 
-  itly.load(undefined, {
-    environment,
-    plugins: [iterativelyPlugin],
+  itly.load({
+    options: {
+      environment,
+      plugins: [iterativelyPlugin],
+    },
   });
 
   itly.track(defaultUserId, defaultTestEvent);
@@ -97,9 +101,11 @@ test('should post when flushAt reached', async () => {
     },
   );
 
-  itly.load(undefined, {
-    environment,
-    plugins: [iterativelyPlugin],
+  itly.load({
+    options: {
+      environment,
+      plugins: [iterativelyPlugin],
+    },
   });
 
   const events = [0, 1].map((i) => ({
@@ -145,9 +151,11 @@ test('should post in flushInterval', async () => {
     },
   );
 
-  itly.load(undefined, {
-    environment,
-    plugins: [iterativelyPlugin],
+  itly.load({
+    options: {
+      environment,
+      plugins: [iterativelyPlugin],
+    },
   });
 
   const events = [0, 1].map((i) => ({
@@ -195,9 +203,11 @@ test('should post on explicit flush()', async () => {
     },
   );
 
-  itly.load(undefined, {
-    environment,
-    plugins: [iterativelyPlugin],
+  itly.load({
+    options: {
+      environment,
+      plugins: [iterativelyPlugin],
+    },
   });
 
   const events = [0, 1].map((i) => ({
@@ -246,9 +256,11 @@ test('should omit event properties if configured', async () => {
     },
   );
 
-  itly.load(undefined, {
-    environment,
-    plugins: [iterativelyPlugin],
+  itly.load({
+    options: {
+      environment,
+      plugins: [iterativelyPlugin],
+    },
   });
 
   const event = {
@@ -294,9 +306,11 @@ test('should post track validation error', async () => {
     },
   );
 
-  itly.load(undefined, {
-    environment,
-    plugins: [iterativelyPlugin],
+  itly.load({
+    options: {
+      environment,
+      plugins: [iterativelyPlugin],
+    },
   });
 
   const event = {
@@ -346,9 +360,11 @@ test('should omit validation error details if configured', async () => {
     },
   );
 
-  itly.load(undefined, {
-    environment,
-    plugins: [iterativelyPlugin],
+  itly.load({
+    options: {
+      environment,
+      plugins: [iterativelyPlugin],
+    },
   });
 
   const event = {

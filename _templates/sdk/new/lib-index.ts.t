@@ -29,8 +29,10 @@ export class Itly {
   }
 
   load = (
-    options: Options,
-  ) => this.itly.load(options);
+    params: {
+      options: Options,
+    },
+  ) => this.itly.load(params);
 
   alias = (
     userId: string, previousId?: string,

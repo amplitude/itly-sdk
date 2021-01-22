@@ -22,11 +22,14 @@ test('should load and track events to a custom destination (no validation)', () 
   const itly = new Itly();
 
   itly.load({
-    requiredString: 'A required string',
-    optionalEnum: 'Value 1',
-  }, {
-    environment: 'production',
-    plugins: [new CustomPlugin()],
+    context: {
+      requiredString: 'A required string',
+      optionalEnum: 'Value 1',
+    },
+    options: {
+      environment: 'production',
+      plugins: [new CustomPlugin()],
+    },
   });
 
   itly.identify(undefined, {
@@ -95,9 +98,12 @@ test('should load and track events with properly merged context', () => {
 
   const itly = new Itly();
 
-  itly.load(context, {
-    environment: 'production',
-    plugins: [testingPlugin],
+  itly.load({
+    context,
+    options: {
+      environment: 'production',
+      plugins: [testingPlugin],
+    },
   });
 
   itly.identify(undefined, {
@@ -168,12 +174,14 @@ test('other plugins should continue if another plugin throws errors in callback 
     pluginSpies[method] = jest.spyOn(dummyPlugin, method as any);
   });
 
-  itly.load(undefined, {
-    environment: 'production',
-    plugins: [
-      new ErrorPlugin(),
-      dummyPlugin,
-    ],
+  itly.load({
+    options: {
+      environment: 'production',
+      plugins: [
+        new ErrorPlugin(),
+        dummyPlugin,
+      ],
+    },
   });
   itly.identify('tmp-id');
   itly.alias(id, 'tmp-id');

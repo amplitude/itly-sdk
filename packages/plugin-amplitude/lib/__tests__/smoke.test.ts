@@ -78,9 +78,12 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
       console.log(`Caught expected error. ${e.message}`);
     }
 
-    itly.load(context, {
-      ...options,
-      plugins: [plugin].concat(options.plugins),
+    itly.load({
+      context,
+      options: {
+        ...options,
+        plugins: [plugin].concat(options.plugins),
+      },
     });
 
     itly.identify(undefined);

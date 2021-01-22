@@ -90,7 +90,10 @@ test.only.each(testParams.map((test) => [test.name, test]) as any[])('%s',
   async (name: string, { context: ctx, options }: TestParams) => {
     const itly = new Itly();
 
-    itly.load(ctx, options);
+    itly.load({
+      context: ctx,
+      options,
+    });
 
     itly.identify(undefined, identifyProps);
     itly.identify(tempUserId, identifyProps);

@@ -60,17 +60,17 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
     import { SegmentPlugin } from '@itly/plugin-segment';
 
     const itly = new Itly();
-    itly.load(
-      { someGlobalValue: 'On all events' },     
-      {
+    itly.load({
+      context: { someGlobalValue: 'On all events' },     
+      options: {
         environment: 'production',
         plugins: [
           new AmplitudePlugin('AMPLITUDE-KEY'),
           new MixpanelPlugin('MIXPANEL-KEY'),
           new SegmentPlugin('SEGMENT-KEY'),
         ],
-      }
-    );
+      },
+   });
 
     itly.identify('anon', { userProp: 1 });
     itly.alias('some-user', 'anon');
@@ -99,17 +99,17 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
     import { SegmentPlugin } from '@itly/plugin-segment-node';
 
     const itly = new Itly();
-    itly.load(
-      {  someGlobalValue: 'On all events' },
-      {
+    itly.load({
+      context: { someGlobalValue: 'On all events' },
+      options: {
         environment: 'production',
         plugins: [
           new AmplitudePlugin('AMPLITUDE-KEY'),
           new MixpanelPlugin('MIXPANEL-KEY'),
           new SegmentPlugin('SEGMENT-KEY'),
         ],
-      }
-    );
+      },
+    });
 
     const userId = 'some-user';
 
@@ -165,20 +165,22 @@ import { Itly } from '@itly/sdk/node';
     import { SchemaValidatorPlugin } from '@itly/plugin-schema-validator';
 
     const itly = new Itly();
-    itly.load(undefined, {
-      validation: {
-        disabled: false,
-        trackInvalid: false,
-        errorOnInvalid: false,
+    itly.load({
+      options: {
+        validation: {
+          disabled: false,
+          trackInvalid: false,
+          errorOnInvalid: false,
+        },
+        plugins: [
+          new SchemaValidatorPlugin(
+            {
+              'My Event': {"type":"object","properties":{"numToValidate":{"type":"integer","maximum":10}},"additionalProperties":false,"required":["propToValidate"]},
+              'Another event for something': {...},
+            },
+          ),
+        ],
       },
-      plugins: [
-        new SchemaValidatorPlugin(
-          {
-            'My Event': {"type":"object","properties":{"numToValidate":{"type":"integer","maximum":10}},"additionalProperties":false,"required":["propToValidate"]},
-            'Another event for something': {...},
-          },
-        ),
-      ],
     });
 
     // Validates and tracks
@@ -226,8 +228,10 @@ import { Itly } from '@itly/sdk/node';
     ```
 2. Add your Plugin to `plugins` during `itly.load()`.
     ```
-    itly.load(undefined, {
-      plugins: [new CustomPlugin()],
+    itly.load({
+      options: {
+        plugins: [new CustomPlugin()],
+      },
     });
     ```
 # Contributing

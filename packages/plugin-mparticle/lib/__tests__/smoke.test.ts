@@ -20,9 +20,11 @@ test('should not crash on load', () => {
   const mparticlePlugin = new MparticlePlugin();
 
   expect(() => {
-    itly.load(undefined, {
-      environment: 'production',
-      plugins: [mparticlePlugin],
+    itly.load({
+      options: {
+        environment: 'production',
+        plugins: [mparticlePlugin],
+      },
     });
   }).not.toThrow();
 });
