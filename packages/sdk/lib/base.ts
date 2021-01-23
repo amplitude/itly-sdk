@@ -187,16 +187,15 @@ export class Itly {
    * @param params.context Additional context properties to add to all events.
    * @param params.options Configuration options to initialize the Itly SDK with.
    */
-  load(params? : {
+  load(params: {
     context?: Properties,
     options?: Options,
-  }) {
+  } = {}) {
     if (this.options) {
       throw new Error('Itly is already initialized.');
     }
 
-    const context = params?.context;
-    const options = params?.options;
+    const { context, options } = params;
 
     this.options = {
       ...(options?.environment === 'production' ? DEFAULT_PROD_OPTIONS : DEFAULT_DEV_OPTIONS),

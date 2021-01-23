@@ -40,10 +40,10 @@ export class Itly {
    * @param params.options Configuration options to initialize the Itly SDK with.
    */
   load = (
-    params? : {
+    params: {
       context?: Properties,
       options?: Options,
-    },
+    } = {},
   ) => this.itly.load(params);
 
   /**
