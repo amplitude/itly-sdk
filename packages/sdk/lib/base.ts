@@ -191,24 +191,24 @@ export class Itly {
 
   /**
    * Initialize the Itly SDK. Call once when your application starts.
-   * @param options Configuration options to initialize the Itly SDK with.
+   * @param loadOptions Configuration options to initialize the Itly SDK with.
    */
-  load(options: LoadOptions = {}) {
+  load(loadOptions: LoadOptions = {}) {
     if (this.options) {
       throw new Error('Itly is already initialized.');
     }
 
     const {
       context,
-      ...coreOptions
-    } = options;
+      ...options
+    } = loadOptions;
 
     this.options = {
-      ...(coreOptions?.environment === 'production' ? DEFAULT_PROD_OPTIONS : DEFAULT_DEV_OPTIONS),
-      ...coreOptions,
+      ...(options?.environment === 'production' ? DEFAULT_PROD_OPTIONS : DEFAULT_DEV_OPTIONS),
+      ...options,
       validation: {
-        ...(coreOptions?.environment === 'production' ? DEFAULT_PROD_VALIDATION_OPTIONS : DEFAULT_DEV_VALIDATION_OPTIONS),
-        ...coreOptions?.validation,
+        ...(options?.environment === 'production' ? DEFAULT_PROD_VALIDATION_OPTIONS : DEFAULT_DEV_VALIDATION_OPTIONS),
+        ...options?.validation,
       },
     };
 

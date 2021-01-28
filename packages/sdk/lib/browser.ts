@@ -38,11 +38,11 @@ export class Itly {
 
   /**
    * Initialize the Itly SDK. Call once when your application starts.
-   * @param options Configuration options to initialize the Itly SDK with.
+   * @param loadOptions Configuration options to initialize the Itly SDK with.
    */
   load = (
-    options: LoadOptions = {},
-  ) => this.itly.load(options);
+    loadOptions: LoadOptions = {},
+  ) => this.itly.load(loadOptions);
 
   /**
    * Alias a user ID to another user ID.
