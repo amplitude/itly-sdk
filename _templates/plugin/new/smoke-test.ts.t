@@ -28,10 +28,8 @@ test('should not crash on load', () => {
 
   expect(() => {
     itly.load({
-      options: {
-        environment: 'production',
-        plugins: [<%= VarName %>],
-      },  
+      environment: 'production',
+      plugins: [<%= VarName %>],
     });
   }).not.toThrow();
 });

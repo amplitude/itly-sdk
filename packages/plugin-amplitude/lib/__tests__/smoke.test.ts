@@ -79,11 +79,9 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     }
 
     itly.load({
+      ...options,
       context,
-      options: {
-        ...options,
-        plugins: [plugin].concat(options.plugins),
-      },
+      plugins: [plugin].concat(options.plugins),
     });
 
     itly.identify(undefined);

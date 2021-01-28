@@ -21,10 +21,8 @@ test('should not crash on load', () => {
 
   expect(() => {
     itly.load({
-      options: {
-        environment: 'production',
-        plugins: [mparticlePlugin],
-      },
+      environment: 'production',
+      plugins: [mparticlePlugin],
     });
   }).not.toThrow();
 });

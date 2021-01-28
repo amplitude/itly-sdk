@@ -32,10 +32,8 @@ beforeEach(() => {
   testingPlugin = new TestingPlugin();
 
   itly.load({
-    options: {
-      environment: 'production',
-      plugins: [testingPlugin],
-    },
+    environment: 'production',
+    plugins: [testingPlugin],
   });
 });
 

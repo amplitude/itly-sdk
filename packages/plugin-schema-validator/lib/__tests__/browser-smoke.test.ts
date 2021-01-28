@@ -91,8 +91,8 @@ test.only.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     const itly = new Itly();
 
     itly.load({
+      ...options,
       context: ctx,
-      options,
     });
 
     itly.identify(undefined, identifyProps);

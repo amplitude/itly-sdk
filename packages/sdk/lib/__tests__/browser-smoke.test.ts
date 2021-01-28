@@ -26,10 +26,8 @@ test('should load and track events to a custom destination (no validation)', () 
       requiredString: 'A required string',
       optionalEnum: 'Value 1',
     },
-    options: {
-      environment: 'production',
-      plugins: [new CustomPlugin()],
-    },
+    environment: 'production',
+    plugins: [new CustomPlugin()],
   });
 
   itly.identify(undefined, {
@@ -100,10 +98,8 @@ test('should load and track events with properly merged context', () => {
 
   itly.load({
     context,
-    options: {
-      environment: 'production',
-      plugins: [testingPlugin],
-    },
+    environment: 'production',
+    plugins: [testingPlugin],
   });
 
   itly.identify(undefined, {
@@ -175,13 +171,11 @@ test('other plugins should continue if another plugin throws errors in callback 
   });
 
   itly.load({
-    options: {
-      environment: 'production',
-      plugins: [
-        new ErrorPlugin(),
-        dummyPlugin,
-      ],
-    },
+    environment: 'production',
+    plugins: [
+      new ErrorPlugin(),
+      dummyPlugin,
+    ],
   });
   itly.identify('tmp-id');
   itly.alias(id, 'tmp-id');

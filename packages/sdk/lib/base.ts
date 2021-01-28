@@ -23,6 +23,13 @@ export interface Options {
   logger?: Logger;
 }
 
+export interface LoadOptions extends Options {
+  /**
+   * Additional context properties to add to all events.
+   */
+  context?: Properties,
+}
+
 export type PluginLoadOptions = {
   environment: Environment;
   logger: Logger;
@@ -184,25 +191,24 @@ export class Itly {
 
   /**
    * Initialize the Itly SDK. Call once when your application starts.
-   * @param params.context Additional context properties to add to all events.
-   * @param params.options Configuration options to initialize the Itly SDK with.
+   * @param options Configuration options to initialize the Itly SDK with.
    */
-  load(params: {
-    context?: Properties,
-    options?: Options,
-  } = {}) {
+  load(options: LoadOptions = {}) {
     if (this.options) {
       throw new Error('Itly is already initialized.');
     }
 
-    const { context, options } = params;
+    const {
+      context,
+      ...coreOptions
+    } = options;
 
     this.options = {
-      ...(options?.environment === 'production' ? DEFAULT_PROD_OPTIONS : DEFAULT_DEV_OPTIONS),
-      ...options,
+      ...(coreOptions?.environment === 'production' ? DEFAULT_PROD_OPTIONS : DEFAULT_DEV_OPTIONS),
+      ...coreOptions,
       validation: {
-        ...(options?.environment === 'production' ? DEFAULT_PROD_VALIDATION_OPTIONS : DEFAULT_DEV_VALIDATION_OPTIONS),
-        ...options?.validation,
+        ...(coreOptions?.environment === 'production' ? DEFAULT_PROD_VALIDATION_OPTIONS : DEFAULT_DEV_VALIDATION_OPTIONS),
+        ...coreOptions?.validation,
       },
     };
 
