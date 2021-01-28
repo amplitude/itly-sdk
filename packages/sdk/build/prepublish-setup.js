@@ -13,7 +13,7 @@ function prepublishSetup() {
   };
   packageJson.devDependencies = {};
 
-  ['main', 'types'].forEach((field) => {
+  ['main', 'types', 'module'].forEach((field) => {
     if (packageJson[field]) {
       packageJson[field] = packageJson[field].replace(DIST_PATH, '');
     }
