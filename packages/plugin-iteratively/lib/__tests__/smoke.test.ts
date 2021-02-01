@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
-import Itly from '@itly/sdk';
+// eslint-disable-next-line no-unused-vars
+import { ItlyBrowser as Itly, Environment } from '@itly/sdk';
 import { requireForTestEnv } from '../../../../__tests__/util';
 
 const IterativelyPlugin = requireForTestEnv(__dirname);
@@ -26,7 +27,7 @@ const defaultFetchRequest = {
   method: 'post',
 };
 
-let itly: any;
+let itly: Itly | undefined;
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -59,8 +60,8 @@ test.each([
   );
 
   expect(() => {
-    itly.load(undefined, {
-      environment,
+    itly!.load(undefined, {
+      environment: environment as Environment,
       plugins: [iterativelyPlugin],
     });
   }).not.toThrow();
@@ -78,12 +79,12 @@ test('should not post if on production', () => {
     },
   );
 
-  itly.load(undefined, {
+  itly!.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
 
-  itly.track(defaultTestEvent);
+  itly!.track(defaultTestEvent);
 
   expect(fetch).not.toBeCalled();
 });
@@ -101,7 +102,7 @@ test('should post when flushAt reached', async () => {
     },
   );
 
-  itly.load(undefined, {
+  itly!.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -113,7 +114,7 @@ test('should post when flushAt reached', async () => {
     },
   }));
 
-  events.forEach((event) => itly.track(event));
+  events.forEach((event) => itly!.track(event));
 
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
@@ -149,7 +150,7 @@ test('should post in flushInterval', async () => {
     },
   );
 
-  itly.load(undefined, {
+  itly!.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -162,7 +163,7 @@ test('should post in flushInterval', async () => {
   }));
 
   for (let i = 0; i < events.length; i += 1) {
-    itly.track(events[i]);
+    itly!.track(events[i]);
     await wait(flushInterval / 2);
   }
 
@@ -199,7 +200,7 @@ test('should post on explicit flush()', async () => {
     },
   );
 
-  itly.load(undefined, {
+  itly!.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -212,10 +213,10 @@ test('should post on explicit flush()', async () => {
   }));
 
   for (let i = 0; i < events.length; i += 1) {
-    itly.track(events[i]);
+    itly!.track(events[i]);
   }
 
-  await itly.flush();
+  await itly!.flush();
 
   await wait(1000);
 
@@ -252,7 +253,7 @@ test('should omit event properties if configured', async () => {
     },
   );
 
-  itly.load(undefined, {
+  itly!.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -264,7 +265,7 @@ test('should omit event properties if configured', async () => {
     },
   };
 
-  itly.track(event);
+  itly!.track(event);
 
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
@@ -300,7 +301,7 @@ test('should post track validation error', async () => {
     },
   );
 
-  itly.load(undefined, {
+  itly!.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });
@@ -352,7 +353,7 @@ test('should omit validation error details if configured', async () => {
     },
   );
 
-  itly.load(undefined, {
+  itly!.load(undefined, {
     environment,
     plugins: [iterativelyPlugin],
   });

@@ -54,7 +54,7 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
     ```
 2. Import `itly` and plugins, `load()` configuration, and start `track()`ing.
     ```
-    import { Itly } from '@itly/sdk';
+    import { ItlyBrowser as Itly } from '@itly/sdk';
     import { AmplitudePlugin } from '@itly/plugin-amplitude';
     import { MixpanelPlugin } from '@itly/plugin-mixpanel';
     import { SegmentPlugin } from '@itly/plugin-segment';
@@ -93,7 +93,7 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
     ```
 2. Import `itly` and plugins, `load()` configuration, and start `track()`ing.
     ```
-    import { Itly } from '@itly/sdk';
+    import { ItlyNode as Itly } from '@itly/sdk';
     import { AmplitudePlugin } from '@itly/plugin-amplitude-node';
     import { MixpanelPlugin } from '@itly/plugin-mixpanel-node';
     import { SegmentPlugin } from '@itly/plugin-segment-node';
@@ -147,11 +147,11 @@ Unfortunately in TypeScript this import is of type `any`. If you would like a st
 the platform as well.
 ```
 // Strongly typed Browser SDK
-import { Itly } from '@itly/sdk/browser';
+import { ItlyBrowser as Itly } from '@itly/sdk';
 ```
 ```
 // Strongly typed Node SDK
-import { Itly } from '@itly/sdk/node';
+import { ItlyNode as Itly } from '@itly/sdk';
 ```
 
 # Event Validation

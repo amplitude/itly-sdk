@@ -6,7 +6,7 @@ to: packages/sdk-<%= name %>/tsconfig.json
         "target": "es5",
         "module": "commonjs",
         "declaration": true,
-        "outDir": "./dist",
+        "outDir": "./dist/cjs",
         "strict": true,
         "esModuleInterop": true
     },

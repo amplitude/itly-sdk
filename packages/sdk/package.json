@@ -16,8 +16,6 @@
   ],
   "scripts": {
     "prepublish": "yarn run build",
-    "prepublishOnly": "yarn run build && node ./build/prepublish-setup && cp -r ./dist/* . && rm -rf ./dist",
-    "postpublish": "git reset --hard && git clean -fd",
     "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
     "clean": "rimraf dist/*",
     "test": "jest --runInBand"
