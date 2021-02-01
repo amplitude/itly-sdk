@@ -10,6 +10,13 @@
     "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
     "test": "jest --runInBand"
   },
+  "files": [
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
   "keywords": [
     "itly",
     "sdk",

@@ -9,9 +9,7 @@
     "LICENSE",
     "CHANGELOG.md",
     "README.md",
-    "build-info.json",
-    "*.js",
-    "*.ts",
+    "dist/",
     "package.json"
   ],
   "scripts": {
