@@ -8,7 +8,7 @@ export type ImportPathMap = { [testEnv in TestEnv]: string };
 const DEFAULT_TEST_ENV: TestEnv = 'src';
 const DEFAULT_IMPORT_PATHS: ImportPathMap = {
   src: '../index',
-  dist: '../../dist/index',
+  dist: '../../dist/cjs/index',
 };
 
 export default function requireForTestEnv(
