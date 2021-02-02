@@ -60,17 +60,15 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
     import { SegmentPlugin } from '@itly/plugin-segment';
 
     const itly = new Itly();
-    itly.load(
-      { someGlobalValue: 'On all events' },     
-      {
-        environment: 'production',
-        plugins: [
-          new AmplitudePlugin('AMPLITUDE-KEY'),
-          new MixpanelPlugin('MIXPANEL-KEY'),
-          new SegmentPlugin('SEGMENT-KEY'),
-        ],
-      }
-    );
+    itly.load({
+      context: { someGlobalValue: 'On all events' },     
+      environment: 'production',
+      plugins: [
+        new AmplitudePlugin('AMPLITUDE-KEY'),
+        new MixpanelPlugin('MIXPANEL-KEY'),
+        new SegmentPlugin('SEGMENT-KEY'),
+      ],
+    });
 
     itly.identify('anon', { userProp: 1 });
     itly.alias('some-user', 'anon');
@@ -99,17 +97,15 @@ All modules are JS/TS compatible but some plugins are divided by platform (brows
     import { SegmentPlugin } from '@itly/plugin-segment-node';
 
     const itly = new Itly();
-    itly.load(
-      {  someGlobalValue: 'On all events' },
-      {
-        environment: 'production',
-        plugins: [
-          new AmplitudePlugin('AMPLITUDE-KEY'),
-          new MixpanelPlugin('MIXPANEL-KEY'),
-          new SegmentPlugin('SEGMENT-KEY'),
-        ],
-      }
-    );
+    itly.load({
+      context: { someGlobalValue: 'On all events' },
+      environment: 'production',
+      plugins: [
+        new AmplitudePlugin('AMPLITUDE-KEY'),
+        new MixpanelPlugin('MIXPANEL-KEY'),
+        new SegmentPlugin('SEGMENT-KEY'),
+      ],
+    });
 
     const userId = 'some-user';
 
@@ -165,7 +161,7 @@ import { Itly } from '@itly/sdk/node';
     import { SchemaValidatorPlugin } from '@itly/plugin-schema-validator';
 
     const itly = new Itly();
-    itly.load(undefined, {
+    itly.load({
       validation: {
         disabled: false,
         trackInvalid: false,
@@ -226,7 +222,7 @@ import { Itly } from '@itly/sdk/node';
     ```
 2. Add your Plugin to `plugins` during `itly.load()`.
     ```
-    itly.load(undefined, {
+    itly.load({
       plugins: [new CustomPlugin()],
     });
     ```

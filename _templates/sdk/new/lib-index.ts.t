@@ -5,6 +5,7 @@ to: packages/sdk-<%= name %>/lib/index.ts
 import {
   Itly as ItlySdk,
   Options,
+  LoadOptions,
   Event,
   Properties,
   Plugin,
@@ -14,6 +15,7 @@ import {
 
 export {
   Options,
+  LoadOptions,
   Plugin,
   Event,
   Properties,
@@ -29,8 +31,8 @@ export class Itly {
   }
 
   load = (
-    options: Options,
-  ) => this.itly.load(options);
+    loadOptions: LoadOptions = {},
+  ) => this.itly.load(loadOptions);
 
   alias = (
     userId: string, previousId?: string,

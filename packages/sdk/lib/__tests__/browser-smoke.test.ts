@@ -22,9 +22,10 @@ test('should load and track events to a custom destination (no validation)', () 
   const itly = new Itly();
 
   itly.load({
-    requiredString: 'A required string',
-    optionalEnum: 'Value 1',
-  }, {
+    context: {
+      requiredString: 'A required string',
+      optionalEnum: 'Value 1',
+    },
     environment: 'production',
     plugins: [new CustomPlugin()],
   });
@@ -95,7 +96,8 @@ test('should load and track events with properly merged context', () => {
 
   const itly = new Itly();
 
-  itly.load(context, {
+  itly.load({
+    context,
     environment: 'production',
     plugins: [testingPlugin],
   });
@@ -168,7 +170,7 @@ test('other plugins should continue if another plugin throws errors in callback 
     pluginSpies[method] = jest.spyOn(dummyPlugin, method as any);
   });
 
-  itly.load(undefined, {
+  itly.load({
     environment: 'production',
     plugins: [
       new ErrorPlugin(),

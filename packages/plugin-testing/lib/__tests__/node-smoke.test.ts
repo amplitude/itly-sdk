@@ -34,7 +34,7 @@ beforeEach(() => {
   itly = new Itly();
   testingPlugin = new TestingPlugin();
 
-  itly.load(undefined, {
+  itly.load({
     environment: 'production',
     plugins: [testingPlugin],
   });
