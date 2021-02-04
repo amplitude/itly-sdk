@@ -4,6 +4,7 @@ import { Itly } from './base';
 export {
   Itly,
   Options,
+  LoadOptions,
   Environment,
   Event,
   Properties,

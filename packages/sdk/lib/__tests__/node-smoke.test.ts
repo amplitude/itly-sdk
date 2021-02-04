@@ -69,11 +69,11 @@ describe('should load and track events to a custom destination (no validation)',
       }
 
       // Load
-      itly.load(context, options);
+      itly.load({ ...options, context });
 
       // Try load() again, should throw errror
       try {
-        itly.load(context, options);
+        itly.load({ ...options, context });
       } catch (e) {
         console.log(`Caught expected error. ${e.message}`);
       }
@@ -129,7 +129,7 @@ describe('should load and track events to a custom destination (no validation)',
     const plugin = new CustomPlugin();
     const spyPluginLoad = jest.spyOn(plugin, 'load');
 
-    itly.load(undefined, {
+    itly.load({
       plugins: [plugin],
       disabled: false,
     });
@@ -164,7 +164,8 @@ describe('should load and track events to a custom destination (no validation)',
       }
     }
 
-    itly.load(context, {
+    itly.load({
+      context,
       environment: 'production',
       plugins: [testingPlugin],
     });

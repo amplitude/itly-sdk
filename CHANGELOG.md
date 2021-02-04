@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.0...v2.0.1) (2021-02-02)
+
+
+### Bug Fixes
+
+* introduce LoadOptions for itly.load() ([e16eeb8](https://github.com/iterativelyhq/itly-sdk/commit/e16eeb8260419cc8f2ca5c449a8000ea74028e3b))
+* renamed options to loadOptions ([43f039d](https://github.com/iterativelyhq/itly-sdk/commit/43f039d33193f6de0917c497eb6f6a94919cd0fa))
+* use destructuring for typed object params for itly.load() ([0a91a7a](https://github.com/iterativelyhq/itly-sdk/commit/0a91a7a0d4079e5628d3d03ea733d1a0569a24a6))
+* use typed object params for itly.load() ([1d76ce1](https://github.com/iterativelyhq/itly-sdk/commit/1d76ce16a44a52afa7751078d92a2c7a6354e071))
+
+
+
+
+
 # [2.0.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.6.0...v2.0.0) (2021-01-20)
 
 
