@@ -1,12 +1,21 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Options, Event, Properties, Plugin,
+  Event, Properties, Plugin,
 } from '@itly/sdk';
 
 export type SnowplowOptions = {
   url: string;
   config?: {};
 };
+
+export interface SnowplowContext {
+  schema: string;
+  data: { [key: string]: any };
+}
+
+export interface SnowplowMetadata {
+  contexts: SnowplowContext[];
+}
 
 /**
  * Snowplow Browser Plugin for Iteratively SDK
@@ -45,10 +54,11 @@ export class SnowplowPlugin extends Plugin {
 
   track(userId: string | undefined, event: Event) {
     const schemaVer = event.version && event.version.replace(/\./g, '-');
+    const metadata = (event.metadata?.[this.id] ?? {}) as Partial<SnowplowMetadata>;
     this.snowplow('trackSelfDescribingEvent', {
       schema: `iglu:${this.vendor}/${event.name}/jsonschema/${schemaVer}`,
       data: event.properties,
-    });
+    }, metadata.contexts);
   }
 }
 

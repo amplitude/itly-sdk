@@ -42,9 +42,7 @@ export type Properties = {
 };
 
 export type EventMetadata = {
-  [name: string]: {
-    [name: string]: any;
-  };
+  [name: string]: any;
 };
 
 export type Event = {
