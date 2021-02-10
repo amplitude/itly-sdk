@@ -5,6 +5,7 @@ import {
   LoadOptions,
   Environment,
   Event,
+  EventOptions,
   Properties,
   Plugin,
   PluginLoadOptions,
@@ -21,6 +22,7 @@ export {
   Plugin,
   PluginLoadOptions,
   Event,
+  EventOptions,
   Properties,
   ValidationOptions,
   ValidationResponse,
@@ -48,47 +50,62 @@ export class Itly {
    * Alias a user ID to another user ID.
    * @param userId The user's new ID.
    * @param previousId The user's previous ID.
+   * @param options The event's options.
    */
   alias = (
-    userId: string, previousId?: string,
-  ) => this.itly.alias(userId, previousId);
+    userId: string,
+    previousId?: string,
+    options?: EventOptions,
+  ) => this.itly.alias(userId, previousId, options);
 
   /**
    * Identify a user and set or update that user's properties.
    * @param userId The user's ID.
    * @param identifyProperties The user's properties.
+   * @param options The event's options.
    */
   identify = (
-    userId: string | Properties | undefined, identifyProperties?: Properties,
+    userId: string | Properties | undefined,
+    identifyProperties?: Properties,
+    options?: EventOptions,
   ) => {
     if (userId != null && typeof (userId) === 'object') {
+      // eslint-disable-next-line no-param-reassign
+      options = identifyProperties;
       // eslint-disable-next-line no-param-reassign
       identifyProperties = userId;
       // eslint-disable-next-line no-param-reassign
       userId = undefined;
     }
 
-    this.itly.identify(userId, identifyProperties);
+    this.itly.identify(userId, identifyProperties, options);
   }
 
   /**
    * Associate the current user with a group and set or update that group's properties.
    * @param groupId The group's ID.
    * @param groupProperties The group's properties.
+   * @param options The event's options.
    */
   group = (
-    groupId: string, groupProperties?: Properties,
-  ) => this.itly.group(undefined, groupId, groupProperties);
+    groupId: string,
+    groupProperties?: Properties,
+    options?: EventOptions,
+  ) => this.itly.group(undefined, groupId, groupProperties, options);
 
   /**
    * Track a page view.
    * @param category The page's category.
    * @param name The page's name.
    * @param pageProperties The page's properties.
+   * @param options The event's options.
    */
   page = (
-    category: string, name: string, pageProperties?: Properties,
-  ) => this.itly.page(undefined, category, name, pageProperties);
+    category: string,
+    name: string,
+    pageProperties?: Properties,
+    options?: EventOptions,
+  ) => this.itly.page(undefined, category, name, pageProperties, options);
 
   /**
    * Track any event.

@@ -7,6 +7,7 @@ export {
   LoadOptions,
   Environment,
   Event,
+  EventOptions,
   Properties,
   Plugin,
   PluginLoadOptions,

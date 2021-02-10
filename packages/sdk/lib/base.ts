@@ -41,9 +41,11 @@ export type Properties = {
   [name: string]: any;
 };
 
-export type EventMetadata = {
-  [name: string]: any;
-};
+export type EventMetadata = Record<string, any>;
+
+export interface EventOptions {
+  metadata?: EventMetadata;
+}
 
 export type Event = {
   name: string;
@@ -87,9 +89,9 @@ export abstract class Plugin {
     };
   }
 
-  alias(userId: string, previousId: string | undefined): void {}
+  alias(userId: string, previousId: string | undefined, options?: EventOptions): void {}
 
-  identify(userId: string | undefined, properties: Properties | undefined): void {}
+  identify(userId: string | undefined, properties: Properties | undefined, options?: EventOptions): void {}
 
   postIdentify(
     userId: string | undefined,
@@ -97,7 +99,12 @@ export abstract class Plugin {
     validationResponses: ValidationResponse[],
   ): void {}
 
-  group(userId: string | undefined, groupId: string, properties?: Properties | undefined): void {}
+  group(
+    userId: string | undefined,
+    groupId: string,
+    properties: Properties | undefined,
+    options?: EventOptions,
+  ): void {}
 
   postGroup(
     userId: string | undefined,
@@ -111,6 +118,7 @@ export abstract class Plugin {
     category: string | undefined,
     name: string | undefined,
     properties: Properties | undefined,
+    options?: EventOptions,
   ): void {}
 
   postPage(
@@ -230,21 +238,23 @@ export class Itly {
    * Alias a user ID to another user ID.
    * @param userId The user's new ID.
    * @param previousId The user's previous ID.
+   * @param options The event's options.
    */
-  alias(userId: string, previousId?: string) {
+  alias(userId: string, previousId?: string, options?: EventOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
 
-    this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId));
+    this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId, options));
   }
 
   /**
    * Identify a user and set or update that user's properties.
    * @param userId The user's ID.
    * @param identifyProperties The user's properties.
+   * @param options The event's options.
    */
-  identify(userId: string | undefined, identifyProperties?: Properties) {
+  identify(userId: string | undefined, identifyProperties?: Properties, options?: EventOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -259,7 +269,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'identify',
       identifyEvent,
-      (p, e) => p.identify(userId, identifyProperties),
+      (p, e) => p.identify(userId, identifyProperties, options),
       (p, e, validationResponses) => p.postIdentify(
         userId, identifyProperties, validationResponses,
       ),
@@ -271,8 +281,9 @@ export class Itly {
    * @param userId The user's ID.
    * @param groupId The group's ID.
    * @param groupProperties The group's properties.
+   * @param options The event's options.
    */
-  group(userId: string | undefined, groupId: string, groupProperties?: Properties) {
+  group(userId: string | undefined, groupId: string, groupProperties?: Properties, options?: EventOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -287,7 +298,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'group',
       groupEvent,
-      (p, e) => p.group(userId, groupId, groupProperties),
+      (p, e) => p.group(userId, groupId, groupProperties, options),
       (p, e, validationResponses) => p.postGroup(
         userId, groupId, groupProperties, validationResponses,
       ),
@@ -300,8 +311,14 @@ export class Itly {
    * @param category The page's category.
    * @param name The page's name.
    * @param pageProperties The page's properties.
+   * @param options The event's options.
    */
-  page(userId: string | undefined, category: string, name: string, pageProperties?: Properties) {
+  page(
+    userId: string | undefined,
+    category: string, name: string,
+    pageProperties?: Properties,
+    options?: EventOptions,
+  ) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -316,7 +333,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'page',
       pageEvent,
-      (p, e) => p.page(userId, category, name, pageProperties),
+      (p, e) => p.page(userId, category, name, pageProperties, options),
       (p, e, validationResponses) => p.postPage(
         userId, category, name, pageProperties, validationResponses,
       ),
