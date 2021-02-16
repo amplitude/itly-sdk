@@ -4,6 +4,7 @@ import Ajv from 'ajv';
 import {
   Event,
   Plugin,
+  PluginLoadOptions,
   ValidationResponse,
 } from '@itly/sdk';
 
@@ -33,7 +34,8 @@ export class SchemaValidatorPlugin extends Plugin {
   }
 
   // overrides Plugin.load
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     this.ajv = new Ajv();
     this.validators = {};
   }

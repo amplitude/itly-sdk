@@ -17,8 +17,6 @@ export type SegmentOptions = {
 export class SegmentPlugin extends Plugin {
   private segment?: Segment;
 
-  private logger: Logger | undefined;
-
   constructor(
     private writeKey: string,
     private options?: SegmentOptions,
@@ -27,90 +25,85 @@ export class SegmentPlugin extends Plugin {
   }
 
   load(options: PluginLoadOptions) {
+    super.load(options);
     this.segment = new Segment(this.writeKey, this.options);
-    this.logger = options.logger;
   }
 
   alias(userId: string, previousId: string) {
-    const id = +new Date();
     const payload = {
       userId,
       previousId,
     };
-    this.logger!.debug(`${this.id}: alias(request) ${id}: ${JSON.stringify(payload)}`);
+    const responseLogger = this.logger!.logRequest('alias', JSON.stringify(payload));
     this.segment!.alias(payload, (err: Error | undefined) => {
       if (err == null) {
-        this.logger!.debug(`${this.id}: alias(response) ${id}: success`);
+        responseLogger.success('success');
       } else {
-        this.logger!.error(`${this.id}: alias(response) ${id}: ${err}`);
+        responseLogger.error(err.toString());
       }
     });
   }
 
   identify(userId: string, properties: Properties | undefined) {
-    const id = +new Date();
     const payload = {
       userId,
       traits: { ...properties },
     };
-    this.logger!.debug(`${this.id}: identify(request) ${id}: ${JSON.stringify(payload)}`);
+    const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
     this.segment!.identify(payload, (err: Error | undefined) => {
       if (err == null) {
-        this.logger!.debug(`${this.id}: identify(response) ${id}: success`);
+        responseLogger.success('success');
       } else {
-        this.logger!.error(`${this.id}: identify(response) ${id}: ${err}`);
+        responseLogger.error(err.toString());
       }
     });
   }
 
   group(userId: string, groupId: string, properties: Properties | undefined) {
-    const id = +new Date();
     const payload = {
       userId,
       groupId,
       traits: properties,
     };
-    this.logger!.debug(`${this.id}: group(request) ${id}: ${JSON.stringify(payload)}`);
+    const responseLogger = this.logger!.logRequest('group', JSON.stringify(payload));
     this.segment!.group(payload, (err: Error | undefined) => {
       if (err == null) {
-        this.logger!.debug(`${this.id}: group(response) ${id}: success`);
+        responseLogger.success('success');
       } else {
-        this.logger!.error(`${this.id}: group(response) ${id}: ${err}`);
+        responseLogger.error(err.toString());
       }
     });
   }
 
   page(userId: string, category: string, name: string, properties: Properties | undefined) {
-    const id = +new Date();
     const payload = {
       userId,
       category,
       name,
       properties,
     };
-    this.logger!.debug(`${this.id}: page(request) ${id}: ${JSON.stringify(payload)}`);
+    const responseLogger = this.logger!.logRequest('page', JSON.stringify(payload));
     this.segment!.page(payload, (err: Error | undefined) => {
       if (err == null) {
-        this.logger!.debug(`${this.id}: page(response) ${id}: success`);
+        responseLogger.success('success');
       } else {
-        this.logger!.error(`${this.id}: page(response) ${id}: ${err}`);
+        responseLogger.error(err.toString());
       }
     });
   }
 
   track(userId: string, event: Event) {
-    const id = +new Date();
     const payload = {
       userId,
       event: event.name,
       properties: { ...event.properties },
     };
-    this.logger!.debug(`${this.id}: track(request) ${id}: ${JSON.stringify(payload)}`);
+    const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
     this.segment!.track(payload, (err: Error | undefined) => {
       if (err == null) {
-        this.logger!.debug(`${this.id}: track(response) ${id}: success`);
+        responseLogger.success('success');
       } else {
-        this.logger!.error(`${this.id}: track(response) ${id}: ${err}`);
+        responseLogger.error(err.toString());
       }
     });
   }

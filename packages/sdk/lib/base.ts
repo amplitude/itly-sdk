@@ -75,12 +75,47 @@ export interface Logger {
   error(message: string): void;
 }
 
+export class PluginLogger implements Logger {
+  // eslint-disable-next-line no-useless-constructor,no-empty-function
+  constructor(private readonly plugin: Plugin, private readonly logger: Logger) {
+  }
+
+  logRequest(action: string, requestData?: string) {
+    const requestId = +new Date();
+    this.debug(`${this.plugin.id}: ${action}(request) ${requestId}: ${requestData || ''}`);
+    return {
+      success: (data?: string) => this.debug(`${this.plugin.id}: ${action}(response) ${requestId}: ${data || ''}`),
+      error: (data?: string) => this.error(`${this.plugin.id}: ${action}(response) ${requestId}: ${data || ''}`),
+    };
+  }
+
+  debug(message: string): void {
+    this.logger.debug(message);
+  }
+
+  error(message: string): void {
+    this.logger.error(message);
+  }
+
+  info(message: string): void {
+    this.logger.info(message);
+  }
+
+  warn(message: string): void {
+    this.logger.warn(message);
+  }
+}
+
 export abstract class Plugin {
+  protected logger: PluginLogger | undefined;
+
   protected constructor(readonly id: string) {
     this.id = id;
   }
 
-  load(options: PluginLoadOptions): void {}
+  load(options: PluginLoadOptions): void {
+    this.logger = new PluginLogger(this, options.logger);
+  }
 
   // validation methods
   validate(event: Event): ValidationResponse {

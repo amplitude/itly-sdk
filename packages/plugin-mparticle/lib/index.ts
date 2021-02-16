@@ -46,6 +46,7 @@ export class MparticlePlugin extends Plugin {
   }
 
   load(options: PluginLoadOptions) {
+    super.load(options);
     this.mparticle = Mparticle.getInstance();
     try {
       // validates that mparticle instance is initialized

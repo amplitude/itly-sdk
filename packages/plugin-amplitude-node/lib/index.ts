@@ -3,7 +3,6 @@ import {
   Event,
   Properties,
   Plugin,
-  Logger,
   PluginLoadOptions,
 } from '@itly/sdk';
 import Amplitude, { AmplitudeOptions } from 'amplitude';
@@ -15,8 +14,6 @@ export { AmplitudeOptions };
  */
 export class AmplitudePlugin extends Plugin {
   private amplitude?: Amplitude;
-
-  private logger: Logger | undefined;
 
   constructor(
     private apiKey: string,
@@ -37,38 +34,36 @@ export class AmplitudePlugin extends Plugin {
   // }
 
   load(options: PluginLoadOptions) {
+    super.load(options);
     this.amplitude = new Amplitude(this.apiKey, this.options);
-    this.logger = options.logger;
   }
 
   async identify(userId: string, properties?: Properties) {
-    const id = +new Date();
     const payload = {
       user_id: userId,
       user_properties: properties,
     };
-    this.logger!.debug(`${this.id}: identify(request) ${id}: ${JSON.stringify(payload)}`);
+    const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
     try {
       const response = await this.amplitude!.identify(payload);
-      this.logger!.debug(`${this.id}: identify(response) ${id}: ${response}`);
+      responseLogger.success(response);
     } catch (e) {
-      this.logger!.error(`${this.id}: identify(response) ${id}: ${e}`);
+      responseLogger.error(e.toString());
     }
   }
 
   async track(userId: string, event: Event) {
-    const id = +new Date();
     const payload = {
       event_type: event.name,
       user_id: userId,
       event_properties: event.properties,
     };
-    this.logger!.debug(`${this.id}: track(request) ${id}: ${JSON.stringify(payload)}`);
+    const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
     try {
       const response = await this.amplitude!.track(payload);
-      this.logger!.debug(`${this.id}: track(response) ${id}: ${JSON.stringify(response)}`);
+      responseLogger.success(JSON.stringify(response));
     } catch (e) {
-      this.logger!.error(`${this.id}: track(response) ${id}: ${e}`);
+      responseLogger.error(e.toString());
     }
   }
 }

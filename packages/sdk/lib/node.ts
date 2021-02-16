@@ -10,6 +10,7 @@ export {
   Properties,
   Plugin,
   PluginLoadOptions,
+  PluginLogger,
   ValidationOptions,
   ValidationResponse,
   Logger,

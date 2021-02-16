@@ -3,6 +3,8 @@ import {
   PluginLoadOptions, Event, Properties, Plugin, ValidationResponse,
 } from '../../packages/sdk/lib';
 
+export { Plugin };
+
 export default class CustomPlugin extends Plugin {
   LOG_TAG = 'CustomPlugin';
 
@@ -16,6 +18,7 @@ export default class CustomPlugin extends Plugin {
   }
 
   load(options: PluginLoadOptions): void {
+    super.load(options);
     this.log(`load() environment='${options.environment}'`);
   }
 

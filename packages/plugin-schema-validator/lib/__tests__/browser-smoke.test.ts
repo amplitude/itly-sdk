@@ -4,10 +4,8 @@
  */
 /* eslint-disable no-unused-vars, no-console */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
-import Itly, {
-  Options, Plugin, Event, ValidationResponse,
-} from '@itly/sdk';
-import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
+import Itly from '@itly/sdk';
+import CustomPlugin, { Plugin } from '../../../../__tests__/src/CustomPlugin';
 import {
   TestParams,
   requireForTestEnv,
