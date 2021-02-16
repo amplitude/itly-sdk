@@ -1,10 +1,10 @@
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
-import Itly from '@itly/sdk';
+import { ItlyBrowser as Itly } from '@itly/sdk';
 import { requireForTestEnv } from '../../../../__tests__/util';
 
 const MparticlePlugin = requireForTestEnv(__dirname);
 
-let itly: any;
+let itly: Itly | undefined;
 
 beforeEach(() => {
   jest.resetModules();
@@ -20,7 +20,7 @@ test('should not crash on load', () => {
   const mparticlePlugin = new MparticlePlugin();
 
   expect(() => {
-    itly.load(undefined, {
+    itly!.load({
       environment: 'production',
       plugins: [mparticlePlugin],
     });

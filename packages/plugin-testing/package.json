@@ -1,14 +1,22 @@
 {
   "name": "@itly/plugin-testing",
-  "version": "1.7.0",
+  "version": "2.0.1",
   "description": "Testing Plugin for Iteratively SDK",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.js",
   "scripts": {
     "prepublish": "yarn run build",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
     "test": "jest --runInBand"
   },
+  "files": [
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
   "keywords": [
     "itly",
     "sdk",
@@ -18,14 +26,14 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk": "^1.7.0",
+    "@itly/sdk": "2.0.1",
     "@types/jest": "^26.0.0",
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.3"
   },
   "peerDependencies": {
-    "@itly/sdk": "^0.9.2"
+    "@itly/sdk": "^2.0.0"
   },
   "gitHead": "969cab7119711ffc2446a10eaab955f763938566"
 }

@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.0...v2.0.1) (2021-02-02)
+
+
+### Bug Fixes
+
+* introduce LoadOptions for itly.load() ([e16eeb8](https://github.com/iterativelyhq/itly-sdk/commit/e16eeb8260419cc8f2ca5c449a8000ea74028e3b))
+* renamed options to loadOptions ([43f039d](https://github.com/iterativelyhq/itly-sdk/commit/43f039d33193f6de0917c497eb6f6a94919cd0fa))
+* use destructuring for typed object params for itly.load() ([0a91a7a](https://github.com/iterativelyhq/itly-sdk/commit/0a91a7a0d4079e5628d3d03ea733d1a0569a24a6))
+* use typed object params for itly.load() ([1d76ce1](https://github.com/iterativelyhq/itly-sdk/commit/1d76ce16a44a52afa7751078d92a2c7a6354e071))
+
+
+
+
+
+# [2.0.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.6.0...v2.0.0) (2021-01-20)
+
+
+### Bug Fixes
+
+* added " for Iteratively SDK" suffix to plugin titles/descriptions ([12876a5](https://github.com/iterativelyhq/itly-sdk/commit/12876a508ae19006d76374b9bf48dfd0d9eb94af))
+* added code docs to all SDK methods ([72b7915](https://github.com/iterativelyhq/itly-sdk/commit/72b7915742fbd0519b471b18c4f00d6d23bccd69))
+* added explicit exports in addition to default exports ([401637e](https://github.com/iterativelyhq/itly-sdk/commit/401637e61ee63714d4db1ccabebfa31b73c15842))
+* added simple README's to all  packages ([b3a6eb2](https://github.com/iterativelyhq/itly-sdk/commit/b3a6eb2f7083f0e6e4107b2aa740e962c77128c6))
+* core Itly shouldn’t be a singleton ([79c0e63](https://github.com/iterativelyhq/itly-sdk/commit/79c0e63fb938a6e1741cf36bec477c0733bf7a8e))
+* fixed merge conflict with per event destination changes ([7f949ad](https://github.com/iterativelyhq/itly-sdk/commit/7f949ad428b4411aff7d464ff9eae1adc511b263))
+* move browser-specific code to browser.ts ([9bac4df](https://github.com/iterativelyhq/itly-sdk/commit/9bac4df9ec19ecf4499ce40882c6efd186cc849e))
+* moved code from codegen to SDK ([00ef906](https://github.com/iterativelyhq/itly-sdk/commit/00ef9060cc3d25bfd0c55434728fa2d1a5c1fab1))
+* re-export base types in node sdk ([52d470d](https://github.com/iterativelyhq/itly-sdk/commit/52d470d9c24f8baee8276ddd93e5a11ee9f5d930))
+* remove getPlugin() method in itly-sdk ([32d4b14](https://github.com/iterativelyhq/itly-sdk/commit/32d4b14195b1bd44d27db8c56a7d4553e81e9137))
+* removed legacy Itly prefixes ([fb8b7ad](https://github.com/iterativelyhq/itly-sdk/commit/fb8b7ad6a79241b6263644da0dda6ab6b49924aa))
+* removed the Node and Browser terms from all the Plugin class names ([a1e2f4b](https://github.com/iterativelyhq/itly-sdk/commit/a1e2f4b74dd4c879c28eba18e583557c1c763b92))
+* removed unnecessary node.ts ([b5f2006](https://github.com/iterativelyhq/itly-sdk/commit/b5f20062273e61d27a8632e305fc8d822a50d6a5))
+* separate context from Options ([dc6aeb6](https://github.com/iterativelyhq/itly-sdk/commit/dc6aeb6d24df060900e6e7c568d9f7854bf621a5))
+* update Plugin to accept id in constructor ([86be0ef](https://github.com/iterativelyhq/itly-sdk/commit/86be0ef59b950c68c9f1fa842fbfa70ec9c73bb6))
+
+
+### Features
+
+* added flush method ([0213284](https://github.com/iterativelyhq/itly-sdk/commit/0213284a8fab0b3f3beb1d12e14358c873d31027))
+* flush method returns Promise ([d0aaac7](https://github.com/iterativelyhq/itly-sdk/commit/d0aaac7f5623c0f698b1b9c06875dc9707f2bd58))
+* new version 2.0.0 ([8843dc2](https://github.com/iterativelyhq/itly-sdk/commit/8843dc26d6bdb1854101e871007c72d55b27170c))
+* only configure plugins if instance is not provided ITLY-1510 ([309e0e4](https://github.com/iterativelyhq/itly-sdk/commit/309e0e461731b6ce34e109a6b5aea7b2dbfe775a))
+
+
+### BREAKING CHANGES
+
+* separated context from Options in itly.load()
+* browser and node Itly no longer a singleton
+
+
+
+
+
 # [1.6.0](https://github.com/iterativelyhq/itly-sdk/compare/v1.5.0...v1.6.0) (2020-12-04)
 
 

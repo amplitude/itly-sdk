@@ -5,13 +5,21 @@ to: packages/plugin-<%= name %>/package.json
   "name": "@itly/plugin-<%= h.changeCase.lower(name) %>",
   "version": "0.0.0",
   "description": "<%= h.changeCase.title(name) %> Plugin",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.js",
   "scripts": {
     "prepublish": "yarn run build",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
     "test": "jest --runInBand"
   },
+  "files": [
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
   "keywords": [
     "itly",
     "sdk",

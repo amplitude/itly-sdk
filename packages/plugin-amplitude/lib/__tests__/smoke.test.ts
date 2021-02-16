@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
-import Itly from '@itly/sdk';
+import { ItlyBrowser as Itly } from '@itly/sdk';
 import {
   TestParams,
   requireForTestEnv,
@@ -78,8 +78,9 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
       console.log(`Caught expected error. ${e.message}`);
     }
 
-    itly.load(context, {
+    itly.load({
       ...options,
+      context,
       plugins: [plugin].concat(options.plugins),
     });
 

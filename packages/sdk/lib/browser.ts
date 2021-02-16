@@ -2,6 +2,7 @@
 import {
   Itly as ItlyBase,
   Options,
+  LoadOptions,
   Environment,
   Event,
   Properties,
@@ -15,6 +16,7 @@ import {
 
 export {
   Options,
+  LoadOptions,
   Environment,
   Plugin,
   PluginLoadOptions,
@@ -36,12 +38,11 @@ export class Itly {
 
   /**
    * Initialize the Itly SDK. Call once when your application starts.
-   * @param context Additional context properties to add to all events.
-   * @param options Configuration options to initialize the Itly SDK with.
+   * @param loadOptions Configuration options to initialize the Itly SDK with.
    */
   load = (
-    context?: Properties, options?: Options,
-  ) => this.itly.load(context, options);
+    loadOptions: LoadOptions = {},
+  ) => this.itly.load(loadOptions);
 
   /**
    * Alias a user ID to another user ID.

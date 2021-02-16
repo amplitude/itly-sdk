@@ -1,14 +1,22 @@
 {
   "name": "@itly/plugin-mixpanel-node",
-  "version": "1.7.0",
+  "version": "2.0.1",
   "description": "Mixpanel Node Plugin for Iteratively SDK",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.js",
   "scripts": {
     "prepublish": "yarn run build",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
     "test": "echo \"Error: no test specified\""
   },
+  "files": [
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
   "keywords": [
     "itly",
     "sdk",
@@ -18,14 +26,14 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk": "^1.7.0",
+    "@itly/sdk": "2.0.1",
     "typescript": "^3.9.3"
   },
   "dependencies": {
     "mixpanel": "^0.13.0"
   },
   "peerDependencies": {
-    "@itly/sdk": "^1.0.0"
+    "@itly/sdk": "^2.0.0"
   },
   "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }
