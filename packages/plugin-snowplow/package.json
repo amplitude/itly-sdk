@@ -2,13 +2,21 @@
   "name": "@itly/plugin-snowplow",
   "version": "2.0.1",
   "description": "Snowplow Browser Plugin for Iteratively SDK",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.js",
   "scripts": {
     "prepublish": "yarn run build",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
     "test": "echo \"Error: no test specified\""
   },
+  "files": [
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
   "keywords": [
     "itly",
     "sdk",
