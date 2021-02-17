@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, Properties, Plugin,
+  Event, EventOptions, Properties, Plugin,
 } from '@itly/sdk';
 
 export type SnowplowOptions = {
@@ -15,6 +15,7 @@ export interface SnowplowContext {
 
 export interface SnowplowMetadata {
   contexts: SnowplowContext[];
+  callback?: (...args: any[]) => void;
 }
 
 /**
@@ -48,17 +49,18 @@ export class SnowplowPlugin extends Plugin {
     this.snowplow('setUserId', userId);
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties) {
-    this.snowplow('trackPageView', name);
+  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: EventOptions) {
+    const { callback } = (options?.metadata?.[this.id] ?? {}) as Partial<SnowplowMetadata>;
+    this.snowplow('trackPageView', name, undefined, undefined, undefined, callback);
   }
 
   track(userId: string | undefined, event: Event) {
     const schemaVer = event.version && event.version.replace(/\./g, '-');
-    const metadata = (event.metadata?.[this.id] ?? {}) as Partial<SnowplowMetadata>;
+    const { callback, ...metadata } = (event.metadata?.[this.id] ?? {}) as Partial<SnowplowMetadata>;
     this.snowplow('trackSelfDescribingEvent', {
       schema: `iglu:${this.vendor}/${event.name}/jsonschema/${schemaVer}`,
       data: event.properties,
-    }, metadata.contexts);
+    }, metadata.contexts, undefined, callback);
   }
 }
 

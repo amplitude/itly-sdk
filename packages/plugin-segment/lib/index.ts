@@ -7,6 +7,7 @@ export type SegmentOptions = {};
 
 export interface SegmentMetadata {
   integrations: Record<string, boolean>;
+  callback?: (...args: any[]) => void;
 }
 
 /**
@@ -37,35 +38,36 @@ export class SegmentPlugin extends Plugin {
   }
 
   alias(userId: string, previousId: string | undefined, options?: EventOptions) {
-    const metadata = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
-    this.segment.alias(userId, previousId, metadata);
+    const { callback, ...metadata } = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
+    this.segment.alias(userId, previousId, metadata, callback);
   }
 
   identify(userId: string | undefined, properties?: Properties, options?: EventOptions) {
-    const metadata = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
+    const { callback, ...metadata } = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
     if (userId) {
-      this.segment.identify(userId, properties, metadata);
+      this.segment.identify(userId, properties, metadata, callback);
     } else {
-      this.segment.identify(properties, metadata);
+      this.segment.identify(properties, metadata, callback);
     }
   }
 
   group(userId: string | undefined, groupId: string, properties?: Properties, options?: EventOptions) {
-    const metadata = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
-    this.segment.group(groupId, properties, metadata);
+    const { callback, ...metadata } = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
+    this.segment.group(groupId, properties, metadata, callback);
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties, options?: EventOptions) {
-    const metadata = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
-    this.segment.page(category, name, properties, metadata);
+    const { callback, ...metadata } = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
+    this.segment.page(category, name, properties, metadata, callback);
   }
 
   track(userId: string | undefined, event: Event) {
-    const metadata = (event.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
+    const { callback, ...metadata } = (event.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
     this.segment.track(
       event.name,
       event.properties,
       metadata,
+      callback,
     );
   }
 

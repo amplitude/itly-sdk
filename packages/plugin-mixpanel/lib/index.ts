@@ -1,9 +1,13 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Options, Event, Properties, Plugin,
+  Event, EventOptions, Properties, Plugin,
 } from '@itly/sdk';
 
 export type MixpanelOptions = {};
+
+export interface MixpanelMetadata {
+  callback?: (...args: any[]) => void;
+}
 
 /**
  * Mixpanel Browser Plugin for Iteratively SDK
@@ -36,20 +40,24 @@ export class MixpanelPlugin extends Plugin {
     this.mixpanel.alias(userId, previousId);
   }
 
-  identify(userId: string | undefined, properties: Properties | undefined) {
+  identify(userId: string | undefined, properties: Properties | undefined, options?: EventOptions) {
+    const { callback } = (options?.metadata?.[this.id] ?? {}) as Partial<MixpanelMetadata>;
+
     if (userId) {
       this.mixpanel.identify(userId);
     }
 
     if (properties) {
-      this.mixpanel.people.set(properties);
+      this.mixpanel.people.set(properties, callback);
     }
   }
 
   track(userId: string | undefined, event: Event) {
+    const { callback } = (event.metadata?.[this.id] ?? {}) as Partial<MixpanelMetadata>;
     this.mixpanel.track(
       event.name,
       { ...event.properties },
+      callback,
     );
   }
 

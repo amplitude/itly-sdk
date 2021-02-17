@@ -15,19 +15,19 @@ Array [
   ],
   Array [
     "amplitude.getInstance().identify()",
-    "[{}]",
+    "[{},null]",
   ],
   Array [
     "amplitude.getInstance().logEvent()",
-    "[\\"Event No Properties\\",null]",
+    "[\\"Event No Properties\\",null,null]",
   ],
   Array [
     "amplitude.getInstance().logEvent()",
-    "[\\"Event With All Properties\\",{\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}]",
+    "[\\"Event With All Properties\\",{\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"},null]",
   ],
   Array [
     "amplitude.getInstance().logEvent()",
-    "[\\"EventMaxIntForTest\\",{\\"intMax10\\":20}]",
+    "[\\"EventMaxIntForTest\\",{\\"intMax10\\":20},null]",
   ],
   Array [
     "amplitude.getInstance().setUserId()",

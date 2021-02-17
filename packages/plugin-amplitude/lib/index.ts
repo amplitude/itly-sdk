@@ -1,11 +1,14 @@
-
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  Event, Properties, Plugin,
+  Event, EventOptions, Properties, Plugin,
 } from '@itly/sdk';
 
 export type AmplitudeOptions = {};
+
+export interface AmplitudeMetadata {
+  callback?: (...args: any[]) => void;
+}
 
 /**
  * Amplitude Browser Plugin for Iteratively SDK
@@ -34,7 +37,7 @@ export class AmplitudePlugin extends Plugin {
     }
   }
 
-  identify(userId: string | undefined, properties?: Properties) {
+  identify(userId: string | undefined, properties?: Properties, options?: EventOptions) {
     if (userId) {
       this.amplitude.getInstance().setUserId(userId);
     }
@@ -49,14 +52,17 @@ export class AmplitudePlugin extends Plugin {
         identifyObject.set(p, (properties as any)[p]);
       }
 
-      this.amplitude.getInstance().identify(identifyObject);
+      const { callback } = (options?.metadata?.[this.id] ?? {}) as Partial<AmplitudeMetadata>;
+      this.amplitude.getInstance().identify(identifyObject, callback);
     }
   }
 
   track(userId: string | undefined, event: Event) {
+    const { callback } = (event.metadata?.[this.id] ?? {}) as Partial<AmplitudeMetadata>;
     this.amplitude.getInstance().logEvent(
       event.name,
       event.properties,
+      callback,
     );
   }
 
