@@ -35,7 +35,6 @@ export class SchemaValidatorPlugin extends Plugin {
 
   // overrides Plugin.load
   load(options: PluginLoadOptions) {
-    super.load(options);
     this.ajv = new Ajv();
     this.validators = {};
   }

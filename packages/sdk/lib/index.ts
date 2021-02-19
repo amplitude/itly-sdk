@@ -7,10 +7,12 @@ import {
   Properties,
   Plugin,
   PluginLoadOptions,
-  PluginLogger,
   ValidationOptions,
   ValidationResponse,
   Logger,
+  RequestLoggerPlugin,
+  RequestLogger,
+  ResponseLogger,
   LOGGERS,
 } from './base';
 import { Itly as ItlyBrowser } from './browser';
@@ -21,12 +23,14 @@ export {
   Environment,
   Plugin,
   PluginLoadOptions,
-  PluginLogger,
   Event,
   Properties,
   ValidationOptions,
   ValidationResponse,
   Logger,
+  RequestLoggerPlugin,
+  RequestLogger,
+  ResponseLogger,
   LOGGERS,
 };
 

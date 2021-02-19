@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, Properties, Plugin, PluginLoadOptions,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type MixpanelOptions = {};
@@ -8,7 +8,7 @@ export type MixpanelOptions = {};
 /**
  * Mixpanel Browser Plugin for Iteratively SDK
  */
-export class MixpanelPlugin extends Plugin {
+export class MixpanelPlugin extends RequestLoggerPlugin {
   private get mixpanel(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;

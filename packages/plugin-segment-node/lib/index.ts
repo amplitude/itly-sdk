@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  Plugin, Event, Properties, Logger, PluginLoadOptions,
+  RequestLoggerPlugin, Event, Properties, PluginLoadOptions,
 } from '@itly/sdk';
 import Segment from 'analytics-node';
 
@@ -14,7 +14,7 @@ export type SegmentOptions = {
 /**
  * Segment Node Plugin for Iteratively SDK
  */
-export class SegmentPlugin extends Plugin {
+export class SegmentPlugin extends RequestLoggerPlugin {
   private segment?: Segment;
 
   constructor(

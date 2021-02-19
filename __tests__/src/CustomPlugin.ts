@@ -1,11 +1,11 @@
 /* eslint-disable class-methods-use-this, no-unused-vars, import/no-unresolved, import/extensions */
 import {
-  PluginLoadOptions, Event, Properties, Plugin, ValidationResponse,
+  PluginLoadOptions, Event, Properties, Plugin, RequestLoggerPlugin, ValidationResponse,
 } from '../../packages/sdk/lib';
 
 export { Plugin };
 
-export default class CustomPlugin extends Plugin {
+export default class CustomPlugin extends RequestLoggerPlugin {
   LOG_TAG = 'CustomPlugin';
 
   // eslint-disable-next-line no-console

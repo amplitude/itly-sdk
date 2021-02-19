@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  Plugin, Event, Properties, PluginLoadOptions,
+  RequestLoggerPlugin, Event, Properties, PluginLoadOptions,
 } from '@itly/sdk';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
@@ -9,7 +9,7 @@ export interface MixpanelOptions extends InitConfig {}
 /**
  * Mixpanel Node Plugin for Iteratively SDK
  */
-export class MixpanelPlugin extends Plugin {
+export class MixpanelPlugin extends RequestLoggerPlugin {
   private mixpanel?: Mixpanel.Mixpanel;
 
   constructor(

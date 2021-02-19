@@ -201,10 +201,7 @@ import { ItlyNode as Itly } from '@itly/sdk';
         super('custom');
       }
 
-      load(options: PluginLoadOptions): void {
-       super.load(options);
-       ...
-      }
+      load(options: PluginLoadOptions): void {...}
 
       alias(userId: string, previousId?: string): void {...}
 

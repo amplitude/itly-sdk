@@ -2,7 +2,7 @@
 import {
   Event,
   Properties,
-  Plugin,
+  RequestLoggerPlugin,
   PluginLoadOptions,
 } from '@itly/sdk';
 import Amplitude, { AmplitudeOptions } from 'amplitude';
@@ -12,7 +12,7 @@ export { AmplitudeOptions };
 /**
  * Amplitude Node Plugin for Iteratively SDK
  */
-export class AmplitudePlugin extends Plugin {
+export class AmplitudePlugin extends RequestLoggerPlugin {
   private amplitude?: Amplitude;
 
   constructor(

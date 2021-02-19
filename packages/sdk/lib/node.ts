@@ -10,10 +10,12 @@ export {
   Properties,
   Plugin,
   PluginLoadOptions,
-  PluginLogger,
   ValidationOptions,
   ValidationResponse,
   Logger,
+  RequestLoggerPlugin,
+  RequestLogger,
+  ResponseLogger,
   LOGGERS,
 } from './base';
 

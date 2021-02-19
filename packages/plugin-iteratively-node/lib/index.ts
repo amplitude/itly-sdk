@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import fetch from 'node-fetch';
 import {
-  Environment, Event, Properties, Plugin, ValidationResponse, PluginLoadOptions,
+  Environment, Event, Properties, RequestLoggerPlugin, ValidationResponse, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type IterativelyOptions = {
@@ -37,7 +37,7 @@ type TrackModel = {
 /**
  * Iteratively Node Plugin for Iteratively SDK
  */
-export class IterativelyPlugin extends Plugin {
+export class IterativelyPlugin extends RequestLoggerPlugin {
   private buffer: TrackModel[] = [];
 
   private timer: ReturnType<typeof setTimeout> | null = null;

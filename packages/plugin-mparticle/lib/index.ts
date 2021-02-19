@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 // eslint-disable-next-line max-classes-per-file
 import {
-  Event, Properties, Plugin, PluginLoadOptions, Logger,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, Logger,
 } from '@itly/sdk';
 import Mparticle from '@itly/mparticle-web-sdk';
 
@@ -33,7 +33,7 @@ class MparticleLogger {
 /**
  * mParticle Browser Plugin for Iteratively SDK
  */
-export class MparticlePlugin extends Plugin {
+export class MparticlePlugin extends RequestLoggerPlugin {
   private $itly = 'audit';
 
   private mparticle?: any;
