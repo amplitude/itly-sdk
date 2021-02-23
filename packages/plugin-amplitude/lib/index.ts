@@ -1,13 +1,18 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  Event, EventOptions, Properties, Plugin,
+  Event, EventOptions, EventMetadata, Properties, Plugin,
 } from '@itly/sdk';
 
 export type AmplitudeOptions = {};
 
+export type AmplitudeCallback = (statusCode: number, responseBody: string, details: unknown) => void;
+
+/**
+ * Amplitude specific metadata
+ */
 export interface AmplitudeMetadata {
-  callback?: (...args: any[]) => void;
+  callback?: AmplitudeCallback;
 }
 
 /**
@@ -52,16 +57,16 @@ export class AmplitudePlugin extends Plugin {
         identifyObject.set(p, (properties as any)[p]);
       }
 
-      const { callback } = (options?.metadata?.[this.id] ?? {}) as Partial<AmplitudeMetadata>;
+      const { callback } = this.getAmplitudeMetadata(options?.metadata);
       this.amplitude.getInstance().identify(identifyObject, callback);
     }
   }
 
-  track(userId: string | undefined, event: Event) {
-    const { callback } = (event.metadata?.[this.id] ?? {}) as Partial<AmplitudeMetadata>;
+  track(userId: string | undefined, { name, properties, metadata }: Event) {
+    const { callback } = this.getAmplitudeMetadata(metadata);
     this.amplitude.getInstance().logEvent(
-      event.name,
-      event.properties,
+      name,
+      properties,
       callback,
     );
   }
@@ -69,6 +74,10 @@ export class AmplitudePlugin extends Plugin {
   reset() {
     this.amplitude.getInstance().setUserId(null);
     this.amplitude.getInstance().regenerateDeviceId();
+  }
+
+  private getAmplitudeMetadata(metadata?: EventMetadata): Partial<AmplitudeMetadata> {
+    return this.getPluginMetadata<AmplitudeMetadata>(metadata);
   }
 }
 

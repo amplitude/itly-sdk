@@ -1,12 +1,17 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, EventOptions, Properties, Plugin,
+  Event, EventOptions, EventMetadata, Properties, Plugin,
 } from '@itly/sdk';
 
 export type MixpanelOptions = {};
 
+export type MixpanelCallback = (...args: any[]) => void;
+
+/**
+ * Mixpanel specific metadata
+ */
 export interface MixpanelMetadata {
-  callback?: (...args: any[]) => void;
+  callback?: MixpanelCallback;
 }
 
 /**
@@ -41,7 +46,7 @@ export class MixpanelPlugin extends Plugin {
   }
 
   identify(userId: string | undefined, properties: Properties | undefined, options?: EventOptions) {
-    const { callback } = (options?.metadata?.[this.id] ?? {}) as Partial<MixpanelMetadata>;
+    const { callback } = this.getMixpanelMetadata(options?.metadata);
 
     if (userId) {
       this.mixpanel.identify(userId);
@@ -52,17 +57,21 @@ export class MixpanelPlugin extends Plugin {
     }
   }
 
-  track(userId: string | undefined, event: Event) {
-    const { callback } = (event.metadata?.[this.id] ?? {}) as Partial<MixpanelMetadata>;
+  track(userId: string | undefined, { name, properties, metadata }: Event) {
+    const { callback } = this.getMixpanelMetadata(metadata);
     this.mixpanel.track(
-      event.name,
-      { ...event.properties },
+      name,
+      { ...properties },
       callback,
     );
   }
 
   reset() {
     this.mixpanel.reset();
+  }
+
+  private getMixpanelMetadata(metadata?: EventMetadata): Partial<MixpanelMetadata> {
+    return this.getPluginMetadata<MixpanelMetadata>(metadata);
   }
 }
 

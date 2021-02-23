@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, EventOptions, Properties, Plugin,
+  Event, EventOptions, EventMetadata, Properties, Plugin,
 } from '@itly/sdk';
 
 export type SnowplowOptions = {
@@ -13,9 +13,16 @@ export interface SnowplowContext {
   data: { [key: string]: any };
 }
 
+export type SnowplowCallback = (...args: any[]) => void;
+
+/**
+ * Snowplow specific metadata
+ */
 export interface SnowplowMetadata {
-  contexts: SnowplowContext[];
-  callback?: (...args: any[]) => void;
+  options?: {
+    contexts?: SnowplowContext[];
+  },
+  callback?: SnowplowCallback;
 }
 
 /**
@@ -50,17 +57,26 @@ export class SnowplowPlugin extends Plugin {
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties, options?: EventOptions) {
-    const { callback } = (options?.metadata?.[this.id] ?? {}) as Partial<SnowplowMetadata>;
+    const { callback } = this.getSnowplowMetadata(options?.metadata);
     this.snowplow('trackPageView', name, undefined, undefined, undefined, callback);
   }
 
-  track(userId: string | undefined, event: Event) {
-    const schemaVer = event.version && event.version.replace(/\./g, '-');
-    const { callback, ...metadata } = (event.metadata?.[this.id] ?? {}) as Partial<SnowplowMetadata>;
+  track(userId: string | undefined, {
+    name,
+    properties,
+    version,
+    metadata,
+  }: Event) {
+    const schemaVer = version && version.replace(/\./g, '-');
+    const { callback, options } = this.getSnowplowMetadata(metadata);
     this.snowplow('trackSelfDescribingEvent', {
-      schema: `iglu:${this.vendor}/${event.name}/jsonschema/${schemaVer}`,
-      data: event.properties,
-    }, metadata.contexts, undefined, callback);
+      schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
+      data: properties,
+    }, options?.contexts, undefined, callback);
+  }
+
+  private getSnowplowMetadata(metadata?: EventMetadata): Partial<SnowplowMetadata> {
+    return this.getPluginMetadata<SnowplowMetadata>(metadata);
   }
 }
 

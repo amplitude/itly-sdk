@@ -11,8 +11,12 @@ export type SegmentOptions = {
   enable?: boolean; // (default: true)
 }
 
-export type SegmentCallback = (err: Error) => void;
+export type SegmentCallback = (err: Error | undefined) => void;
 
+/**
+ * Segment specific metadata
+ * https://segment.com/docs/connections/sources/catalog/libraries/server/node/#selecting-destinations
+ */
 export interface SegmentMetadata {
   options?: {
     integrations?: Record<string, boolean>;
@@ -103,8 +107,8 @@ export class SegmentPlugin extends Plugin {
     });
   }
 
-  private getSegmentMetadata(metadata?: EventMetadata): SegmentMetadata {
-    return this.getPluginMetadata(metadata) as SegmentMetadata;
+  private getSegmentMetadata(metadata?: EventMetadata): Partial<SegmentMetadata> {
+    return this.getPluginMetadata<SegmentMetadata>(metadata);
   }
 }
 

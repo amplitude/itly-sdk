@@ -1,13 +1,18 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  Plugin, Event, EventOptions, Properties,
+  Plugin, Event, EventOptions, EventMetadata, Properties,
 } from '@itly/sdk';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
 export interface MixpanelOptions extends InitConfig {}
 
+export type MixpanelCallback = Mixpanel.Callback;
+
+/**
+ * Mixpanel specific metadata
+ */
 export interface MixpanelMetadata {
-  callback?: Mixpanel.Callback;
+  callback?: MixpanelCallback;
 }
 
 /**
@@ -28,24 +33,28 @@ export class MixpanelPlugin extends Plugin {
   }
 
   alias(userId: string, previousId: string, options?: EventOptions) {
-    const { callback } = (options?.metadata?.[this.id] ?? {}) as Partial<MixpanelMetadata>;
+    const { callback } = this.getMixpanelMetadata(options?.metadata);
     this.mixpanel!.alias(previousId, userId, callback);
   }
 
   identify(userId: string, properties: Properties | undefined, options?: EventOptions) {
-    const { callback } = (options?.metadata?.[this.id] ?? {}) as Partial<MixpanelMetadata>;
+    const { callback } = this.getMixpanelMetadata(options?.metadata);
     this.mixpanel!.people.set(userId, {
       distinct_id: userId,
       ...properties,
     }, callback);
   }
 
-  track(userId: string, event: Event) {
-    const { callback } = (event.metadata?.[this.id] ?? {}) as Partial<MixpanelMetadata>;
-    this.mixpanel!.track(event.name, {
+  track(userId: string, { name, properties, metadata }: Event) {
+    const { callback } = this.getMixpanelMetadata(metadata);
+    this.mixpanel!.track(name, {
       distinct_id: userId,
-      ...event.properties,
+      ...properties,
     }, callback);
+  }
+
+  private getMixpanelMetadata(metadata?: EventMetadata): Partial<MixpanelMetadata> {
+    return this.getPluginMetadata<MixpanelMetadata>(metadata);
   }
 }
 

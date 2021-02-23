@@ -5,6 +5,8 @@ import {
 
 export type SegmentOptions = {};
 
+export type SegmentCallback = (...args: any[]) => void;
+
 /**
  * Segment specific metadata
  * https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/#track
@@ -13,7 +15,7 @@ export interface SegmentMetadata {
   options?: {
     integrations?: Record<string, boolean>;
   },
-  callback?: (...args: any[]) => void;
+  callback?: SegmentCallback;
 }
 
 /**
@@ -76,8 +78,8 @@ export class SegmentPlugin extends Plugin {
     this.segment.reset();
   }
 
-  private getSegmentMetadata(metadata?: EventMetadata): SegmentMetadata {
-    return this.getPluginMetadata(metadata) as SegmentMetadata;
+  private getSegmentMetadata(metadata?: EventMetadata): Partial<SegmentMetadata> {
+    return this.getPluginMetadata<SegmentMetadata>(metadata);
   }
 }
 

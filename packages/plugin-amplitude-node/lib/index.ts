@@ -2,15 +2,21 @@
 import {
   Event,
   EventOptions,
+  EventMetadata,
   Properties,
   Plugin,
 } from '@itly/sdk';
-import Amplitude, { AmplitudeOptions } from 'amplitude';
+import Amplitude, { AmplitudeOptions, AmplitudeIdentifyResponse, AmplitudeTrackResponse } from 'amplitude';
 
 export { AmplitudeOptions };
 
+export type AmplitudeCallback = (response: AmplitudeIdentifyResponse | AmplitudeTrackResponse) => void;
+
+/**
+ * Amplitude specific metadata
+ */
 export interface AmplitudeMetadata {
-  callback?: (...args: any[]) => void;
+  callback?: AmplitudeCallback;
 }
 
 /**
@@ -42,7 +48,7 @@ export class AmplitudePlugin extends Plugin {
   }
 
   async identify(userId: string, properties?: Properties, options?: EventOptions) {
-    const { callback } = (options?.metadata?.[this.id] ?? {}) as Partial<AmplitudeMetadata>;
+    const { callback } = this.getAmplitudeMetadata(options?.metadata);
     const response = await this.amplitude!.identify({
       user_id: userId,
       user_properties: properties,
@@ -52,16 +58,20 @@ export class AmplitudePlugin extends Plugin {
     }
   }
 
-  async track(userId: string, event: Event) {
-    const { callback } = (event.metadata?.[this.id] ?? {}) as Partial<AmplitudeMetadata>;
+  async track(userId: string, { name, properties, metadata }: Event) {
+    const { callback } = this.getAmplitudeMetadata(metadata);
     const response = await this.amplitude!.track({
-      event_type: event.name,
+      event_type: name,
       user_id: userId,
-      event_properties: event.properties,
+      event_properties: properties,
     });
     if (callback) {
       callback(response);
     }
+  }
+
+  private getAmplitudeMetadata(metadata?: EventMetadata): Partial<AmplitudeMetadata> {
+    return this.getPluginMetadata<AmplitudeMetadata>(metadata);
   }
 }
 

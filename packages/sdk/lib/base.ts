@@ -144,8 +144,8 @@ export abstract class Plugin {
    * @param metadata
    * @protected
    */
-  protected getPluginMetadata(metadata?: EventMetadata): any {
-    return metadata?.[this.id] ?? {};
+  protected getPluginMetadata<T>(metadata?: EventMetadata): Partial<T> {
+    return (metadata?.[this.id] ?? {}) as Partial<T>;
   }
 }
 
