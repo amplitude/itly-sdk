@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this, no-unused-vars, import/no-unresolved, import/extensions */
 import {
   PluginLoadOptions, Event, Properties, Plugin, ValidationResponse,
-} from '../../packages/sdk/lib';
+} from '../../packages/sdk';
 
 export default class CustomPlugin extends Plugin {
   LOG_TAG = 'CustomPlugin';

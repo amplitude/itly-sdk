@@ -13,7 +13,7 @@ import {
   requireForTestEnv,
 } from '../../../../__tests__/util';
 
-const SchemaValidator = requireForTestEnv(__dirname);
+const SchemaValidatorPlugin = requireForTestEnv(__dirname);
 
 const testSchemas = require('../../../../__tests__/data/basic-schema.json');
 
@@ -27,7 +27,7 @@ const identifyProps = {
 };
 
 const plugins: Plugin[] = [
-  new SchemaValidator(testSchemas),
+  new SchemaValidatorPlugin(testSchemas),
   new CustomPlugin(),
 ];
 
