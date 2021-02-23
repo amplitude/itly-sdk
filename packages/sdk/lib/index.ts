@@ -14,6 +14,8 @@ import {
   Logger,
   LOGGERS,
 } from './base';
+import { Itly as ItlyBrowser } from './browser';
+import { Itly as ItlyNode } from './node';
 
 export {
   Options,
@@ -30,26 +32,19 @@ export {
   LOGGERS,
 };
 
-// eslint-disable-next-line import/no-mutable-exports
-let Itly;
-
 const p = typeof process === 'undefined'
   ? undefined
   : process as any;
 
-if (
-  !p
-  // Electron renderer / nwjs process
-  || (p.type === 'renderer' || p.browser === true || p.__nwjs)
-  // Jest JSDOM
-  || (typeof navigator === 'object' && navigator.userAgent && navigator.userAgent.includes('jsdom'))
-  // React Native
-  || (typeof navigator === 'object' && navigator.product && navigator.product.includes('ReactNative'))
-) {
-  Itly = require('./browser').Itly;
-} else {
-  Itly = require('./node').Itly;
-}
+const isBrowser = (!p
+// Electron renderer / nwjs process
+|| (p.type === 'renderer' || p.browser === true || p.__nwjs)
+// Jest JSDOM
+|| (typeof navigator === 'object' && navigator.userAgent && navigator.userAgent.includes('jsdom'))
+// React Native
+|| (typeof navigator === 'object' && navigator.product && navigator.product.includes('ReactNative')));
 
-export { Itly };
+const Itly: any = isBrowser ? ItlyBrowser : ItlyNode;
+
+export { Itly, ItlyBrowser, ItlyNode };
 export default Itly;

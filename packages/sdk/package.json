@@ -2,22 +2,19 @@
   "name": "@itly/sdk",
   "version": "2.0.1",
   "description": "Iteratively SDK",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.js",
   "files": [
     "LICENSE",
     "CHANGELOG.md",
     "README.md",
-    "build-info.json",
-    "*.js",
-    "*.ts",
+    "dist/",
     "package.json"
   ],
   "scripts": {
     "prepublish": "yarn run build",
-    "prepublishOnly": "yarn run build && node ./build/prepublish-setup && cp -r ./dist/* . && rm -rf ./dist",
-    "postpublish": "git reset --hard && git clean -fd",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
     "clean": "rimraf dist/*",
     "test": "jest --runInBand"
   },

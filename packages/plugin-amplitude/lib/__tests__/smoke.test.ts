@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
-import Itly from '@itly/sdk';
+import { ItlyBrowser as Itly } from '@itly/sdk';
 import {
   TestParams,
   requireForTestEnv,
