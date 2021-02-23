@@ -13,7 +13,7 @@ export interface MixpanelMetadata {
  * Mixpanel Browser Plugin for Iteratively SDK
  */
 export class MixpanelPlugin extends Plugin {
-  private get mixpanel(): any {
+  get mixpanel(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
     return s && s.mixpanel;

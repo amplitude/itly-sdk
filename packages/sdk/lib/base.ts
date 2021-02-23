@@ -138,6 +138,15 @@ export abstract class Plugin {
   flush(): Promise<void> {
     return Promise.resolve();
   }
+
+  /**
+   * Returns metadata specific to this plugin
+   * @param metadata
+   * @protected
+   */
+  protected getPluginMetadata(metadata?: EventMetadata): any {
+    return metadata?.[this.id] ?? {};
+  }
 }
 
 const DEFAULT_DEV_VALIDATION_OPTIONS: ValidationOptions = {

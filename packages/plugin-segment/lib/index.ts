@@ -1,12 +1,18 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, EventOptions, Properties, Plugin,
+  Event, EventMetadata, EventOptions, Properties, Plugin,
 } from '@itly/sdk';
 
 export type SegmentOptions = {};
 
+/**
+ * Segment specific metadata
+ * https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/#track
+ */
 export interface SegmentMetadata {
-  integrations: Record<string, boolean>;
+  options?: {
+    integrations?: Record<string, boolean>;
+  },
   callback?: (...args: any[]) => void;
 }
 
@@ -14,7 +20,7 @@ export interface SegmentMetadata {
  * Segment Browser Plugin for Iteratively SDK
  */
 export class SegmentPlugin extends Plugin {
-  private get segment(): any {
+  get segment(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
     return s && s.analytics;
@@ -38,41 +44,40 @@ export class SegmentPlugin extends Plugin {
   }
 
   alias(userId: string, previousId: string | undefined, options?: EventOptions) {
-    const { callback, ...metadata } = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
-    this.segment.alias(userId, previousId, metadata, callback);
+    const { callback, options: segmentOptions } = this.getSegmentMetadata(options?.metadata);
+    this.segment.alias(userId, previousId, segmentOptions, callback);
   }
 
   identify(userId: string | undefined, properties?: Properties, options?: EventOptions) {
-    const { callback, ...metadata } = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
+    const { callback, options: segmentOptions } = this.getSegmentMetadata(options?.metadata);
     if (userId) {
-      this.segment.identify(userId, properties, metadata, callback);
+      this.segment.identify(userId, properties, segmentOptions, callback);
     } else {
-      this.segment.identify(properties, metadata, callback);
+      this.segment.identify(properties, segmentOptions, callback);
     }
   }
 
   group(userId: string | undefined, groupId: string, properties?: Properties, options?: EventOptions) {
-    const { callback, ...metadata } = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
-    this.segment.group(groupId, properties, metadata, callback);
+    const { callback, options: segmentOptions } = this.getSegmentMetadata(options?.metadata);
+    this.segment.group(groupId, properties, segmentOptions, callback);
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties, options?: EventOptions) {
-    const { callback, ...metadata } = (options?.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
-    this.segment.page(category, name, properties, metadata, callback);
+    const { callback, options: segmentOptions } = this.getSegmentMetadata(options?.metadata);
+    this.segment.page(category, name, properties, segmentOptions, callback);
   }
 
-  track(userId: string | undefined, event: Event) {
-    const { callback, ...metadata } = (event.metadata?.[this.id] ?? {}) as Partial<SegmentMetadata>;
-    this.segment.track(
-      event.name,
-      event.properties,
-      metadata,
-      callback,
-    );
+  track(userId: string | undefined, { name, properties, metadata }: Event) {
+    const { callback, options } = this.getSegmentMetadata(metadata);
+    this.segment.track(name, properties, options, callback);
   }
 
   reset() {
     this.segment.reset();
+  }
+
+  private getSegmentMetadata(metadata?: EventMetadata): SegmentMetadata {
+    return this.getPluginMetadata(metadata) as SegmentMetadata;
   }
 }
 

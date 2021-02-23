@@ -22,7 +22,7 @@ export interface SnowplowMetadata {
  * Snowplow Browser Plugin for Iteratively SDK
  */
 export class SnowplowPlugin extends Plugin {
-  private get snowplow(): any {
+  get snowplow(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
     return s && s.snowplow;

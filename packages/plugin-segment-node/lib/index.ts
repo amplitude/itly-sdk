@@ -11,9 +11,11 @@ export type SegmentOptions = {
   enable?: boolean; // (default: true)
 }
 
+export type SegmentCallback = (err: Error) => void;
+
 export interface SegmentMetadata {
   integrations: Record<string, boolean>;
-  callback?: (...args: any[]) => void;
+  callback?: SegmentCallback;
 }
 
 /**

@@ -7,7 +7,7 @@ import Mixpanel, { InitConfig } from 'mixpanel';
 export interface MixpanelOptions extends InitConfig {}
 
 export interface MixpanelMetadata {
-  callback?: (...args: any[]) => void;
+  callback?: Mixpanel.Callback;
 }
 
 /**
