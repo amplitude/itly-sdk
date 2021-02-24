@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Options, Event, Properties, Plugin,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type SnowplowOptions = {
@@ -11,7 +11,7 @@ export type SnowplowOptions = {
 /**
  * Snowplow Browser Plugin for Iteratively SDK
  */
-export class SnowplowPlugin extends Plugin {
+export class SnowplowPlugin extends RequestLoggerPlugin {
   private get snowplow(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -25,7 +25,8 @@ export class SnowplowPlugin extends Plugin {
     super('snowplow');
   }
 
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     if (!this.snowplow) {
       // Snowplow (https://github.com/snowplow/snowplow/wiki/1-General-parameters-for-the-Javascript-tracker#21-loading-snowplowjs)
       // @ts-ignore
@@ -40,14 +41,20 @@ export class SnowplowPlugin extends Plugin {
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties) {
-    this.snowplow('trackPageView', name);
+    const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
+    this.snowplow('trackPageView', name, undefined, undefined, undefined, (payload: unknown) => {
+      responseLogger.success(`done: ${JSON.stringify(payload)}`);
+    });
   }
 
   track(userId: string | undefined, event: Event) {
+    const responseLogger = this.logger!.logRequest('track', `${userId}, ${JSON.stringify(event)}`);
     const schemaVer = event.version && event.version.replace(/\./g, '-');
     this.snowplow('trackSelfDescribingEvent', {
       schema: `iglu:${this.vendor}/${event.name}/jsonschema/${schemaVer}`,
       data: event.properties,
+    }, undefined, undefined, (payload: unknown) => {
+      responseLogger.success(`done: ${JSON.stringify(payload)}`);
     });
   }
 }

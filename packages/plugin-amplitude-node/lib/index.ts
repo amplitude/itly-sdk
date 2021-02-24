@@ -2,7 +2,8 @@
 import {
   Event,
   Properties,
-  Plugin,
+  RequestLoggerPlugin,
+  PluginLoadOptions,
 } from '@itly/sdk';
 import Amplitude, { AmplitudeOptions } from 'amplitude';
 
@@ -11,7 +12,7 @@ export { AmplitudeOptions };
 /**
  * Amplitude Node Plugin for Iteratively SDK
  */
-export class AmplitudePlugin extends Plugin {
+export class AmplitudePlugin extends RequestLoggerPlugin {
   private amplitude?: Amplitude;
 
   constructor(
@@ -32,23 +33,38 @@ export class AmplitudePlugin extends Plugin {
   //     }
   // }
 
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     this.amplitude = new Amplitude(this.apiKey, this.options);
   }
 
-  identify(userId: string, properties?: Properties) {
-    this.amplitude!.identify({
+  async identify(userId: string, properties?: Properties) {
+    const payload = {
       user_id: userId,
       user_properties: properties,
-    });
+    };
+    const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
+    try {
+      const response = await this.amplitude!.identify(payload);
+      responseLogger.success(response);
+    } catch (e) {
+      responseLogger.error(e.toString());
+    }
   }
 
-  track(userId: string, event: Event) {
-    this.amplitude!.track({
+  async track(userId: string, event: Event) {
+    const payload = {
       event_type: event.name,
       user_id: userId,
       event_properties: event.properties,
-    });
+    };
+    const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
+    try {
+      const response = await this.amplitude!.track(payload);
+      responseLogger.success(JSON.stringify(response));
+    } catch (e) {
+      responseLogger.error(e.toString());
+    }
   }
 }
 

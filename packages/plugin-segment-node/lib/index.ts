@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  Plugin, Event, Properties,
+  RequestLoggerPlugin, Event, Properties, PluginLoadOptions,
 } from '@itly/sdk';
 import Segment from 'analytics-node';
 
@@ -14,7 +14,7 @@ export type SegmentOptions = {
 /**
  * Segment Node Plugin for Iteratively SDK
  */
-export class SegmentPlugin extends Plugin {
+export class SegmentPlugin extends RequestLoggerPlugin {
   private segment?: Segment;
 
   constructor(
@@ -24,43 +24,87 @@ export class SegmentPlugin extends Plugin {
     super('segment');
   }
 
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     this.segment = new Segment(this.writeKey, this.options);
   }
 
   alias(userId: string, previousId: string) {
-    this.segment!.alias({ userId, previousId });
+    const payload = {
+      userId,
+      previousId,
+    };
+    const responseLogger = this.logger!.logRequest('alias', JSON.stringify(payload));
+    this.segment!.alias(payload, (err: Error | undefined) => {
+      if (err == null) {
+        responseLogger.success('success');
+      } else {
+        responseLogger.error(err.toString());
+      }
+    });
   }
 
   identify(userId: string, properties: Properties | undefined) {
-    this.segment!.identify({
+    const payload = {
       userId,
       traits: { ...properties },
+    };
+    const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
+    this.segment!.identify(payload, (err: Error | undefined) => {
+      if (err == null) {
+        responseLogger.success('success');
+      } else {
+        responseLogger.error(err.toString());
+      }
     });
   }
 
   group(userId: string, groupId: string, properties: Properties | undefined) {
-    this.segment!.group({
+    const payload = {
       userId,
       groupId,
       traits: properties,
+    };
+    const responseLogger = this.logger!.logRequest('group', JSON.stringify(payload));
+    this.segment!.group(payload, (err: Error | undefined) => {
+      if (err == null) {
+        responseLogger.success('success');
+      } else {
+        responseLogger.error(err.toString());
+      }
     });
   }
 
   page(userId: string, category: string, name: string, properties: Properties | undefined) {
-    this.segment!.page({
+    const payload = {
       userId,
       category,
       name,
       properties,
+    };
+    const responseLogger = this.logger!.logRequest('page', JSON.stringify(payload));
+    this.segment!.page(payload, (err: Error | undefined) => {
+      if (err == null) {
+        responseLogger.success('success');
+      } else {
+        responseLogger.error(err.toString());
+      }
     });
   }
 
   track(userId: string, event: Event) {
-    this.segment!.track({
+    const payload = {
       userId,
       event: event.name,
       properties: { ...event.properties },
+    };
+    const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
+    this.segment!.track(payload, (err: Error | undefined) => {
+      if (err == null) {
+        responseLogger.success('success');
+      } else {
+        responseLogger.error(err.toString());
+      }
     });
   }
 

@@ -1,8 +1,7 @@
-
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  Event, Properties, Plugin,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type AmplitudeOptions = {};
@@ -10,7 +9,7 @@ export type AmplitudeOptions = {};
 /**
  * Amplitude Browser Plugin for Iteratively SDK
  */
-export class AmplitudePlugin extends Plugin {
+export class AmplitudePlugin extends RequestLoggerPlugin {
   get amplitude(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -24,7 +23,8 @@ export class AmplitudePlugin extends Plugin {
     super('amplitude');
   }
 
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     if (!this.amplitude) {
       // Amplitude (https://help.amplitude.com/hc/en-us/articles/115001361248-JavaScript-SDK-Installation)
       // @ts-ignore
@@ -35,6 +35,8 @@ export class AmplitudePlugin extends Plugin {
   }
 
   identify(userId: string | undefined, properties?: Properties) {
+    const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
+
     if (userId) {
       this.amplitude.getInstance().setUserId(userId);
     }
@@ -49,14 +51,16 @@ export class AmplitudePlugin extends Plugin {
         identifyObject.set(p, (properties as any)[p]);
       }
 
-      this.amplitude.getInstance().identify(identifyObject);
+      this.amplitude.getInstance().identify(identifyObject, this.sentCallback(responseLogger));
     }
   }
 
   track(userId: string | undefined, event: Event) {
+    const responseLogger = this.logger!.logRequest('track', `${userId} ${event.name} ${JSON.stringify(event.properties)}`);
     this.amplitude.getInstance().logEvent(
       event.name,
       event.properties,
+      this.sentCallback(responseLogger),
     );
   }
 
@@ -64,6 +68,15 @@ export class AmplitudePlugin extends Plugin {
     this.amplitude.getInstance().setUserId(null);
     this.amplitude.getInstance().regenerateDeviceId();
   }
+
+  private sentCallback = (responseLogger: { success: (data?: string) => void, error: (data?: string) => void }) =>
+    (statusCode: number, responseBody: string, details: unknown) => {
+      if (statusCode >= 200 && statusCode < 300) {
+        responseLogger.success(responseBody);
+      } else {
+        responseLogger.error(`${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
+      }
+    };
 }
 
 export default AmplitudePlugin;

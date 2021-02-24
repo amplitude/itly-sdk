@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Options, Event, Properties, Plugin,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type MixpanelOptions = {};
@@ -8,7 +8,7 @@ export type MixpanelOptions = {};
 /**
  * Mixpanel Browser Plugin for Iteratively SDK
  */
-export class MixpanelPlugin extends Plugin {
+export class MixpanelPlugin extends RequestLoggerPlugin {
   private get mixpanel(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -22,7 +22,8 @@ export class MixpanelPlugin extends Plugin {
     super('mixpanel');
   }
 
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     if (!this.mixpanel) {
       // Mixpanel (https://developer.mixpanel.com/docs/javascript)
       // @ts-ignore
@@ -42,14 +43,21 @@ export class MixpanelPlugin extends Plugin {
     }
 
     if (properties) {
-      this.mixpanel.people.set(properties);
+      const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
+      this.mixpanel.people.set(properties, (payload: unknown) => {
+        responseLogger.success(`done: ${JSON.stringify(payload)}`);
+      });
     }
   }
 
   track(userId: string | undefined, event: Event) {
+    const responseLogger = this.logger!.logRequest('track', `${userId}, ${JSON.stringify(event)}`);
     this.mixpanel.track(
       event.name,
       { ...event.properties },
+      (payload: unknown) => {
+        responseLogger.success(`done: ${JSON.stringify(payload)}`);
+      },
     );
   }
 

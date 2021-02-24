@@ -1,32 +1,10 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/extensions, import/no-unresolved */
 import {
   Itly as ItlyBase,
-  Options,
   LoadOptions,
-  Environment,
   Event,
   Properties,
-  Plugin,
-  PluginLoadOptions,
-  ValidationOptions,
-  ValidationResponse,
-  Logger,
-  LOGGERS,
 } from './base';
-
-export {
-  Options,
-  LoadOptions,
-  Environment,
-  Plugin,
-  PluginLoadOptions,
-  Event,
-  Properties,
-  ValidationOptions,
-  ValidationResponse,
-  Logger,
-  LOGGERS,
-};
 
 // Itly Browser SDK
 export class Itly {

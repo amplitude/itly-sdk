@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Options, Event, Properties, Plugin,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type SegmentOptions = {};
@@ -8,7 +8,7 @@ export type SegmentOptions = {};
 /**
  * Segment Browser Plugin for Iteratively SDK
  */
-export class SegmentPlugin extends Plugin {
+export class SegmentPlugin extends RequestLoggerPlugin {
   private get segment(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -22,7 +22,8 @@ export class SegmentPlugin extends Plugin {
     super('segment');
   }
 
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     if (!this.segment) {
       // Segment (https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/)
       // @ts-ignore
@@ -33,30 +34,38 @@ export class SegmentPlugin extends Plugin {
   }
 
   alias(userId: string, previousId: string | undefined) {
-    this.segment.alias({ userId, previousId });
+    const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
+    this.segment.alias(userId, previousId, undefined, (...names: any[]) => {
+      responseLogger.success(`done ${names}`);
+    });
   }
 
   identify(userId: string | undefined, properties?: Properties) {
-    if (userId) {
-      this.segment.identify(userId, properties);
-    } else {
-      this.segment.identify(properties);
-    }
+    const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
+    this.segment.identify(userId, properties, undefined, () => {
+      responseLogger.success('done');
+    });
   }
 
   group(userId: string | undefined, groupId: string, properties?: Properties) {
-    this.segment.group(groupId, properties);
+    const responseLogger = this.logger!.logRequest('group', `${userId}, ${groupId}, ${JSON.stringify(properties)}`);
+    this.segment.group(groupId, properties, undefined, () => {
+      responseLogger.success('done');
+    });
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties) {
-    this.segment.page(category, name, properties);
+    const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
+    this.segment.page(category, name, properties, undefined, () => {
+      responseLogger.success('done');
+    });
   }
 
   track(userId: string | undefined, event: Event) {
-    this.segment.track(
-      event.name,
-      event.properties,
-    );
+    const responseLogger = this.logger!.logRequest('track', `${userId}, ${JSON.stringify(event)}`);
+    this.segment.track(event.name, event.properties, undefined, () => {
+      responseLogger.success('done');
+    });
   }
 
   reset() {

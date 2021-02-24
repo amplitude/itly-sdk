@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import fetch from 'node-fetch';
 import {
-  Environment, Event, Properties, Plugin, ValidationResponse,
+  Environment, Event, Properties, RequestLoggerPlugin, ValidationResponse, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type IterativelyOptions = {
@@ -37,7 +37,7 @@ type TrackModel = {
 /**
  * Iteratively Node Plugin for Iteratively SDK
  */
-export class IterativelyPlugin extends Plugin {
+export class IterativelyPlugin extends RequestLoggerPlugin {
   private buffer: TrackModel[] = [];
 
   private timer: ReturnType<typeof setTimeout> | null = null;
@@ -62,6 +62,11 @@ export class IterativelyPlugin extends Plugin {
 
     // allows consumer to override any config value
     this.config = { ...this.config, ...iterativelyOptions };
+  }
+
+  // overrides Plugin.load
+  load(options: PluginLoadOptions) {
+    super.load(options);
   }
 
   // overrides Plugin.postIdentify
@@ -152,6 +157,7 @@ export class IterativelyPlugin extends Plugin {
 
     while (this.buffer.length > 0) {
       const objects = this.buffer.splice(0, this.config.batchSize);
+      const responseLogger = this.logger!.logRequest('flush', `${objects.length} objects`);
       try {
         await fetch(this.config.url, {
           method: 'post',
@@ -163,8 +169,9 @@ export class IterativelyPlugin extends Plugin {
             objects,
           }),
         });
+        responseLogger.success('success');
       } catch (e) {
-        // do nothing
+        responseLogger.error(e.toString());
       }
     }
 
@@ -175,6 +182,8 @@ export class IterativelyPlugin extends Plugin {
     if (this.config.disabled) {
       return;
     }
+
+    this.logger!.debug(`${this.id}: push(): ${JSON.stringify(model)}`);
 
     this.buffer.push(model);
 
