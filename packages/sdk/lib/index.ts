@@ -10,11 +10,13 @@ import {
   ValidationOptions,
   ValidationResponse,
   Logger,
+  LOGGERS,
+} from './base';
+import {
   RequestLoggerPlugin,
   RequestLogger,
   ResponseLogger,
-  LOGGERS,
-} from './base';
+} from './internal/RequestLogger';
 import { Itly as ItlyBrowser } from './browser';
 import { Itly as ItlyNode } from './node';
 
