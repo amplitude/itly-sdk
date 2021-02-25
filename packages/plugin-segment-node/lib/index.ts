@@ -8,7 +8,7 @@ import {
   GroupOptions,
   PageOptions,
   TrackOptions,
-  Properties,
+  Properties, ResponseLogger,
 } from '@itly/sdk';
 import Segment from 'analytics-node';
 
@@ -59,14 +59,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       previousId,
     };
     const responseLogger = this.logger!.logRequest('alias', JSON.stringify(payload));
-    this.segment!.alias(payload, (err: Error | undefined) => {
-      if (err == null) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.error(err.toString());
-      }
-      callback?.(err);
-    });
+    this.segment!.alias(payload, this.wrapCallback(responseLogger, callback));
   }
 
   identify(userId: string, properties: Properties | undefined, options?: IdentifyOptions) {
@@ -77,14 +70,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       traits: properties,
     };
     const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
-    this.segment!.identify(payload, (err: Error | undefined) => {
-      if (err == null) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.error(err.toString());
-      }
-      callback?.(err);
-    });
+    this.segment!.identify(payload, this.wrapCallback(responseLogger, callback));
   }
 
   group(userId: string, groupId: string, properties: Properties | undefined, options?: GroupOptions) {
@@ -96,14 +82,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       traits: properties,
     };
     const responseLogger = this.logger!.logRequest('group', JSON.stringify(payload));
-    this.segment!.group(payload, (err: Error | undefined) => {
-      if (err == null) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.error(err.toString());
-      }
-      callback?.(err);
-    });
+    this.segment!.group(payload, this.wrapCallback(responseLogger, callback));
   }
 
   page(
@@ -122,14 +101,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       properties,
     };
     const responseLogger = this.logger!.logRequest('page', JSON.stringify(payload));
-    this.segment!.page(payload, (err: Error | undefined) => {
-      if (err == null) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.error(err.toString());
-      }
-      callback?.(err);
-    });
+    this.segment!.page(payload, this.wrapCallback(responseLogger, callback));
   }
 
   track(userId: string, { name, properties }: Event, options?: TrackOptions) {
@@ -141,14 +113,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       properties,
     };
     const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
-    this.segment!.track(payload, (err: Error | undefined) => {
-      if (err == null) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.error(err.toString());
-      }
-      callback?.(err);
-    });
+    this.segment!.track(payload, this.wrapCallback(responseLogger, callback));
   }
 
   flush() {
@@ -160,6 +125,17 @@ export class SegmentPlugin extends RequestLoggerPlugin {
         return resolve();
       });
     });
+  }
+
+  private wrapCallback(responseLogger: ResponseLogger, callback: SegmentCallback | undefined) {
+    return (err: Error | undefined) => {
+      if (err == null) {
+        responseLogger.success('success');
+      } else {
+        responseLogger.error(err.toString());
+      }
+      callback?.(err);
+    };
   }
 }
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, IdentifyOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions,
+  Event, IdentifyOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
 } from '@itly/sdk';
 
 export type MixpanelOptions = {};
@@ -57,28 +57,25 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
 
     if (properties) {
       const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
-      this.mixpanel.people.set(properties, (payload: unknown) => {
-        responseLogger.success(`done: ${JSON.stringify(payload)}`);
-        callback?.(payload);
-      });
+      this.mixpanel.people.set(properties, this.wrapCallback(responseLogger, callback));
     }
   }
 
   track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
     const { callback } = this.getPluginCallOptions<MixpanelTrackOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
-    this.mixpanel.track(
-      name,
-      properties,
-      (payload: unknown) => {
-        responseLogger.success(`done: ${JSON.stringify(payload)}`);
-        callback?.(payload);
-      },
-    );
+    this.mixpanel.track(name, properties, this.wrapCallback(responseLogger, callback));
   }
 
   reset() {
     this.mixpanel.reset();
+  }
+
+  private wrapCallback(responseLogger: ResponseLogger, callback: MixpanelCallback | undefined) {
+    return (...args: any[]) => {
+      responseLogger.success(`done: ${JSON.stringify(args)}`);
+      return callback?.(...args);
+    };
   }
 }
 

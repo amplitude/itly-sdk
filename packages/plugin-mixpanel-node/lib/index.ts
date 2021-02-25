@@ -1,6 +1,13 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  RequestLoggerPlugin, Event, AliasOptions, IdentifyOptions, TrackOptions, Properties, PluginLoadOptions,
+  RequestLoggerPlugin,
+  Event,
+  AliasOptions,
+  IdentifyOptions,
+  TrackOptions,
+  Properties,
+  PluginLoadOptions,
+  ResponseLogger,
 } from '@itly/sdk';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
@@ -38,14 +45,7 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
   alias(userId: string, previousId: string, options?: AliasOptions) {
     const { callback } = this.getPluginCallOptions<MixpanelAliasOptions>(options);
     const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
-    this.mixpanel!.alias(previousId, userId, (err: Error | undefined) => {
-      if (err == null) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.error(err.toString());
-      }
-      callback?.(err);
-    });
+    this.mixpanel!.alias(previousId, userId, this.wrapCallback(responseLogger, callback));
   }
 
   identify(userId: string, properties: Properties | undefined, options?: IdentifyOptions) {
@@ -55,14 +55,7 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
       ...properties,
     };
     const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
-    this.mixpanel!.people.set(userId, payload, (err: Error | undefined) => {
-      if (err == null) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.error(err.toString());
-      }
-      callback?.(err);
-    });
+    this.mixpanel!.people.set(userId, payload, this.wrapCallback(responseLogger, callback));
   }
 
   track(userId: string, { name, properties }: Event, options?: TrackOptions) {
@@ -72,14 +65,18 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
       ...properties,
     };
     const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
-    this.mixpanel!.track(name, payload, (err: Error | undefined) => {
+    this.mixpanel!.track(name, payload, this.wrapCallback(responseLogger, callback));
+  }
+
+  private wrapCallback(responseLogger: ResponseLogger, callback: MixpanelCallback | undefined) {
+    return (err: Error | undefined): any => {
       if (err == null) {
         responseLogger.success('success');
       } else {
         responseLogger.error(err.toString());
       }
-      callback?.(err);
-    });
+      return callback?.(err);
+    };
   }
 }
 

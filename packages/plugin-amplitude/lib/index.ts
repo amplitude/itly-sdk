@@ -63,18 +63,14 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       }
 
       const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
-      this.amplitude.getInstance().identify(identifyObject, this.sentCallback(responseLogger, callback));
+      this.amplitude.getInstance().identify(identifyObject, this.wrapCallback(responseLogger, callback));
     }
   }
 
   track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
     const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId} ${name} ${JSON.stringify(properties)}`);
-    this.amplitude.getInstance().logEvent(
-      name,
-      properties,
-      this.sentCallback(responseLogger, callback),
-    );
+    this.amplitude.getInstance().logEvent(name, properties, this.wrapCallback(responseLogger, callback));
   }
 
   reset() {
@@ -82,8 +78,8 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     this.amplitude.getInstance().regenerateDeviceId();
   }
 
-  private sentCallback = (responseLogger: ResponseLogger, callback: AmplitudeCallback | undefined) =>
-    (statusCode: number, responseBody: string, details: unknown) => {
+  private wrapCallback(responseLogger: ResponseLogger, callback: AmplitudeCallback | undefined) {
+    return (statusCode: number, responseBody: string, details: unknown) => {
       if (statusCode >= 200 && statusCode < 300) {
         responseLogger.success(responseBody);
       } else {
@@ -91,6 +87,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       }
       callback?.(statusCode, responseBody, details);
     };
+  }
 }
 
 export default AmplitudePlugin;

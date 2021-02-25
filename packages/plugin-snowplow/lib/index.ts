@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, PageOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions,
+  Event, PageOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
 } from '@itly/sdk';
 
 export type SnowplowOptions = {
@@ -17,16 +17,15 @@ export type SnowplowCallback = (...args: any[]) => void;
 
 export interface SnowplowCallOptions {
   callback?: SnowplowCallback;
+  options?: {
+    contexts?: SnowplowContext[];
+  },
 }
 export interface SnowplowAliasOptions extends SnowplowCallOptions {}
 export interface SnowplowIdentifyOptions extends SnowplowCallOptions {}
 export interface SnowplowGroupOptions extends SnowplowCallOptions {}
 export interface SnowplowPageOptions extends SnowplowCallOptions {}
-export interface SnowplowTrackOptions extends SnowplowCallOptions {
-  options?: {
-    contexts?: SnowplowContext[];
-  },
-}
+export interface SnowplowTrackOptions extends SnowplowCallOptions {}
 
 /**
  * Snowplow Browser Plugin for Iteratively SDK
@@ -61,12 +60,9 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties, options?: PageOptions) {
-    const { callback } = this.getPluginCallOptions<SnowplowPageOptions>(options);
+    const { callback, options: snowplowOptions } = this.getPluginCallOptions<SnowplowPageOptions>(options);
     const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
-    this.snowplow('trackPageView', name, undefined, undefined, undefined, (...args: any[]) => {
-      responseLogger.success(`done: ${JSON.stringify(args)}`);
-      callback?.(...args);
-    });
+    this.snowplow('trackPageView', name, undefined, snowplowOptions?.contexts, undefined, this.wrapCallback(responseLogger, callback));
   }
 
   track(userId: string | undefined, { name, properties, version }: Event, options?: TrackOptions) {
@@ -76,10 +72,14 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     this.snowplow('trackSelfDescribingEvent', {
       schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
       data: properties,
-    }, snowplowOptions?.contexts, undefined, (...args: any[]) => {
+    }, snowplowOptions?.contexts, undefined, this.wrapCallback(responseLogger, callback));
+  }
+
+  private wrapCallback(responseLogger: ResponseLogger, callback: SnowplowCallback | undefined) {
+    return (...args: any[]) => {
       responseLogger.success(`done: ${JSON.stringify(args)}`);
       callback?.(...args);
-    });
+    };
   }
 }
 
