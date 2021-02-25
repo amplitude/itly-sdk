@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  RequestLoggerPlugin, Event, EventOptions, EventMetadata, Properties, PluginLoadOptions,
+  RequestLoggerPlugin, Event, AliasOptions, IdentifyOptions, TrackOptions, Properties, PluginLoadOptions,
 } from '@itly/sdk';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
@@ -8,12 +8,14 @@ export interface MixpanelOptions extends InitConfig {}
 
 export type MixpanelCallback = Mixpanel.Callback;
 
-/**
- * Mixpanel specific metadata
- */
-export interface MixpanelMetadata {
+export interface MixpanelCallOptions {
   callback?: MixpanelCallback;
 }
+export interface MixpanelAliasOptions extends MixpanelCallOptions {}
+export interface MixpanelIdentifyOptions extends MixpanelCallOptions {}
+export interface MixpanelGroupOptions extends MixpanelCallOptions {}
+export interface MixpanelPageOptions extends MixpanelCallOptions {}
+export interface MixpanelTrackOptions extends MixpanelCallOptions {}
 
 /**
  * Mixpanel Node Plugin for Iteratively SDK
@@ -33,8 +35,8 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     this.mixpanel = Mixpanel.init(this.apiKey, this.options);
   }
 
-  alias(userId: string, previousId: string, options?: EventOptions) {
-    const { callback } = this.getMixpanelMetadata(options?.metadata);
+  alias(userId: string, previousId: string, options?: AliasOptions) {
+    const { callback } = this.getPluginCallOptions<MixpanelAliasOptions>(options);
     const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
     this.mixpanel!.alias(previousId, userId, (err: Error | undefined) => {
       if (err == null) {
@@ -46,8 +48,8 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     });
   }
 
-  identify(userId: string, properties: Properties | undefined, options?: EventOptions) {
-    const { callback } = this.getMixpanelMetadata(options?.metadata);
+  identify(userId: string, properties: Properties | undefined, options?: IdentifyOptions) {
+    const { callback } = this.getPluginCallOptions<MixpanelIdentifyOptions>(options);
     const payload = {
       distinct_id: userId,
       ...properties,
@@ -63,8 +65,8 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     });
   }
 
-  track(userId: string, { name, properties, metadata }: Event) {
-    const { callback } = this.getMixpanelMetadata(metadata);
+  track(userId: string, { name, properties }: Event, options?: TrackOptions) {
+    const { callback } = this.getPluginCallOptions<MixpanelTrackOptions>(options);
     const payload = {
       distinct_id: userId,
       ...properties,
@@ -78,10 +80,6 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
       }
       callback?.(err);
     });
-  }
-
-  private getMixpanelMetadata(metadata?: EventMetadata): Partial<MixpanelMetadata> {
-    return this.getPluginMetadata<MixpanelMetadata>(metadata);
   }
 }
 

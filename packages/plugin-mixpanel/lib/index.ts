@@ -1,18 +1,20 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, EventOptions, EventMetadata, Properties, RequestLoggerPlugin, PluginLoadOptions,
+  Event, IdentifyOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type MixpanelOptions = {};
 
 export type MixpanelCallback = (...args: any[]) => void;
 
-/**
- * Mixpanel specific metadata
- */
-export interface MixpanelMetadata {
+export interface MixpanelCallOptions {
   callback?: MixpanelCallback;
 }
+export interface MixpanelAliasOptions extends MixpanelCallOptions {}
+export interface MixpanelIdentifyOptions extends MixpanelCallOptions {}
+export interface MixpanelGroupOptions extends MixpanelCallOptions {}
+export interface MixpanelPageOptions extends MixpanelCallOptions {}
+export interface MixpanelTrackOptions extends MixpanelCallOptions {}
 
 /**
  * Mixpanel Browser Plugin for Iteratively SDK
@@ -46,8 +48,8 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     this.mixpanel.alias(userId, previousId);
   }
 
-  identify(userId: string | undefined, properties: Properties | undefined, options?: EventOptions) {
-    const { callback } = this.getMixpanelMetadata(options?.metadata);
+  identify(userId: string | undefined, properties: Properties | undefined, options?: IdentifyOptions) {
+    const { callback } = this.getPluginCallOptions<MixpanelIdentifyOptions>(options);
 
     if (userId) {
       this.mixpanel.identify(userId);
@@ -62,12 +64,12 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     }
   }
 
-  track(userId: string | undefined, { name, properties, metadata }: Event) {
-    const { callback } = this.getMixpanelMetadata(metadata);
+  track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
+    const { callback } = this.getPluginCallOptions<MixpanelTrackOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
     this.mixpanel.track(
       name,
-      { ...properties },
+      properties,
       (payload: unknown) => {
         responseLogger.success(`done: ${JSON.stringify(payload)}`);
         callback?.(payload);
@@ -77,10 +79,6 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
 
   reset() {
     this.mixpanel.reset();
-  }
-
-  private getMixpanelMetadata(metadata?: EventMetadata): Partial<MixpanelMetadata> {
-    return this.getPluginMetadata<MixpanelMetadata>(metadata);
   }
 }
 

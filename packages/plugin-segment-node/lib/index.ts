@@ -1,6 +1,14 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  RequestLoggerPlugin, PluginLoadOptions, Event, EventOptions, Properties, EventMetadata,
+  RequestLoggerPlugin,
+  PluginLoadOptions,
+  Event,
+  AliasOptions,
+  IdentifyOptions,
+  GroupOptions,
+  PageOptions,
+  TrackOptions,
+  Properties,
 } from '@itly/sdk';
 import Segment from 'analytics-node';
 
@@ -13,16 +21,17 @@ export type SegmentOptions = {
 
 export type SegmentCallback = (err: Error | undefined) => void;
 
-/**
- * Segment specific metadata
- * https://segment.com/docs/connections/sources/catalog/libraries/server/node/#selecting-destinations
- */
-export interface SegmentMetadata {
+export interface SegmentCallOptions {
   options?: {
     integrations?: Record<string, boolean>;
   },
   callback?: SegmentCallback;
 }
+export interface SegmentAliasOptions extends SegmentCallOptions {}
+export interface SegmentIdentifyOptions extends SegmentCallOptions {}
+export interface SegmentGroupOptions extends SegmentCallOptions {}
+export interface SegmentPageOptions extends SegmentCallOptions {}
+export interface SegmentTrackOptions extends SegmentCallOptions {}
 
 /**
  * Segment Node Plugin for Iteratively SDK
@@ -42,10 +51,10 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     this.segment = new Segment(this.writeKey, this.options);
   }
 
-  alias(userId: string, previousId: string, options?: EventOptions) {
-    const { callback, options: segmentFields } = this.getSegmentMetadata(options?.metadata);
+  alias(userId: string, previousId: string, options?: AliasOptions) {
+    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentAliasOptions>(options);
     const payload = {
-      ...segmentFields,
+      ...segmentOptions,
       userId,
       previousId,
     };
@@ -60,10 +69,10 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     });
   }
 
-  identify(userId: string, properties: Properties | undefined, options?: EventOptions) {
-    const { callback, options: segmentFields } = this.getSegmentMetadata(options?.metadata);
+  identify(userId: string, properties: Properties | undefined, options?: IdentifyOptions) {
+    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentIdentifyOptions>(options);
     const payload = {
-      ...segmentFields,
+      ...segmentOptions,
       userId,
       traits: properties,
     };
@@ -78,10 +87,10 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     });
   }
 
-  group(userId: string, groupId: string, properties: Properties | undefined, options?: EventOptions) {
-    const { callback, options: segmentFields } = this.getSegmentMetadata(options?.metadata);
+  group(userId: string, groupId: string, properties: Properties | undefined, options?: GroupOptions) {
+    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentGroupOptions>(options);
     const payload = {
-      ...segmentFields,
+      ...segmentOptions,
       userId,
       groupId,
       traits: properties,
@@ -102,11 +111,11 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     category: string,
     name: string,
     properties: Properties | undefined,
-    options?: EventOptions,
+    options?: PageOptions,
   ) {
-    const { callback, options: segmentFields } = this.getSegmentMetadata(options?.metadata);
+    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentPageOptions>(options);
     const payload = {
-      ...segmentFields,
+      ...segmentOptions,
       userId,
       category,
       name,
@@ -123,13 +132,13 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     });
   }
 
-  track(userId: string, { name, properties, metadata }: Event) {
-    const { callback, options } = this.getSegmentMetadata(metadata);
+  track(userId: string, { name, properties }: Event, options?: TrackOptions) {
+    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentTrackOptions>(options);
     const payload = {
-      ...options,
+      ...segmentOptions,
       userId,
       event: name,
-      properties: { ...properties },
+      properties,
     };
     const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
     this.segment!.track(payload, (err: Error | undefined) => {
@@ -151,10 +160,6 @@ export class SegmentPlugin extends RequestLoggerPlugin {
         return resolve();
       });
     });
-  }
-
-  private getSegmentMetadata(metadata?: EventMetadata): Partial<SegmentMetadata> {
-    return this.getPluginMetadata<SegmentMetadata>(metadata);
   }
 }
 

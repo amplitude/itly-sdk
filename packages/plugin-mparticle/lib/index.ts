@@ -67,15 +67,13 @@ export class MparticlePlugin extends RequestLoggerPlugin {
   }
 
   track(userId: string | undefined, event: Event) {
-    const meta = event.metadata?.[this.id];
     this.mparticle.logEvent(
       event.name,
-      meta?.eventType || Mparticle.EventType.Other,
+      Mparticle.EventType.Other,
       {
         $itly: this.$itly,
         ...event.properties,
       },
-      meta?.customFlags,
     );
   }
 }

@@ -1,19 +1,21 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  Event, EventOptions, EventMetadata, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
+  Event, IdentifyOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
 } from '@itly/sdk';
 
 export type AmplitudeOptions = {};
 
 export type AmplitudeCallback = (statusCode: number, responseBody: string, details: unknown) => void;
 
-/**
- * Amplitude specific metadata
- */
-export interface AmplitudeMetadata {
+export interface AmplitudeCallOptions {
   callback?: AmplitudeCallback;
 }
+export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
+export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {}
+export interface AmplitudeGroupOptions extends AmplitudeCallOptions {}
+export interface AmplitudePageOptions extends AmplitudeCallOptions {}
+export interface AmplitudeTrackOptions extends AmplitudeCallOptions {}
 
 /**
  * Amplitude Browser Plugin for Iteratively SDK
@@ -43,7 +45,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  identify(userId: string | undefined, properties?: Properties, options?: EventOptions) {
+  identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions) {
     const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
 
     if (userId) {
@@ -60,13 +62,13 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
         identifyObject.set(p, (properties as any)[p]);
       }
 
-      const { callback } = this.getAmplitudeMetadata(options?.metadata);
+      const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
       this.amplitude.getInstance().identify(identifyObject, this.sentCallback(responseLogger, callback));
     }
   }
 
-  track(userId: string | undefined, { name, properties, metadata }: Event) {
-    const { callback } = this.getAmplitudeMetadata(metadata);
+  track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
+    const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId} ${name} ${JSON.stringify(properties)}`);
     this.amplitude.getInstance().logEvent(
       name,
@@ -89,10 +91,6 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       }
       callback?.(statusCode, responseBody, details);
     };
-
-  private getAmplitudeMetadata(metadata?: EventMetadata): Partial<AmplitudeMetadata> {
-    return this.getPluginMetadata<AmplitudeMetadata>(metadata);
-  }
 }
 
 export default AmplitudePlugin;

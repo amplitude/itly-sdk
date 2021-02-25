@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
   Event,
-  EventOptions,
-  EventMetadata,
+  IdentifyOptions,
+  TrackOptions,
   Properties,
   RequestLoggerPlugin,
   PluginLoadOptions,
@@ -11,13 +11,15 @@ import Amplitude, { AmplitudeOptions, AmplitudeIdentifyResponse, AmplitudeTrackR
 
 export { AmplitudeOptions };
 
-export type AmplitudeCallback = (response: AmplitudeIdentifyResponse | AmplitudeTrackResponse) => void;
-
-/**
- * Amplitude specific metadata
- */
-export interface AmplitudeMetadata {
-  callback?: AmplitudeCallback;
+export interface AmplitudeCallOptions {}
+export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
+export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
+  callback?: (response: AmplitudeIdentifyResponse) => void;
+}
+export interface AmplitudeGroupOptions extends AmplitudeCallOptions {}
+export interface AmplitudePageOptions extends AmplitudeCallOptions {}
+export interface AmplitudeTrackOptions extends AmplitudeCallOptions {
+  callback?: (response: AmplitudeTrackResponse) => void;
 }
 
 /**
@@ -49,8 +51,8 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     this.amplitude = new Amplitude(this.apiKey, this.options);
   }
 
-  async identify(userId: string, properties?: Properties, options?: EventOptions) {
-    const { callback } = this.getAmplitudeMetadata(options?.metadata);
+  async identify(userId: string, properties?: Properties, options?: IdentifyOptions) {
+    const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
     const payload = {
       user_id: userId,
       user_properties: properties,
@@ -65,8 +67,8 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  async track(userId: string, { name, properties, metadata }: Event) {
-    const { callback } = this.getAmplitudeMetadata(metadata);
+  async track(userId: string, { name, properties }: Event, options?: TrackOptions) {
+    const { callback } = this.getPluginCallOptions<AmplitudeTrackOptions>(options);
     const payload = {
       event_type: name,
       user_id: userId,
@@ -80,10 +82,6 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     } catch (e) {
       responseLogger.error(e.toString());
     }
-  }
-
-  private getAmplitudeMetadata(metadata?: EventMetadata): Partial<AmplitudeMetadata> {
-    return this.getPluginMetadata<AmplitudeMetadata>(metadata);
   }
 }
 

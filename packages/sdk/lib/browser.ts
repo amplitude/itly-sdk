@@ -3,7 +3,11 @@ import {
   Itly as ItlyBase,
   LoadOptions,
   Event,
-  EventOptions,
+  AliasOptions,
+  IdentifyOptions,
+  GroupOptions,
+  PageOptions,
+  TrackOptions,
   Properties,
 } from './base';
 
@@ -32,7 +36,7 @@ export class Itly {
   alias = (
     userId: string,
     previousId?: string,
-    options?: EventOptions,
+    options?: AliasOptions,
   ) => this.itly.alias(userId, previousId, options);
 
   /**
@@ -44,7 +48,7 @@ export class Itly {
   identify = (
     userId: string | Properties | undefined,
     identifyProperties?: Properties,
-    options?: EventOptions,
+    options?: IdentifyOptions,
   ) => {
     if (userId != null && typeof (userId) === 'object') {
       // eslint-disable-next-line no-param-reassign
@@ -67,7 +71,7 @@ export class Itly {
   group = (
     groupId: string,
     groupProperties?: Properties,
-    options?: EventOptions,
+    options?: GroupOptions,
   ) => this.itly.group(undefined, groupId, groupProperties, options);
 
   /**
@@ -81,7 +85,7 @@ export class Itly {
     category: string,
     name: string,
     pageProperties?: Properties,
-    options?: EventOptions,
+    options?: PageOptions,
   ) => this.itly.page(undefined, category, name, pageProperties, options);
 
   /**
@@ -91,11 +95,12 @@ export class Itly {
    * @param event.properties The event's properties.
    * @param event.id The event's ID.
    * @param event.version The event's version.
-   * @param event.metadata The event's metadata.
+   * @param options The event's options.
    */
   track = (
     event: Event,
-  ) => this.itly.track(undefined, event);
+    options?: TrackOptions,
+  ) => this.itly.track(undefined, event, options);
 
   /**
    * Reset (e.g. on logout) all analytics state for the current user and group.

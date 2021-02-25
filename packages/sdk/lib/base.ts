@@ -6,11 +6,12 @@ export type Properties = {
   [name: string]: any;
 };
 
-export type EventMetadata = Record<string, any>;
-
-export interface EventOptions {
-  metadata?: EventMetadata;
-}
+export type CallOptions = Record<string, any>;
+export interface AliasOptions extends CallOptions {}
+export interface IdentifyOptions extends CallOptions {}
+export interface GroupOptions extends CallOptions {}
+export interface PageOptions extends CallOptions {}
+export interface TrackOptions extends CallOptions {}
 
 export type Event = {
   name: string;
@@ -18,7 +19,6 @@ export type Event = {
   plugins?: Record<string, boolean>
   id?: string;
   version?: string;
-  metadata?: EventMetadata;
 };
 
 export type ValidationOptions = {
@@ -59,9 +59,9 @@ export abstract class Plugin {
     };
   }
 
-  alias(userId: string, previousId: string | undefined, options?: EventOptions): void {}
+  alias(userId: string, previousId: string | undefined, options?: AliasOptions): void {}
 
-  identify(userId: string | undefined, properties: Properties | undefined, options?: EventOptions): void {}
+  identify(userId: string | undefined, properties: Properties | undefined, options?: IdentifyOptions): void {}
 
   postIdentify(
     userId: string | undefined,
@@ -73,7 +73,7 @@ export abstract class Plugin {
     userId: string | undefined,
     groupId: string,
     properties: Properties | undefined,
-    options?: EventOptions,
+    options?: GroupOptions,
   ): void {}
 
   postGroup(
@@ -88,7 +88,7 @@ export abstract class Plugin {
     category: string | undefined,
     name: string | undefined,
     properties: Properties | undefined,
-    options?: EventOptions,
+    options?: PageOptions,
   ): void {}
 
   postPage(
@@ -99,7 +99,7 @@ export abstract class Plugin {
     validationResponses: ValidationResponse[],
   ): void {}
 
-  track(userId: string | undefined, event: Event): void {}
+  track(userId: string | undefined, event: Event, options?: TrackOptions): void {}
 
   postTrack(userId: string | undefined, event: Event, validationResponses: ValidationResponse[]): void {}
 
@@ -110,12 +110,12 @@ export abstract class Plugin {
   }
 
   /**
-   * Returns metadata specific to this plugin
-   * @param metadata
+   * Returns call options specific to this plugin
+   * @param options
    * @protected
    */
-  protected getPluginMetadata<T>(metadata?: EventMetadata): Partial<T> {
-    return (metadata?.[this.id] ?? {}) as Partial<T>;
+  protected getPluginCallOptions<T>(options: CallOptions | undefined): Partial<T> {
+    return (options?.[this.id] ?? {}) as Partial<T>;
   }
 }
 
@@ -249,7 +249,7 @@ export class Itly {
    * @param previousId The user's previous ID.
    * @param options The event's options.
    */
-  alias(userId: string, previousId?: string, options?: EventOptions) {
+  alias(userId: string, previousId?: string, options?: AliasOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -263,7 +263,7 @@ export class Itly {
    * @param identifyProperties The user's properties.
    * @param options The event's options.
    */
-  identify(userId: string | undefined, identifyProperties?: Properties, options?: EventOptions) {
+  identify(userId: string | undefined, identifyProperties?: Properties, options?: IdentifyOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -292,7 +292,7 @@ export class Itly {
    * @param groupProperties The group's properties.
    * @param options The event's options.
    */
-  group(userId: string | undefined, groupId: string, groupProperties?: Properties, options?: EventOptions) {
+  group(userId: string | undefined, groupId: string, groupProperties?: Properties, options?: GroupOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -326,7 +326,7 @@ export class Itly {
     userId: string | undefined,
     category: string, name: string,
     pageProperties?: Properties,
-    options?: EventOptions,
+    options?: PageOptions,
   ) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -357,9 +357,9 @@ export class Itly {
    * @param event.properties The event's properties.
    * @param event.id The event's ID.
    * @param event.version The event's version.
-   * @param event.metadata The event's metadata.
+   * @param options The event's options.
    */
-  track(userId: string | undefined, event: Event) {
+  track(userId: string | undefined, event: Event, options?: TrackOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -369,7 +369,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'track',
       event,
-      (p, e) => p.track(userId, mergedEvent),
+      (p, e) => p.track(userId, mergedEvent, options),
       (p, e, validationResponses) => p.postTrack(
         userId, mergedEvent, validationResponses,
       ),
