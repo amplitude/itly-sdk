@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-unused-vars */
 import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';

@@ -14,6 +14,11 @@ import {
   Logger,
   LOGGERS,
 } from './base';
+import {
+  RequestLoggerPlugin,
+  RequestLogger,
+  ResponseLogger,
+} from './internal/RequestLogger';
 import { Itly as ItlyBrowser } from './browser';
 import { Itly as ItlyNode } from './node';
 
@@ -29,6 +34,9 @@ export {
   ValidationOptions,
   ValidationResponse,
   Logger,
+  RequestLoggerPlugin,
+  RequestLogger,
+  ResponseLogger,
   LOGGERS,
 };
 

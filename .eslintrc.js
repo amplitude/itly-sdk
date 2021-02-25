@@ -32,6 +32,8 @@ module.exports = {
     'implicit-arrow-linebreak': 'off',
     'import/prefer-default-export': 'off',
     'import/extensions': 'off',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
     // 'function-paren-newline': ['off'],
   },
 };

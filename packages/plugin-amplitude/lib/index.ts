@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  Event, EventOptions, EventMetadata, Properties, Plugin,
+  Event, EventOptions, EventMetadata, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
 } from '@itly/sdk';
 
 export type AmplitudeOptions = {};
@@ -18,7 +18,7 @@ export interface AmplitudeMetadata {
 /**
  * Amplitude Browser Plugin for Iteratively SDK
  */
-export class AmplitudePlugin extends Plugin {
+export class AmplitudePlugin extends RequestLoggerPlugin {
   get amplitude(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -32,7 +32,8 @@ export class AmplitudePlugin extends Plugin {
     super('amplitude');
   }
 
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     if (!this.amplitude) {
       // Amplitude (https://help.amplitude.com/hc/en-us/articles/115001361248-JavaScript-SDK-Installation)
       // @ts-ignore
@@ -43,6 +44,8 @@ export class AmplitudePlugin extends Plugin {
   }
 
   identify(userId: string | undefined, properties?: Properties, options?: EventOptions) {
+    const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
+
     if (userId) {
       this.amplitude.getInstance().setUserId(userId);
     }
@@ -58,16 +61,17 @@ export class AmplitudePlugin extends Plugin {
       }
 
       const { callback } = this.getAmplitudeMetadata(options?.metadata);
-      this.amplitude.getInstance().identify(identifyObject, callback);
+      this.amplitude.getInstance().identify(identifyObject, this.sentCallback(responseLogger, callback));
     }
   }
 
   track(userId: string | undefined, { name, properties, metadata }: Event) {
     const { callback } = this.getAmplitudeMetadata(metadata);
+    const responseLogger = this.logger!.logRequest('track', `${userId} ${name} ${JSON.stringify(properties)}`);
     this.amplitude.getInstance().logEvent(
       name,
       properties,
-      callback,
+      this.sentCallback(responseLogger, callback),
     );
   }
 
@@ -75,6 +79,16 @@ export class AmplitudePlugin extends Plugin {
     this.amplitude.getInstance().setUserId(null);
     this.amplitude.getInstance().regenerateDeviceId();
   }
+
+  private sentCallback = (responseLogger: ResponseLogger, callback: AmplitudeCallback | undefined) =>
+    (statusCode: number, responseBody: string, details: unknown) => {
+      if (statusCode >= 200 && statusCode < 300) {
+        responseLogger.success(responseBody);
+      } else {
+        responseLogger.error(`${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
+      }
+      callback?.(statusCode, responseBody, details);
+    };
 
   private getAmplitudeMetadata(metadata?: EventMetadata): Partial<AmplitudeMetadata> {
     return this.getPluginMetadata<AmplitudeMetadata>(metadata);

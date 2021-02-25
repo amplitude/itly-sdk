@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, EventOptions, EventMetadata, Properties, Plugin,
+  Event, EventOptions, EventMetadata, Properties, RequestLoggerPlugin, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type SnowplowOptions = {
@@ -28,7 +28,7 @@ export interface SnowplowMetadata {
 /**
  * Snowplow Browser Plugin for Iteratively SDK
  */
-export class SnowplowPlugin extends Plugin {
+export class SnowplowPlugin extends RequestLoggerPlugin {
   get snowplow(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -42,7 +42,8 @@ export class SnowplowPlugin extends Plugin {
     super('snowplow');
   }
 
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     if (!this.snowplow) {
       // Snowplow (https://github.com/snowplow/snowplow/wiki/1-General-parameters-for-the-Javascript-tracker#21-loading-snowplowjs)
       // @ts-ignore
@@ -58,7 +59,11 @@ export class SnowplowPlugin extends Plugin {
 
   page(userId?: string, category?: string, name?: string, properties?: Properties, options?: EventOptions) {
     const { callback } = this.getSnowplowMetadata(options?.metadata);
-    this.snowplow('trackPageView', name, undefined, undefined, undefined, callback);
+    const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
+    this.snowplow('trackPageView', name, undefined, undefined, undefined, (...args: any[]) => {
+      responseLogger.success(`done: ${JSON.stringify(args)}`);
+      callback?.(...args);
+    });
   }
 
   track(userId: string | undefined, {
@@ -69,10 +74,14 @@ export class SnowplowPlugin extends Plugin {
   }: Event) {
     const schemaVer = version && version.replace(/\./g, '-');
     const { callback, options } = this.getSnowplowMetadata(metadata);
+    const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
     this.snowplow('trackSelfDescribingEvent', {
       schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
       data: properties,
-    }, options?.contexts, undefined, callback);
+    }, options?.contexts, undefined, (...args: any[]) => {
+      responseLogger.success(`done: ${JSON.stringify(args)}`);
+      callback?.(...args);
+    });
   }
 
   private getSnowplowMetadata(metadata?: EventMetadata): Partial<SnowplowMetadata> {

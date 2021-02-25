@@ -4,7 +4,8 @@ import {
   EventOptions,
   EventMetadata,
   Properties,
-  Plugin,
+  RequestLoggerPlugin,
+  PluginLoadOptions,
 } from '@itly/sdk';
 import Amplitude, { AmplitudeOptions, AmplitudeIdentifyResponse, AmplitudeTrackResponse } from 'amplitude';
 
@@ -22,7 +23,7 @@ export interface AmplitudeMetadata {
 /**
  * Amplitude Node Plugin for Iteratively SDK
  */
-export class AmplitudePlugin extends Plugin {
+export class AmplitudePlugin extends RequestLoggerPlugin {
   private amplitude?: Amplitude;
 
   constructor(
@@ -43,30 +44,41 @@ export class AmplitudePlugin extends Plugin {
   //     }
   // }
 
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     this.amplitude = new Amplitude(this.apiKey, this.options);
   }
 
   async identify(userId: string, properties?: Properties, options?: EventOptions) {
     const { callback } = this.getAmplitudeMetadata(options?.metadata);
-    const response = await this.amplitude!.identify({
+    const payload = {
       user_id: userId,
       user_properties: properties,
-    });
-    if (callback) {
-      callback(response);
+    };
+    const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
+    try {
+      const response = await this.amplitude!.identify(payload);
+      responseLogger.success(response);
+      callback?.(response);
+    } catch (e) {
+      responseLogger.error(e.toString());
     }
   }
 
   async track(userId: string, { name, properties, metadata }: Event) {
     const { callback } = this.getAmplitudeMetadata(metadata);
-    const response = await this.amplitude!.track({
+    const payload = {
       event_type: name,
       user_id: userId,
       event_properties: properties,
-    });
-    if (callback) {
-      callback(response);
+    };
+    const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
+    try {
+      const response = await this.amplitude!.track(payload);
+      responseLogger.success(JSON.stringify(response));
+      callback?.(response);
+    } catch (e) {
+      responseLogger.error(e.toString());
     }
   }
 

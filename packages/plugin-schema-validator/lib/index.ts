@@ -1,9 +1,9 @@
-
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import Ajv from 'ajv';
 import {
   Event,
   Plugin,
+  PluginLoadOptions,
   ValidationResponse,
 } from '@itly/sdk';
 

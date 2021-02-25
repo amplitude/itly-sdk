@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, EventMetadata, EventOptions, Properties, Plugin,
+  Event, EventMetadata, EventOptions, Properties, RequestLoggerPlugin, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type SegmentOptions = {};
@@ -21,7 +21,7 @@ export interface SegmentMetadata {
 /**
  * Segment Browser Plugin for Iteratively SDK
  */
-export class SegmentPlugin extends Plugin {
+export class SegmentPlugin extends RequestLoggerPlugin {
   get segment(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -35,7 +35,8 @@ export class SegmentPlugin extends Plugin {
     super('segment');
   }
 
-  load() {
+  load(options: PluginLoadOptions) {
+    super.load(options);
     if (!this.segment) {
       // Segment (https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/)
       // @ts-ignore
@@ -47,31 +48,54 @@ export class SegmentPlugin extends Plugin {
 
   alias(userId: string, previousId: string | undefined, options?: EventOptions) {
     const { callback, options: segmentOptions } = this.getSegmentMetadata(options?.metadata);
-    this.segment.alias(userId, previousId, segmentOptions, callback);
+    const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
+    this.segment.alias(userId, previousId, segmentOptions, (...args: any[]) => {
+      responseLogger.success(`done ${args}`);
+      callback?.(args);
+    });
   }
 
   identify(userId: string | undefined, properties?: Properties, options?: EventOptions) {
     const { callback, options: segmentOptions } = this.getSegmentMetadata(options?.metadata);
+    const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
     if (userId) {
-      this.segment.identify(userId, properties, segmentOptions, callback);
+      this.segment.identify(userId, properties, segmentOptions, (...args: any[]) => {
+        responseLogger.success(`done ${args}`);
+        callback?.(args);
+      });
     } else {
-      this.segment.identify(properties, segmentOptions, callback);
+      this.segment.identify(properties, segmentOptions, (...args: any[]) => {
+        responseLogger.success(`done ${args}`);
+        callback?.(args);
+      });
     }
   }
 
   group(userId: string | undefined, groupId: string, properties?: Properties, options?: EventOptions) {
     const { callback, options: segmentOptions } = this.getSegmentMetadata(options?.metadata);
-    this.segment.group(groupId, properties, segmentOptions, callback);
+    const responseLogger = this.logger!.logRequest('group', `${userId}, ${groupId}, ${JSON.stringify(properties)}`);
+    this.segment.group(groupId, properties, segmentOptions, (...args: any[]) => {
+      responseLogger.success(`done ${args}`);
+      callback?.(args);
+    });
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties, options?: EventOptions) {
     const { callback, options: segmentOptions } = this.getSegmentMetadata(options?.metadata);
-    this.segment.page(category, name, properties, segmentOptions, callback);
+    const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
+    this.segment.page(category, name, properties, segmentOptions, (...args: any[]) => {
+      responseLogger.success(`done ${args}`);
+      callback?.(args);
+    });
   }
 
   track(userId: string | undefined, { name, properties, metadata }: Event) {
     const { callback, options } = this.getSegmentMetadata(metadata);
-    this.segment.track(name, properties, options, callback);
+    const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
+    this.segment.track(name, properties, options, (...args: any[]) => {
+      responseLogger.success(`done ${args}`);
+      callback?.(args);
+    });
   }
 
   reset() {

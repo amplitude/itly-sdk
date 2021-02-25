@@ -1,40 +1,5 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, max-classes-per-file */
 
-export interface Options {
-  /**
-   * The current environment (development or production). Default is development.
-   */
-  environment?: Environment;
-  /**
-   * Whether calls to the Itly SDK should be no-ops. Default is false.
-   */
-  disabled?: boolean;
-  /**
-   * Extend the Itly SDK by adding plugins for common analytics trackers, validation and more.
-   */
-  plugins?: Plugin[];
-  /**
-   * Configure validation handling. Default is to track invalid events in production, but throw in other environments.
-   */
-  validation?: ValidationOptions;
-  /**
-   * Logger. Default is no logging.
-   */
-  logger?: Logger;
-}
-
-export interface LoadOptions extends Options {
-  /**
-   * Additional context properties to add to all events.
-   */
-  context?: Properties,
-}
-
-export type PluginLoadOptions = {
-  environment: Environment;
-  logger: Logger;
-}
-
 export type Environment = 'development' | 'production';
 
 export type Properties = {
@@ -73,6 +38,11 @@ export interface Logger {
   info(message: string): void;
   warn(message: string): void;
   error(message: string): void;
+}
+
+export type PluginLoadOptions = {
+  environment: Environment;
+  logger: Logger;
 }
 
 export abstract class Plugin {
@@ -147,6 +117,36 @@ export abstract class Plugin {
   protected getPluginMetadata<T>(metadata?: EventMetadata): Partial<T> {
     return (metadata?.[this.id] ?? {}) as Partial<T>;
   }
+}
+
+export interface Options {
+  /**
+   * The current environment (development or production). Default is development.
+   */
+  environment?: Environment;
+  /**
+   * Whether calls to the Itly SDK should be no-ops. Default is false.
+   */
+  disabled?: boolean;
+  /**
+   * Extend the Itly SDK by adding plugins for common analytics trackers, validation and more.
+   */
+  plugins?: Plugin[];
+  /**
+   * Configure validation handling. Default is to track invalid events in production, but throw in other environments.
+   */
+  validation?: ValidationOptions;
+  /**
+   * Logger. Default is no logging.
+   */
+  logger?: Logger;
+}
+
+export interface LoadOptions extends Options {
+  /**
+   * Additional context properties to add to all events.
+   */
+  context?: Properties,
 }
 
 const DEFAULT_DEV_VALIDATION_OPTIONS: ValidationOptions = {
