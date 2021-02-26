@@ -1,0 +1,39 @@
+{
+  "name": "@itly/plugin-braze-node",
+  "version": "2.0.1",
+  "description": "Braze Node Plugin for Iteratively SDK",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
+    "test": "echo \"Error: no test specified\""
+  },
+  "files": [
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
+  "keywords": [
+    "itly",
+    "sdk",
+    "iteratively",
+    "braze"
+  ],
+  "author": "Iteratively",
+  "license": "ISC",
+  "devDependencies": {
+    "@itly/sdk": "2.0.1",
+    "@types/node-fetch": "^2.5.8",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "peerDependencies": {
+    "@itly/sdk": "^2.0.0"
+  }
+}
