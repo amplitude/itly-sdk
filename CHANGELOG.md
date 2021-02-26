@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.1...v2.0.2) (2021-02-26)
+
+
+### Bug Fixes
+
+* actualized path to 'dist' import path ([e7c221e](https://github.com/iterativelyhq/itly-sdk/commit/e7c221e1fd480794788c39e9f8d19cbc8fdca3ba))
+* added explicit "files" to package.json files ([3ca0c55](https://github.com/iterativelyhq/itly-sdk/commit/3ca0c55b828c66244a26738571aae5dca31425cf))
+* added typed ItlyBrowser and ItlyNode ([77bee56](https://github.com/iterativelyhq/itly-sdk/commit/77bee562676845445e0aa63675990a6c003a3d92))
+* request/response logging is moved to 'internal' sub-folder ([e58fedf](https://github.com/iterativelyhq/itly-sdk/commit/e58fedff3d303e3f66b23066c1426e4f846d4181))
+
+
+### Features
+
+* added base class for plugins that need request/response logging ([f043add](https://github.com/iterativelyhq/itly-sdk/commit/f043add64e59c7662fb251de349e255accb0c477))
+* added ESM support ([c265689](https://github.com/iterativelyhq/itly-sdk/commit/c2656892daddb36459e2a061b553890e616d04c2))
+* added PluginLogger ([2d8c764](https://github.com/iterativelyhq/itly-sdk/commit/2d8c764eab480e9c392545cf1f77fff5753a2e15))
+* log Amplitude requests ([d586e55](https://github.com/iterativelyhq/itly-sdk/commit/d586e551f46211a0b13bf6505ffe62fbc7ddeaf8))
+* log Amplitude successful/failed responses ([f56b268](https://github.com/iterativelyhq/itly-sdk/commit/f56b268b74014b9fd006e6922d7be606a3e407bc))
+* log Iteratively requests ([c907b2a](https://github.com/iterativelyhq/itly-sdk/commit/c907b2a1b8c53ae943c1316c45d29aa0709c0b19))
+* log Mixpanel requests ([cd0afa7](https://github.com/iterativelyhq/itly-sdk/commit/cd0afa7b02702ee2567717ad736ed56443359a24))
+* log Mparticle requests ([fb5b067](https://github.com/iterativelyhq/itly-sdk/commit/fb5b0677fb1c41fd04e82414c9ef22a9364d6f50))
+* log Segment (Browser) requests ([2a637d8](https://github.com/iterativelyhq/itly-sdk/commit/2a637d8fc518f3d5cdd8d34bbcbfdf0428989e9b))
+* log Segment (Node) requests ([adb136a](https://github.com/iterativelyhq/itly-sdk/commit/adb136a650c1be36410e1d2daea594f38d3462f7))
+* log Snowplow requests ([f92cd05](https://github.com/iterativelyhq/itly-sdk/commit/f92cd058aacdac0379b6959d26c7314e07d19092))
+
+
+
+
+
 ## [2.0.1](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.0...v2.0.1) (2021-02-02)
 
 
