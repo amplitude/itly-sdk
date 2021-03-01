@@ -294,13 +294,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@itly/mparticle-web-sdk@^2.11.15":
-  version "2.11.15"
-  resolved "https://registry.yarnpkg.com/@itly/mparticle-web-sdk/-/mparticle-web-sdk-2.11.15.tgz#40cc91d007e3e2b7ae3632e87bd7522df9ed9d15"
-  integrity sha512-TLpNwg/TCXNPS7WPDatW1923r94kdddG55H7DqFHHaJzPl3wyMkugN5U3CJRJ+1vOpUNiFujN2vxNW3P/QqIWg==
-  dependencies:
-    "@babel/runtime" "^7.6.0"
-    slugify "^1.3.6"
+"@itly/sdk@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@itly/sdk/-/sdk-2.0.2.tgz#e08df3305e48602324904ee3b3dd28357e2e001e"
+  integrity sha512-RuKDysIkEoW2Q5VgFnCXfnIqeBEUACSa0DGorqbie4Dk5c57OMKfnxg1EPVVjhOWlmw2ND+ejdwRhdnXPcMXjA==
 
 "@jest/console@^26.3.0":
   version "26.3.0"
@@ -482,6 +479,14 @@
     "@types/node" "*"
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
+
+"@mparticle/web-sdk@^2.12.5":
+  version "2.12.5"
+  resolved "https://registry.yarnpkg.com/@mparticle/web-sdk/-/web-sdk-2.12.5.tgz#e0af4473275717085e46d8bcacb68eb241788182"
+  integrity sha512-g1Vud+ooB1WYvwP3m1laUzQIEmHMtfnbmqMOD8OYPtitFitKbh+ac+uPNZSSxH1a7SkKJaEyt1r07KY8ejr67Q==
+  dependencies:
+    "@babel/runtime" "^7.6.0"
+    slugify "^1.3.6"
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.1"

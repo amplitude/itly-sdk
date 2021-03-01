@@ -33,7 +33,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@itly/mparticle-web-sdk": "^2.11.15"
+    "@mparticle/web-sdk": "^2.12.5"
   },
   "peerDependencies": {
     "@itly/sdk": "^2.0.0"

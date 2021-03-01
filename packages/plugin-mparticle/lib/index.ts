@@ -4,7 +4,7 @@
 import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions, Logger,
 } from '@itly/sdk';
-import Mparticle from '@itly/mparticle-web-sdk';
+import Mparticle from '@mparticle/web-sdk';
 
 export type MparticleOptions = {
   isDevelopmentMode?: boolean,
@@ -34,8 +34,6 @@ class MparticleLogger {
  * mParticle Browser Plugin for Iteratively SDK
  */
 export class MparticlePlugin extends RequestLoggerPlugin {
-  private $itly = 'audit';
-
   private mparticle?: any;
 
   constructor(
@@ -70,10 +68,7 @@ export class MparticlePlugin extends RequestLoggerPlugin {
     this.mparticle.logEvent(
       event.name,
       Mparticle.EventType.Other,
-      {
-        $itly: this.$itly,
-        ...event.properties,
-      },
+      event.properties,
     );
   }
 }
