@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
+/* eslint-disable no-unused-vars */
 import fetch from 'node-fetch';
 import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
