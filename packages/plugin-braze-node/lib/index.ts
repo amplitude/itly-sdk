@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import fetch from 'node-fetch';
 import {
-  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
 } from '@itly/sdk';
 
 export type BrazeOptions = {
@@ -28,12 +28,35 @@ export class BrazePlugin extends RequestLoggerPlugin {
   }
 
   async identify(userId: string, properties?: Properties) {
-    const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
+    const responseLogger = this.logger.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
+    const eventProperties = BrazePlugin.toBrazeProperties(properties);
+    await this.postTrackerRequest(responseLogger, {
+      attributes: [
+        {
+          ...eventProperties,
+          external_id: userId,
+        },
+      ],
+    });
+  }
 
-    const eventProperties = properties != null
-      ? Object.fromEntries(Object.entries(properties).map(([key, value]) => [key, BrazePlugin.valueForAPI(value)]))
-      : properties;
+  async track(userId: string, { name, properties }: Event) {
+    const responseLogger = this.logger.logRequest('identify', `${userId}, ${name}, ${JSON.stringify(properties)}`);
+    const eventProperties = BrazePlugin.toBrazeProperties(properties);
+    await this.postTrackerRequest(responseLogger, {
+      events: [
+        {
+          ...eventProperties,
+          name,
+          external_id: userId,
+          time: new Date().toISOString(),
+          _update_existing_only: true,
+        },
+      ],
+    });
+  }
 
+  private async postTrackerRequest(responseLogger: ResponseLogger, body: any) {
     try {
       const response = await fetch(this.userTrackUrl, {
         method: 'post',
@@ -41,14 +64,7 @@ export class BrazePlugin extends RequestLoggerPlugin {
           authorization: `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          attributes: [
-            {
-              ...eventProperties,
-              external_id: userId,
-            },
-          ],
-        }),
+        body: JSON.stringify(body),
       });
       if (response.status < 300) {
         responseLogger.success('success');
@@ -60,40 +76,10 @@ export class BrazePlugin extends RequestLoggerPlugin {
     }
   }
 
-  async track(userId: string, { name, properties }: Event) {
-    const responseLogger = this.logger!.logRequest('identify', `${userId}, ${name}, ${JSON.stringify(properties)}`);
-
-    const eventProperties = properties != null
+  private static toBrazeProperties(properties: Properties | undefined): Record<string, any> | undefined {
+    return properties != null
       ? Object.fromEntries(Object.entries(properties).map(([key, value]) => [key, BrazePlugin.valueForAPI(value)]))
       : properties;
-
-    try {
-      const response = await fetch(this.userTrackUrl, {
-        method: 'post',
-        headers: {
-          authorization: `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          events: [
-            {
-              ...eventProperties,
-              name,
-              external_id: userId,
-              time: new Date().toISOString(),
-              _update_existing_only: true,
-            },
-          ],
-        }),
-      });
-      if (response.status < 300) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.success(`unexpected status code: ${response.status}`);
-      }
-    } catch (e) {
-      responseLogger.error(e.toString());
-    }
   }
 
   private static valueForAPI(value: any): any {
