@@ -17,9 +17,7 @@ export type SnowplowCallback = (...args: any[]) => void;
 
 export interface SnowplowCallOptions {
   callback?: SnowplowCallback;
-  options?: {
-    contexts?: SnowplowContext[];
-  },
+  contexts?: SnowplowContext[];
 }
 export interface SnowplowAliasOptions extends SnowplowCallOptions {}
 export interface SnowplowIdentifyOptions extends SnowplowCallOptions {}
@@ -60,19 +58,19 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties, options?: PageOptions) {
-    const { callback, options: snowplowOptions } = this.getPluginCallOptions<SnowplowPageOptions>(options);
+    const { callback, contexts } = this.getPluginCallOptions<SnowplowPageOptions>(options);
     const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
-    this.snowplow('trackPageView', name, undefined, snowplowOptions?.contexts, undefined, this.wrapCallback(responseLogger, callback));
+    this.snowplow('trackPageView', name, undefined, contexts, undefined, this.wrapCallback(responseLogger, callback));
   }
 
   track(userId: string | undefined, { name, properties, version }: Event, options?: TrackOptions) {
     const schemaVer = version && version.replace(/\./g, '-');
-    const { callback, options: snowplowOptions } = this.getPluginCallOptions<SnowplowTrackOptions>(options);
+    const { callback, contexts } = this.getPluginCallOptions<SnowplowTrackOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
     this.snowplow('trackSelfDescribingEvent', {
       schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
       data: properties,
-    }, snowplowOptions?.contexts, undefined, this.wrapCallback(responseLogger, callback));
+    }, contexts, undefined, this.wrapCallback(responseLogger, callback));
   }
 
   private wrapCallback(responseLogger: ResponseLogger, callback: SnowplowCallback | undefined) {

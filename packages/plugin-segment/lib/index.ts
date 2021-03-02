@@ -8,7 +8,8 @@ import {
   TrackOptions,
   Properties,
   RequestLoggerPlugin,
-  PluginLoadOptions, ResponseLogger,
+  PluginLoadOptions,
+  ResponseLogger,
 } from '@itly/sdk';
 
 export type SegmentOptions = {};

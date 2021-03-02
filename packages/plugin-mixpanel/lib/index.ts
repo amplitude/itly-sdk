@@ -64,7 +64,7 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
   track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
     const { callback } = this.getPluginCallOptions<MixpanelTrackOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
-    this.mixpanel.track(name, properties, this.wrapCallback(responseLogger, callback));
+    this.mixpanel.track(name, { ...properties }, this.wrapCallback(responseLogger, callback));
   }
 
   reset() {

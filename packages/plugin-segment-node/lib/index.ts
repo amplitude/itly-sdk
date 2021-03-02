@@ -8,7 +8,8 @@ import {
   GroupOptions,
   PageOptions,
   TrackOptions,
-  Properties, ResponseLogger,
+  Properties,
+  ResponseLogger,
 } from '@itly/sdk';
 import Segment from 'analytics-node';
 
@@ -67,7 +68,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     const payload = {
       ...segmentOptions,
       userId,
-      traits: properties,
+      traits: { ...properties },
     };
     const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
     this.segment!.identify(payload, this.wrapCallback(responseLogger, callback));
@@ -110,7 +111,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       ...segmentOptions,
       userId,
       event: name,
-      properties,
+      properties: { ...properties },
     };
     const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
     this.segment!.track(payload, this.wrapCallback(responseLogger, callback));
