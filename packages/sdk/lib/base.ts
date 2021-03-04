@@ -550,10 +550,16 @@ export class Itly {
         this.logger.error(`Error in ${plugin.id}.${op}(). ${e.message}.`);
       }
     });
+    let timeout;
     await Promise.race([
       Promise.all(promises),
-      new Promise((resolve) => setTimeout(resolve, 3000)),
+      new Promise((resolve) => {
+        timeout = setTimeout(resolve, 3000);
+      }),
     ]);
+    if (timeout) {
+      clearTimeout(timeout);
+    }
   }
 
   private capitalize(str: string) {
