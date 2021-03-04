@@ -66,4 +66,8 @@ export class FirebasePlugin extends RequestLoggerPlugin {
       responseLogger.error(e.toString());
     }
   }
+
+  async reset() {
+    await analytics().setUserId(null);
+  }
 }
