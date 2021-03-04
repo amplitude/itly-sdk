@@ -32,9 +32,6 @@
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.3"
   },
-  "dependencies": {
-    "@mparticle/web-sdk": "^2.12.5"
-  },
   "peerDependencies": {
     "@itly/sdk": "^2.0.0"
   }
