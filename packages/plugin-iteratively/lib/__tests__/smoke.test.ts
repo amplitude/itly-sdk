@@ -67,7 +67,7 @@ test.each([
   }).not.toThrow();
 });
 
-test('should not post if on production', () => {
+test('should not post if on production', async () => {
   const environment = 'production';
 
   const iterativelyPlugin = new IterativelyPlugin(
@@ -84,7 +84,7 @@ test('should not post if on production', () => {
     plugins: [iterativelyPlugin],
   });
 
-  itly!.track(defaultTestEvent);
+  await itly!.track(defaultTestEvent);
 
   expect(fetch).not.toBeCalled();
 });
@@ -114,7 +114,7 @@ test('should post when flushAt reached', async () => {
     },
   }));
 
-  events.forEach((event) => itly!.track(event));
+  await Promise.all(events.map((event) => itly!.track(event)));
 
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
@@ -163,7 +163,7 @@ test('should post in flushInterval', async () => {
   }));
 
   for (let i = 0; i < events.length; i += 1) {
-    itly!.track(events[i]);
+    await itly!.track(events[i]);
     await wait(flushInterval / 2);
   }
 
@@ -213,7 +213,7 @@ test('should post on explicit flush()', async () => {
   }));
 
   for (let i = 0; i < events.length; i += 1) {
-    itly!.track(events[i]);
+    await itly!.track(events[i]);
   }
 
   await itly!.flush();
@@ -265,7 +265,7 @@ test('should omit event properties if configured', async () => {
     },
   };
 
-  itly!.track(event);
+  await itly!.track(event);
 
   expect(fetch).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);

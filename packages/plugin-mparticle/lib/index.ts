@@ -60,11 +60,11 @@ export class MparticlePlugin extends RequestLoggerPlugin {
     }
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties) {
+  async page(userId?: string, category?: string, name?: string, properties?: Properties): Promise<void> {
     this.mparticle.logPageView(name, properties);
   }
 
-  track(userId: string | undefined, { name, properties }: Event) {
+  async track(userId: string | undefined, { name, properties }: Event): Promise<void> {
     this.mparticle.logEvent(
       name,
       Mparticle.EventType.Other,

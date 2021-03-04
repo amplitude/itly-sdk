@@ -51,7 +51,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     this.amplitude = new Amplitude(this.apiKey, this.options);
   }
 
-  async identify(userId: string, properties?: Properties, options?: IdentifyOptions) {
+  async identify(userId: string, properties?: Properties, options?: IdentifyOptions): Promise<void> {
     const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
     const payload = {
       user_id: userId,
@@ -64,10 +64,11 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       callback?.(response);
     } catch (e) {
       responseLogger.error(e.toString());
+      throw e;
     }
   }
 
-  async track(userId: string, { name, properties }: Event, options?: TrackOptions) {
+  async track(userId: string, { name, properties }: Event, options?: TrackOptions): Promise<void> {
     const { callback } = this.getPluginCallOptions<AmplitudeTrackOptions>(options);
     const payload = {
       event_type: name,
@@ -81,6 +82,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       callback?.(response);
     } catch (e) {
       responseLogger.error(e.toString());
+      throw e;
     }
   }
 }

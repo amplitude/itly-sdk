@@ -15,7 +15,7 @@ beforeEach(() => {
 
 const Itly = requireForTestEnv(__dirname);
 
-test('should load and track events to a custom destination (no validation)', () => {
+test('should load and track events to a custom destination (no validation)', async () => {
   const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
   const userId = 'test-user-id';
 
@@ -30,25 +30,25 @@ test('should load and track events to a custom destination (no validation)', () 
     plugins: [new CustomPlugin()],
   });
 
-  itly.identify(undefined, {
+  await itly.identify(undefined, {
     userProp: 1,
   });
 
-  itly.alias(userId);
+  await itly.alias(userId);
 
-  itly.group('a-group-id', {
+  await itly.group('a-group-id', {
     groupProp: 'test value',
   });
 
-  itly.page('page category', 'page name', {
+  await itly.page('page category', 'page name', {
     pageProp: 'a page property',
   });
 
-  itly.track({
+  await itly.track({
     name: 'Event No Properties',
   });
 
-  itly.track({
+  await itly.track({
     name: 'Event With All Properties',
     properties: {
       requiredString: 'A required string',
@@ -63,7 +63,7 @@ test('should load and track events to a custom destination (no validation)', () 
   });
 
   try {
-    itly.track({
+    await itly.track({
       name: 'EventMaxIntForTest',
       properties: {
         intMax10: 20,
@@ -78,7 +78,7 @@ test('should load and track events to a custom destination (no validation)', () 
   consoleSpy.mockRestore();
 });
 
-test('should load and track events with properly merged context', () => {
+test('should load and track events with properly merged context', async () => {
   const testingPlugin = new TestingPlugin();
   const userId = 'test-user-id';
   const context = {
@@ -102,25 +102,25 @@ test('should load and track events with properly merged context', () => {
     plugins: [testingPlugin],
   });
 
-  itly.identify(undefined, {
+  await itly.identify(undefined, {
     userProp: 1,
   });
 
-  itly.alias(userId);
+  await itly.alias(userId);
 
-  itly.group('a-group-id', {
+  await itly.group('a-group-id', {
     groupProp: 'test value',
   });
 
-  itly.page('page category', 'page name', {
+  await itly.page('page category', 'page name', {
     pageProp: 'a page property',
   });
 
-  itly.track({
+  await itly.track({
     name: 'Event No Properties',
   });
 
-  itly.track(new TrackingEvent({
+  await itly.track(new TrackingEvent({
     requiredNumber: 2.0,
     requiredInteger: 42,
     requiredEnum: 'Enum1',
@@ -151,7 +151,7 @@ test('should load and track events with properly merged context', () => {
   expect(testingPlugin.firstOfType(TrackingEvent)).toEqual(trackingEvent);
 });
 
-test('other plugins should continue if another plugin throws errors in callback methods', () => {
+test('other plugins should continue if another plugin throws errors in callback methods', async () => {
   const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
   const itly = new Itly();
 
@@ -177,11 +177,11 @@ test('other plugins should continue if another plugin throws errors in callback 
       dummyPlugin,
     ],
   });
-  itly.identify('tmp-id');
-  itly.alias(id, 'tmp-id');
-  itly.group('group-id');
-  itly.page('category', 'name');
-  itly.track({
+  await itly.identify('tmp-id');
+  await itly.alias(id, 'tmp-id');
+  await itly.group('group-id');
+  await itly.page('category', 'name');
+  await itly.track({
     name: 'my-event',
     properties: {
       prop: 'a value',

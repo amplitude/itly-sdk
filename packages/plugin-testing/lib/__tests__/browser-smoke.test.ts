@@ -43,55 +43,55 @@ beforeEach(() => {
 });
 
 describe('TestingPlugin/browser', () => {
-  it('plugin.all', () => {
+  it('plugin.all', async () => {
     const dataSearchedEvent1 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent2 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent3 = new DataSearchedEvent({ page: 'Stream' });
 
-    itly.track(dataSearchedEvent1);
-    itly.track(dataSearchedEvent2);
-    itly.track(dataSearchedEvent3);
+    await itly.track(dataSearchedEvent1);
+    await itly.track(dataSearchedEvent2);
+    await itly.track(dataSearchedEvent3);
 
     expect(testingPlugin.all()).toHaveLength(3);
     expect(testingPlugin.all()).toEqual([dataSearchedEvent1, dataSearchedEvent2, dataSearchedEvent3]);
   });
 
-  it('plugin.ofType', () => {
+  it('plugin.ofType', async () => {
     const dataSearchedEvent1 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent2 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent3 = new DataSearchedEvent({ page: 'Stream' });
 
-    itly.track(dataSearchedEvent1);
-    itly.track(dataSearchedEvent2);
-    itly.track(dataSearchedEvent3);
+    await itly.track(dataSearchedEvent1);
+    await itly.track(dataSearchedEvent2);
+    await itly.track(dataSearchedEvent3);
 
     expect(testingPlugin.ofType(DataSearchedEvent)).toHaveLength(3);
     // eslint-disable-next-line max-len
     expect(testingPlugin.ofType(DataSearchedEvent)).toEqual([dataSearchedEvent1, dataSearchedEvent2, dataSearchedEvent3]);
   });
 
-  it('plugin.firstOfType', () => {
+  it('plugin.firstOfType', async () => {
     const dataSearchedEvent = new DataSearchedEvent({ page: 'Stream' });
     const dataFilteredEvent = new DataFilteredEvent({ page: 'Stream' });
     const streamPausedEvent = new StreamPausedEvent();
 
-    itly.track(dataSearchedEvent);
-    itly.track(dataFilteredEvent);
-    itly.track(streamPausedEvent);
+    await itly.track(dataSearchedEvent);
+    await itly.track(dataFilteredEvent);
+    await itly.track(streamPausedEvent);
 
     expect(testingPlugin.firstOfType(StreamPausedEvent)).toEqual(streamPausedEvent);
   });
 
-  it('plugin.reset', () => {
+  it('plugin.reset', async () => {
     const dataSearchedEvent1 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent2 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent3 = new DataSearchedEvent({ page: 'Stream' });
 
-    [
+    await Promise.all([
       dataSearchedEvent1,
       dataSearchedEvent2,
       dataSearchedEvent3,
-    ].forEach((ev) => itly.track(ev));
+    ].map((ev) => itly.track(ev)));
 
     expect(testingPlugin.all()).toHaveLength(3);
     expect(testingPlugin.all()).toEqual([dataSearchedEvent1, dataSearchedEvent2, dataSearchedEvent3]);

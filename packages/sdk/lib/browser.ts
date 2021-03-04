@@ -59,7 +59,7 @@ export class Itly {
       userId = undefined;
     }
 
-    this.itly.identify(userId, identifyProperties, options);
+    return this.itly.identify(userId, identifyProperties, options);
   }
 
   /**

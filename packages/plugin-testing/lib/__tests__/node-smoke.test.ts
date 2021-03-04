@@ -47,13 +47,15 @@ beforeEach(() => {
 });
 
 describe('TestingPlugin/node', () => {
-  it('plugin.all', () => {
+  it('plugin.all', async () => {
     const userId = 'user1';
     const dataSearchedEvent1 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent2 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent3 = new DataSearchedEvent({ page: 'Stream' });
 
-    [dataSearchedEvent1, dataSearchedEvent2, dataSearchedEvent3].forEach((ev) => itly.track(userId, ev));
+    await Promise.all([dataSearchedEvent1, dataSearchedEvent2, dataSearchedEvent3].map(
+      (ev) => itly.track(userId, ev),
+    ));
 
     expect(testingPlugin.all()).toHaveLength(3);
     expect(testingPlugin.all(userId)).toHaveLength(3);
@@ -69,15 +71,17 @@ describe('TestingPlugin/node', () => {
     expect(testingPlugin.all('random')).toEqual([]);
   });
 
-  it('plugin.ofType', () => {
+  it('plugin.ofType', async () => {
     const userId = 'user1';
     const userId2 = 'user2';
     const dataSearchedEvent1 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent2 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent3 = new DataSearchedEvent({ page: 'Stream' });
 
-    [dataSearchedEvent1, dataSearchedEvent2].forEach((ev) => itly.track(userId, ev));
-    itly.track(userId2, dataSearchedEvent3);
+    await Promise.all([dataSearchedEvent1, dataSearchedEvent2].map(
+      (ev) => itly.track(userId, ev),
+    ));
+    await itly.track(userId2, dataSearchedEvent3);
 
     expect(testingPlugin.ofType(DataSearchedEvent)).toHaveLength(3);
     // eslint-disable-next-line max-len
@@ -87,7 +91,7 @@ describe('TestingPlugin/node', () => {
     expect(testingPlugin.ofType(DataSearchedEvent, 'random')).toEqual([]);
   });
 
-  it('plugin.firstOfType', () => {
+  it('plugin.firstOfType', async () => {
     const userId1 = 'user1';
     const userId2 = 'user2';
     const userId3 = 'user3';
@@ -95,9 +99,9 @@ describe('TestingPlugin/node', () => {
     const dataFilteredEvent = new DataFilteredEvent({ page: 'Stream' });
     const streamPausedEvent = new StreamPausedEvent();
 
-    itly.track(userId1, dataSearchedEvent);
-    itly.track(userId2, dataFilteredEvent);
-    itly.track(userId3, streamPausedEvent);
+    await itly.track(userId1, dataSearchedEvent);
+    await itly.track(userId2, dataFilteredEvent);
+    await itly.track(userId3, streamPausedEvent);
 
     expect(testingPlugin.firstOfType(StreamPausedEvent)).toEqual(streamPausedEvent);
     expect(testingPlugin.firstOfType(StreamPausedEvent, userId3)).toEqual(streamPausedEvent);
@@ -105,13 +109,15 @@ describe('TestingPlugin/node', () => {
     expect(testingPlugin.firstOfType(DataSearchedEvent, userId2)).toEqual(null);
   });
 
-  it('plugin.reset', () => {
+  it('plugin.reset', async () => {
     const userId = 'user1';
     const dataSearchedEvent1 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent2 = new DataSearchedEvent({ page: 'Stream' });
     const dataSearchedEvent3 = new DataSearchedEvent({ page: 'Stream' });
 
-    [dataSearchedEvent1, dataSearchedEvent2, dataSearchedEvent3].forEach((ev) => itly.track(userId, ev));
+    await Promise.all([dataSearchedEvent1, dataSearchedEvent2, dataSearchedEvent3].map(
+      (ev) => itly.track(userId, ev),
+    ));
 
     expect(testingPlugin.all()).toHaveLength(3);
     expect(testingPlugin.all()).toEqual([

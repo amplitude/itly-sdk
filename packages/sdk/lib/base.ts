@@ -59,9 +59,21 @@ export abstract class Plugin {
     };
   }
 
-  alias(userId: string, previousId: string | undefined, options?: AliasOptions): void {}
+  async alias(
+    userId: string,
+    previousId: string | undefined,
+    options?: AliasOptions,
+  ): Promise<void> {
+    return Promise.resolve();
+  }
 
-  identify(userId: string | undefined, properties: Properties | undefined, options?: IdentifyOptions): void {}
+  async identify(
+    userId: string | undefined,
+    properties: Properties | undefined,
+    options?: IdentifyOptions,
+  ): Promise<void> {
+    return Promise.resolve();
+  }
 
   postIdentify(
     userId: string | undefined,
@@ -69,12 +81,14 @@ export abstract class Plugin {
     validationResponses: ValidationResponse[],
   ): void {}
 
-  group(
+  async group(
     userId: string | undefined,
     groupId: string,
     properties: Properties | undefined,
     options?: GroupOptions,
-  ): void {}
+  ): Promise<void> {
+    return Promise.resolve();
+  }
 
   postGroup(
     userId: string | undefined,
@@ -83,13 +97,15 @@ export abstract class Plugin {
     validationResponses: ValidationResponse[],
   ): void {}
 
-  page(
+  async page(
     userId: string | undefined,
     category: string | undefined,
     name: string | undefined,
     properties: Properties | undefined,
     options?: PageOptions,
-  ): void {}
+  ): Promise<void> {
+    return Promise.resolve();
+  }
 
   postPage(
     userId: string | undefined,
@@ -99,13 +115,15 @@ export abstract class Plugin {
     validationResponses: ValidationResponse[],
   ): void {}
 
-  track(userId: string | undefined, event: Event, options?: TrackOptions): void {}
+  async track(userId: string | undefined, event: Event, options?: TrackOptions): Promise<void> {
+    return Promise.resolve();
+  }
 
   postTrack(userId: string | undefined, event: Event, validationResponses: ValidationResponse[]): void {}
 
   reset(): void {}
 
-  flush(): Promise<void> {
+  async flush(): Promise<void> {
     return Promise.resolve();
   }
 
@@ -249,12 +267,16 @@ export class Itly {
    * @param previousId The user's previous ID.
    * @param options Options for this Alias call.
    */
-  alias(userId: string, previousId?: string, options?: AliasOptions) {
+  async alias(
+    userId: string,
+    previousId?: string,
+    options?: AliasOptions,
+  ): Promise<void> {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
 
-    this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId, options));
+    await this.runOnAllPluginsAsync('alias', (p) => p.alias(userId, previousId, options));
   }
 
   /**
@@ -263,7 +285,11 @@ export class Itly {
    * @param identifyProperties The user's properties.
    * @param options Options for this Identify call.
    */
-  identify(userId: string | undefined, identifyProperties?: Properties, options?: IdentifyOptions) {
+  async identify(
+    userId: string | undefined,
+    identifyProperties?: Properties,
+    options?: IdentifyOptions,
+  ): Promise<void> {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -275,7 +301,7 @@ export class Itly {
       version: '0-0-0',
     };
 
-    this.validateAndRunOnAllPlugins(
+    await this.validateAndRunOnAllPlugins(
       'identify',
       identifyEvent,
       (p, e) => p.identify(userId, identifyProperties, options),
@@ -292,7 +318,12 @@ export class Itly {
    * @param groupProperties The group's properties.
    * @param options Options for this Group call.
    */
-  group(userId: string | undefined, groupId: string, groupProperties?: Properties, options?: GroupOptions) {
+  async group(
+    userId: string | undefined,
+    groupId: string,
+    groupProperties?: Properties,
+    options?: GroupOptions,
+  ): Promise<void> {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -304,7 +335,7 @@ export class Itly {
       version: '0-0-0',
     };
 
-    this.validateAndRunOnAllPlugins(
+    await this.validateAndRunOnAllPlugins(
       'group',
       groupEvent,
       (p, e) => p.group(userId, groupId, groupProperties, options),
@@ -322,12 +353,12 @@ export class Itly {
    * @param pageProperties The page's properties.
    * @param options Options for this Page call.
    */
-  page(
+  async page(
     userId: string | undefined,
     category: string, name: string,
     pageProperties?: Properties,
     options?: PageOptions,
-  ) {
+  ): Promise<void> {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -339,7 +370,7 @@ export class Itly {
       version: '0-0-0',
     };
 
-    this.validateAndRunOnAllPlugins(
+    await this.validateAndRunOnAllPlugins(
       'page',
       pageEvent,
       (p, e) => p.page(userId, category, name, pageProperties, options),
@@ -359,14 +390,18 @@ export class Itly {
    * @param event.version The event's version.
    * @param options Options for this Track call.
    */
-  track(userId: string | undefined, event: Event, options?: TrackOptions) {
+  async track(
+    userId: string | undefined,
+    event: Event,
+    options?: TrackOptions,
+  ): Promise<void> {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
 
     const mergedEvent = this.mergeContext(event, this.context);
 
-    this.validateAndRunOnAllPlugins(
+    await this.validateAndRunOnAllPlugins(
       'track',
       event,
       (p, e) => p.track(userId, mergedEvent, options),
@@ -384,7 +419,7 @@ export class Itly {
     this.runOnAllPlugins('reset', (p) => p.reset());
   }
 
-  async flush() {
+  async flush(): Promise<void> {
     const flushPromises = this.plugins.map(async (plugin) => {
       try {
         await plugin.flush();
@@ -427,13 +462,13 @@ export class Itly {
     return !this.options.disabled;
   }
 
-  private validateAndRunOnAllPlugins(
+  private async validateAndRunOnAllPlugins(
     op: string,
     event: Event,
-    method: (plugin: Plugin, event: Event) => any,
+    method: (plugin: Plugin, event: Event) => Promise<void>,
     postMethod: (plugin: Plugin, event: Event, validationResponses: ValidationResponse[]) => any,
     context?: Properties,
-  ): void {
+  ): Promise<void> {
     // #1 validation phase
     let shouldRun = true;
 
@@ -450,9 +485,9 @@ export class Itly {
     // #2 track phase
     // invoke track(), group(), identify(), page() on every plugin if allowed
     if (shouldRun) {
-      this.runOnAllPlugins(op, (p) => {
+      await this.runOnAllPluginsAsync(op, async (p) => {
         if (this.canRunEventOnPlugin(event, p)) {
-          method(p, event);
+          await method(p, event);
         }
       });
     }
@@ -505,6 +540,20 @@ export class Itly {
         this.logger.error(`Error in ${plugin.id}.${op}(). ${e.message}.`);
       }
     });
+  }
+
+  private async runOnAllPluginsAsync(op: string, method: (p: Plugin) => Promise<void>): Promise<void> {
+    const promises = this.plugins.map(async (plugin) => {
+      try {
+        await method(plugin);
+      } catch (e) {
+        this.logger.error(`Error in ${plugin.id}.${op}(). ${e.message}.`);
+      }
+    });
+    await Promise.race([
+      Promise.all(promises),
+      new Promise((resolve) => setTimeout(resolve, 3000)),
+    ]);
   }
 
   private capitalize(str: string) {

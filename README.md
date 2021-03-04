@@ -203,19 +203,19 @@ import { ItlyNode as Itly } from '@itly/sdk';
 
       load(options: PluginLoadOptions): void {...}
 
-      alias(userId: string, previousId?: string): void {...}
+      async alias(userId: string, previousId?: string): Promise<void> {...}
 
-      group(userId: string | undefined, groupId: string, properties?: Properties): void {...}
+      async group(userId: string | undefined, groupId: string, properties?: Properties): Promise<void> {...}
 
-      identify(userId?: string, properties?: Properties): void {...}
+      async identify(userId?: string, properties?: Properties): Promise<void> {...}
 
-      page(userId?: string, category?: string, name?: string, properties?: Properties): void {...}
+      async page(userId?: string, category?: string, name?: string, properties?: Properties): Promise<void> {...}
 
       reset(): void {...}
 
-      flush(): void {...}
+      async flush(): Promise<void> {...}
 
-      track(userId: string | undefined, event: ItlyEvent): void {...}
+      async track(userId: string | undefined, event: ItlyEvent): Promise<void> {...}
 
       validate(event: Event): ValidationResponse {...}
     }

@@ -60,23 +60,23 @@ export class TestingPlugin extends Plugin implements ITestingPlugin {
     return tuple ? this.mapMethodArgs(tuple) : null;
   }
 
-  alias(...args: any[]) {
+  async alias(...args: any[]) {
     this.trackCall('alias', args);
   }
 
-  identify(...args: any[]) {
+  async identify(...args: any[]) {
     this.trackCall('identify', args);
   }
 
-  group(...args: any[]) {
+  async group(...args: any[]) {
     this.trackCall('group', args);
   }
 
-  page(...args: any[]) {
+  async page(...args: any[]) {
     this.trackCall('page', args);
   }
 
-  track(...args: any[]) {
+  async track(...args: any[]) {
     this.trackCall('track', args);
   }
 

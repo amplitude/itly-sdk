@@ -56,48 +56,127 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     }
   }
 
-  alias(userId: string, previousId: string | undefined, options?: AliasOptions) {
+  async alias(
+    userId: string,
+    previousId: string | undefined,
+    options?: AliasOptions,
+  ): Promise<void> {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentAliasOptions>(options);
     const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
-    this.segment.alias(userId, previousId, segmentOptions, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.segment.alias(
+        userId,
+        previousId,
+        segmentOptions,
+        this.wrapCallback(responseLogger, callback, resolve, reject),
+      );
+    });
   }
 
-  identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions) {
+  async identify(
+    userId: string | undefined,
+    properties?: Properties,
+    options?: IdentifyOptions,
+  ): Promise<void> {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentIdentifyOptions>(options);
     const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
-    if (userId) {
-      this.segment.identify(userId, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
-    } else {
-      this.segment.identify(properties, segmentOptions, this.wrapCallback(responseLogger, callback));
-    }
+    return new Promise((resolve, reject) => {
+      if (userId) {
+        this.segment.identify(
+          userId,
+          properties,
+          segmentOptions,
+          this.wrapCallback(responseLogger, callback, resolve, reject),
+        );
+      } else {
+        this.segment.identify(
+          properties,
+          segmentOptions,
+          this.wrapCallback(responseLogger, callback, resolve, reject),
+        );
+      }
+    });
   }
 
-  group(userId: string | undefined, groupId: string, properties?: Properties, options?: GroupOptions) {
+  async group(
+    userId: string | undefined,
+    groupId: string,
+    properties?: Properties,
+    options?: GroupOptions,
+  ): Promise<void> {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentGroupOptions>(options);
     const responseLogger = this.logger!.logRequest('group', `${userId}, ${groupId}, ${JSON.stringify(properties)}`);
-    this.segment.group(groupId, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.segment.group(
+        groupId,
+        properties,
+        segmentOptions,
+        this.wrapCallback(responseLogger, callback, resolve, reject),
+      );
+    });
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: PageOptions) {
+  async page(
+    userId?: string,
+    category?: string,
+    name?: string,
+    properties?: Properties,
+    options?: PageOptions,
+  ): Promise<void> {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentPageOptions>(options);
     const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
-    this.segment.page(category, name, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.segment.page(
+        category,
+        name,
+        properties,
+        segmentOptions,
+        this.wrapCallback(responseLogger, callback, resolve, reject),
+      );
+    });
   }
 
-  track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
+  async track(
+    userId: string | undefined,
+    { name, properties }: Event,
+    options?: TrackOptions,
+  ): Promise<void> {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentTrackOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
-    this.segment.track(name, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.segment.track(
+        name,
+        properties,
+        segmentOptions,
+        this.wrapCallback(responseLogger, callback, resolve, reject),
+      );
+    });
   }
 
   reset() {
     this.segment.reset();
   }
 
-  private wrapCallback(responseLogger: ResponseLogger, callback: SegmentCallback | undefined) {
+  private wrapCallback(
+    responseLogger: ResponseLogger,
+    callback: SegmentCallback | undefined,
+    resolve: (value?: void) => void,
+    reject: (reason?: any) => void,
+  ) {
     return (...args: any[]) => {
-      responseLogger.success(`done ${args}`);
-      callback?.(args);
+      try {
+        if (args.length === 1 && args[0] instanceof Error) {
+          responseLogger.error(args[0].toString());
+          callback?.(...args);
+          reject(args[0]);
+        } else {
+          responseLogger.success(JSON.stringify(args));
+          callback?.(...args);
+          resolve();
+        }
+      } catch (e) {
+        reject(e);
+      }
     };
   }
 }

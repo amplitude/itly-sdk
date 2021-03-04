@@ -44,11 +44,18 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     }
   }
 
-  alias(userId: string, previousId: string | undefined) {
+  async alias(
+    userId: string,
+    previousId: string | undefined,
+  ): Promise<void> {
     this.mixpanel.alias(userId, previousId);
   }
 
-  identify(userId: string | undefined, properties: Properties | undefined, options?: IdentifyOptions) {
+  async identify(
+    userId: string | undefined,
+    properties: Properties | undefined,
+    options?: IdentifyOptions,
+  ): Promise<void> {
     const { callback } = this.getPluginCallOptions<MixpanelIdentifyOptions>(options);
 
     if (userId) {
@@ -56,25 +63,51 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     }
 
     if (properties) {
-      const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
-      this.mixpanel.people.set(properties, this.wrapCallback(responseLogger, callback));
+      return undefined;
     }
+
+    const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
+    return new Promise((resolve, reject) => {
+      this.mixpanel.people.set(properties, this.wrapCallback(responseLogger, callback, resolve, reject));
+    });
   }
 
-  track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
+  async track(
+    userId: string | undefined,
+    { name, properties }: Event,
+    options?: TrackOptions,
+  ): Promise<void> {
     const { callback } = this.getPluginCallOptions<MixpanelTrackOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
-    this.mixpanel.track(name, { ...properties }, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.mixpanel.track(name, { ...properties }, this.wrapCallback(responseLogger, callback, resolve, reject));
+    });
   }
 
   reset() {
     this.mixpanel.reset();
   }
 
-  private wrapCallback(responseLogger: ResponseLogger, callback: MixpanelCallback | undefined) {
+  private wrapCallback(
+    responseLogger: ResponseLogger,
+    callback: MixpanelCallback | undefined,
+    resolve: (value?: void) => void,
+    reject: (reason?: any) => void,
+  ) {
     return (...args: any[]) => {
-      responseLogger.success(`done: ${JSON.stringify(args)}`);
-      return callback?.(...args);
+      try {
+        if (args.length === 1 && args[0] instanceof Error) {
+          responseLogger.error(args[0].toString());
+          callback?.(...args);
+          reject(args[0]);
+        } else {
+          responseLogger.success(JSON.stringify(args));
+          callback?.(...args);
+          resolve();
+        }
+      } catch (e) {
+        reject(e);
+      }
     };
   }
 }

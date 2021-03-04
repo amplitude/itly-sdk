@@ -106,54 +106,54 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
       context: ctx,
     });
 
-    itly.identify(undefined, identifyProps);
-    itly.identify(tempUserId, identifyProps);
+    await itly.identify(undefined, identifyProps);
+    await itly.identify(tempUserId, identifyProps);
     try {
-      itly.identify(tempUserId);
+      await itly.identify(tempUserId);
     } catch (e) {
       console.log('Caught validation error.', e.message);
     }
     try {
-      itly.identify(tempUserId, {
+      await itly.identify(tempUserId, {
         badProp: 'unsupported property',
       });
     } catch (e) {
       console.log('Caught validation error.', e.message);
     }
 
-    itly.alias(userId);
-    itly.alias(userId, tempUserId);
+    await itly.alias(userId);
+    await itly.alias(userId, tempUserId);
 
     try {
-      itly.group(userId, groupId);
+      await itly.group(userId, groupId);
     } catch (e) {
       console.log('Caught validation error.', e.message);
     }
-    itly.group(userId, groupId, {
+    await itly.group(userId, groupId, {
       requiredBoolean: true,
       optionalString: undefined,
     });
 
     try {
-      itly.page(userId, 'page category 1', 'page name 1');
+      await itly.page(userId, 'page category 1', 'page name 1');
     } catch (e) {
       console.log('Caught validation error.', e.message);
     }
 
     try {
-      itly.page(userId, 'page category 2', 'page name 2', {
+      await itly.page(userId, 'page category 2', 'page name 2', {
         pageProp: 'a page property',
       });
     } catch (e) {
       console.log('Caught validation error.', e.message);
     }
 
-    itly.track(userId, {
+    await itly.track(userId, {
       name: 'Event No Properties',
       properties: {},
     });
 
-    itly.track(userId, {
+    await itly.track(userId, {
       name: 'Event With All Properties',
       properties: {
         requiredString: 'A required string',
@@ -168,7 +168,7 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     });
 
     try {
-      itly.track(userId, {
+      await itly.track(userId, {
         name: 'EventMaxIntForTest',
         properties: {
           intMax10: 20,

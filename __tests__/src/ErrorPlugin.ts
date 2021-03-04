@@ -19,11 +19,11 @@ export default class ErrorPlugin extends Plugin {
     };
   }
 
-  alias(userId: string, previousId: string | undefined): void {
+  async alias(userId: string, previousId: string | undefined): Promise<void> {
     throw new Error('Error in alias().');
   }
 
-  identify(userId: string | undefined, properties: Properties | undefined): void {
+  async identify(userId: string | undefined, properties: Properties | undefined): Promise<void> {
     throw new Error('Error in identify().');
   }
 
@@ -35,7 +35,7 @@ export default class ErrorPlugin extends Plugin {
     throw new Error('Error in postIdentify().');
   }
 
-  group(userId: string | undefined, groupId: string, properties: Properties | undefined): void {
+  async group(userId: string | undefined, groupId: string, properties: Properties | undefined): Promise<void> {
     throw new Error('Error in group().');
   }
 
@@ -48,7 +48,7 @@ export default class ErrorPlugin extends Plugin {
     throw new Error('Error in postGroup().');
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties): void {
+  async page(userId?: string, category?: string, name?: string, properties?: Properties): Promise<void> {
     throw new Error('Error in page().');
   }
 
@@ -62,7 +62,7 @@ export default class ErrorPlugin extends Plugin {
     throw new Error('Error in postPage().');
   }
 
-  track(userId: string | undefined, event: Event): void {
+  async track(userId: string | undefined, event: Event): Promise<void> {
     throw new Error('Error in track().');
   }
 

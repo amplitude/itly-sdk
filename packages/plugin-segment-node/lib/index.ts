@@ -52,7 +52,11 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     this.segment = new Segment(this.writeKey, this.options);
   }
 
-  alias(userId: string, previousId: string, options?: AliasOptions) {
+  async alias(
+    userId: string,
+    previousId: string,
+    options?: AliasOptions,
+  ): Promise<void> {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentAliasOptions>(options);
     const payload = {
       ...segmentOptions,
@@ -60,10 +64,16 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       previousId,
     };
     const responseLogger = this.logger!.logRequest('alias', JSON.stringify(payload));
-    this.segment!.alias(payload, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.segment!.alias(payload, this.wrapCallback(responseLogger, callback, resolve, reject));
+    });
   }
 
-  identify(userId: string, properties: Properties | undefined, options?: IdentifyOptions) {
+  async identify(
+    userId: string,
+    properties: Properties | undefined,
+    options?: IdentifyOptions,
+  ): Promise<void> {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentIdentifyOptions>(options);
     const payload = {
       ...segmentOptions,
@@ -71,10 +81,17 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       traits: { ...properties },
     };
     const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
-    this.segment!.identify(payload, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.segment!.identify(payload, this.wrapCallback(responseLogger, callback, resolve, reject));
+    });
   }
 
-  group(userId: string, groupId: string, properties: Properties | undefined, options?: GroupOptions) {
+  async group(
+    userId: string,
+    groupId: string,
+    properties: Properties | undefined,
+    options?: GroupOptions,
+  ): Promise<void> {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentGroupOptions>(options);
     const payload = {
       ...segmentOptions,
@@ -83,16 +100,18 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       traits: properties,
     };
     const responseLogger = this.logger!.logRequest('group', JSON.stringify(payload));
-    this.segment!.group(payload, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.segment!.group(payload, this.wrapCallback(responseLogger, callback, resolve, reject));
+    });
   }
 
-  page(
+  async page(
     userId: string,
     category: string,
     name: string,
     properties: Properties | undefined,
     options?: PageOptions,
-  ) {
+  ): Promise<void> {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentPageOptions>(options);
     const payload = {
       ...segmentOptions,
@@ -102,10 +121,16 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       properties,
     };
     const responseLogger = this.logger!.logRequest('page', JSON.stringify(payload));
-    this.segment!.page(payload, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.segment!.page(payload, this.wrapCallback(responseLogger, callback, resolve, reject));
+    });
   }
 
-  track(userId: string, { name, properties }: Event, options?: TrackOptions) {
+  async track(
+    userId: string,
+    { name, properties }: Event,
+    options?: TrackOptions,
+  ): Promise<void> {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentTrackOptions>(options);
     const payload = {
       ...segmentOptions,
@@ -114,7 +139,9 @@ export class SegmentPlugin extends RequestLoggerPlugin {
       properties: { ...properties },
     };
     const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
-    this.segment!.track(payload, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.segment!.track(payload, this.wrapCallback(responseLogger, callback, resolve, reject));
+    });
   }
 
   flush() {
@@ -128,14 +155,26 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     });
   }
 
-  private wrapCallback(responseLogger: ResponseLogger, callback: SegmentCallback | undefined) {
+  private wrapCallback(
+    responseLogger: ResponseLogger,
+    callback: SegmentCallback | undefined,
+    resolve: (value?: void) => void,
+    reject: (reason?: any) => void,
+  ) {
     return (err: Error | undefined) => {
-      if (err == null) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.error(err.toString());
+      try {
+        if (err == null) {
+          responseLogger.success('success');
+          callback?.(undefined);
+          resolve();
+        } else {
+          responseLogger.error(err.toString());
+          callback?.(err);
+          reject(err);
+        }
+      } catch (e) {
+        reject(err);
       }
-      callback?.(err);
     };
   }
 }
