@@ -71,3 +71,5 @@ export class FirebasePlugin extends RequestLoggerPlugin {
     await analytics().setUserId(null);
   }
 }
+
+export default FirebasePlugin;
