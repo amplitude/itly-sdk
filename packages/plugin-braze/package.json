@@ -26,13 +26,13 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk": "2.0.1",
+    "@itly/sdk": "^2.0.2",
     "typescript": "^3.9.3"
   },
   "dependencies": {
     "@braze/web-sdk-core": "^3.2.0"
   },
   "peerDependencies": {
-    "@itly/sdk": "^2.0.0"
+    "@itly/sdk": "^2.0.2"
   }
 }
