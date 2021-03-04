@@ -77,3 +77,5 @@ export class BrazePlugin extends RequestLoggerPlugin {
     return (value != null && typeof value === 'object') ? JSON.stringify(value) : value;
   }
 }
+
+export default BrazePlugin;
