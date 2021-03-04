@@ -11,7 +11,7 @@ export type FirebaseOptions = {}
  */
 export class FirebasePlugin extends RequestLoggerPlugin {
   constructor(
-    private readonly options: FirebaseOptions,
+    private readonly options?: FirebaseOptions,
   ) {
     super('firebase');
   }
