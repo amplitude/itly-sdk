@@ -67,9 +67,10 @@ export class BrazePlugin extends RequestLoggerPlugin {
         body: JSON.stringify(body),
       });
       if (response.status < 300) {
-        responseLogger.success('success');
+        responseLogger.success(`${response.status}`);
       } else {
-        responseLogger.success(`unexpected status code: ${response.status}`);
+        const responseBody = await response.text();
+        responseLogger.error(`unexpected status: ${response.status}. ${responseBody}`);
       }
     } catch (e) {
       responseLogger.error(e.toString());

@@ -72,9 +72,9 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
   private sentCallback = (responseLogger: { success: (data?: string) => void, error: (data?: string) => void }) =>
     (statusCode: number, responseBody: string, details: unknown) => {
       if (statusCode >= 200 && statusCode < 300) {
-        responseLogger.success(responseBody);
+        responseLogger.success(`${statusCode}`);
       } else {
-        responseLogger.error(`${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
+        responseLogger.error(`unexpected status: ${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
       }
     };
 }

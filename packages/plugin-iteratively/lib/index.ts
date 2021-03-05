@@ -158,7 +158,7 @@ export class IterativelyPlugin extends RequestLoggerPlugin {
       const objects = this.buffer.splice(0, this.config.batchSize);
       const responseLogger = this.logger!.logRequest('flush', `${objects.length} objects`);
       try {
-        await fetch(this.config.url, {
+        const response = await fetch(this.config.url, {
           method: 'post',
           headers: {
             authorization: `Bearer ${this.apiKey}`,
@@ -168,7 +168,12 @@ export class IterativelyPlugin extends RequestLoggerPlugin {
             objects,
           }),
         });
-        responseLogger.success('success');
+        if (response.status < 300) {
+          responseLogger.success(`${response.status}`);
+        } else {
+          const responseBody = await response.text();
+          responseLogger.error(`unexpected status: ${response.status}. ${responseBody}`);
+        }
       } catch (e) {
         responseLogger.error(e.toString());
       }
