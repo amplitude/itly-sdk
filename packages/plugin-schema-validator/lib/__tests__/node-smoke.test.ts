@@ -4,7 +4,7 @@
  */
 /* eslint-disable no-unused-vars, no-console */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
-import Itly from '@itly/sdk';
+import Itly, { ValidationOptions } from '@itly/sdk';
 import CustomPlugin, { Plugin } from '../../../../__tests__/src/CustomPlugin';
 import {
   TestParams,
@@ -44,11 +44,7 @@ const testParams: TestParams[] = [
     options: {
       environment: 'production',
       plugins,
-      validation: {
-        disabled: false,
-        trackInvalid: true,
-        errorOnInvalid: false,
-      },
+      validation: ValidationOptions.TrackOnInvalid,
     },
   },
   {
@@ -57,11 +53,7 @@ const testParams: TestParams[] = [
     options: {
       environment: 'production',
       plugins,
-      validation: {
-        disabled: false,
-        trackInvalid: false,
-        errorOnInvalid: true,
-      },
+      validation: ValidationOptions.ErrorOnInvalid,
     },
   },
   {
