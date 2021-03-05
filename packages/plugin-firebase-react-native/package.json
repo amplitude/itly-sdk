@@ -1,14 +1,14 @@
 {
-  "name": "@itly/plugin-amplitude-node",
+  "name": "@itly/plugin-firebase-react-native",
   "version": "2.0.3",
-  "description": "Amplitude Node Plugin for Iteratively SDK",
+  "description": "Firebase React Native Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
   "module": "dist/esm/index.js",
   "scripts": {
     "prepublish": "yarn run build",
     "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
-    "test": "echo \"Error: no test specified\""
+    "test": "jest --runInBand"
   },
   "files": [
     "LICENSE",
@@ -21,19 +21,19 @@
     "itly",
     "sdk",
     "iteratively",
-    "amplitude"
+    "plugin"
   ],
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
     "@itly/sdk": "2.0.2",
+    "@react-native-firebase/analytics": "^10.8.1",
+    "@react-native-firebase/app": "^10.8.1",
     "typescript": "^3.9.3"
   },
-  "dependencies": {
-    "amplitude": "^5.1.4"
-  },
   "peerDependencies": {
-    "@itly/sdk": "^2.0.0"
-  },
-  "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
+    "@itly/sdk": "^2.0.0",
+    "@react-native-firebase/analytics": "^10.8.1",
+    "@react-native-firebase/app": "^10.8.1"
+  }
 }

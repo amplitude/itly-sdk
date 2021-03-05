@@ -46,8 +46,6 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
   }
 
   async identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions): Promise<void> {
-    const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
-
     if (userId) {
       this.amplitude.getInstance().setUserId(userId);
     }
@@ -66,6 +64,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
 
     const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
+    const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
     return new Promise((resolve, reject) => {
       this.amplitude.getInstance().identify(
         identifyObject,
