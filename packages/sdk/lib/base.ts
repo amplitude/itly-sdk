@@ -21,11 +21,11 @@ export type Event = {
   version?: string;
 };
 
-export type ValidationOptions = {
-  disabled: boolean;
-  trackInvalid: boolean;
-  errorOnInvalid: boolean;
-};
+export enum Validation {
+  Disabled,
+  TrackOnInvalid,
+  ErrorOnInvalid,
+}
 
 export type ValidationResponse = {
   valid: boolean;
@@ -135,7 +135,7 @@ export interface Options {
   /**
    * Configure validation handling. Default is to track invalid events in production, but throw in other environments.
    */
-  validation?: ValidationOptions;
+  validation?: Validation;
   /**
    * Logger. Default is no logging.
    */
@@ -148,31 +148,6 @@ export interface LoadOptions extends Options {
    */
   context?: Properties,
 }
-
-const DEFAULT_DEV_VALIDATION_OPTIONS: ValidationOptions = {
-  disabled: false,
-  trackInvalid: false,
-  errorOnInvalid: true,
-};
-
-const DEFAULT_PROD_VALIDATION_OPTIONS: ValidationOptions = {
-  ...DEFAULT_DEV_VALIDATION_OPTIONS,
-  trackInvalid: true,
-  errorOnInvalid: false,
-};
-
-const DEFAULT_DEV_OPTIONS: Options = {
-  environment: 'development',
-  plugins: [],
-  validation: DEFAULT_DEV_VALIDATION_OPTIONS,
-  disabled: false,
-};
-
-const DEFAULT_PROD_OPTIONS: Options = {
-  ...DEFAULT_DEV_OPTIONS,
-  environment: 'production',
-  validation: DEFAULT_PROD_VALIDATION_OPTIONS,
-};
 
 export const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.freeze({
   NONE: {
@@ -193,12 +168,26 @@ export const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.free
   },
 });
 
+const DEFAULT_DEV_OPTIONS: Required<Options> = {
+  environment: 'development',
+  plugins: [],
+  validation: Validation.ErrorOnInvalid,
+  disabled: false,
+  logger: LOGGERS.NONE,
+};
+
+const DEFAULT_PROD_OPTIONS: Required<Options> = {
+  ...DEFAULT_DEV_OPTIONS,
+  environment: 'production',
+  validation: Validation.TrackOnInvalid,
+};
+
 export class Itly {
-  private options: Options | undefined = undefined;
+  private options: Required<Options> | undefined = undefined;
 
-  private plugins = DEFAULT_DEV_OPTIONS.plugins!;
+  private plugins = DEFAULT_DEV_OPTIONS.plugins;
 
-  private validationOptions = DEFAULT_DEV_OPTIONS.validation!;
+  private validation = DEFAULT_DEV_OPTIONS.validation;
 
   private logger: Logger = LOGGERS.NONE;
 
@@ -221,10 +210,6 @@ export class Itly {
     this.options = {
       ...(options?.environment === 'production' ? DEFAULT_PROD_OPTIONS : DEFAULT_DEV_OPTIONS),
       ...options,
-      validation: {
-        ...(options?.environment === 'production' ? DEFAULT_PROD_VALIDATION_OPTIONS : DEFAULT_DEV_VALIDATION_OPTIONS),
-        ...options?.validation,
-      },
     };
 
     if (!this.isInitializedAndEnabled()) {
@@ -232,13 +217,13 @@ export class Itly {
     }
 
     this.logger = this.options.logger || this.logger;
-    this.plugins = this.options.plugins!;
-    this.validationOptions = this.options.validation!;
+    this.plugins = this.options.plugins;
+    this.validation = this.options.validation;
     this.context = context;
 
     // invoke load() on every plugin
     this.runOnAllPlugins('load', (p) => p.load({
-      environment: this.options!.environment!,
+      environment: this.options!.environment,
       logger: this.logger,
     }));
   }
@@ -439,12 +424,13 @@ export class Itly {
 
     // invoke validate() on every plugin if required
     let validationResponses: ValidationResponse[] = [];
-    if (!this.validationOptions.disabled) {
+    if (this.validation !== Validation.Disabled) {
       validationResponses = [
         ...this.validate(event),
         ...context ? this.validate(this.getContextEvent(context)) : [],
       ];
-      shouldRun = this.validationOptions.trackInvalid || validationResponses.every((vr) => vr.valid);
+      shouldRun = this.validation === Validation.TrackOnInvalid
+        || validationResponses.every((vr) => vr.valid);
     }
 
     // #2 track phase
@@ -468,7 +454,7 @@ export class Itly {
     );
 
     // #3 response phase
-    if (this.validationOptions.errorOnInvalid) {
+    if (this.validation === Validation.ErrorOnInvalid) {
       const invalidResult = validationResponses.find((vr) => !vr.valid);
       if (invalidResult) {
         throw new Error(`Validation Error: ${invalidResult.message}`);
