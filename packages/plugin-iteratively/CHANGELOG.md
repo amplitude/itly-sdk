@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.3...v2.0.4) (2021-03-08)
+
+
+### Bug Fixes
+
+* log http response statuses ([06691e7](https://github.com/iterativelyhq/itly-sdk/commit/06691e7f70054e66127d57c37656cfd1d018305e))
+
+
+
+
+
 ## [2.0.2](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.1...v2.0.2) (2021-02-26)
 
 
