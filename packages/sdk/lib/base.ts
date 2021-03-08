@@ -21,7 +21,7 @@ export type Event = {
   version?: string;
 };
 
-export enum ValidationOptions {
+export enum Validation {
   Disabled,
   TrackOnInvalid,
   ErrorOnInvalid,
@@ -135,7 +135,7 @@ export interface Options {
   /**
    * Configure validation handling. Default is to track invalid events in production, but throw in other environments.
    */
-  validation?: ValidationOptions;
+  validation?: Validation;
   /**
    * Logger. Default is no logging.
    */
@@ -171,7 +171,7 @@ export const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.free
 const DEFAULT_DEV_OPTIONS: Required<Options> = {
   environment: 'development',
   plugins: [],
-  validation: ValidationOptions.ErrorOnInvalid,
+  validation: Validation.ErrorOnInvalid,
   disabled: false,
   logger: LOGGERS.NONE,
 };
@@ -179,7 +179,7 @@ const DEFAULT_DEV_OPTIONS: Required<Options> = {
 const DEFAULT_PROD_OPTIONS: Required<Options> = {
   ...DEFAULT_DEV_OPTIONS,
   environment: 'production',
-  validation: ValidationOptions.TrackOnInvalid,
+  validation: Validation.TrackOnInvalid,
 };
 
 export class Itly {
@@ -187,7 +187,7 @@ export class Itly {
 
   private plugins = DEFAULT_DEV_OPTIONS.plugins;
 
-  private validationOptions = DEFAULT_DEV_OPTIONS.validation;
+  private validation = DEFAULT_DEV_OPTIONS.validation;
 
   private logger: Logger = LOGGERS.NONE;
 
@@ -218,7 +218,7 @@ export class Itly {
 
     this.logger = this.options.logger || this.logger;
     this.plugins = this.options.plugins;
-    this.validationOptions = this.options.validation;
+    this.validation = this.options.validation;
     this.context = context;
 
     // invoke load() on every plugin
@@ -424,12 +424,12 @@ export class Itly {
 
     // invoke validate() on every plugin if required
     let validationResponses: ValidationResponse[] = [];
-    if (this.validationOptions !== ValidationOptions.Disabled) {
+    if (this.validation !== Validation.Disabled) {
       validationResponses = [
         ...this.validate(event),
         ...context ? this.validate(this.getContextEvent(context)) : [],
       ];
-      shouldRun = this.validationOptions === ValidationOptions.TrackOnInvalid
+      shouldRun = this.validation === Validation.TrackOnInvalid
         || validationResponses.every((vr) => vr.valid);
     }
 
@@ -454,7 +454,7 @@ export class Itly {
     );
 
     // #3 response phase
-    if (this.validationOptions === ValidationOptions.ErrorOnInvalid) {
+    if (this.validation === Validation.ErrorOnInvalid) {
       const invalidResult = validationResponses.find((vr) => !vr.valid);
       if (invalidResult) {
         throw new Error(`Validation Error: ${invalidResult.message}`);
