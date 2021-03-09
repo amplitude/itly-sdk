@@ -99,9 +99,9 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     return (statusCode: number, responseBody: string, details: unknown) => {
       try {
         if (statusCode >= 200 && statusCode < 300) {
-          responseLogger.success(responseBody);
+          responseLogger.success(`${statusCode}`);
         } else {
-          responseLogger.error(`${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
+          responseLogger.error(`unexpected status: ${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
         }
         callback?.(statusCode, responseBody, details);
         resolve();

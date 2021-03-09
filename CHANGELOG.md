@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.3...v2.0.4) (2021-03-08)
+
+
+### Bug Fixes
+
+* log http response statuses ([06691e7](https://github.com/iterativelyhq/itly-sdk/commit/06691e7f70054e66127d57c37656cfd1d018305e))
+* removed "_update_existing_only=true" for Braze event tracking ([6090771](https://github.com/iterativelyhq/itly-sdk/commit/6090771403356e905ae3dd8e5d6137a126ba5c40))
+
+
+
+
+
 ## [2.0.3](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.2...v2.0.3) (2021-03-05)
 
 
