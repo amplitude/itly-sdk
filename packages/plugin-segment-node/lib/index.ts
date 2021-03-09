@@ -56,7 +56,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     userId: string,
     previousId: string,
     options?: AliasOptions,
-  ): Promise<void> {
+  ) {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentAliasOptions>(options);
     const payload = {
       ...segmentOptions,
@@ -73,7 +73,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     userId: string,
     properties: Properties | undefined,
     options?: IdentifyOptions,
-  ): Promise<void> {
+  ) {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentIdentifyOptions>(options);
     const payload = {
       ...segmentOptions,
@@ -91,7 +91,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     groupId: string,
     properties: Properties | undefined,
     options?: GroupOptions,
-  ): Promise<void> {
+  ) {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentGroupOptions>(options);
     const payload = {
       ...segmentOptions,
@@ -111,7 +111,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     name: string,
     properties: Properties | undefined,
     options?: PageOptions,
-  ): Promise<void> {
+  ) {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentPageOptions>(options);
     const payload = {
       ...segmentOptions,
@@ -130,7 +130,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     userId: string,
     { name, properties }: Event,
     options?: TrackOptions,
-  ): Promise<void> {
+  ) {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentTrackOptions>(options);
     const payload = {
       ...segmentOptions,
@@ -145,7 +145,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
   }
 
   flush() {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.segment!.flush((err: Error) => {
         if (err) {
           return reject(err);
@@ -158,7 +158,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
   private wrapCallback(
     responseLogger: ResponseLogger,
     callback: SegmentCallback | undefined,
-    resolve: (value?: void) => void,
+    resolve: () => void,
     reject: (reason?: any) => void,
   ) {
     return (err: Error | undefined) => {

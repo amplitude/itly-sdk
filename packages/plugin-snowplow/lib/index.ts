@@ -53,7 +53,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     }
   }
 
-  async identify(userId: string | undefined, properties?: Properties): Promise<void> {
+  async identify(userId: string | undefined, properties?: Properties) {
     this.snowplow('setUserId', userId);
   }
 
@@ -63,7 +63,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     name?: string,
     properties?: Properties,
     options?: PageOptions,
-  ): Promise<void> {
+  ) {
     const { callback, contexts } = this.getPluginCallOptions<SnowplowPageOptions>(options);
     const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
     return new Promise((resolve, reject) => {
@@ -82,7 +82,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     userId: string | undefined,
     { name, properties, version }: Event,
     options?: TrackOptions,
-  ): Promise<void> {
+  ) {
     const schemaVer = version && version.replace(/\./g, '-');
     const { callback, contexts } = this.getPluginCallOptions<SnowplowTrackOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
@@ -103,7 +103,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
   private wrapCallback(
     responseLogger: ResponseLogger,
     callback: SnowplowCallback | undefined,
-    resolve: (value?: void) => void,
+    resolve: () => void,
     reject: (reason?: any) => void,
   ) {
     return (...args: any[]) => {

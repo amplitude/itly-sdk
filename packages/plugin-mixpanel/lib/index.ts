@@ -47,7 +47,7 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
   async alias(
     userId: string,
     previousId: string | undefined,
-  ): Promise<void> {
+  ) {
     this.mixpanel.alias(userId, previousId);
   }
 
@@ -55,7 +55,7 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     userId: string | undefined,
     properties: Properties | undefined,
     options?: IdentifyOptions,
-  ): Promise<void> {
+  ) {
     const { callback } = this.getPluginCallOptions<MixpanelIdentifyOptions>(options);
 
     if (userId) {
@@ -76,7 +76,7 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     userId: string | undefined,
     { name, properties }: Event,
     options?: TrackOptions,
-  ): Promise<void> {
+  ) {
     const { callback } = this.getPluginCallOptions<MixpanelTrackOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
     return new Promise((resolve, reject) => {
@@ -91,7 +91,7 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
   private wrapCallback(
     responseLogger: ResponseLogger,
     callback: MixpanelCallback | undefined,
-    resolve: (value?: void) => void,
+    resolve: () => void,
     reject: (reason?: any) => void,
   ) {
     return (...args: any[]) => {

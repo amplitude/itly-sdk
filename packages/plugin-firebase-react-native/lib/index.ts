@@ -16,7 +16,7 @@ export class FirebasePlugin extends RequestLoggerPlugin {
     super('firebase');
   }
 
-  async identify(userId: string | undefined, properties?: Properties): Promise<void> {
+  async identify(userId: string | undefined, properties?: Properties) {
     const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
     try {
       if (userId) {
@@ -35,7 +35,7 @@ export class FirebasePlugin extends RequestLoggerPlugin {
     }
   }
 
-  async page(userId?: string, category?: string, name?: string, properties?: Properties): Promise<void> {
+  async page(userId?: string, category?: string, name?: string, properties?: Properties) {
     const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
     try {
       if (userId) {
@@ -51,7 +51,7 @@ export class FirebasePlugin extends RequestLoggerPlugin {
     }
   }
 
-  async track(userId: string | undefined, { name, properties }: Event): Promise<void> {
+  async track(userId: string | undefined, { name, properties }: Event) {
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
     try {
       if (userId) {

@@ -60,7 +60,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     userId: string,
     previousId: string | undefined,
     options?: AliasOptions,
-  ): Promise<void> {
+  ) {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentAliasOptions>(options);
     const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
     return new Promise((resolve, reject) => {
@@ -77,7 +77,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     userId: string | undefined,
     properties?: Properties,
     options?: IdentifyOptions,
-  ): Promise<void> {
+  ) {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentIdentifyOptions>(options);
     const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
     return new Promise((resolve, reject) => {
@@ -103,7 +103,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     groupId: string,
     properties?: Properties,
     options?: GroupOptions,
-  ): Promise<void> {
+  ) {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentGroupOptions>(options);
     const responseLogger = this.logger!.logRequest('group', `${userId}, ${groupId}, ${JSON.stringify(properties)}`);
     return new Promise((resolve, reject) => {
@@ -122,7 +122,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     name?: string,
     properties?: Properties,
     options?: PageOptions,
-  ): Promise<void> {
+  ) {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentPageOptions>(options);
     const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
     return new Promise((resolve, reject) => {
@@ -140,7 +140,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     userId: string | undefined,
     { name, properties }: Event,
     options?: TrackOptions,
-  ): Promise<void> {
+  ) {
     const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentTrackOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
     return new Promise((resolve, reject) => {
@@ -160,7 +160,7 @@ export class SegmentPlugin extends RequestLoggerPlugin {
   private wrapCallback(
     responseLogger: ResponseLogger,
     callback: SegmentCallback | undefined,
-    resolve: (value?: void) => void,
+    resolve: () => void,
     reject: (reason?: any) => void,
   ) {
     return (...args: any[]) => {

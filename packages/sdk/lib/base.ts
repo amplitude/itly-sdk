@@ -63,7 +63,7 @@ export abstract class Plugin {
     userId: string,
     previousId: string | undefined,
     options?: AliasOptions,
-  ): Promise<void> {
+  ): Promise<unknown> {
     return Promise.resolve();
   }
 
@@ -71,7 +71,7 @@ export abstract class Plugin {
     userId: string | undefined,
     properties: Properties | undefined,
     options?: IdentifyOptions,
-  ): Promise<void> {
+  ): Promise<unknown> {
     return Promise.resolve();
   }
 
@@ -86,7 +86,7 @@ export abstract class Plugin {
     groupId: string,
     properties: Properties | undefined,
     options?: GroupOptions,
-  ): Promise<void> {
+  ): Promise<unknown> {
     return Promise.resolve();
   }
 
@@ -103,7 +103,7 @@ export abstract class Plugin {
     name: string | undefined,
     properties: Properties | undefined,
     options?: PageOptions,
-  ): Promise<void> {
+  ): Promise<unknown> {
     return Promise.resolve();
   }
 
@@ -115,7 +115,7 @@ export abstract class Plugin {
     validationResponses: ValidationResponse[],
   ): void {}
 
-  async track(userId: string | undefined, event: Event, options?: TrackOptions): Promise<void> {
+  async track(userId: string | undefined, event: Event, options?: TrackOptions): Promise<unknown> {
     return Promise.resolve();
   }
 
@@ -123,7 +123,7 @@ export abstract class Plugin {
 
   reset(): void {}
 
-  async flush(): Promise<void> {
+  async flush(): Promise<unknown> {
     return Promise.resolve();
   }
 
@@ -450,7 +450,7 @@ export class Itly {
   private async validateAndRunOnAllPlugins(
     op: string,
     event: Event,
-    method: (plugin: Plugin, event: Event) => Promise<void>,
+    method: (plugin: Plugin, event: Event) => Promise<unknown>,
     postMethod: (plugin: Plugin, event: Event, validationResponses: ValidationResponse[]) => any,
     context?: Properties,
   ): Promise<void> {
@@ -528,7 +528,7 @@ export class Itly {
     });
   }
 
-  private async runOnAllPluginsAsync(op: string, method: (p: Plugin) => Promise<void>): Promise<void> {
+  private async runOnAllPluginsAsync(op: string, method: (p: Plugin) => Promise<unknown>): Promise<void> {
     const promises = this.plugins.map(async (plugin) => {
       try {
         await method(plugin);

@@ -45,7 +45,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  async identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions): Promise<void> {
+  async identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions) {
     if (userId) {
       this.amplitude.getInstance().setUserId(userId);
     }
@@ -73,7 +73,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     });
   }
 
-  async track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions): Promise<void> {
+  async track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
     const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId} ${name} ${JSON.stringify(properties)}`);
     return new Promise((resolve, reject) => {
@@ -93,7 +93,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
   private wrapCallback(
     responseLogger: ResponseLogger,
     callback: AmplitudeCallback | undefined,
-    resolve: (value?: void) => void,
+    resolve: () => void,
     reject: (reason?: any) => void,
   ) {
     return (statusCode: number, responseBody: string, details: unknown) => {

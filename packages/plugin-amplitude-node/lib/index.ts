@@ -51,7 +51,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     this.amplitude = new Amplitude(this.apiKey, this.options);
   }
 
-  async identify(userId: string, properties?: Properties, options?: IdentifyOptions): Promise<void> {
+  async identify(userId: string, properties?: Properties, options?: IdentifyOptions) {
     const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
     const payload = {
       user_id: userId,
@@ -68,7 +68,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  async track(userId: string, { name, properties }: Event, options?: TrackOptions): Promise<void> {
+  async track(userId: string, { name, properties }: Event, options?: TrackOptions) {
     const { callback } = this.getPluginCallOptions<AmplitudeTrackOptions>(options);
     const payload = {
       event_type: name,

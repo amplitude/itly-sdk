@@ -27,7 +27,7 @@ export class BrazePlugin extends RequestLoggerPlugin {
     super.load(options);
   }
 
-  async identify(userId: string, properties?: Properties): Promise<void> {
+  async identify(userId: string, properties?: Properties) {
     const responseLogger = this.logger.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
     const eventProperties = BrazePlugin.toBrazeProperties(properties);
     await this.postTrackerRequest(responseLogger, {
@@ -40,7 +40,7 @@ export class BrazePlugin extends RequestLoggerPlugin {
     });
   }
 
-  async track(userId: string, { name, properties }: Event): Promise<void> {
+  async track(userId: string, { name, properties }: Event) {
     const responseLogger = this.logger.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
     const eventProperties = BrazePlugin.toBrazeProperties(properties);
     await this.postTrackerRequest(responseLogger, {
