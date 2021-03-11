@@ -89,54 +89,54 @@ test.only.each(testParams.map((test) => [test.name, test]) as any[])('%s',
       context: ctx,
     });
 
-    await itly.identify(undefined, identifyProps);
-    await itly.identify(tempUserId, identifyProps);
+    itly.identify(undefined, identifyProps);
+    itly.identify(tempUserId, identifyProps);
     try {
-      await itly.identify(tempUserId);
+      itly.identify(tempUserId);
     } catch (e) {
       console.log('Caught validation error.', e.message);
     }
     try {
-      await itly.identify(tempUserId, {
+      itly.identify(tempUserId, {
         badProp: 'unsupported property',
       });
     } catch (e) {
       console.log('Caught validation error.', e.message);
     }
 
-    await itly.alias(userId);
-    await itly.alias(userId, tempUserId);
+    itly.alias(userId);
+    itly.alias(userId, tempUserId);
 
     try {
-      await itly.group(groupId);
+      itly.group(groupId);
     } catch (e) {
       console.log('Caught validation error.', e.message);
     }
-    await itly.group(groupId, {
+    itly.group(groupId, {
       requiredBoolean: true,
       optionalString: undefined,
     });
 
     try {
-      await itly.page('page category 1', 'page name 1');
+      itly.page('page category 1', 'page name 1');
     } catch (e) {
       console.log('Caught validation error.', e.message);
     }
 
     try {
-      await itly.page('page category 2', 'page name 2', {
+      itly.page('page category 2', 'page name 2', {
         pageProp: 'a page property',
       });
     } catch (e) {
       console.log('Caught validation error.', e.message);
     }
 
-    await itly.track({
+    itly.track({
       name: 'Event No Properties',
       properties: {},
     });
 
-    await itly.track({
+    itly.track({
       name: 'Event With All Properties',
       properties: {
         requiredString: 'A required string',
@@ -151,7 +151,7 @@ test.only.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     });
 
     try {
-      await itly.track({
+      itly.track({
         name: 'EventMaxIntForTest',
         properties: {
           intMax10: 20,

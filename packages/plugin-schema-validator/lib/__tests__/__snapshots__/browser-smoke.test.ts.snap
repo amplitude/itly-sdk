@@ -12,11 +12,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
+    "postIdentify() userId='undefined' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='undefined' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
   ],
   Array [
     "CustomPlugin: ",
@@ -24,11 +24,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
+    "postIdentify() userId='temp-user-id' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
   ],
   Array [
     "CustomPlugin: ",
@@ -80,11 +80,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
+    "postGroup() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
   ],
   Array [
     "CustomPlugin: ",
@@ -92,11 +92,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
+    "postPage() userId='undefined' category='page category 1' name='page name 1' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postPage() userId='undefined' category='page category 1' name='page name 1' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -120,11 +120,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"}",
+    "postTrack() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -136,11 +136,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+    "postTrack() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -173,11 +173,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
+    "postIdentify() userId='undefined' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='undefined' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
   ],
   Array [
     "CustomPlugin: ",
@@ -185,11 +185,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
+    "postIdentify() userId='temp-user-id' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
   ],
   Array [
     "CustomPlugin: ",
@@ -197,11 +197,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='temp-user-id' properties=undefined",
+    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='temp-user-id' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -209,11 +209,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"}",
+    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -229,11 +229,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "group() userId='undefined' groupId='test-group-id' properties=undefined",
+    "postGroup() userId='undefined' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='undefined' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "group() userId='undefined' groupId='test-group-id' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -241,11 +241,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
+    "postGroup() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
   ],
   Array [
     "CustomPlugin: ",
@@ -253,11 +253,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
+    "postPage() userId='undefined' category='page category 1' name='page name 1' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postPage() userId='undefined' category='page category 1' name='page name 1' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -265,11 +265,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "page() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"}",
+    "postPage() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"'page' schema is empty but properties were found. properties={\\\\\\"pageProp\\\\\\":\\\\\\"a page property\\\\\\"}\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postPage() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"'page' schema is empty but properties were found. properties={\\\\\\"pageProp\\\\\\":\\\\\\"a page property\\\\\\"}\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "page() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -281,11 +281,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"}",
+    "postTrack() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='Event No Properties' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -297,11 +297,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+    "postTrack() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"optionalEnum\\":\\"Value 1\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -313,11 +313,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20}",
+    "postTrack() userId='undefined' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20}",
   ],
 ]
 `;
@@ -334,11 +334,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
+    "postIdentify() userId='undefined' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='undefined' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
   ],
   Array [
     "CustomPlugin: ",
@@ -346,11 +346,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
+    "postIdentify() userId='temp-user-id' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
   ],
   Array [
     "CustomPlugin: ",
@@ -358,11 +358,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='temp-user-id' properties=undefined",
+    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='temp-user-id' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -370,11 +370,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"}",
+    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -390,11 +390,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "group() userId='undefined' groupId='test-group-id' properties=undefined",
+    "postGroup() userId='undefined' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='undefined' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "group() userId='undefined' groupId='test-group-id' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -402,11 +402,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
+    "postGroup() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
   ],
   Array [
     "CustomPlugin: ",
@@ -414,11 +414,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
+    "postPage() userId='undefined' category='page category 1' name='page name 1' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postPage() userId='undefined' category='page category 1' name='page name 1' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -426,11 +426,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "page() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"}",
+    "postPage() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"'page' schema is empty but properties were found. properties={\\\\\\"pageProp\\\\\\":\\\\\\"a page property\\\\\\"}\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postPage() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"'page' schema is empty but properties were found. properties={\\\\\\"pageProp\\\\\\":\\\\\\"a page property\\\\\\"}\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "page() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -442,11 +442,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event No Properties' properties={}",
+    "postTrack() userId='undefined' event='Event No Properties' properties={} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='Event No Properties' properties={} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='Event No Properties' properties={}",
   ],
   Array [
     "CustomPlugin: ",
@@ -458,11 +458,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+    "postTrack() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -474,11 +474,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
+    "postTrack() userId='undefined' event='EventMaxIntForTest' properties={\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='EventMaxIntForTest' properties={\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
   ],
 ]
 `;
@@ -495,11 +495,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
+    "postIdentify() userId='undefined' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='undefined' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='undefined' properties={\\"requiredNumber\\":42}",
   ],
   Array [
     "CustomPlugin: ",
@@ -507,11 +507,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
+    "postIdentify() userId='temp-user-id' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"requiredNumber\\":42} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='temp-user-id' properties={\\"requiredNumber\\":42}",
   ],
   Array [
     "CustomPlugin: ",
@@ -519,11 +519,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='temp-user-id' properties=undefined",
+    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='temp-user-id' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -531,11 +531,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "identify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"}",
+    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "identify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -551,11 +551,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "group() userId='undefined' groupId='test-group-id' properties=undefined",
+    "postGroup() userId='undefined' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='undefined' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "group() userId='undefined' groupId='test-group-id' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -563,11 +563,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
+    "postGroup() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "group() userId='undefined' groupId='test-group-id' properties={\\"requiredBoolean\\":true}",
   ],
   Array [
     "CustomPlugin: ",
@@ -575,11 +575,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
+    "postPage() userId='undefined' category='page category 1' name='page name 1' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postPage() userId='undefined' category='page category 1' name='page name 1' properties=undefined validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "page() userId='undefined' category='page category 1' name='page name 1' properties=undefined",
   ],
   Array [
     "CustomPlugin: ",
@@ -587,11 +587,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "page() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"}",
+    "postPage() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"'page' schema is empty but properties were found. properties={\\\\\\"pageProp\\\\\\":\\\\\\"a page property\\\\\\"}\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postPage() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"'page' schema is empty but properties were found. properties={\\\\\\"pageProp\\\\\\":\\\\\\"a page property\\\\\\"}\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "page() userId='undefined' category='page category 2' name='page name 2' properties={\\"pageProp\\":\\"a page property\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -599,11 +599,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event No Properties' properties={}",
+    "postTrack() userId='undefined' event='Event No Properties' properties={} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='Event No Properties' properties={} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='Event No Properties' properties={}",
   ],
   Array [
     "CustomPlugin: ",
@@ -611,11 +611,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
+    "postTrack() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"}",
   ],
   Array [
     "CustomPlugin: ",
@@ -623,11 +623,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "track() userId='undefined' event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
+    "postTrack() userId='undefined' event='EventMaxIntForTest' properties={\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='undefined' event='EventMaxIntForTest' properties={\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "track() userId='undefined' event='EventMaxIntForTest' properties={\\"intMax10\\":20}",
   ],
 ]
 `;

@@ -200,6 +200,8 @@ const DEFAULT_PROD_OPTIONS: Required<Options> = {
   validation: Validation.TrackOnInvalid,
 };
 
+type ReturnedPromise = { promise: Promise<void> };
+
 export class Itly {
   private options: Required<Options> | undefined = undefined;
 
@@ -252,16 +254,18 @@ export class Itly {
    * @param previousId The user's previous ID.
    * @param options Options for this Alias call.
    */
-  async alias(
+  alias(
     userId: string,
     previousId?: string,
     options?: AliasOptions,
-  ): Promise<void> {
+  ): ReturnedPromise {
     if (!this.isInitializedAndEnabled()) {
-      return;
+      return { promise: Promise.resolve() };
     }
 
-    await this.runOnAllPluginsAsync('alias', (p) => p.alias(userId, previousId, options));
+    return {
+      promise: this.runOnAllPluginsAsync('alias', (p) => p.alias(userId, previousId, options)),
+    };
   }
 
   /**
@@ -270,13 +274,13 @@ export class Itly {
    * @param identifyProperties The user's properties.
    * @param options Options for this Identify call.
    */
-  async identify(
+  identify(
     userId: string | undefined,
     identifyProperties?: Properties,
     options?: IdentifyOptions,
-  ): Promise<void> {
+  ): ReturnedPromise {
     if (!this.isInitializedAndEnabled()) {
-      return;
+      return { promise: Promise.resolve() };
     }
 
     const identifyEvent = {
@@ -286,14 +290,16 @@ export class Itly {
       version: '0-0-0',
     };
 
-    await this.validateAndRunOnAllPlugins(
-      'identify',
-      identifyEvent,
-      (p, e) => p.identify(userId, identifyProperties, options),
-      (p, e, validationResponses) => p.postIdentify(
-        userId, identifyProperties, validationResponses,
+    return {
+      promise: this.validateAndRunOnAllPlugins(
+        'identify',
+        identifyEvent,
+        (p, e) => p.identify(userId, identifyProperties, options),
+        (p, e, validationResponses) => p.postIdentify(
+          userId, identifyProperties, validationResponses,
+        ),
       ),
-    );
+    };
   }
 
   /**
@@ -303,14 +309,14 @@ export class Itly {
    * @param groupProperties The group's properties.
    * @param options Options for this Group call.
    */
-  async group(
+  group(
     userId: string | undefined,
     groupId: string,
     groupProperties?: Properties,
     options?: GroupOptions,
-  ): Promise<void> {
+  ): ReturnedPromise {
     if (!this.isInitializedAndEnabled()) {
-      return;
+      return { promise: Promise.resolve() };
     }
 
     const groupEvent = {
@@ -320,14 +326,16 @@ export class Itly {
       version: '0-0-0',
     };
 
-    await this.validateAndRunOnAllPlugins(
-      'group',
-      groupEvent,
-      (p, e) => p.group(userId, groupId, groupProperties, options),
-      (p, e, validationResponses) => p.postGroup(
-        userId, groupId, groupProperties, validationResponses,
+    return {
+      promise: this.validateAndRunOnAllPlugins(
+        'group',
+        groupEvent,
+        (p, e) => p.group(userId, groupId, groupProperties, options),
+        (p, e, validationResponses) => p.postGroup(
+          userId, groupId, groupProperties, validationResponses,
+        ),
       ),
-    );
+    };
   }
 
   /**
@@ -338,14 +346,14 @@ export class Itly {
    * @param pageProperties The page's properties.
    * @param options Options for this Page call.
    */
-  async page(
+  page(
     userId: string | undefined,
     category: string, name: string,
     pageProperties?: Properties,
     options?: PageOptions,
-  ): Promise<void> {
+  ): ReturnedPromise {
     if (!this.isInitializedAndEnabled()) {
-      return;
+      return { promise: Promise.resolve() };
     }
 
     const pageEvent = {
@@ -355,14 +363,16 @@ export class Itly {
       version: '0-0-0',
     };
 
-    await this.validateAndRunOnAllPlugins(
-      'page',
-      pageEvent,
-      (p, e) => p.page(userId, category, name, pageProperties, options),
-      (p, e, validationResponses) => p.postPage(
-        userId, category, name, pageProperties, validationResponses,
+    return {
+      promise: this.validateAndRunOnAllPlugins(
+        'page',
+        pageEvent,
+        (p, e) => p.page(userId, category, name, pageProperties, options),
+        (p, e, validationResponses) => p.postPage(
+          userId, category, name, pageProperties, validationResponses,
+        ),
       ),
-    );
+    };
   }
 
   /**
@@ -375,26 +385,28 @@ export class Itly {
    * @param event.version The event's version.
    * @param options Options for this Track call.
    */
-  async track(
+  track(
     userId: string | undefined,
     event: Event,
     options?: TrackOptions,
-  ): Promise<void> {
+  ): ReturnedPromise {
     if (!this.isInitializedAndEnabled()) {
-      return;
+      return { promise: Promise.resolve() };
     }
 
     const mergedEvent = this.mergeContext(event, this.context);
 
-    await this.validateAndRunOnAllPlugins(
-      'track',
-      event,
-      (p, e) => p.track(userId, mergedEvent, options),
-      (p, e, validationResponses) => p.postTrack(
-        userId, mergedEvent, validationResponses,
+    return {
+      promise: this.validateAndRunOnAllPlugins(
+        'track',
+        event,
+        (p, e) => p.track(userId, mergedEvent, options),
+        (p, e, validationResponses) => p.postTrack(
+          userId, mergedEvent, validationResponses,
+        ),
+        this.context,
       ),
-      this.context,
-    );
+    };
   }
 
   /**
@@ -404,7 +416,7 @@ export class Itly {
     this.runOnAllPlugins('reset', (p) => p.reset());
   }
 
-  async flush(): Promise<void> {
+  flush(): ReturnedPromise {
     const flushPromises = this.plugins.map(async (plugin) => {
       try {
         await plugin.flush();
@@ -412,7 +424,9 @@ export class Itly {
         this.logger.error(`Error in ${plugin.id}.flush(). ${e.message}.`);
       }
     });
-    await Promise.all(flushPromises);
+    return {
+      promise: Promise.all(flushPromises).then(),
+    };
   }
 
   private validate(event: Event): ValidationResponse[] {
@@ -447,7 +461,7 @@ export class Itly {
     return !this.options.disabled;
   }
 
-  private async validateAndRunOnAllPlugins(
+  private validateAndRunOnAllPlugins(
     op: string,
     event: Event,
     method: (plugin: Plugin, event: Event) => Promise<unknown>,
@@ -468,17 +482,7 @@ export class Itly {
         || validationResponses.every((vr) => vr.valid);
     }
 
-    // #2 track phase
-    // invoke track(), group(), identify(), page() on every plugin if allowed
-    if (shouldRun) {
-      await this.runOnAllPluginsAsync(op, async (p) => {
-        if (this.canRunEventOnPlugin(event, p)) {
-          await method(p, event);
-        }
-      });
-    }
-
-    // invoke postTrack(), postGroup(), postIdentify(), postPage() on every plugin
+    // #2 invoke postTrack(), postGroup(), postIdentify(), postPage() on every plugin
     this.runOnAllPlugins(
       `post${this.capitalize(op)}`,
       (p) => {
@@ -488,13 +492,25 @@ export class Itly {
       },
     );
 
-    // #3 response phase
+    // #3 throw validation error
     if (this.validation === Validation.ErrorOnInvalid) {
       const invalidResult = validationResponses.find((vr) => !vr.valid);
       if (invalidResult) {
         throw new Error(`Validation Error: ${invalidResult.message}`);
       }
     }
+
+    if (!shouldRun) {
+      return Promise.resolve();
+    }
+
+    // #4 track phase
+    // invoke track(), group(), identify(), page() on every plugin if allowed
+    return this.runOnAllPluginsAsync(op, async (p) => {
+      if (this.canRunEventOnPlugin(event, p)) {
+        await method(p, event);
+      }
+    });
   }
 
   private canRunEventOnPlugin(event: Event, plugin: Plugin) {
@@ -528,7 +544,7 @@ export class Itly {
     });
   }
 
-  private async runOnAllPluginsAsync(op: string, method: (p: Plugin) => Promise<unknown>): Promise<void> {
+  private runOnAllPluginsAsync(op: string, method: (p: Plugin) => Promise<unknown>) {
     const promises = this.plugins.map(async (plugin) => {
       try {
         await method(plugin);
@@ -536,16 +552,17 @@ export class Itly {
         this.logger.error(`Error in ${plugin.id}.${op}(). ${e.message}.`);
       }
     });
-    let timeout;
-    await Promise.race([
+    let timeout: ReturnType<typeof setTimeout>;
+    return Promise.race([
       Promise.all(promises),
       new Promise((resolve) => {
         timeout = setTimeout(resolve, 3000);
       }),
-    ]);
-    if (timeout) {
-      clearTimeout(timeout);
-    }
+    ]).then(() => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    });
   }
 
   private capitalize(str: string) {

@@ -74,7 +74,7 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
 
     // Try tracking before load, should throw errror
     try {
-      await itly.identify(userId);
+      itly.identify(userId);
     } catch (e) {
     // eslint-disable-next-line no-console
       console.log(`Caught expected error. ${e.message}`);
@@ -86,19 +86,19 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
       plugins: [plugin].concat(options.plugins),
     });
 
-    await itly.identify(undefined);
-    await itly.identify('temp-user-id');
-    await itly.identify(undefined, {
+    itly.identify(undefined);
+    itly.identify('temp-user-id');
+    itly.identify(undefined, {
       userProp: 'A user property value',
     });
-    await itly.alias(userId, 'temp-user-id');
-    await itly.group(groupId);
+    itly.alias(userId, 'temp-user-id');
+    itly.group(groupId);
 
-    await itly.track({
+    itly.track({
       name: 'Event No Properties',
     });
 
-    await itly.track({
+    itly.track({
       name: 'Event With All Properties',
       properties: {
         requiredString: 'A required string',
@@ -113,7 +113,7 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     });
 
     try {
-      await itly.track({
+      itly.track({
         name: 'EventMaxIntForTest',
         properties: {
           intMax10: 20,

@@ -63,7 +63,7 @@ describe('should load and track events to a custom destination (no validation)',
     async (name: string, { context, options }: TestParams) => {
       // Try tracking before load, should throw error
       try {
-        await itly.identify(userId);
+        itly.identify(userId);
       } catch (e) {
         console.log(`Caught expected error. ${e.message}`);
       }
@@ -78,26 +78,26 @@ describe('should load and track events to a custom destination (no validation)',
         console.log(`Caught expected error. ${e.message}`);
       }
 
-      await itly.identify(undefined);
-      await itly.identify(tempUserId);
-      await itly.identify(tempUserId, {
+      itly.identify(undefined);
+      itly.identify(tempUserId);
+      itly.identify(tempUserId, {
         userProp: 'A user property value',
       });
 
-      await itly.alias(userId);
-      await itly.alias(userId, tempUserId);
+      itly.alias(userId);
+      itly.alias(userId, tempUserId);
 
-      await itly.group(userId, groupId);
+      itly.group(userId, groupId);
 
-      await itly.page(userId, 'page category', 'page name', {
+      itly.page(userId, 'page category', 'page name', {
         pageProp: 'a page property',
       });
 
-      await itly.track(userId, {
+      itly.track(userId, {
         name: 'Event No Properties',
       });
 
-      await itly.track(userId, {
+      itly.track(userId, {
         name: 'Event With All Properties',
         properties: {
           requiredString: 'A required string',
@@ -112,7 +112,7 @@ describe('should load and track events to a custom destination (no validation)',
       });
 
       try {
-        await itly.track(userId, {
+        itly.track(userId, {
           name: 'EventMaxIntForTest',
           properties: {
             intMax10: 20,
@@ -149,7 +149,7 @@ describe('should load and track events to a custom destination (no validation)',
     expect(spyPluginLoad).not.toHaveBeenCalled();
   });
 
-  test('should load and track events with properly merged context', async () => {
+  test('should load and track events with properly merged context', () => {
     const testingPlugin = new TestingPlugin();
     const context = {
       requiredString: 'A required string',
@@ -170,25 +170,25 @@ describe('should load and track events to a custom destination (no validation)',
       plugins: [testingPlugin],
     });
 
-    await itly.identify(undefined, {
+    itly.identify(undefined, {
       userProp: 1,
     });
 
-    await itly.alias(userId);
+    itly.alias(userId);
 
-    await itly.group('a-group-id', {
+    itly.group('a-group-id', {
       groupProp: 'test value',
     });
 
-    await itly.page('page category', 'page name', {
+    itly.page('page category', 'page name', {
       pageProp: 'a page property',
     });
 
-    await itly.track(userId, {
+    itly.track(userId, {
       name: 'Event No Properties',
     });
 
-    await itly.track(userId, new TrackingEvent({
+    itly.track(userId, new TrackingEvent({
       requiredNumber: 2.0,
       requiredInteger: 42,
       requiredEnum: 'Enum1',
