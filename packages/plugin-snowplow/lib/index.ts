@@ -15,15 +15,18 @@ export interface SnowplowContext {
 
 export type SnowplowCallback = (...args: any[]) => void;
 
-export interface SnowplowCallOptions {
-  callback?: SnowplowCallback;
-  contexts?: SnowplowContext[];
-}
+export interface SnowplowCallOptions {}
 export interface SnowplowAliasOptions extends SnowplowCallOptions {}
 export interface SnowplowIdentifyOptions extends SnowplowCallOptions {}
 export interface SnowplowGroupOptions extends SnowplowCallOptions {}
-export interface SnowplowPageOptions extends SnowplowCallOptions {}
-export interface SnowplowTrackOptions extends SnowplowCallOptions {}
+export interface SnowplowPageOptions extends SnowplowCallOptions {
+  callback?: SnowplowCallback;
+  contexts?: SnowplowContext[];
+}
+export interface SnowplowTrackOptions extends SnowplowCallOptions {
+  callback?: SnowplowCallback;
+  contexts?: SnowplowContext[];
+}
 
 /**
  * Snowplow Browser Plugin for Iteratively SDK
