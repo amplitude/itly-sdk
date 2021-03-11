@@ -1,4 +1,3 @@
-
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
   Plugin, Event as TrackingEvent,

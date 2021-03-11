@@ -1,51 +1,17 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, max-classes-per-file */
 
-export interface Options {
-  /**
-   * The current environment (development or production). Default is development.
-   */
-  environment?: Environment;
-  /**
-   * Whether calls to the Itly SDK should be no-ops. Default is false.
-   */
-  disabled?: boolean;
-  /**
-   * Extend the Itly SDK by adding plugins for common analytics trackers, validation and more.
-   */
-  plugins?: Plugin[];
-  /**
-   * Configure validation handling. Default is to track invalid events in production, but throw in other environments.
-   */
-  validation?: ValidationOptions;
-  /**
-   * Logger. Default is no logging.
-   */
-  logger?: Logger;
-}
-
-export interface LoadOptions extends Options {
-  /**
-   * Additional context properties to add to all events.
-   */
-  context?: Properties,
-}
-
-export type PluginLoadOptions = {
-  environment: Environment;
-  logger: Logger;
-}
-
 export type Environment = 'development' | 'production';
 
 export type Properties = {
   [name: string]: any;
 };
 
-export type EventMetadata = {
-  [name: string]: {
-    [name: string]: any;
-  };
-};
+export type CallOptions = Record<string, any>;
+export interface AliasOptions extends CallOptions {}
+export interface IdentifyOptions extends CallOptions {}
+export interface GroupOptions extends CallOptions {}
+export interface PageOptions extends CallOptions {}
+export interface TrackOptions extends CallOptions {}
 
 export type Event = {
   name: string;
@@ -53,14 +19,13 @@ export type Event = {
   plugins?: Record<string, boolean>
   id?: string;
   version?: string;
-  metadata?: EventMetadata;
 };
 
-export type ValidationOptions = {
-  disabled: boolean;
-  trackInvalid: boolean;
-  errorOnInvalid: boolean;
-};
+export enum Validation {
+  Disabled,
+  TrackOnInvalid,
+  ErrorOnInvalid,
+}
 
 export type ValidationResponse = {
   valid: boolean;
@@ -73,6 +38,11 @@ export interface Logger {
   info(message: string): void;
   warn(message: string): void;
   error(message: string): void;
+}
+
+export type PluginLoadOptions = {
+  environment: Environment;
+  logger: Logger;
 }
 
 export abstract class Plugin {
@@ -89,9 +59,9 @@ export abstract class Plugin {
     };
   }
 
-  alias(userId: string, previousId: string | undefined): void {}
+  alias(userId: string, previousId: string | undefined, options?: AliasOptions): void {}
 
-  identify(userId: string | undefined, properties: Properties | undefined): void {}
+  identify(userId: string | undefined, properties: Properties | undefined, options?: IdentifyOptions): void {}
 
   postIdentify(
     userId: string | undefined,
@@ -99,7 +69,12 @@ export abstract class Plugin {
     validationResponses: ValidationResponse[],
   ): void {}
 
-  group(userId: string | undefined, groupId: string, properties?: Properties | undefined): void {}
+  group(
+    userId: string | undefined,
+    groupId: string,
+    properties: Properties | undefined,
+    options?: GroupOptions,
+  ): void {}
 
   postGroup(
     userId: string | undefined,
@@ -113,6 +88,7 @@ export abstract class Plugin {
     category: string | undefined,
     name: string | undefined,
     properties: Properties | undefined,
+    options?: PageOptions,
   ): void {}
 
   postPage(
@@ -123,7 +99,7 @@ export abstract class Plugin {
     validationResponses: ValidationResponse[],
   ): void {}
 
-  track(userId: string | undefined, event: Event): void {}
+  track(userId: string | undefined, event: Event, options?: TrackOptions): void {}
 
   postTrack(userId: string | undefined, event: Event, validationResponses: ValidationResponse[]): void {}
 
@@ -132,32 +108,46 @@ export abstract class Plugin {
   flush(): Promise<void> {
     return Promise.resolve();
   }
+
+  /**
+   * Returns call options specific to this plugin
+   * @param options
+   * @protected
+   */
+  protected getPluginCallOptions<T>(options: CallOptions | undefined): Partial<T> {
+    return (options?.[this.id] ?? {}) as Partial<T>;
+  }
 }
 
-const DEFAULT_DEV_VALIDATION_OPTIONS: ValidationOptions = {
-  disabled: false,
-  trackInvalid: false,
-  errorOnInvalid: true,
-};
+export interface Options {
+  /**
+   * The current environment (development or production). Default is development.
+   */
+  environment?: Environment;
+  /**
+   * Whether calls to the Itly SDK should be no-ops. Default is false.
+   */
+  disabled?: boolean;
+  /**
+   * Extend the Itly SDK by adding plugins for common analytics trackers, validation and more.
+   */
+  plugins?: Plugin[];
+  /**
+   * Configure validation handling. Default is to track invalid events in production, but throw in other environments.
+   */
+  validation?: Validation;
+  /**
+   * Logger. Default is no logging.
+   */
+  logger?: Logger;
+}
 
-const DEFAULT_PROD_VALIDATION_OPTIONS: ValidationOptions = {
-  ...DEFAULT_DEV_VALIDATION_OPTIONS,
-  trackInvalid: true,
-  errorOnInvalid: false,
-};
-
-const DEFAULT_DEV_OPTIONS: Options = {
-  environment: 'development',
-  plugins: [],
-  validation: DEFAULT_DEV_VALIDATION_OPTIONS,
-  disabled: false,
-};
-
-const DEFAULT_PROD_OPTIONS: Options = {
-  ...DEFAULT_DEV_OPTIONS,
-  environment: 'production',
-  validation: DEFAULT_PROD_VALIDATION_OPTIONS,
-};
+export interface LoadOptions extends Options {
+  /**
+   * Additional context properties to add to all events.
+   */
+  context?: Properties,
+}
 
 export const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.freeze({
   NONE: {
@@ -178,12 +168,26 @@ export const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.free
   },
 });
 
+const DEFAULT_DEV_OPTIONS: Required<Options> = {
+  environment: 'development',
+  plugins: [],
+  validation: Validation.ErrorOnInvalid,
+  disabled: false,
+  logger: LOGGERS.NONE,
+};
+
+const DEFAULT_PROD_OPTIONS: Required<Options> = {
+  ...DEFAULT_DEV_OPTIONS,
+  environment: 'production',
+  validation: Validation.TrackOnInvalid,
+};
+
 export class Itly {
-  private options: Options | undefined = undefined;
+  private options: Required<Options> | undefined = undefined;
 
-  private plugins = DEFAULT_DEV_OPTIONS.plugins!;
+  private plugins = DEFAULT_DEV_OPTIONS.plugins;
 
-  private validationOptions = DEFAULT_DEV_OPTIONS.validation!;
+  private validation = DEFAULT_DEV_OPTIONS.validation;
 
   private logger: Logger = LOGGERS.NONE;
 
@@ -206,10 +210,6 @@ export class Itly {
     this.options = {
       ...(options?.environment === 'production' ? DEFAULT_PROD_OPTIONS : DEFAULT_DEV_OPTIONS),
       ...options,
-      validation: {
-        ...(options?.environment === 'production' ? DEFAULT_PROD_VALIDATION_OPTIONS : DEFAULT_DEV_VALIDATION_OPTIONS),
-        ...options?.validation,
-      },
     };
 
     if (!this.isInitializedAndEnabled()) {
@@ -217,13 +217,13 @@ export class Itly {
     }
 
     this.logger = this.options.logger || this.logger;
-    this.plugins = this.options.plugins!;
-    this.validationOptions = this.options.validation!;
+    this.plugins = this.options.plugins;
+    this.validation = this.options.validation;
     this.context = context;
 
     // invoke load() on every plugin
     this.runOnAllPlugins('load', (p) => p.load({
-      environment: this.options!.environment!,
+      environment: this.options!.environment,
       logger: this.logger,
     }));
   }
@@ -232,21 +232,23 @@ export class Itly {
    * Alias a user ID to another user ID.
    * @param userId The user's new ID.
    * @param previousId The user's previous ID.
+   * @param options Options for this Alias call.
    */
-  alias(userId: string, previousId?: string) {
+  alias(userId: string, previousId?: string, options?: AliasOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
 
-    this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId));
+    this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId, options));
   }
 
   /**
    * Identify a user and set or update that user's properties.
    * @param userId The user's ID.
    * @param identifyProperties The user's properties.
+   * @param options Options for this Identify call.
    */
-  identify(userId: string | undefined, identifyProperties?: Properties) {
+  identify(userId: string | undefined, identifyProperties?: Properties, options?: IdentifyOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -261,7 +263,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'identify',
       identifyEvent,
-      (p, e) => p.identify(userId, identifyProperties),
+      (p, e) => p.identify(userId, identifyProperties, options),
       (p, e, validationResponses) => p.postIdentify(
         userId, identifyProperties, validationResponses,
       ),
@@ -273,8 +275,9 @@ export class Itly {
    * @param userId The user's ID.
    * @param groupId The group's ID.
    * @param groupProperties The group's properties.
+   * @param options Options for this Group call.
    */
-  group(userId: string | undefined, groupId: string, groupProperties?: Properties) {
+  group(userId: string | undefined, groupId: string, groupProperties?: Properties, options?: GroupOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -289,7 +292,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'group',
       groupEvent,
-      (p, e) => p.group(userId, groupId, groupProperties),
+      (p, e) => p.group(userId, groupId, groupProperties, options),
       (p, e, validationResponses) => p.postGroup(
         userId, groupId, groupProperties, validationResponses,
       ),
@@ -302,8 +305,14 @@ export class Itly {
    * @param category The page's category.
    * @param name The page's name.
    * @param pageProperties The page's properties.
+   * @param options Options for this Page call.
    */
-  page(userId: string | undefined, category: string, name: string, pageProperties?: Properties) {
+  page(
+    userId: string | undefined,
+    category: string, name: string,
+    pageProperties?: Properties,
+    options?: PageOptions,
+  ) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -318,7 +327,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'page',
       pageEvent,
-      (p, e) => p.page(userId, category, name, pageProperties),
+      (p, e) => p.page(userId, category, name, pageProperties, options),
       (p, e, validationResponses) => p.postPage(
         userId, category, name, pageProperties, validationResponses,
       ),
@@ -333,9 +342,9 @@ export class Itly {
    * @param event.properties The event's properties.
    * @param event.id The event's ID.
    * @param event.version The event's version.
-   * @param event.metadata The event's metadata.
+   * @param options Options for this Track call.
    */
-  track(userId: string | undefined, event: Event) {
+  track(userId: string | undefined, event: Event, options?: TrackOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -345,7 +354,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'track',
       event,
-      (p, e) => p.track(userId, mergedEvent),
+      (p, e) => p.track(userId, mergedEvent, options),
       (p, e, validationResponses) => p.postTrack(
         userId, mergedEvent, validationResponses,
       ),
@@ -415,12 +424,13 @@ export class Itly {
 
     // invoke validate() on every plugin if required
     let validationResponses: ValidationResponse[] = [];
-    if (!this.validationOptions.disabled) {
+    if (this.validation !== Validation.Disabled) {
       validationResponses = [
         ...this.validate(event),
         ...context ? this.validate(this.getContextEvent(context)) : [],
       ];
-      shouldRun = this.validationOptions.trackInvalid || validationResponses.every((vr) => vr.valid);
+      shouldRun = this.validation === Validation.TrackOnInvalid
+        || validationResponses.every((vr) => vr.valid);
     }
 
     // #2 track phase
@@ -444,7 +454,7 @@ export class Itly {
     );
 
     // #3 response phase
-    if (this.validationOptions.errorOnInvalid) {
+    if (this.validation === Validation.ErrorOnInvalid) {
       const invalidResult = validationResponses.find((vr) => !vr.valid);
       if (invalidResult) {
         throw new Error(`Validation Error: ${invalidResult.message}`);

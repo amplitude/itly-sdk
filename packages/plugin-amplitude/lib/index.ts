@@ -1,10 +1,21 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
+  Event, IdentifyOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
 } from '@itly/sdk';
 
 export type AmplitudeOptions = {};
+
+export type AmplitudeCallback = (statusCode: number, responseBody: string, details: unknown) => void;
+
+export interface AmplitudeCallOptions {
+  callback?: AmplitudeCallback;
+}
+export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
+export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {}
+export interface AmplitudeGroupOptions extends AmplitudeCallOptions {}
+export interface AmplitudePageOptions extends AmplitudeCallOptions {}
+export interface AmplitudeTrackOptions extends AmplitudeCallOptions {}
 
 /**
  * Amplitude Browser Plugin for Iteratively SDK
@@ -34,9 +45,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  identify(userId: string | undefined, properties?: Properties) {
-    const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
-
+  identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions) {
     if (userId) {
       this.amplitude.getInstance().setUserId(userId);
     }
@@ -51,17 +60,16 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
         identifyObject.set(p, (properties as any)[p]);
       }
 
-      this.amplitude.getInstance().identify(identifyObject, this.sentCallback(responseLogger));
+      const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
+      const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
+      this.amplitude.getInstance().identify(identifyObject, this.wrapCallback(responseLogger, callback));
     }
   }
 
-  track(userId: string | undefined, event: Event) {
-    const responseLogger = this.logger!.logRequest('track', `${userId} ${event.name} ${JSON.stringify(event.properties)}`);
-    this.amplitude.getInstance().logEvent(
-      event.name,
-      event.properties,
-      this.sentCallback(responseLogger),
-    );
+  track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
+    const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
+    const responseLogger = this.logger!.logRequest('track', `${userId} ${name} ${JSON.stringify(properties)}`);
+    this.amplitude.getInstance().logEvent(name, properties, this.wrapCallback(responseLogger, callback));
   }
 
   reset() {
@@ -69,14 +77,16 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     this.amplitude.getInstance().regenerateDeviceId();
   }
 
-  private sentCallback = (responseLogger: { success: (data?: string) => void, error: (data?: string) => void }) =>
-    (statusCode: number, responseBody: string, details: unknown) => {
+  private wrapCallback(responseLogger: ResponseLogger, callback: AmplitudeCallback | undefined) {
+    return (statusCode: number, responseBody: string, details: unknown) => {
       if (statusCode >= 200 && statusCode < 300) {
         responseLogger.success(`${statusCode}`);
       } else {
         responseLogger.error(`unexpected status: ${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
       }
+      callback?.(statusCode, responseBody, details);
     };
+  }
 }
 
 export default AmplitudePlugin;

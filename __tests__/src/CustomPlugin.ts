@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this, no-unused-vars, import/no-unresolved, import/extensions */
 import {
   PluginLoadOptions, Event, Properties, Plugin, RequestLoggerPlugin, ValidationResponse,
-} from '../../packages/sdk/lib';
+} from '../../packages/sdk';
 
 export { Plugin };
 
@@ -86,8 +86,8 @@ export default class CustomPlugin extends RequestLoggerPlugin {
     );
   }
 
-  track(userId: string | undefined, event: Event): void {
-    this.log(`track() userId='${userId}' event='${event.name}' properties=${this.stringify(event.properties)}`);
+  track(userId: string | undefined, { name, properties }: Event): void {
+    this.log(`track() userId='${userId}' event='${name}' properties=${this.stringify(properties)}`);
   }
 
   postTrack(userId: string | undefined, event: Event, validationResponses: ValidationResponse[]): void {

@@ -5,7 +5,7 @@ import {
   Properties,
   Plugin,
   ValidationResponse,
-} from '../../packages/sdk/lib';
+} from '../../packages/sdk';
 
 export type TestParams = {
   name: string;

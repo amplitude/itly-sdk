@@ -1,10 +1,28 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  RequestLoggerPlugin, Event, Properties, PluginLoadOptions,
+  RequestLoggerPlugin,
+  Event,
+  AliasOptions,
+  IdentifyOptions,
+  TrackOptions,
+  Properties,
+  PluginLoadOptions,
+  ResponseLogger,
 } from '@itly/sdk';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
 export interface MixpanelOptions extends InitConfig {}
+
+export type MixpanelCallback = Mixpanel.Callback;
+
+export interface MixpanelCallOptions {
+  callback?: MixpanelCallback;
+}
+export interface MixpanelAliasOptions extends MixpanelCallOptions {}
+export interface MixpanelIdentifyOptions extends MixpanelCallOptions {}
+export interface MixpanelGroupOptions extends MixpanelCallOptions {}
+export interface MixpanelPageOptions extends MixpanelCallOptions {}
+export interface MixpanelTrackOptions extends MixpanelCallOptions {}
 
 /**
  * Mixpanel Node Plugin for Iteratively SDK
@@ -24,45 +42,41 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     this.mixpanel = Mixpanel.init(this.apiKey, this.options);
   }
 
-  alias(userId: string, previousId: string) {
+  alias(userId: string, previousId: string, options?: AliasOptions) {
+    const { callback } = this.getPluginCallOptions<MixpanelAliasOptions>(options);
     const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
-    this.mixpanel!.alias(previousId, userId, (err: Error | undefined) => {
-      if (err == null) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.error(err.toString());
-      }
-    });
+    this.mixpanel!.alias(previousId, userId, this.wrapCallback(responseLogger, callback));
   }
 
-  identify(userId: string, properties: Properties | undefined) {
+  identify(userId: string, properties: Properties | undefined, options?: IdentifyOptions) {
+    const { callback } = this.getPluginCallOptions<MixpanelIdentifyOptions>(options);
     const payload = {
       distinct_id: userId,
       ...properties,
     };
     const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
-    this.mixpanel!.people.set(userId, payload, (err: Error | undefined) => {
-      if (err == null) {
-        responseLogger.success('success');
-      } else {
-        responseLogger.error(err.toString());
-      }
-    });
+    this.mixpanel!.people.set(userId, payload, this.wrapCallback(responseLogger, callback));
   }
 
-  track(userId: string, event: Event) {
+  track(userId: string, { name, properties }: Event, options?: TrackOptions) {
+    const { callback } = this.getPluginCallOptions<MixpanelTrackOptions>(options);
     const payload = {
       distinct_id: userId,
-      ...event.properties,
+      ...properties,
     };
     const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
-    this.mixpanel!.track(event.name, payload, (err: Error | undefined) => {
+    this.mixpanel!.track(name, payload, this.wrapCallback(responseLogger, callback));
+  }
+
+  private wrapCallback(responseLogger: ResponseLogger, callback: MixpanelCallback | undefined) {
+    return (err: Error | undefined): any => {
       if (err == null) {
         responseLogger.success('success');
       } else {
         responseLogger.error(err.toString());
       }
-    });
+      return callback?.(err);
+    };
   }
 }
 

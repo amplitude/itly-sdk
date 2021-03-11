@@ -4,14 +4,14 @@
  */
 /* eslint-disable no-unused-vars, no-console */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
-import Itly from '@itly/sdk';
+import Itly, { Validation } from '@itly/sdk';
 import CustomPlugin, { Plugin } from '../../../../__tests__/src/CustomPlugin';
 import {
   TestParams,
   requireForTestEnv,
 } from '../../../../__tests__/util';
 
-const SchemaValidator = requireForTestEnv(__dirname);
+const SchemaValidatorPlugin = requireForTestEnv(__dirname);
 
 const testSchemas = require('../../../../__tests__/data/basic-schema.json');
 
@@ -25,7 +25,7 @@ const identifyProps = {
 };
 
 const plugins: Plugin[] = [
-  new SchemaValidator(testSchemas),
+  new SchemaValidatorPlugin(testSchemas),
   new CustomPlugin(),
 ];
 
@@ -44,11 +44,7 @@ const testParams: TestParams[] = [
     options: {
       environment: 'production',
       plugins,
-      validation: {
-        disabled: false,
-        trackInvalid: false,
-        errorOnInvalid: true,
-      },
+      validation: Validation.ErrorOnInvalid,
     },
   },
   {

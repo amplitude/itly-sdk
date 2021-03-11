@@ -1,13 +1,26 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
   Event,
+  IdentifyOptions,
+  TrackOptions,
   Properties,
   RequestLoggerPlugin,
   PluginLoadOptions,
 } from '@itly/sdk';
-import Amplitude, { AmplitudeOptions } from 'amplitude';
+import Amplitude, { AmplitudeOptions, AmplitudeIdentifyResponse, AmplitudeTrackResponse } from 'amplitude';
 
 export { AmplitudeOptions };
+
+export interface AmplitudeCallOptions {}
+export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
+export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
+  callback?: (response: AmplitudeIdentifyResponse) => void;
+}
+export interface AmplitudeGroupOptions extends AmplitudeCallOptions {}
+export interface AmplitudePageOptions extends AmplitudeCallOptions {}
+export interface AmplitudeTrackOptions extends AmplitudeCallOptions {
+  callback?: (response: AmplitudeTrackResponse) => void;
+}
 
 /**
  * Amplitude Node Plugin for Iteratively SDK
@@ -38,7 +51,8 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     this.amplitude = new Amplitude(this.apiKey, this.options);
   }
 
-  async identify(userId: string, properties?: Properties) {
+  async identify(userId: string, properties?: Properties, options?: IdentifyOptions) {
+    const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
     const payload = {
       user_id: userId,
       user_properties: properties,
@@ -47,21 +61,24 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     try {
       const response = await this.amplitude!.identify(payload);
       responseLogger.success(response);
+      callback?.(response);
     } catch (e) {
       responseLogger.error(e.toString());
     }
   }
 
-  async track(userId: string, event: Event) {
+  async track(userId: string, { name, properties }: Event, options?: TrackOptions) {
+    const { callback } = this.getPluginCallOptions<AmplitudeTrackOptions>(options);
     const payload = {
-      event_type: event.name,
+      event_type: name,
       user_id: userId,
-      event_properties: event.properties,
+      event_properties: properties,
     };
     const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
     try {
       const response = await this.amplitude!.track(payload);
       responseLogger.success(JSON.stringify(response));
+      callback?.(response);
     } catch (e) {
       responseLogger.error(e.toString());
     }

@@ -1,4 +1,3 @@
-
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import Ajv from 'ajv';
 import {
@@ -34,7 +33,7 @@ export class SchemaValidatorPlugin extends Plugin {
   }
 
   // overrides Plugin.load
-  load(options: PluginLoadOptions) {
+  load() {
     this.ajv = new Ajv();
     this.validators = {};
   }

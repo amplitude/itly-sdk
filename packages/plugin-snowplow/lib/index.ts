@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
+  Event, PageOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
 } from '@itly/sdk';
 
 export type SnowplowOptions = {
@@ -8,11 +8,31 @@ export type SnowplowOptions = {
   config?: {};
 };
 
+export interface SnowplowContext {
+  schema: string;
+  data: { [key: string]: any };
+}
+
+export type SnowplowCallback = (...args: any[]) => void;
+
+export interface SnowplowCallOptions {}
+export interface SnowplowAliasOptions extends SnowplowCallOptions {}
+export interface SnowplowIdentifyOptions extends SnowplowCallOptions {}
+export interface SnowplowGroupOptions extends SnowplowCallOptions {}
+export interface SnowplowPageOptions extends SnowplowCallOptions {
+  callback?: SnowplowCallback;
+  contexts?: SnowplowContext[];
+}
+export interface SnowplowTrackOptions extends SnowplowCallOptions {
+  callback?: SnowplowCallback;
+  contexts?: SnowplowContext[];
+}
+
 /**
  * Snowplow Browser Plugin for Iteratively SDK
  */
 export class SnowplowPlugin extends RequestLoggerPlugin {
-  private get snowplow(): any {
+  get snowplow(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
     return s && s.snowplow;
@@ -40,22 +60,36 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     this.snowplow('setUserId', userId);
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties) {
-    const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
-    this.snowplow('trackPageView', name, undefined, undefined, undefined, (payload: unknown) => {
-      responseLogger.success(`done: ${JSON.stringify(payload)}`);
-    });
+  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: PageOptions) {
+    const { callback, contexts } = this.getPluginCallOptions<SnowplowPageOptions>(options);
+    const responseLogger = this.logger!.logRequest(
+      'page',
+      `${userId}, ${category}, ${name}, ${this.toJsonStr(properties, contexts)}`,
+    );
+    this.snowplow('trackPageView', name, undefined, contexts, undefined, this.wrapCallback(responseLogger, callback));
   }
 
-  track(userId: string | undefined, event: Event) {
-    const responseLogger = this.logger!.logRequest('track', `${userId}, ${JSON.stringify(event)}`);
-    const schemaVer = event.version && event.version.replace(/\./g, '-');
+  track(userId: string | undefined, { name, properties, version }: Event, options?: TrackOptions) {
+    const schemaVer = version && version.replace(/\./g, '-');
+    const { callback, contexts } = this.getPluginCallOptions<SnowplowTrackOptions>(options);
+    const responseLogger = this.logger!.logRequest(
+      'track',
+      `${userId}, ${name}, ${this.toJsonStr(properties, contexts)}`,
+    );
     this.snowplow('trackSelfDescribingEvent', {
-      schema: `iglu:${this.vendor}/${event.name}/jsonschema/${schemaVer}`,
-      data: event.properties,
-    }, undefined, undefined, (payload: unknown) => {
-      responseLogger.success(`done: ${JSON.stringify(payload)}`);
-    });
+      schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
+      data: properties,
+    }, contexts, undefined, this.wrapCallback(responseLogger, callback));
+  }
+
+  private toJsonStr = (properties?: Properties, contexts?: SnowplowContext[]) =>
+    `${JSON.stringify(properties)}${contexts ? `, ${JSON.stringify(contexts)}` : ''}`;
+
+  private wrapCallback(responseLogger: ResponseLogger, callback: SnowplowCallback | undefined) {
+    return (...args: any[]) => {
+      responseLogger.success(`done: ${JSON.stringify(args)}`);
+      callback?.(...args);
+    };
   }
 }
 

@@ -1,15 +1,38 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
+  Event,
+  AliasOptions,
+  IdentifyOptions,
+  GroupOptions,
+  PageOptions,
+  TrackOptions,
+  Properties,
+  RequestLoggerPlugin,
+  PluginLoadOptions,
+  ResponseLogger,
 } from '@itly/sdk';
 
 export type SegmentOptions = {};
+
+export type SegmentCallback = (...args: any[]) => void;
+
+export interface SegmentCallOptions {
+  options?: {
+    integrations?: Record<string, boolean>;
+  },
+  callback?: SegmentCallback;
+}
+export interface SegmentAliasOptions extends SegmentCallOptions {}
+export interface SegmentIdentifyOptions extends SegmentCallOptions {}
+export interface SegmentGroupOptions extends SegmentCallOptions {}
+export interface SegmentPageOptions extends SegmentCallOptions {}
+export interface SegmentTrackOptions extends SegmentCallOptions {}
 
 /**
  * Segment Browser Plugin for Iteratively SDK
  */
 export class SegmentPlugin extends RequestLoggerPlugin {
-  private get segment(): any {
+  get segment(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
     return s && s.analytics;
@@ -33,43 +56,49 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     }
   }
 
-  alias(userId: string, previousId: string | undefined) {
+  alias(userId: string, previousId: string | undefined, options?: AliasOptions) {
+    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentAliasOptions>(options);
     const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
-    this.segment.alias(userId, previousId, undefined, (...names: any[]) => {
-      responseLogger.success(`done ${names}`);
-    });
+    this.segment.alias(userId, previousId, segmentOptions, this.wrapCallback(responseLogger, callback));
   }
 
-  identify(userId: string | undefined, properties?: Properties) {
+  identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions) {
+    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentIdentifyOptions>(options);
     const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
-    this.segment.identify(userId, properties, undefined, () => {
-      responseLogger.success('done');
-    });
+    if (userId) {
+      this.segment.identify(userId, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
+    } else {
+      this.segment.identify(properties, segmentOptions, this.wrapCallback(responseLogger, callback));
+    }
   }
 
-  group(userId: string | undefined, groupId: string, properties?: Properties) {
+  group(userId: string | undefined, groupId: string, properties?: Properties, options?: GroupOptions) {
+    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentGroupOptions>(options);
     const responseLogger = this.logger!.logRequest('group', `${userId}, ${groupId}, ${JSON.stringify(properties)}`);
-    this.segment.group(groupId, properties, undefined, () => {
-      responseLogger.success('done');
-    });
+    this.segment.group(groupId, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties) {
+  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: PageOptions) {
+    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentPageOptions>(options);
     const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
-    this.segment.page(category, name, properties, undefined, () => {
-      responseLogger.success('done');
-    });
+    this.segment.page(category, name, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
   }
 
-  track(userId: string | undefined, event: Event) {
-    const responseLogger = this.logger!.logRequest('track', `${userId}, ${JSON.stringify(event)}`);
-    this.segment.track(event.name, event.properties, undefined, () => {
-      responseLogger.success('done');
-    });
+  track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
+    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentTrackOptions>(options);
+    const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
+    this.segment.track(name, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
   }
 
   reset() {
     this.segment.reset();
+  }
+
+  private wrapCallback(responseLogger: ResponseLogger, callback: SegmentCallback | undefined) {
+    return (...args: any[]) => {
+      responseLogger.success(`done ${args}`);
+      callback?.(args);
+    };
   }
 }
 

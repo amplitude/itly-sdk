@@ -1,4 +1,4 @@
-/* eslint-disable import/no-dynamic-require, global-require */
+/* eslint-disable import/no-dynamic-require, global-require, no-unused-vars */
 import path from 'path';
 
 export type TestEnv = 'src' | 'dist';

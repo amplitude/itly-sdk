@@ -9,7 +9,7 @@ import {
   Event,
   Properties,
   Plugin,
-  ValidationOptions,
+  Validation,
   ValidationResponse,
 } from '<%= itlySdkModule %>';
 
@@ -19,7 +19,7 @@ export {
   Plugin,
   Event,
   Properties,
-  ValidationOptions,
+  Validation,
   ValidationResponse,
 };
 
