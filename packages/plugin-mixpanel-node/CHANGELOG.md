@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.5](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.4...v2.0.5) (2021-03-11)
+
+
+### Bug Fixes
+
+* added stronger types for Node plugin callbacks ([1f86e45](https://github.com/iterativelyhq/itly-sdk/commit/1f86e45bc341d767e9fa4339668913ec9341693f))
+* make destination client getters public in browser plugins ([34c68e3](https://github.com/iterativelyhq/itly-sdk/commit/34c68e3e04364699b49aeb2a51f40e7dd2ebb681))
+* reduced log/callback code duplication ([eb5f19f](https://github.com/iterativelyhq/itly-sdk/commit/eb5f19fcdd25ca1fe3fd5d38b3a7f061c17a9111))
+
+
+### Features
+
+* added 'call options' for tracking methods ([efa287e](https://github.com/iterativelyhq/itly-sdk/commit/efa287e85ff97309cd279a60cdaf7ebcdf4c5c32))
+* added callbacks to tracking methods ([fac00d9](https://github.com/iterativelyhq/itly-sdk/commit/fac00d9672e3d5db1bd47c2251e99fe6275dcf64))
+
+
+
+
+
 ## [2.0.2](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.1...v2.0.2) (2021-02-26)
 
 

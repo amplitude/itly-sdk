@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.5](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.4...v2.0.5) (2021-03-11)
+
+
+### Bug Fixes
+
+* enum ValidationOptions ([e8afd7b](https://github.com/iterativelyhq/itly-sdk/commit/e8afd7ba0edffb0d8a121a238699911c1836f785))
+* fixed broken tests after merge ([60d2eef](https://github.com/iterativelyhq/itly-sdk/commit/60d2eeffdb8d3c061b2e38d6bbb9e5a04f167704))
+* renamed ValidationOptions -> Validation ([61b9db1](https://github.com/iterativelyhq/itly-sdk/commit/61b9db183b3c10a8800c29f7c0d37870cb9d414f))
+
+
+
+
+
 ## [2.0.2](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.1...v2.0.2) (2021-02-26)
 
 

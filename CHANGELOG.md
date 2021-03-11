@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.5](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.4...v2.0.5) (2021-03-11)
+
+
+### Bug Fixes
+
+* added stronger types for Node plugin callbacks ([1f86e45](https://github.com/iterativelyhq/itly-sdk/commit/1f86e45bc341d767e9fa4339668913ec9341693f))
+* don't log Amplitude identify request/response if properties is null ([8691895](https://github.com/iterativelyhq/itly-sdk/commit/8691895216999419d9af7f547e8cee6935e46fb3))
+* enum ValidationOptions ([e8afd7b](https://github.com/iterativelyhq/itly-sdk/commit/e8afd7ba0edffb0d8a121a238699911c1836f785))
+* fixed broken tests after merge ([60d2eef](https://github.com/iterativelyhq/itly-sdk/commit/60d2eeffdb8d3c061b2e38d6bbb9e5a04f167704))
+* load mParticle browser code from CDN ([2cddf8b](https://github.com/iterativelyhq/itly-sdk/commit/2cddf8b91e546550ff8eb6de8ef608b1c13b8933))
+* make destination client getters public in browser plugins ([34c68e3](https://github.com/iterativelyhq/itly-sdk/commit/34c68e3e04364699b49aeb2a51f40e7dd2ebb681))
+* reduced log/callback code duplication ([eb5f19f](https://github.com/iterativelyhq/itly-sdk/commit/eb5f19fcdd25ca1fe3fd5d38b3a7f061c17a9111))
+* renamed ValidationOptions -> Validation ([61b9db1](https://github.com/iterativelyhq/itly-sdk/commit/61b9db183b3c10a8800c29f7c0d37870cb9d414f))
+* restored shallow copy for event properties ([2ebf1db](https://github.com/iterativelyhq/itly-sdk/commit/2ebf1dbe12d9ac552e6118128ed2a95f805ef7ad))
+* separated Segment node track fields from callback ([4e91aaa](https://github.com/iterativelyhq/itly-sdk/commit/4e91aaa51344a435eb1dd03f5f831c75287f9b36))
+* use official @mparticle/web-sdk package ([9069c5c](https://github.com/iterativelyhq/itly-sdk/commit/9069c5c95e52aca25ddc16ec5709fda6ee0ca75e))
+
+
+### Features
+
+* added 'call options' for tracking methods ([efa287e](https://github.com/iterativelyhq/itly-sdk/commit/efa287e85ff97309cd279a60cdaf7ebcdf4c5c32))
+* added callbacks to tracking methods ([fac00d9](https://github.com/iterativelyhq/itly-sdk/commit/fac00d9672e3d5db1bd47c2251e99fe6275dcf64))
+* added EventOptions and Segment event metadata ([8cd2507](https://github.com/iterativelyhq/itly-sdk/commit/8cd25077b207dfd5c85fac2fe4161edd25f18afb))
+* added partial IterativelyOptions ([7fef3eb](https://github.com/iterativelyhq/itly-sdk/commit/7fef3ebb78598849a265592a9b51655af5ff3b96))
+* added Snowplow event metadata ([e8a5866](https://github.com/iterativelyhq/itly-sdk/commit/e8a5866911766a5428a956ffbf83b81736da8fa8))
+
+
+
+
+
 ## [2.0.4](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.3...v2.0.4) (2021-03-08)
 
 

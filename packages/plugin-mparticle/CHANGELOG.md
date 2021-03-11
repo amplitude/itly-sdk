@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.5](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.4...v2.0.5) (2021-03-11)
+
+
+### Bug Fixes
+
+* load mParticle browser code from CDN ([2cddf8b](https://github.com/iterativelyhq/itly-sdk/commit/2cddf8b91e546550ff8eb6de8ef608b1c13b8933))
+* restored shallow copy for event properties ([2ebf1db](https://github.com/iterativelyhq/itly-sdk/commit/2ebf1dbe12d9ac552e6118128ed2a95f805ef7ad))
+* use official @mparticle/web-sdk package ([9069c5c](https://github.com/iterativelyhq/itly-sdk/commit/9069c5c95e52aca25ddc16ec5709fda6ee0ca75e))
+
+
+### Features
+
+* added 'call options' for tracking methods ([efa287e](https://github.com/iterativelyhq/itly-sdk/commit/efa287e85ff97309cd279a60cdaf7ebcdf4c5c32))
+
+
+
+
+
 ## [2.0.2](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.1...v2.0.2) (2021-02-26)
 
 
