@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.5](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.4...v2.0.5) (2021-03-11)
+
+
+### Features
+
+* added partial IterativelyOptions ([7fef3eb](https://github.com/iterativelyhq/itly-sdk/commit/7fef3ebb78598849a265592a9b51655af5ff3b96))
+
+
+
+
+
 ## [2.0.4](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.3...v2.0.4) (2021-03-08)
 
 
