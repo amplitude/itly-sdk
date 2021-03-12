@@ -200,7 +200,9 @@ const DEFAULT_PROD_OPTIONS: Required<Options> = {
   validation: Validation.TrackOnInvalid,
 };
 
-type ReturnedPromise = { promise: Promise<void> };
+type CallResponse = {
+  promise: Promise<void>,
+};
 
 export class Itly {
   private options: Required<Options> | undefined = undefined;
@@ -258,7 +260,7 @@ export class Itly {
     userId: string,
     previousId?: string,
     options?: AliasOptions,
-  ): ReturnedPromise {
+  ): CallResponse {
     if (!this.isInitializedAndEnabled()) {
       return { promise: Promise.resolve() };
     }
@@ -278,7 +280,7 @@ export class Itly {
     userId: string | undefined,
     identifyProperties?: Properties,
     options?: IdentifyOptions,
-  ): ReturnedPromise {
+  ): CallResponse {
     if (!this.isInitializedAndEnabled()) {
       return { promise: Promise.resolve() };
     }
@@ -314,7 +316,7 @@ export class Itly {
     groupId: string,
     groupProperties?: Properties,
     options?: GroupOptions,
-  ): ReturnedPromise {
+  ): CallResponse {
     if (!this.isInitializedAndEnabled()) {
       return { promise: Promise.resolve() };
     }
@@ -351,7 +353,7 @@ export class Itly {
     category: string, name: string,
     pageProperties?: Properties,
     options?: PageOptions,
-  ): ReturnedPromise {
+  ): CallResponse {
     if (!this.isInitializedAndEnabled()) {
       return { promise: Promise.resolve() };
     }
@@ -389,7 +391,7 @@ export class Itly {
     userId: string | undefined,
     event: Event,
     options?: TrackOptions,
-  ): ReturnedPromise {
+  ): CallResponse {
     if (!this.isInitializedAndEnabled()) {
       return { promise: Promise.resolve() };
     }
@@ -416,7 +418,7 @@ export class Itly {
     this.runOnAllPlugins('reset', (p) => p.reset());
   }
 
-  flush(): ReturnedPromise {
+  flush(): CallResponse {
     const flushPromises = this.plugins.map(async (plugin) => {
       try {
         await plugin.flush();
@@ -482,7 +484,17 @@ export class Itly {
         || validationResponses.every((vr) => vr.valid);
     }
 
-    // #2 invoke postTrack(), postGroup(), postIdentify(), postPage() on every plugin
+    // #2 track phase
+    // invoke track(), group(), identify(), page() on every plugin if allowed
+    const callPromise = shouldRun
+      ? this.runOnAllPluginsAsync(op, async (p) => {
+        if (this.canRunEventOnPlugin(event, p)) {
+          await method(p, event);
+        }
+      })
+      : Promise.resolve();
+
+    // invoke postTrack(), postGroup(), postIdentify(), postPage() on every plugin
     this.runOnAllPlugins(
       `post${this.capitalize(op)}`,
       (p) => {
@@ -492,7 +504,7 @@ export class Itly {
       },
     );
 
-    // #3 throw validation error
+    // #3 response phase
     if (this.validation === Validation.ErrorOnInvalid) {
       const invalidResult = validationResponses.find((vr) => !vr.valid);
       if (invalidResult) {
@@ -500,17 +512,7 @@ export class Itly {
       }
     }
 
-    if (!shouldRun) {
-      return Promise.resolve();
-    }
-
-    // #4 track phase
-    // invoke track(), group(), identify(), page() on every plugin if allowed
-    return this.runOnAllPluginsAsync(op, async (p) => {
-      if (this.canRunEventOnPlugin(event, p)) {
-        await method(p, event);
-      }
-    });
+    return callPromise;
   }
 
   private canRunEventOnPlugin(event: Event, plugin: Plugin) {
