@@ -45,31 +45,44 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions) {
+  async identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions) {
     if (userId) {
       this.amplitude.getInstance().setUserId(userId);
     }
 
-    if (properties) {
-      const identifyObject = new this.amplitude.Identify();
-      for (const p in properties) {
-        if (!properties.hasOwnProperty(p)) {
-          continue;
-        }
+    if (!properties) {
+      return undefined;
+    }
 
-        identifyObject.set(p, (properties as any)[p]);
+    const identifyObject = new this.amplitude.Identify();
+    for (const p in properties) {
+      if (!properties.hasOwnProperty(p)) {
+        continue;
       }
 
-      const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
-      const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
-      this.amplitude.getInstance().identify(identifyObject, this.wrapCallback(responseLogger, callback));
+      identifyObject.set(p, (properties as any)[p]);
     }
+
+    const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
+    const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
+    return new Promise((resolve, reject) => {
+      this.amplitude.getInstance().identify(
+        identifyObject,
+        this.wrapCallback(responseLogger, callback, resolve, reject),
+      );
+    });
   }
 
-  track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
+  async track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
     const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId} ${name} ${JSON.stringify(properties)}`);
-    this.amplitude.getInstance().logEvent(name, properties, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.amplitude.getInstance().logEvent(
+        name,
+        properties,
+        this.wrapCallback(responseLogger, callback, resolve, reject),
+      );
+    });
   }
 
   reset() {
@@ -77,14 +90,24 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     this.amplitude.getInstance().regenerateDeviceId();
   }
 
-  private wrapCallback(responseLogger: ResponseLogger, callback: AmplitudeCallback | undefined) {
+  private wrapCallback(
+    responseLogger: ResponseLogger,
+    callback: AmplitudeCallback | undefined,
+    resolve: () => void,
+    reject: (reason?: any) => void,
+  ) {
     return (statusCode: number, responseBody: string, details: unknown) => {
-      if (statusCode >= 200 && statusCode < 300) {
-        responseLogger.success(`${statusCode}`);
-      } else {
-        responseLogger.error(`unexpected status: ${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
+      try {
+        if (statusCode >= 200 && statusCode < 300) {
+          responseLogger.success(`${statusCode}`);
+        } else {
+          responseLogger.error(`unexpected status: ${statusCode}. ${responseBody}\n${JSON.stringify(details)}`);
+        }
+        callback?.(statusCode, responseBody, details);
+        resolve();
+      } catch (e) {
+        reject(e);
       }
-      callback?.(statusCode, responseBody, details);
     };
   }
 }

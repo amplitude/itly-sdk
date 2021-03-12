@@ -56,39 +56,82 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     }
   }
 
-  identify(userId: string | undefined, properties?: Properties) {
+  async identify(userId: string | undefined, properties?: Properties) {
     this.snowplow('setUserId', userId);
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: PageOptions) {
+  async page(
+    userId?: string,
+    category?: string,
+    name?: string,
+    properties?: Properties,
+    options?: PageOptions,
+  ) {
     const { callback, contexts } = this.getPluginCallOptions<SnowplowPageOptions>(options);
     const responseLogger = this.logger!.logRequest(
       'page',
       `${userId}, ${category}, ${name}, ${this.toJsonStr(properties, contexts)}`,
     );
-    this.snowplow('trackPageView', name, undefined, contexts, undefined, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.snowplow(
+        'trackPageView',
+        name,
+        undefined,
+        contexts,
+        undefined,
+        this.wrapCallback(responseLogger, callback, resolve, reject),
+      );
+    });
   }
 
-  track(userId: string | undefined, { name, properties, version }: Event, options?: TrackOptions) {
+  async track(
+    userId: string | undefined,
+    { name, properties, version }: Event,
+    options?: TrackOptions,
+  ) {
     const schemaVer = version && version.replace(/\./g, '-');
     const { callback, contexts } = this.getPluginCallOptions<SnowplowTrackOptions>(options);
     const responseLogger = this.logger!.logRequest(
       'track',
       `${userId}, ${name}, ${this.toJsonStr(properties, contexts)}`,
     );
-    this.snowplow('trackSelfDescribingEvent', {
-      schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
-      data: properties,
-    }, contexts, undefined, this.wrapCallback(responseLogger, callback));
+    return new Promise((resolve, reject) => {
+      this.snowplow(
+        'trackSelfDescribingEvent',
+        {
+          schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
+          data: properties,
+        },
+        contexts,
+        undefined,
+        this.wrapCallback(responseLogger, callback, resolve, reject),
+      );
+    });
   }
 
   private toJsonStr = (properties?: Properties, contexts?: SnowplowContext[]) =>
     `${JSON.stringify(properties)}${contexts ? `, ${JSON.stringify(contexts)}` : ''}`;
 
-  private wrapCallback(responseLogger: ResponseLogger, callback: SnowplowCallback | undefined) {
+  private wrapCallback(
+    responseLogger: ResponseLogger,
+    callback: SnowplowCallback | undefined,
+    resolve: () => void,
+    reject: (reason?: any) => void,
+  ) {
     return (...args: any[]) => {
-      responseLogger.success(`done: ${JSON.stringify(args)}`);
-      callback?.(...args);
+      try {
+        if (args.length === 1 && args[0] instanceof Error) {
+          responseLogger.error(args[0].toString());
+          callback?.(...args);
+          reject(args[0]);
+        } else {
+          responseLogger.success(JSON.stringify(args));
+          callback?.(...args);
+          resolve();
+        }
+      } catch (e) {
+        reject(e);
+      }
     };
   }
 }

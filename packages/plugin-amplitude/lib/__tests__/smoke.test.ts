@@ -40,6 +40,8 @@ afterEach(() => {
 const methodArgLoggerMock = (methodName: string, ...args: any[]) => {
   // eslint-disable-next-line no-console
   console.log(`${methodName}()`, JSON.stringify(args.map((arg) => (typeof arg === 'function' ? '<FUNC>' : arg))));
+  // Invoke callback.
+  args.filter((arg) => typeof arg === 'function').forEach((arg) => arg());
 };
 
 test.each(testParams.map((test) => [test.name, test]) as any[])('%s',

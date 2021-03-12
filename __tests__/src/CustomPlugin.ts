@@ -29,11 +29,11 @@ export default class CustomPlugin extends RequestLoggerPlugin {
     };
   }
 
-  alias(userId: string, previousId: string | undefined): void {
+  async alias(userId: string, previousId: string | undefined) {
     this.log(`alias() userId='${userId}' previousId='${previousId}'`);
   }
 
-  identify(userId: string | undefined, properties: Properties | undefined): void {
+  async identify(userId: string | undefined, properties: Properties | undefined) {
     this.log(`identify() userId='${userId}' properties=${this.stringify(properties)}`);
   }
 
@@ -49,7 +49,7 @@ export default class CustomPlugin extends RequestLoggerPlugin {
     );
   }
 
-  group(userId: string | undefined, groupId: string, properties: Properties | undefined): void {
+  async group(userId: string | undefined, groupId: string, properties: Properties | undefined) {
     this.log(`group() userId='${userId}' groupId='${groupId}' properties=${this.stringify(properties)}`);
   }
 
@@ -66,7 +66,7 @@ export default class CustomPlugin extends RequestLoggerPlugin {
     );
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties): void {
+  async page(userId?: string, category?: string, name?: string, properties?: Properties) {
     this.log(
       `page() userId='${userId}' category='${category}' name='${name}' properties=${this.stringify(properties)}`,
     );
@@ -86,7 +86,7 @@ export default class CustomPlugin extends RequestLoggerPlugin {
     );
   }
 
-  track(userId: string | undefined, { name, properties }: Event): void {
+  async track(userId: string | undefined, { name, properties }: Event) {
     this.log(`track() userId='${userId}' event='${name}' properties=${this.stringify(properties)}`);
   }
 

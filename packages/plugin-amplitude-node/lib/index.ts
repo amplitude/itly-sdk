@@ -64,6 +64,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       callback?.(response);
     } catch (e) {
       responseLogger.error(e.toString());
+      throw e;
     }
   }
 
@@ -81,6 +82,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       callback?.(response);
     } catch (e) {
       responseLogger.error(e.toString());
+      throw e;
     }
   }
 }

@@ -44,7 +44,7 @@ export class BrazePlugin extends RequestLoggerPlugin {
     }
   }
 
-  identify(userId: string | undefined, properties?: Properties) {
+  async identify(userId: string | undefined, properties?: Properties) {
     if (userId) {
       this.appboy!.changeUser(userId);
     }
@@ -56,7 +56,7 @@ export class BrazePlugin extends RequestLoggerPlugin {
     }
   }
 
-  track(userId: string | undefined, { name, properties }: Event) {
+  async track(userId: string | undefined, { name, properties }: Event) {
     if (userId) {
       this.appboy!.changeUser(userId);
     }
