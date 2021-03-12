@@ -15,14 +15,18 @@ export interface MixpanelOptions extends InitConfig {}
 
 export type MixpanelCallback = Mixpanel.Callback;
 
-export interface MixpanelCallOptions {
+export interface MixpanelCallOptions {}
+export interface MixpanelAliasOptions extends MixpanelCallOptions {
   callback?: MixpanelCallback;
 }
-export interface MixpanelAliasOptions extends MixpanelCallOptions {}
-export interface MixpanelIdentifyOptions extends MixpanelCallOptions {}
+export interface MixpanelIdentifyOptions extends MixpanelCallOptions {
+  callback?: MixpanelCallback;
+}
 export interface MixpanelGroupOptions extends MixpanelCallOptions {}
 export interface MixpanelPageOptions extends MixpanelCallOptions {}
-export interface MixpanelTrackOptions extends MixpanelCallOptions {}
+export interface MixpanelTrackOptions extends MixpanelCallOptions {
+  callback?: MixpanelCallback;
+}
 
 /**
  * Mixpanel Node Plugin for Iteratively SDK
