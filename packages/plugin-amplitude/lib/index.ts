@@ -8,14 +8,16 @@ export type AmplitudeOptions = {};
 
 export type AmplitudeCallback = (statusCode: number, responseBody: string, details: unknown) => void;
 
-export interface AmplitudeCallOptions {
+export interface AmplitudeCallOptions {}
+export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
+export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
   callback?: AmplitudeCallback;
 }
-export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
-export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {}
 export interface AmplitudeGroupOptions extends AmplitudeCallOptions {}
 export interface AmplitudePageOptions extends AmplitudeCallOptions {}
-export interface AmplitudeTrackOptions extends AmplitudeCallOptions {}
+export interface AmplitudeTrackOptions extends AmplitudeCallOptions {
+  callback?: AmplitudeCallback;
+}
 
 /**
  * Amplitude Browser Plugin for Iteratively SDK
@@ -67,7 +69,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
   }
 
   track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
-    const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
+    const { callback } = this.getPluginCallOptions<AmplitudeTrackOptions>(options);
     const responseLogger = this.logger!.logRequest('track', `${userId} ${name} ${JSON.stringify(properties)}`);
     this.amplitude.getInstance().logEvent(name, properties, this.wrapCallback(responseLogger, callback));
   }
