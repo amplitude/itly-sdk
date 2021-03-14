@@ -7,14 +7,16 @@ export type MixpanelOptions = {};
 
 export type MixpanelCallback = (...args: any[]) => void;
 
-export interface MixpanelCallOptions {
+export interface MixpanelCallOptions {}
+export interface MixpanelAliasOptions extends MixpanelCallOptions {}
+export interface MixpanelIdentifyOptions extends MixpanelCallOptions {
   callback?: MixpanelCallback;
 }
-export interface MixpanelAliasOptions extends MixpanelCallOptions {}
-export interface MixpanelIdentifyOptions extends MixpanelCallOptions {}
 export interface MixpanelGroupOptions extends MixpanelCallOptions {}
 export interface MixpanelPageOptions extends MixpanelCallOptions {}
-export interface MixpanelTrackOptions extends MixpanelCallOptions {}
+export interface MixpanelTrackOptions extends MixpanelCallOptions {
+  callback?: MixpanelCallback;
+}
 
 /**
  * Mixpanel Browser Plugin for Iteratively SDK
