@@ -15,7 +15,7 @@ import {
   Validation,
   ValidationResponse,
   Logger,
-  LOGGERS,
+  Loggers,
 } from './base';
 import {
   RequestLoggerPlugin,
@@ -43,7 +43,7 @@ export {
   RequestLoggerPlugin,
   RequestLogger,
   ResponseLogger,
-  LOGGERS,
+  Loggers,
 };
 
 const p = typeof process === 'undefined'

@@ -149,14 +149,14 @@ export interface LoadOptions extends Options {
   context?: Properties,
 }
 
-export const LOGGERS: Readonly<Record<'NONE' | 'CONSOLE', Logger>> = Object.freeze({
-  NONE: {
+export const Loggers: Readonly<Record<'None' | 'Console', Logger>> = Object.freeze({
+  None: {
     debug(message: string) {},
     info(message: string) {},
     warn(message: string) {},
     error(message: string) {},
   },
-  CONSOLE: {
+  Console: {
     // eslint-disable-next-line no-console
     debug(message: string) { console.debug(message); },
     // eslint-disable-next-line no-console
@@ -173,7 +173,7 @@ const DEFAULT_DEV_OPTIONS: Required<Options> = {
   plugins: [],
   validation: Validation.ErrorOnInvalid,
   disabled: false,
-  logger: LOGGERS.NONE,
+  logger: Loggers.None,
 };
 
 const DEFAULT_PROD_OPTIONS: Required<Options> = {
@@ -189,7 +189,7 @@ export class Itly {
 
   private validation = DEFAULT_DEV_OPTIONS.validation;
 
-  private logger: Logger = LOGGERS.NONE;
+  private logger: Logger = Loggers.None;
 
   private context: Properties | undefined = undefined;
 
