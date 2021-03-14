@@ -4,7 +4,7 @@
 
 ## Installation
 
-[Snowplow Native plugin](https://docs.snowplowanalytics.com/docs/collecting-data/collecting-from-own-applications/react-native-tracker/#installation)
+[Snowplow library](https://docs.snowplowanalytics.com/docs/collecting-data/collecting-from-own-applications/react-native-tracker/#installation)
 
 `yarn add @snowplow/react-native-tracker`
 
