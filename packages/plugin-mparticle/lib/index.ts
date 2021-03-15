@@ -70,7 +70,7 @@ export class MparticlePlugin extends RequestLoggerPlugin {
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties) {
-    this.mparticle.logPageView(name, properties);
+    this.mparticle.logPageView(name, { ...properties });
   }
 
   track(userId: string | undefined, { name, properties }: Event) {

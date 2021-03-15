@@ -1,0 +1,36 @@
+{
+  "name": "@itly/plugin-mparticle-react-native",
+  "version": "2.0.5",
+  "description": "mParticle React Native Plugin for Iteratively SDK",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
+    "test": "jest --runInBand"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
+  "keywords": [
+    "itly",
+    "sdk",
+    "iteratively",
+    "plugin"
+  ],
+  "author": "Iteratively",
+  "license": "ISC",
+  "devDependencies": {
+    "@itly/sdk": "2.0.5",
+    "react-native-mparticle": "^2.4.9",
+    "typescript": "^3.9.3"
+  },
+  "peerDependencies": {
+    "@itly/sdk": "^2.0.0",
+    "react-native-mparticle": "^2.4.9"
+  }
+}
