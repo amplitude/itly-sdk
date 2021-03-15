@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.6](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.5...v2.0.6) (2021-03-15)
+
+
+### Bug Fixes
+
+* updated Snowplow version ([ea91bf5](https://github.com/iterativelyhq/itly-sdk/commit/ea91bf54c094e087669e568a36a73c0a04799a05))
+
+
+### Features
+
+* added Snowplow plugin for React Native ([f54be5b](https://github.com/iterativelyhq/itly-sdk/commit/f54be5b60c77a7e591e10996d3b0e359c9628e2e))
+
+
+
+
+
 ## [2.0.5](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.4...v2.0.5) (2021-03-11)
 
 

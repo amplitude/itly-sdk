@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.6](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.5...v2.0.6) (2021-03-15)
+
+
+### Bug Fixes
+
+* empty CallOptions if they are unused ([98f0d3c](https://github.com/iterativelyhq/itly-sdk/commit/98f0d3c67f2b97c1bc1b13ca9e3fe749e1c37108))
+* installation/initialization steps for mParticle React Native plugin ([e7a6cc1](https://github.com/iterativelyhq/itly-sdk/commit/e7a6cc14bbadd7079beeacc0feb458d470385e92))
+* installation/initialization steps for Snowplow React Native plugin ([4dd10cd](https://github.com/iterativelyhq/itly-sdk/commit/4dd10cd13cdf3c680ff5a5e852db0da87b2c0937))
+* renamed LOGGERS.CONSOLE/NONE to Loggers.Console/None ([06b6c78](https://github.com/iterativelyhq/itly-sdk/commit/06b6c783dc5a6ee892981326d95afb8396dcddb3))
+* updated Snowplow version ([ea91bf5](https://github.com/iterativelyhq/itly-sdk/commit/ea91bf54c094e087669e568a36a73c0a04799a05))
+
+
+### Features
+
+* added mParticle plugin for React Native ([1e536b4](https://github.com/iterativelyhq/itly-sdk/commit/1e536b4cd57bcbc2beec3dededecec7611c00f77))
+* added Segment plugin for React Native ([b84cf60](https://github.com/iterativelyhq/itly-sdk/commit/b84cf60bb02dcd00a03d033d0b58d82a10ac5a15))
+* added Snowplow plugin for React Native ([f54be5b](https://github.com/iterativelyhq/itly-sdk/commit/f54be5b60c77a7e591e10996d3b0e359c9628e2e))
+
+
+
+
+
 ## [2.0.5](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.4...v2.0.5) (2021-03-11)
 
 
