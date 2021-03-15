@@ -62,7 +62,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
 
   page(userId?: string, category?: string, name?: string, properties?: Properties, options?: PageOptions) {
     const { callback, contexts } = this.getPluginCallOptions<SnowplowPageOptions>(options);
-    const responseLogger = this.logger!.logRequest(
+    const responseLogger = this.logger.logRequest(
       'page',
       `${userId}, ${category}, ${name}, ${this.toJsonStr(properties, contexts)}`,
     );
@@ -72,7 +72,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
   track(userId: string | undefined, { name, properties, version }: Event, options?: TrackOptions) {
     const schemaVer = version && version.replace(/\./g, '-');
     const { callback, contexts } = this.getPluginCallOptions<SnowplowTrackOptions>(options);
-    const responseLogger = this.logger!.logRequest(
+    const responseLogger = this.logger.logRequest(
       'track',
       `${userId}, ${name}, ${this.toJsonStr(properties, contexts)}`,
     );
