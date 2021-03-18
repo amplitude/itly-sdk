@@ -26,8 +26,13 @@ itly.load({
   plugins: [
     ...
     new MparticlePlugin(),
-    ...
   ],
   ...
 });
 ```
+
+## Linking
+
+If you are using an older version of React Native that doesn't support auto-linking you may need to follow additional setup steps.
+
+Read full setup instructions for [mParticle SDK](https://docs.mparticle.com/developers/sdk/react-native/getting-started/) for more information.

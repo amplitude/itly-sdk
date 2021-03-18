@@ -25,3 +25,9 @@ itly.load({
   ...
 });
 ```
+
+## Linking
+
+If you are using an older version of React Native that doesn't support auto-linking you may need to follow additional setup steps.
+
+Read full setup instructions for [Segment SDK](https://segment.com/docs/connections/sources/catalog/libraries/mobile/react-native/#getting-started) for more information.
