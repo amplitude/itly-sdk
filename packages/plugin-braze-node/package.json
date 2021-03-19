@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-braze-node",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Braze Node Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -26,7 +26,7 @@
   "author": "Iteratively",
   "license": "ISC",
   "devDependencies": {
-    "@itly/sdk": "2.0.6",
+    "@itly/sdk": "^2.0.7",
     "@types/node-fetch": "^2.5.8",
     "typescript": "^3.9.3"
   },
