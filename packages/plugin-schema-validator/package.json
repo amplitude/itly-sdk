@@ -33,7 +33,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "ajv": "^6.12.2"
+    "ajv": "^6.12.6"
   },
   "peerDependencies": {
     "@itly/sdk": "^2.0.0"
