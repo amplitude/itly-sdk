@@ -281,10 +281,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@itly/sdk@^0.7.1":
-  version "0.7.1"
-  resolved "https://npm.fury.io/itly/~/up/ver_23gBmy/%40itly%2Fsdk-core-0.7.1.tgz#d2ccd4b24dd0793a545389641df987fbffaa09a4"
-  integrity sha1-0szUsk3QeTpUU4lkHfmH+/+qCaQ=
+"@itly/sdk@2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@itly/sdk/-/sdk-2.0.6.tgz#91cc709d762792def5fafb5feefd4e0a12d12e8b"
+  integrity sha512-T1XwG1M2QPbMW2sqkRfw4/ltf2Z27tPRTIDHucIUxbYs27sVFiU12M+nIklIB1XX+ZGRgGYGsePVkuYmTuyGCw==
 
 "@jest/console@^26.0.1":
   version "26.0.1"
@@ -604,10 +604,10 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.3.1.tgz#85010754db53c3fbaf3b9ea3e083aa5c5d147ffd"
   integrity sha512-tLc0wSnatxAQHVHUapaHdz72pi9KUyHjq5KyHjGg9Y8Ifdc79pTh2XvI6I1/chZbnM7QtNKzh66ooDogPZSleA==
 
-ajv@^6.12.2, ajv@^6.5.5:
-  version "6.12.2"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.2.tgz#c629c5eced17baf314437918d2da88c99d5958cd"
-  integrity sha512-k+V+hzjm5q/Mr8ef/1Y9goCmlsK4I6Sm74teeyGvFk1XrOsbsKLjEdrvny42CZ+a8sXbk8KWpY/bDwS+FLL2UQ==
+ajv@^6.12.6, ajv@^6.5.5:
+  version "6.12.6"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.6.tgz#baf5a62e802b07d977034586f8c3baf5adf26df4"
+  integrity sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==
   dependencies:
     fast-deep-equal "^3.1.1"
     fast-json-stable-stringify "^2.0.0"
