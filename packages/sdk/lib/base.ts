@@ -6,7 +6,7 @@ export type Properties = {
   [name: string]: any;
 };
 
-export type CallOptions = Record<string, any>;
+export type CallOptions = Record<string, unknown>;
 export interface AliasOptions extends CallOptions {}
 export interface IdentifyOptions extends CallOptions {}
 export interface GroupOptions extends CallOptions {}
@@ -59,9 +59,9 @@ export abstract class Plugin {
     };
   }
 
-  alias(userId: string, previousId: string | undefined, options?: AliasOptions): void {}
+  alias(userId: string, previousId: string | undefined, options?: unknown): void {}
 
-  identify(userId: string | undefined, properties: Properties | undefined, options?: IdentifyOptions): void {}
+  identify(userId: string | undefined, properties: Properties | undefined, options?: unknown): void {}
 
   postIdentify(
     userId: string | undefined,
@@ -73,7 +73,7 @@ export abstract class Plugin {
     userId: string | undefined,
     groupId: string,
     properties: Properties | undefined,
-    options?: GroupOptions,
+    options?: unknown,
   ): void {}
 
   postGroup(
@@ -88,7 +88,7 @@ export abstract class Plugin {
     category: string | undefined,
     name: string | undefined,
     properties: Properties | undefined,
-    options?: PageOptions,
+    options?: unknown,
   ): void {}
 
   postPage(
@@ -99,7 +99,7 @@ export abstract class Plugin {
     validationResponses: ValidationResponse[],
   ): void {}
 
-  track(userId: string | undefined, event: Event, options?: TrackOptions): void {}
+  track(userId: string | undefined, event: Event, options?: unknown): void {}
 
   postTrack(userId: string | undefined, event: Event, validationResponses: ValidationResponse[]): void {}
 
@@ -107,15 +107,6 @@ export abstract class Plugin {
 
   flush(): Promise<void> {
     return Promise.resolve();
-  }
-
-  /**
-   * Returns call options specific to this plugin
-   * @param options
-   * @protected
-   */
-  protected getPluginCallOptions<T>(options: CallOptions | undefined): Partial<T> {
-    return (options?.[this.id] ?? {}) as Partial<T>;
   }
 }
 
@@ -239,7 +230,7 @@ export class Itly {
       return;
     }
 
-    this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId, options));
+    this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId, options?.[p.id]));
   }
 
   /**
@@ -263,7 +254,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'identify',
       identifyEvent,
-      (p, e) => p.identify(userId, identifyProperties, options),
+      (p, e) => p.identify(userId, identifyProperties, options?.[p.id]),
       (p, e, validationResponses) => p.postIdentify(
         userId, identifyProperties, validationResponses,
       ),
@@ -292,7 +283,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'group',
       groupEvent,
-      (p, e) => p.group(userId, groupId, groupProperties, options),
+      (p, e) => p.group(userId, groupId, groupProperties, options?.[p.id]),
       (p, e, validationResponses) => p.postGroup(
         userId, groupId, groupProperties, validationResponses,
       ),
@@ -327,7 +318,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'page',
       pageEvent,
-      (p, e) => p.page(userId, category, name, pageProperties, options),
+      (p, e) => p.page(userId, category, name, pageProperties, options?.[p.id]),
       (p, e, validationResponses) => p.postPage(
         userId, category, name, pageProperties, validationResponses,
       ),
@@ -354,7 +345,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'track',
       event,
-      (p, e) => p.track(userId, mergedEvent, options),
+      (p, e) => p.track(userId, mergedEvent, options?.[p.id]),
       (p, e, validationResponses) => p.postTrack(
         userId, mergedEvent, validationResponses,
       ),

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, PageOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
 } from '@itly/sdk';
 
 export type SnowplowOptions = {
@@ -60,8 +60,8 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     this.snowplow('setUserId', userId);
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: PageOptions) {
-    const { callback, contexts } = this.getPluginCallOptions<SnowplowPageOptions>(options);
+  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: SnowplowPageOptions) {
+    const { callback, contexts } = options ?? {};
     const responseLogger = this.logger.logRequest(
       'page',
       `${userId}, ${category}, ${name}, ${this.toJsonStr(properties, contexts)}`,
@@ -69,9 +69,9 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     this.snowplow('trackPageView', name, undefined, contexts, undefined, this.wrapCallback(responseLogger, callback));
   }
 
-  track(userId: string | undefined, { name, properties, version }: Event, options?: TrackOptions) {
+  track(userId: string | undefined, { name, properties, version }: Event, options?: SnowplowTrackOptions) {
     const schemaVer = version && version.replace(/\./g, '-');
-    const { callback, contexts } = this.getPluginCallOptions<SnowplowTrackOptions>(options);
+    const { callback, contexts } = options ?? {};
     const responseLogger = this.logger.logRequest(
       'track',
       `${userId}, ${name}, ${this.toJsonStr(properties, contexts)}`,

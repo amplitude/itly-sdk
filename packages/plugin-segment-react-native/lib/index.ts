@@ -2,7 +2,6 @@
 import analytics, { Analytics, JsonMap } from '@segment/analytics-react-native';
 import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
-  AliasOptions, IdentifyOptions, GroupOptions, PageOptions, TrackOptions,
 } from '@itly/sdk';
 
 export type SegmentOptions = Analytics.Configuration;
@@ -34,22 +33,22 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     analytics.setup(this.writeKey, this.options);
   }
 
-  async alias(userId: string, previousId: string | undefined, options?: AliasOptions) {
-    const { options: segmentOptions } = this.getPluginCallOptions<SegmentAliasOptions>(options);
+  async alias(userId: string, previousId: string | undefined, options?: SegmentAliasOptions) {
+    const { options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
     await analytics.alias(userId, segmentOptions);
     responseLogger.success('done');
   }
 
-  async identify(userId: string | undefined, properties: Properties | undefined, options?: IdentifyOptions) {
-    const { options: segmentOptions } = this.getPluginCallOptions<SegmentIdentifyOptions>(options);
+  async identify(userId: string | undefined, properties: Properties | undefined, options?: SegmentIdentifyOptions) {
+    const { options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
     await analytics.identify(userId != null ? userId : null, properties, segmentOptions);
     responseLogger.success('done');
   }
 
-  async group(userId: string | undefined, groupId: string, properties?: Properties, options?: GroupOptions) {
-    const { options: segmentOptions } = this.getPluginCallOptions<SegmentGroupOptions>(options);
+  async group(userId: string | undefined, groupId: string, properties?: Properties, options?: SegmentGroupOptions) {
+    const { options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('group', `${userId}, ${groupId}, ${JSON.stringify(properties)}`);
     await analytics.group(groupId, properties, segmentOptions);
     responseLogger.success('done');
@@ -60,16 +59,16 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     category: string | undefined,
     name: string,
     properties?: Properties,
-    options?: PageOptions,
+    options?: SegmentPageOptions,
   ) {
-    const { options: segmentOptions } = this.getPluginCallOptions<SegmentPageOptions>(options);
+    const { options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
     await analytics.screen(name, properties, segmentOptions);
     responseLogger.success('done');
   }
 
-  async track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
-    const { options: segmentOptions } = this.getPluginCallOptions<SegmentTrackOptions>(options);
+  async track(userId: string | undefined, { name, properties }: Event, options?: SegmentTrackOptions) {
+    const { options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
     await analytics.track(name, properties, segmentOptions);
     responseLogger.success('done');

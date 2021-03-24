@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, PageOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
 } from '@itly/sdk';
 import Tracker from '@snowplow/react-native-tracker';
 
@@ -62,8 +62,8 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
       Tracker.setSubjectData({ userId }));
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: PageOptions) {
-    const { contexts } = this.getPluginCallOptions<SnowplowPageOptions>(options);
+  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: SnowplowPageOptions) {
+    const { contexts } = options ?? {};
     this.initializePromise!.then(() =>
       Tracker.trackScreenViewEvent({
         screenName: name,
@@ -71,9 +71,9 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
       }, contexts));
   }
 
-  track(userId: string | undefined, { name, properties, version }: Event, options?: TrackOptions) {
+  track(userId: string | undefined, { name, properties, version }: Event, options?: SnowplowTrackOptions) {
     const schemaVer = version && version.replace(/\./g, '-');
-    const { contexts } = this.getPluginCallOptions<SnowplowTrackOptions>(options);
+    const { contexts } = options ?? {};
     this.initializePromise!.then(() =>
       Tracker.trackSelfDescribingEvent({
         schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,

@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
   Event,
-  IdentifyOptions,
-  TrackOptions,
   Properties,
   RequestLoggerPlugin,
   PluginLoadOptions,
@@ -51,8 +49,8 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     this.amplitude = new Amplitude(this.apiKey, this.options);
   }
 
-  async identify(userId: string, properties?: Properties, options?: IdentifyOptions) {
-    const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
+  async identify(userId: string, properties?: Properties, options?: AmplitudeIdentifyOptions) {
+    const { callback } = options ?? {};
     const payload = {
       user_id: userId,
       user_properties: properties,
@@ -67,8 +65,8 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  async track(userId: string, { name, properties }: Event, options?: TrackOptions) {
-    const { callback } = this.getPluginCallOptions<AmplitudeTrackOptions>(options);
+  async track(userId: string, { name, properties }: Event, options?: AmplitudeTrackOptions) {
+    const { callback } = options ?? {};
     const payload = {
       event_type: name,
       user_id: userId,
