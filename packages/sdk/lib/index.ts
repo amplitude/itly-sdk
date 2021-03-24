@@ -1,21 +1,18 @@
 /* eslint-disable global-require, import/extensions, import/no-unresolved */
 /* eslint-disable no-underscore-dangle */
 import {
-  Options,
+  CallOptions,
   Environment,
   Event,
-  AliasOptions,
-  IdentifyOptions,
-  GroupOptions,
-  PageOptions,
-  TrackOptions,
-  Properties,
-  Plugin,
-  PluginLoadOptions,
-  Validation,
-  ValidationResponse,
   Logger,
   Loggers,
+  Options,
+  Plugin,
+  PluginCallOptions,
+  PluginLoadOptions,
+  Properties,
+  Validation,
+  ValidationResponse,
 } from './base';
 import {
   RequestLoggerPlugin,
@@ -28,22 +25,19 @@ import { Itly as ItlyNode } from './node';
 export {
   Options,
   Environment,
+  CallOptions,
   Plugin,
   PluginLoadOptions,
+  PluginCallOptions,
   Event,
-  AliasOptions,
-  IdentifyOptions,
-  GroupOptions,
-  PageOptions,
-  TrackOptions,
   Properties,
   Validation,
   ValidationResponse,
   Logger,
+  Loggers,
   RequestLoggerPlugin,
   RequestLogger,
   ResponseLogger,
-  Loggers,
 };
 
 const p = typeof process === 'undefined'
