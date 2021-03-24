@@ -5,13 +5,14 @@ import {
   RequestLoggerPlugin,
   PluginLoadOptions,
   ResponseLogger,
+  PluginCallOptions,
 } from '@itly/sdk';
 
 export type SegmentOptions = {};
 
 export type SegmentCallback = (...args: any[]) => void;
 
-export interface SegmentCallOptions {
+export interface SegmentCallOptions extends PluginCallOptions {
   options?: {
     integrations?: Record<string, boolean>;
   },

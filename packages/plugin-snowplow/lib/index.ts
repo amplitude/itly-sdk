@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger, PluginCallOptions,
 } from '@itly/sdk';
 
 export type SnowplowOptions = {
@@ -15,7 +15,7 @@ export interface SnowplowContext {
 
 export type SnowplowCallback = (...args: any[]) => void;
 
-export interface SnowplowCallOptions {}
+export interface SnowplowCallOptions extends PluginCallOptions {}
 export interface SnowplowAliasOptions extends SnowplowCallOptions {}
 export interface SnowplowIdentifyOptions extends SnowplowCallOptions {}
 export interface SnowplowGroupOptions extends SnowplowCallOptions {}

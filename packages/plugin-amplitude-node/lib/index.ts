@@ -4,12 +4,13 @@ import {
   Properties,
   RequestLoggerPlugin,
   PluginLoadOptions,
+  PluginCallOptions,
 } from '@itly/sdk';
 import Amplitude, { AmplitudeOptions, AmplitudeIdentifyResponse, AmplitudeTrackResponse } from 'amplitude';
 
 export { AmplitudeOptions };
 
-export interface AmplitudeCallOptions {}
+export interface AmplitudeCallOptions extends PluginCallOptions {}
 export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
 export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
   callback?: (response: AmplitudeIdentifyResponse) => void;

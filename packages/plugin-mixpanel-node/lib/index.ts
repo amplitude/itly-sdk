@@ -5,6 +5,7 @@ import {
   Properties,
   PluginLoadOptions,
   ResponseLogger,
+  PluginCallOptions,
 } from '@itly/sdk';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
@@ -12,7 +13,7 @@ export interface MixpanelOptions extends InitConfig {}
 
 export type MixpanelCallback = Mixpanel.Callback;
 
-export interface MixpanelCallOptions {}
+export interface MixpanelCallOptions extends PluginCallOptions {}
 export interface MixpanelAliasOptions extends MixpanelCallOptions {
   callback?: MixpanelCallback;
 }

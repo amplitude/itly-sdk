@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import analytics, { Analytics, JsonMap } from '@segment/analytics-react-native';
 import {
-  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, PluginCallOptions,
 } from '@itly/sdk';
 
 export type SegmentOptions = Analytics.Configuration;
 
-export interface SegmentCallOptions {
+export interface SegmentCallOptions extends PluginCallOptions {
   options?: {
     integrations?: { [key: string]: boolean };
   } & JsonMap,

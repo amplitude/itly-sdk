@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, PluginCallOptions,
 } from '@itly/sdk';
 import Tracker from '@snowplow/react-native-tracker';
 
@@ -28,7 +28,7 @@ export interface SnowplowContext {
   data: { [key: string]: any };
 }
 
-export interface SnowplowCallOptions {}
+export interface SnowplowCallOptions extends PluginCallOptions {}
 export interface SnowplowAliasOptions extends SnowplowCallOptions {}
 export interface SnowplowIdentifyOptions extends SnowplowCallOptions {}
 export interface SnowplowGroupOptions extends SnowplowCallOptions {}

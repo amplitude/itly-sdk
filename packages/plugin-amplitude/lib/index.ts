@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger, PluginCallOptions,
 } from '@itly/sdk';
 
 export type AmplitudeOptions = {};
 
 export type AmplitudeCallback = (statusCode: number, responseBody: string, details: unknown) => void;
 
-export interface AmplitudeCallOptions {}
+export interface AmplitudeCallOptions extends PluginCallOptions {}
 export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
 export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
   callback?: AmplitudeCallback;

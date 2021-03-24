@@ -5,6 +5,7 @@ import {
   Event,
   Properties,
   ResponseLogger,
+  PluginCallOptions,
 } from '@itly/sdk';
 import Segment from 'analytics-node';
 
@@ -17,7 +18,7 @@ export type SegmentOptions = {
 
 export type SegmentCallback = (err: Error | undefined) => void;
 
-export interface SegmentCallOptions {
+export interface SegmentCallOptions extends PluginCallOptions {
   options?: {
     integrations?: Record<string, boolean>;
   },

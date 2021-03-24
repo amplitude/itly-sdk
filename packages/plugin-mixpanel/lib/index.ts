@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
-  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger, PluginCallOptions,
 } from '@itly/sdk';
 
 export type MixpanelOptions = {};
 
 export type MixpanelCallback = (...args: any[]) => void;
 
-export interface MixpanelCallOptions {}
+export interface MixpanelCallOptions extends PluginCallOptions {}
 export interface MixpanelAliasOptions extends MixpanelCallOptions {}
 export interface MixpanelIdentifyOptions extends MixpanelCallOptions {
   callback?: MixpanelCallback;
