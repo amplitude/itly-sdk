@@ -1,13 +1,9 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/extensions, import/no-unresolved */
 import {
   Itly as ItlyBase,
-  LoadOptions,
+  CallOptions,
   Event,
-  AliasOptions,
-  IdentifyOptions,
-  GroupOptions,
-  PageOptions,
-  TrackOptions,
+  LoadOptions,
   Properties,
 } from './base';
 
@@ -36,7 +32,7 @@ export class Itly {
   alias = (
     userId: string,
     previousId?: string,
-    options?: AliasOptions,
+    options?: CallOptions,
   ) => this.itly.alias(userId, previousId, options);
 
   /**
@@ -48,7 +44,7 @@ export class Itly {
   identify = (
     userId: string | Properties | undefined,
     identifyProperties?: Properties,
-    options?: IdentifyOptions,
+    options?: CallOptions,
   ) => {
     if (userId != null && typeof (userId) === 'object') {
       // eslint-disable-next-line no-param-reassign
@@ -71,7 +67,7 @@ export class Itly {
   group = (
     groupId: string,
     groupProperties?: Properties,
-    options?: GroupOptions,
+    options?: CallOptions,
   ) => this.itly.group(undefined, groupId, groupProperties, options);
 
   /**
@@ -85,7 +81,7 @@ export class Itly {
     category: string,
     name: string,
     pageProperties?: Properties,
-    options?: PageOptions,
+    options?: CallOptions,
   ) => this.itly.page(undefined, category, name, pageProperties, options);
 
   /**
@@ -99,7 +95,7 @@ export class Itly {
    */
   track = (
     event: Event,
-    options?: TrackOptions,
+    options?: CallOptions,
   ) => this.itly.track(undefined, event, options);
 
   /**

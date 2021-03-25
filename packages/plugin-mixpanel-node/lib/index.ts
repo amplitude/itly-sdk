@@ -2,12 +2,10 @@
 import {
   RequestLoggerPlugin,
   Event,
-  AliasOptions,
-  IdentifyOptions,
-  TrackOptions,
   Properties,
   PluginLoadOptions,
   ResponseLogger,
+  PluginCallOptions,
 } from '@itly/sdk';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
@@ -15,7 +13,7 @@ export interface MixpanelOptions extends InitConfig {}
 
 export type MixpanelCallback = Mixpanel.Callback;
 
-export interface MixpanelCallOptions {}
+export interface MixpanelCallOptions extends PluginCallOptions {}
 export interface MixpanelAliasOptions extends MixpanelCallOptions {
   callback?: MixpanelCallback;
 }
@@ -46,14 +44,14 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     this.mixpanel = Mixpanel.init(this.apiKey, this.options);
   }
 
-  alias(userId: string, previousId: string, options?: AliasOptions) {
-    const { callback } = this.getPluginCallOptions<MixpanelAliasOptions>(options);
+  alias(userId: string, previousId: string, options?: MixpanelAliasOptions) {
+    const { callback } = options ?? {};
     const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
     this.mixpanel!.alias(previousId, userId, this.wrapCallback(responseLogger, callback));
   }
 
-  identify(userId: string, properties: Properties | undefined, options?: IdentifyOptions) {
-    const { callback } = this.getPluginCallOptions<MixpanelIdentifyOptions>(options);
+  identify(userId: string, properties: Properties | undefined, options?: MixpanelIdentifyOptions) {
+    const { callback } = options ?? {};
     const payload = {
       distinct_id: userId,
       ...properties,
@@ -62,8 +60,8 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
     this.mixpanel!.people.set(userId, payload, this.wrapCallback(responseLogger, callback));
   }
 
-  track(userId: string, { name, properties }: Event, options?: TrackOptions) {
-    const { callback } = this.getPluginCallOptions<MixpanelTrackOptions>(options);
+  track(userId: string, { name, properties }: Event, options?: MixpanelTrackOptions) {
+    const { callback } = options ?? {};
     const payload = {
       distinct_id: userId,
       ...properties,

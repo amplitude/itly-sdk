@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
-  Event, IdentifyOptions, TrackOptions, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger, PluginCallOptions,
 } from '@itly/sdk';
 
 export type AmplitudeOptions = {};
 
 export type AmplitudeCallback = (statusCode: number, responseBody: string, details: unknown) => void;
 
-export interface AmplitudeCallOptions {}
+export interface AmplitudeCallOptions extends PluginCallOptions {}
 export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
 export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
   callback?: AmplitudeCallback;
@@ -47,7 +47,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions) {
+  identify(userId: string | undefined, properties?: Properties, options?: AmplitudeIdentifyOptions) {
     if (userId) {
       this.amplitude.getInstance().setUserId(userId);
     }
@@ -62,14 +62,14 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
         identifyObject.set(p, (properties as any)[p]);
       }
 
-      const { callback } = this.getPluginCallOptions<AmplitudeIdentifyOptions>(options);
+      const { callback } = options ?? {};
       const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
       this.amplitude.getInstance().identify(identifyObject, this.wrapCallback(responseLogger, callback));
     }
   }
 
-  track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
-    const { callback } = this.getPluginCallOptions<AmplitudeTrackOptions>(options);
+  track(userId: string | undefined, { name, properties }: Event, options?: AmplitudeTrackOptions) {
+    const { callback } = options ?? {};
     const responseLogger = this.logger!.logRequest('track', `${userId} ${name} ${JSON.stringify(properties)}`);
     this.amplitude.getInstance().logEvent(name, properties, this.wrapCallback(responseLogger, callback));
   }

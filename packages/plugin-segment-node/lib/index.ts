@@ -3,13 +3,9 @@ import {
   RequestLoggerPlugin,
   PluginLoadOptions,
   Event,
-  AliasOptions,
-  IdentifyOptions,
-  GroupOptions,
-  PageOptions,
-  TrackOptions,
   Properties,
   ResponseLogger,
+  PluginCallOptions,
 } from '@itly/sdk';
 import Segment from 'analytics-node';
 
@@ -22,7 +18,7 @@ export type SegmentOptions = {
 
 export type SegmentCallback = (err: Error | undefined) => void;
 
-export interface SegmentCallOptions {
+export interface SegmentCallOptions extends PluginCallOptions {
   options?: {
     integrations?: Record<string, boolean>;
   },
@@ -52,8 +48,8 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     this.segment = new Segment(this.writeKey, this.options);
   }
 
-  alias(userId: string, previousId: string, options?: AliasOptions) {
-    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentAliasOptions>(options);
+  alias(userId: string, previousId: string, options?: SegmentAliasOptions) {
+    const { callback, options: segmentOptions } = options ?? {};
     const payload = {
       ...segmentOptions,
       userId,
@@ -63,8 +59,8 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     this.segment!.alias(payload, this.wrapCallback(responseLogger, callback));
   }
 
-  identify(userId: string, properties: Properties | undefined, options?: IdentifyOptions) {
-    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentIdentifyOptions>(options);
+  identify(userId: string, properties: Properties | undefined, options?: SegmentIdentifyOptions) {
+    const { callback, options: segmentOptions } = options ?? {};
     const payload = {
       ...segmentOptions,
       userId,
@@ -74,8 +70,8 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     this.segment!.identify(payload, this.wrapCallback(responseLogger, callback));
   }
 
-  group(userId: string, groupId: string, properties: Properties | undefined, options?: GroupOptions) {
-    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentGroupOptions>(options);
+  group(userId: string, groupId: string, properties: Properties | undefined, options?: SegmentGroupOptions) {
+    const { callback, options: segmentOptions } = options ?? {};
     const payload = {
       ...segmentOptions,
       userId,
@@ -91,9 +87,9 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     category: string,
     name: string,
     properties: Properties | undefined,
-    options?: PageOptions,
+    options?: SegmentPageOptions,
   ) {
-    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentPageOptions>(options);
+    const { callback, options: segmentOptions } = options ?? {};
     const payload = {
       ...segmentOptions,
       userId,
@@ -105,8 +101,8 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     this.segment!.page(payload, this.wrapCallback(responseLogger, callback));
   }
 
-  track(userId: string, { name, properties }: Event, options?: TrackOptions) {
-    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentTrackOptions>(options);
+  track(userId: string, { name, properties }: Event, options?: SegmentTrackOptions) {
+    const { callback, options: segmentOptions } = options ?? {};
     const payload = {
       ...segmentOptions,
       userId,

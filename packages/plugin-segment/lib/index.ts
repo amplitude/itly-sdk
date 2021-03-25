@@ -1,22 +1,18 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
   Event,
-  AliasOptions,
-  IdentifyOptions,
-  GroupOptions,
-  PageOptions,
-  TrackOptions,
   Properties,
   RequestLoggerPlugin,
   PluginLoadOptions,
   ResponseLogger,
+  PluginCallOptions,
 } from '@itly/sdk';
 
 export type SegmentOptions = {};
 
 export type SegmentCallback = (...args: any[]) => void;
 
-export interface SegmentCallOptions {
+export interface SegmentCallOptions extends PluginCallOptions {
   options?: {
     integrations?: Record<string, boolean>;
   },
@@ -56,14 +52,14 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     }
   }
 
-  alias(userId: string, previousId: string | undefined, options?: AliasOptions) {
-    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentAliasOptions>(options);
+  alias(userId: string, previousId: string | undefined, options?: SegmentAliasOptions) {
+    const { callback, options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('alias', `${userId}, ${previousId}`);
     this.segment.alias(userId, previousId, segmentOptions, this.wrapCallback(responseLogger, callback));
   }
 
-  identify(userId: string | undefined, properties?: Properties, options?: IdentifyOptions) {
-    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentIdentifyOptions>(options);
+  identify(userId: string | undefined, properties?: Properties, options?: SegmentIdentifyOptions) {
+    const { callback, options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('identify', `${userId}, ${JSON.stringify(properties)}`);
     if (userId) {
       this.segment.identify(userId, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
@@ -72,20 +68,20 @@ export class SegmentPlugin extends RequestLoggerPlugin {
     }
   }
 
-  group(userId: string | undefined, groupId: string, properties?: Properties, options?: GroupOptions) {
-    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentGroupOptions>(options);
+  group(userId: string | undefined, groupId: string, properties?: Properties, options?: SegmentGroupOptions) {
+    const { callback, options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('group', `${userId}, ${groupId}, ${JSON.stringify(properties)}`);
     this.segment.group(groupId, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
   }
 
-  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: PageOptions) {
-    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentPageOptions>(options);
+  page(userId?: string, category?: string, name?: string, properties?: Properties, options?: SegmentPageOptions) {
+    const { callback, options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
     this.segment.page(category, name, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
   }
 
-  track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
-    const { callback, options: segmentOptions } = this.getPluginCallOptions<SegmentTrackOptions>(options);
+  track(userId: string | undefined, { name, properties }: Event, options?: SegmentTrackOptions) {
+    const { callback, options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('track', `${userId}, ${name}, ${JSON.stringify(properties)}`);
     this.segment.track(name, properties, segmentOptions, this.wrapCallback(responseLogger, callback));
   }

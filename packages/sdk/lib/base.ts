@@ -6,12 +6,8 @@ export type Properties = {
   [name: string]: any;
 };
 
-export type CallOptions = Record<string, any>;
-export interface AliasOptions extends CallOptions {}
-export interface IdentifyOptions extends CallOptions {}
-export interface GroupOptions extends CallOptions {}
-export interface PageOptions extends CallOptions {}
-export interface TrackOptions extends CallOptions {}
+export type PluginCallOptions = { [option: string]: any };
+export type CallOptions = { [pluginId: string]: PluginCallOptions | undefined };
 
 export type Event = {
   name: string;
@@ -59,9 +55,9 @@ export abstract class Plugin {
     };
   }
 
-  alias(userId: string, previousId: string | undefined, options?: AliasOptions): void {}
+  alias(userId: string, previousId: string | undefined, options?: PluginCallOptions): void {}
 
-  identify(userId: string | undefined, properties: Properties | undefined, options?: IdentifyOptions): void {}
+  identify(userId: string | undefined, properties: Properties | undefined, options?: PluginCallOptions): void {}
 
   postIdentify(
     userId: string | undefined,
@@ -73,7 +69,7 @@ export abstract class Plugin {
     userId: string | undefined,
     groupId: string,
     properties: Properties | undefined,
-    options?: GroupOptions,
+    options?: PluginCallOptions,
   ): void {}
 
   postGroup(
@@ -88,7 +84,7 @@ export abstract class Plugin {
     category: string | undefined,
     name: string | undefined,
     properties: Properties | undefined,
-    options?: PageOptions,
+    options?: PluginCallOptions,
   ): void {}
 
   postPage(
@@ -99,7 +95,7 @@ export abstract class Plugin {
     validationResponses: ValidationResponse[],
   ): void {}
 
-  track(userId: string | undefined, event: Event, options?: TrackOptions): void {}
+  track(userId: string | undefined, event: Event, options?: PluginCallOptions): void {}
 
   postTrack(userId: string | undefined, event: Event, validationResponses: ValidationResponse[]): void {}
 
@@ -107,15 +103,6 @@ export abstract class Plugin {
 
   flush(): Promise<void> {
     return Promise.resolve();
-  }
-
-  /**
-   * Returns call options specific to this plugin
-   * @param options
-   * @protected
-   */
-  protected getPluginCallOptions<T>(options: CallOptions | undefined): Partial<T> {
-    return (options?.[this.id] ?? {}) as Partial<T>;
   }
 }
 
@@ -234,12 +221,12 @@ export class Itly {
    * @param previousId The user's previous ID.
    * @param options Options for this Alias call.
    */
-  alias(userId: string, previousId?: string, options?: AliasOptions) {
+  alias(userId: string, previousId?: string, options?: CallOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
 
-    this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId, options));
+    this.runOnAllPlugins('alias', (p) => p.alias(userId, previousId, options?.[p.id]));
   }
 
   /**
@@ -248,7 +235,7 @@ export class Itly {
    * @param identifyProperties The user's properties.
    * @param options Options for this Identify call.
    */
-  identify(userId: string | undefined, identifyProperties?: Properties, options?: IdentifyOptions) {
+  identify(userId: string | undefined, identifyProperties?: Properties, options?: CallOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -263,7 +250,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'identify',
       identifyEvent,
-      (p, e) => p.identify(userId, identifyProperties, options),
+      (p, e) => p.identify(userId, identifyProperties, options?.[p.id]),
       (p, e, validationResponses) => p.postIdentify(
         userId, identifyProperties, validationResponses,
       ),
@@ -277,7 +264,7 @@ export class Itly {
    * @param groupProperties The group's properties.
    * @param options Options for this Group call.
    */
-  group(userId: string | undefined, groupId: string, groupProperties?: Properties, options?: GroupOptions) {
+  group(userId: string | undefined, groupId: string, groupProperties?: Properties, options?: CallOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -292,7 +279,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'group',
       groupEvent,
-      (p, e) => p.group(userId, groupId, groupProperties, options),
+      (p, e) => p.group(userId, groupId, groupProperties, options?.[p.id]),
       (p, e, validationResponses) => p.postGroup(
         userId, groupId, groupProperties, validationResponses,
       ),
@@ -311,7 +298,7 @@ export class Itly {
     userId: string | undefined,
     category: string, name: string,
     pageProperties?: Properties,
-    options?: PageOptions,
+    options?: CallOptions,
   ) {
     if (!this.isInitializedAndEnabled()) {
       return;
@@ -327,7 +314,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'page',
       pageEvent,
-      (p, e) => p.page(userId, category, name, pageProperties, options),
+      (p, e) => p.page(userId, category, name, pageProperties, options?.[p.id]),
       (p, e, validationResponses) => p.postPage(
         userId, category, name, pageProperties, validationResponses,
       ),
@@ -344,7 +331,7 @@ export class Itly {
    * @param event.version The event's version.
    * @param options Options for this Track call.
    */
-  track(userId: string | undefined, event: Event, options?: TrackOptions) {
+  track(userId: string | undefined, event: Event, options?: CallOptions) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
@@ -354,7 +341,7 @@ export class Itly {
     this.validateAndRunOnAllPlugins(
       'track',
       event,
-      (p, e) => p.track(userId, mergedEvent, options),
+      (p, e) => p.track(userId, mergedEvent, options?.[p.id]),
       (p, e, validationResponses) => p.postTrack(
         userId, mergedEvent, validationResponses,
       ),
