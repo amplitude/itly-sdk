@@ -46,10 +46,10 @@ export class BrazePlugin extends RequestLoggerPlugin {
     await this.postTrackerRequest(responseLogger, {
       events: [
         {
-          ...eventProperties,
-          name,
           external_id: userId,
+          name,
           time: new Date().toISOString(),
+          properties: eventProperties,
         },
       ],
     });
