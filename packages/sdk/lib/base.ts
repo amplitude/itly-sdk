@@ -7,7 +7,7 @@ export type Properties = {
 };
 
 export type PluginCallOptions = { [option: string]: any };
-export type CallOptions = { [pluginId: string]: PluginCallOptions };
+export type CallOptions = { [pluginId: string]: PluginCallOptions | undefined };
 
 export type Event = {
   name: string;
