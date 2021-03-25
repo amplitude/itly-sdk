@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.8](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.7...v2.0.8) (2021-03-25)
+
+
+### Bug Fixes
+
+* changed type definition to fix TS2411 codegen error: ([1edd1c9](https://github.com/iterativelyhq/itly-sdk/commit/1edd1c9127ca36d3b0ac66f322d00f5c9d6dbd3e))
+* isolated CallOptions by Plugin ([da3a3e2](https://github.com/iterativelyhq/itly-sdk/commit/da3a3e26a997c6a0a0a197561a72b32ec49ad36e))
+
+
+
+
+
 ## [2.0.7](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.6...v2.0.7) (2021-03-19)
 
 **Note:** Version bump only for package @itly/sdk
