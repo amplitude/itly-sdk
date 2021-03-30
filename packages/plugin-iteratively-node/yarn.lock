@@ -288,10 +288,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@itly/sdk@2.0.6":
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/@itly/sdk/-/sdk-2.0.6.tgz#91cc709d762792def5fafb5feefd4e0a12d12e8b"
-  integrity sha512-T1XwG1M2QPbMW2sqkRfw4/ltf2Z27tPRTIDHucIUxbYs27sVFiU12M+nIklIB1XX+ZGRgGYGsePVkuYmTuyGCw==
+"@itly/sdk@^2.0.8":
+  version "2.0.8"
+  resolved "http://localhost:4873/@itly%2fsdk/-/sdk-2.0.8.tgz#70439663dd8080bb56e875377c9dbb745778bd92"
+  integrity sha512-Eo8FhDM1wFgjmpNiAJbiQcTszISgtEydiQnr02RtiLeGnVse9kNREK2VgM+mkw+I0wVrHnaeMAl22WM1vUF1qw==
 
 "@jest/console@^26.0.1":
   version "26.0.1"
@@ -468,6 +468,18 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
+
+"@lukeed/csprng@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@lukeed/csprng/-/csprng-1.0.0.tgz#733a122382749d27e2e46ec38f8c71c9d53a9636"
+  integrity sha512-ruuGHsnabmObBdeMg3vKdGRmh06Oog3eFpf/Tk6X0kDSJDpJTDCj2dqdp1+0VjzIUgHlFF9GBm7uFqfYhhdX9g==
+
+"@lukeed/uuid@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@lukeed/uuid/-/uuid-2.0.0.tgz#1c0f33c071cb6902bc3b9e475782ada7314ef9bd"
+  integrity sha512-dUz8OmYvlY5A9wXaroHIMSPASpSYRLCqbPvxGSyHguhtTQIy24lC+EGxQlwv71AhRCO55WOtgwhzQLpw27JaJQ==
+  dependencies:
+    "@lukeed/csprng" "^1.0.0"
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.0"

@@ -25,6 +25,9 @@
   ],
   "author": "Iteratively",
   "license": "ISC",
+  "dependencies": {
+    "@lukeed/uuid": "^2.0.0"
+  },
   "devDependencies": {
     "@itly/sdk": "^2.0.8",
     "@types/jest": "^26.0.0",

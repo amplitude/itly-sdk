@@ -10,8 +10,11 @@ const IterativelyPlugin = requireForTestEnv(__dirname);
 jest.mock('node-fetch');
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const defaultTestUrl = 'https://localhost:4000';
-const defaultTestApiKey = 'test-iteratively-api-key';
+const testUrl = 'https://localhost:4000';
+const testApiKey = 'test-iteratively-api-key';
+const testBranchName = 'main';
+const testTrackingPlanVersion = '1.0.0';
+
 const defaultUserId = 'test-iteratively-user-id';
 
 const defaultTestEvent = {
@@ -24,7 +27,7 @@ const defaultTestEvent = {
 const defaultFetchRequest = {
   body: expect.any(String),
   headers: {
-    authorization: `Bearer ${defaultTestApiKey}`,
+    authorization: `Bearer ${testApiKey}`,
     'Content-Type': 'application/json',
   },
   method: 'post',
@@ -48,9 +51,9 @@ test.each([
   ['development'],
 ])('should not crash on load (env: %s)', (environment) => {
   const iterativelyPlugin = new IterativelyPlugin(
-    defaultTestApiKey,
+    testApiKey,
     {
-      url: defaultTestUrl,
+      url: testUrl,
       environment,
     },
   );
@@ -63,14 +66,27 @@ test.each([
   }).not.toThrow();
 });
 
+test('should not crash on load (no options provided)', () => {
+  const iterativelyPlugin = new IterativelyPlugin(
+    testApiKey,
+  );
+
+  expect(() => {
+    itly!.load({
+      environment: 'development',
+      plugins: [iterativelyPlugin],
+    });
+  }).not.toThrow();
+});
+
 test('should not post if on production', () => {
   const environment = 'production';
 
   const iterativelyPlugin = new IterativelyPlugin(
-    defaultTestApiKey,
+    testApiKey,
     {
       environment,
-      url: defaultTestUrl,
+      url: testUrl,
       flushAt: 1,
     },
   );
@@ -85,16 +101,48 @@ test('should not post if on production', () => {
   expect(fetch).not.toBeCalled();
 });
 
+function assertFetchCalledOnceWith(
+  branchName: string,
+  trackingPlanVersion: string,
+  events: (typeof defaultTestEvent)[],
+) {
+  expect(fetch)
+    .toHaveBeenCalledTimes(1);
+  expect(fetch)
+    .toHaveBeenCalledWith(testUrl, defaultFetchRequest);
+
+  expect(JSON.parse((fetch as any).mock.calls[0][1].body))
+    .toMatchObject({
+      branchName,
+      trackingPlanVersion,
+      objects: expect.arrayContaining(
+        events.map((event) => expect.objectContaining({
+          type: 'track',
+          eventId: event.id,
+          eventName: event.name,
+          eventSchemaVersion: event.version,
+          properties: event.properties,
+          valid: true,
+          validation: {
+            details: '',
+          },
+        })),
+      ),
+    });
+}
+
 test('should post when flushAt reached', async () => {
   const environment = 'development';
 
   const iterativelyPlugin = new IterativelyPlugin(
-    defaultTestApiKey,
+    testApiKey,
     {
       environment,
-      url: defaultTestUrl,
+      url: testUrl,
       flushAt: 2,
       flushInterval: 10000,
+      branch: testBranchName,
+      version: testTrackingPlanVersion,
     },
   );
 
@@ -112,24 +160,7 @@ test('should post when flushAt reached', async () => {
 
   events.forEach((event) => itly!.track(defaultUserId, event));
 
-  expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
-
-  expect(JSON.parse((fetch as any).mock.calls[0][1].body)).toMatchObject({
-    objects: expect.arrayContaining(
-      events.map((event) => expect.objectContaining({
-        type: 'track',
-        eventId: event.id,
-        eventName: event.name,
-        eventSchemaVersion: event.version,
-        properties: event.properties,
-        valid: true,
-        validation: {
-          details: '',
-        },
-      })),
-    ),
-  });
+  assertFetchCalledOnceWith(testBranchName, testTrackingPlanVersion, events);
 });
 
 test('should post in flushInterval', async () => {
@@ -137,12 +168,14 @@ test('should post in flushInterval', async () => {
   const flushInterval = 10;
 
   const iterativelyPlugin = new IterativelyPlugin(
-    defaultTestApiKey,
+    testApiKey,
     {
       environment,
-      url: defaultTestUrl,
+      url: testUrl,
       flushAt: 100,
       flushInterval,
+      branch: testBranchName,
+      version: testTrackingPlanVersion,
     },
   );
 
@@ -165,34 +198,19 @@ test('should post in flushInterval', async () => {
 
   await wait(flushInterval);
 
-  expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
-
-  expect(JSON.parse((fetch as any).mock.calls[0][1].body)).toMatchObject({
-    objects: expect.arrayContaining(
-      events.map((event) => expect.objectContaining({
-        type: 'track',
-        eventId: event.id,
-        eventName: event.name,
-        eventSchemaVersion: event.version,
-        properties: event.properties,
-        valid: true,
-        validation: {
-          details: '',
-        },
-      })),
-    ),
-  });
+  assertFetchCalledOnceWith(testBranchName, testTrackingPlanVersion, events);
 });
 
 test('should post on explicit flush()', async () => {
   const environment = 'development';
 
   const iterativelyPlugin = new IterativelyPlugin(
-    defaultTestApiKey,
+    testApiKey,
     {
       environment,
-      url: defaultTestUrl,
+      url: testUrl,
+      branch: testBranchName,
+      version: testTrackingPlanVersion,
     },
   );
 
@@ -214,36 +232,21 @@ test('should post on explicit flush()', async () => {
 
   await itly!.flush();
 
-  expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
-
-  expect(JSON.parse((fetch as any).mock.calls[0][1].body)).toMatchObject({
-    objects: expect.arrayContaining(
-      events.map((event) => expect.objectContaining({
-        type: 'track',
-        eventId: event.id,
-        eventName: event.name,
-        eventSchemaVersion: event.version,
-        properties: event.properties,
-        valid: true,
-        validation: {
-          details: '',
-        },
-      })),
-    ),
-  });
+  assertFetchCalledOnceWith(testBranchName, testTrackingPlanVersion, events);
 });
 
 test('should omit event properties if configured', async () => {
   const environment = 'development';
 
   const iterativelyPlugin = new IterativelyPlugin(
-    defaultTestApiKey,
+    testApiKey,
     {
       environment,
-      url: defaultTestUrl,
+      url: testUrl,
       flushAt: 1,
       omitValues: true,
+      branch: testBranchName,
+      version: testTrackingPlanVersion,
     },
   );
 
@@ -261,37 +264,25 @@ test('should omit event properties if configured', async () => {
 
   itly!.track(defaultUserId, event);
 
-  expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
-
-  expect(JSON.parse((fetch as any).mock.calls[0][1].body)).toMatchObject({
-    objects: expect.arrayContaining([
-      expect.objectContaining({
-        type: 'track',
-        eventId: event.id,
-        eventName: event.name,
-        eventSchemaVersion: event.version,
-        properties: {
-          iteration: null,
-        },
-        valid: true,
-        validation: {
-          details: '',
-        },
-      }),
-    ]),
-  });
+  assertFetchCalledOnceWith(testBranchName, testTrackingPlanVersion, [{
+    ...event,
+    properties: {
+      iteration: null,
+    },
+  }]);
 });
 
 test('should post track validation error', async () => {
   const environment = 'development';
 
   const iterativelyPlugin = new IterativelyPlugin(
-    defaultTestApiKey,
+    testApiKey,
     {
       environment,
-      url: defaultTestUrl,
+      url: testUrl,
       flushAt: 1,
+      branch: testBranchName,
+      version: testTrackingPlanVersion,
     },
   );
 
@@ -315,9 +306,11 @@ test('should post track validation error', async () => {
   iterativelyPlugin.postTrack(defaultUserId, event, [validationError]);
 
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
+  expect(fetch).toHaveBeenCalledWith(testUrl, defaultFetchRequest);
 
   expect(JSON.parse((fetch as any).mock.calls[0][1].body)).toMatchObject({
+    branchName: testBranchName,
+    trackingPlanVersion: testTrackingPlanVersion,
     objects: expect.arrayContaining([
       expect.objectContaining({
         type: 'track',
@@ -338,10 +331,12 @@ test('should omit validation error details if configured', async () => {
   const environment = 'development';
 
   const iterativelyPlugin = new IterativelyPlugin(
-    defaultTestApiKey,
+    testApiKey,
     {
       environment,
-      url: defaultTestUrl,
+      url: testUrl,
+      branch: testBranchName,
+      version: testTrackingPlanVersion,
       flushAt: 1,
       omitValues: true,
     },
@@ -367,9 +362,11 @@ test('should omit validation error details if configured', async () => {
   iterativelyPlugin.postTrack(defaultUserId, event, [validationError]);
 
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(fetch).toHaveBeenCalledWith(defaultTestUrl, defaultFetchRequest);
+  expect(fetch).toHaveBeenCalledWith(testUrl, defaultFetchRequest);
 
   expect(JSON.parse((fetch as any).mock.calls[0][1].body)).toMatchObject({
+    branchName: testBranchName,
+    trackingPlanVersion: testTrackingPlanVersion,
     objects: expect.arrayContaining([
       expect.objectContaining({
         type: 'track',
@@ -386,4 +383,51 @@ test('should omit validation error details if configured', async () => {
       }),
     ]),
   });
+});
+
+test('should use default values when no options provided', async () => {
+  const iterativelyPlugin = new IterativelyPlugin(
+    testApiKey,
+  );
+
+  itly!.load({
+    environment: 'development',
+    plugins: [iterativelyPlugin],
+  });
+
+  const events = Array.apply(0, Array(10)) // default flushAt: 10
+    .map((e, i) => i + 1)
+    .map((i) => ({
+      ...defaultTestEvent,
+      properties: {
+        iteration: i,
+      },
+    }));
+
+  events.forEach((event) => itly!.track(defaultUserId, event));
+
+  expect(fetch)
+    .toHaveBeenCalledTimes(1);
+  expect(fetch)
+    .toHaveBeenCalledWith('https://data-us-east1.iterative.ly/t', defaultFetchRequest);
+
+  const responseBody = JSON.parse((fetch as any).mock.calls[0][1].body);
+  expect(responseBody).not.toHaveProperty('branchName');
+  expect(responseBody).not.toHaveProperty('trackingPlanVersion');
+  expect(responseBody)
+    .toMatchObject({
+      objects: expect.arrayContaining(
+        events.map((event) => expect.objectContaining({
+          type: 'track',
+          eventId: event.id,
+          eventName: event.name,
+          eventSchemaVersion: event.version,
+          properties: event.properties,
+          valid: true,
+          validation: {
+            details: '',
+          },
+        })),
+      ),
+    });
 });
