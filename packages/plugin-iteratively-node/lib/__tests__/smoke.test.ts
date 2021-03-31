@@ -54,7 +54,6 @@ test.each([
     testApiKey,
     {
       url: testUrl,
-      environment,
     },
   );
 
@@ -66,33 +65,51 @@ test.each([
   }).not.toThrow();
 });
 
-test('should not crash on load (no options provided)', () => {
+test.each([
+  ['production'],
+  ['development'],
+])('should not crash on load (env: %s, no options provided)', (environment) => {
   const iterativelyPlugin = new IterativelyPlugin(
     testApiKey,
   );
 
   expect(() => {
     itly!.load({
-      environment: 'development',
+      environment: environment as Environment,
       plugins: [iterativelyPlugin],
     });
   }).not.toThrow();
 });
 
 test('should not post if on production', () => {
-  const environment = 'production';
-
   const iterativelyPlugin = new IterativelyPlugin(
     testApiKey,
     {
-      environment,
-      url: testUrl,
       flushAt: 1,
     },
   );
 
   itly!.load({
-    environment,
+    environment: 'production',
+    plugins: [iterativelyPlugin],
+  });
+
+  itly!.track(defaultUserId, defaultTestEvent);
+
+  expect(fetch).not.toBeCalled();
+});
+
+test('should not post if disabled', () => {
+  const iterativelyPlugin = new IterativelyPlugin(
+    testApiKey,
+    {
+      flushAt: 1,
+      disabled: true,
+    },
+  );
+
+  itly!.load({
+    environment: 'development',
     plugins: [iterativelyPlugin],
   });
 
@@ -137,7 +154,6 @@ test('should post when flushAt reached', async () => {
   const iterativelyPlugin = new IterativelyPlugin(
     testApiKey,
     {
-      environment,
       url: testUrl,
       flushAt: 2,
       flushInterval: 10000,
@@ -170,7 +186,6 @@ test('should post in flushInterval', async () => {
   const iterativelyPlugin = new IterativelyPlugin(
     testApiKey,
     {
-      environment,
       url: testUrl,
       flushAt: 100,
       flushInterval,
@@ -207,7 +222,6 @@ test('should post on explicit flush()', async () => {
   const iterativelyPlugin = new IterativelyPlugin(
     testApiKey,
     {
-      environment,
       url: testUrl,
       branch: testBranchName,
       version: testTrackingPlanVersion,
@@ -241,7 +255,6 @@ test('should omit event properties if configured', async () => {
   const iterativelyPlugin = new IterativelyPlugin(
     testApiKey,
     {
-      environment,
       url: testUrl,
       flushAt: 1,
       omitValues: true,
@@ -278,7 +291,6 @@ test('should post track validation error', async () => {
   const iterativelyPlugin = new IterativelyPlugin(
     testApiKey,
     {
-      environment,
       url: testUrl,
       flushAt: 1,
       branch: testBranchName,
@@ -333,7 +345,6 @@ test('should omit validation error details if configured', async () => {
   const iterativelyPlugin = new IterativelyPlugin(
     testApiKey,
     {
-      environment,
       url: testUrl,
       branch: testBranchName,
       version: testTrackingPlanVersion,

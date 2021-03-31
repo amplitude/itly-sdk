@@ -6,7 +6,7 @@ import {
 
 export type IterativelyOptions = {
   url?: string;
-  environment?: Environment;
+  environment?: Environment; // left for backward compatibility
   branch?: string;
   version?: string;
   omitValues?: boolean;
@@ -49,23 +49,16 @@ export class IterativelyPlugin extends RequestLoggerPlugin {
 
   private timer: ReturnType<typeof setTimeout> | null = null;
 
-  private config: RequiredExcept<IterativelyOptions, 'branch' | 'version'> = {
+  private config: RequiredExcept<IterativelyOptions, 'branch' | 'version' | 'environment' | 'disabled'> = {
     url: 'https://data-us-east1.iterative.ly/t',
-    environment: 'development',
     omitValues: false,
     batchSize: 100,
     flushAt: 10,
     flushInterval: 1000,
-    disabled: false,
   };
 
   constructor(private apiKey: string, iterativelyOptions?: IterativelyOptions) {
     super('iteratively');
-
-    // adjusts config values in accordance with provided environment value
-    if (iterativelyOptions?.environment === 'production') {
-      this.config.disabled = true;
-    }
 
     // allows consumer to override any config value
     this.config = { ...this.config, ...iterativelyOptions };
@@ -74,6 +67,11 @@ export class IterativelyPlugin extends RequestLoggerPlugin {
   // overrides Plugin.load
   load(options: PluginLoadOptions) {
     super.load(options);
+
+    // adjusts config values in accordance with provided environment value
+    if (this.config.disabled === undefined && options?.environment === 'production') {
+      this.config.disabled = true;
+    }
   }
 
   // overrides Plugin.postIdentify
