@@ -27,7 +27,7 @@ export class Itly {
    * Alias a user ID to another user ID.
    * @param userId The user's new ID.
    * @param previousId The user's previous ID.
-   * @param options Options for this Alias call.
+   * @param options Options for this alias call.
    */
   alias = (
     userId: string,
@@ -39,7 +39,7 @@ export class Itly {
    * Identify a user and set or update that user's properties.
    * @param userId The user's ID.
    * @param identifyProperties The user's properties.
-   * @param options Options for this Identify call.
+   * @param options Options for this identify call.
    */
   identify = (
     userId: string | Properties | undefined,
@@ -62,7 +62,7 @@ export class Itly {
    * Associate the current user with a group and set or update that group's properties.
    * @param groupId The group's ID.
    * @param groupProperties The group's properties.
-   * @param options Options for this Group call.
+   * @param options Options for this group call.
    */
   group = (
     groupId: string,
@@ -75,7 +75,7 @@ export class Itly {
    * @param category The page's category.
    * @param name The page's name.
    * @param pageProperties The page's properties.
-   * @param options Options for this Page call.
+   * @param options Options for this page call.
    */
   page = (
     category: string,
@@ -91,7 +91,7 @@ export class Itly {
    * @param event.properties The event's properties.
    * @param event.id The event's ID.
    * @param event.version The event's version.
-   * @param options Options for this Track call.
+   * @param options Options for this track call.
    */
   track = (
     event: Event,
