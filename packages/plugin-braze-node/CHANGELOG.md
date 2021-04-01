@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.9](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.8...v2.0.9) (2021-04-01)
+
+
+### Bug Fixes
+
+* send Braze event properties as a nested object ([f34826d](https://github.com/iterativelyhq/itly-sdk/commit/f34826d0cb02d355309eef522648e3c3790847ac))
+
+
+
+
+
 ## [2.0.8](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.7...v2.0.8) (2021-03-25)
 
 **Note:** Version bump only for package @itly/plugin-braze-node
