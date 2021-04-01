@@ -6,7 +6,8 @@ import {
 
 export type IterativelyOptions = {
   url?: string;
-  environment?: Environment; // left for backward compatibility
+  /** @deprecated left for backward compatibility and should be removed in one of the next versions */
+  environment?: Environment;
   branch?: string;
   version?: string;
   omitValues?: boolean;
