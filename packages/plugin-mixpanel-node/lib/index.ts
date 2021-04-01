@@ -66,7 +66,7 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
       distinct_id: userId,
       ...properties,
     };
-    const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
+    const responseLogger = this.logger!.logRequest('track', `${name}, ${JSON.stringify(payload)}`);
     this.mixpanel!.track(name, payload, this.wrapCallback(responseLogger, callback));
   }
 

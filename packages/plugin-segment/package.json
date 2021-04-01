@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-segment",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "Segment Browser Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -24,9 +24,17 @@
     "plugin"
   ],
   "author": "Iteratively",
-  "license": "ISC",
+  "license": "MIT",
+  "homepage": "https://github.com/iterativelyhq/itly-sdk/tree/master/packages/plugin-segment",
+  "bugs": {
+    "url": "https://github.com/iterativelyhq/itly-sdk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iterativelyhq/itly-sdk.git"
+  },
   "devDependencies": {
-    "@itly/sdk": "^2.0.8",
+    "@itly/sdk": "^2.0.9",
     "typescript": "^3.9.3"
   },
   "peerDependencies": {

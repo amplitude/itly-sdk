@@ -288,11 +288,6 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
-"@itly/sdk@^2.0.8":
-  version "2.1.0"
-  resolved "http://localhost:4873/@itly%2fsdk/-/sdk-2.1.0.tgz#bf57d092f93aa980755268b7fd6158b0dc5ad9be"
-  integrity sha512-4+1Lndf+8rEzPfwkkNb08zGMr1bVKBnQUC6utgP6S8UP8MF1sIRoqh2Xp+iZqc2tArrH8OzIOPPD94ZarsE9mw==
-
 "@jest/console@^26.0.1":
   version "26.0.1"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-26.0.1.tgz#62b3b2fa8990f3cbffbef695c42ae9ddbc8f4b39"

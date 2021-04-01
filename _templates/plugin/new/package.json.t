@@ -27,7 +27,15 @@ to: packages/plugin-<%= name %>/package.json
     "plugin"
   ],
   "author": "<%= author %>",
-  "license": "ISC",
+  "license": "MIT",
+  "homepage": "https://github.com/iterativelyhq/itly-sdk/tree/master/packages/plugin-<%= name %>",
+  "bugs": {
+    "url": "https://github.com/iterativelyhq/itly-sdk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iterativelyhq/itly-sdk.git"
+  },
   "devDependencies": {
     "<%= itlySdkModule %>": "<%= itlySdkVersion %>",
     "@types/jest": "^26.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@itly/sdk",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -24,7 +24,15 @@
     "iteratively"
   ],
   "author": "Iteratively",
-  "license": "ISC",
+  "license": "MIT",
+  "homepage": "https://github.com/iterativelyhq/itly-sdk/tree/master/packages/sdk",
+  "bugs": {
+    "url": "https://github.com/iterativelyhq/itly-sdk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iterativelyhq/itly-sdk.git"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.0",
     "jest": "^26.0.1",
