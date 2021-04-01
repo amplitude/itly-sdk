@@ -24,7 +24,15 @@
     "braze"
   ],
   "author": "Iteratively",
-  "license": "ISC",
+  "license": "MIT",
+  "homepage": "https://github.com/iterativelyhq/itly-sdk/tree/master/packages/plugin-braze-node",
+  "bugs": {
+    "url": "https://github.com/iterativelyhq/itly-sdk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iterativelyhq/itly-sdk.git"
+  },
   "devDependencies": {
     "@itly/sdk": "^2.0.8",
     "@types/node-fetch": "^2.5.8",

@@ -1,3 +1,6 @@
+---
+to: packages/plugin-<%= name %>/LICENSE
+---
 MIT License
 
 Copyright (c) 2021 Iteratively

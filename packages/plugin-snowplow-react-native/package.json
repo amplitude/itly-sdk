@@ -23,7 +23,15 @@
     "plugin"
   ],
   "author": "Iteratively",
-  "license": "ISC",
+  "license": "MIT",
+  "homepage": "https://github.com/iterativelyhq/itly-sdk/tree/master/packages/plugin-snowplow-react-native",
+  "bugs": {
+    "url": "https://github.com/iterativelyhq/itly-sdk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iterativelyhq/itly-sdk.git"
+  },
   "devDependencies": {
     "@itly/sdk": "^2.0.8",
     "@snowplow/react-native-tracker": "^0.1.3",
