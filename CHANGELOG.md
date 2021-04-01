@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.9...v2.1.0) (2021-04-01)
+
+
+### Features
+
+* added data plane support to Iteratively plugin ([88557ad](https://github.com/iterativelyhq/itly-sdk/commit/88557ad83b8e6d3f0bf64bcffbd868435b1ad3a5))
+
+
+
+
+
 ## [2.0.9](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.8...v2.0.9) (2021-04-01)
 
 
