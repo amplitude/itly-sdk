@@ -1,22 +1,26 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import fetch from 'node-fetch';
+import { v4 as uuid } from '@lukeed/uuid/secure';
 import {
   Environment, Event, Properties, RequestLoggerPlugin, ValidationResponse, PluginLoadOptions,
 } from '@itly/sdk';
 
 export type IterativelyOptions = {
-  url: string,
-  environment: Environment,
-  omitValues?: boolean,
-  batchSize?: number,
-  flushAt?: number,
-  flushInterval?: number,
-  disabled?: boolean,
+  url?: string;
+  /** @deprecated left for backward compatibility and should be removed in one of the next versions */
+  environment?: Environment;
+  branch?: string;
+  version?: string;
+  omitValues?: boolean;
+  batchSize?: number;
+  flushAt?: number;
+  flushInterval?: number;
+  disabled?: boolean;
 };
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-export type IterativelyOptionsPartial = WithOptional<IterativelyOptions, 'url' | 'environment'>;
+type RequiredExcept<T, K extends keyof T> = Required<Omit<T, K>> & Partial<Pick<T, K>>;
+export type IterativelyOptionsPartial = IterativelyOptions;
 
 enum TrackType {
   track = 'track',
@@ -27,11 +31,12 @@ enum TrackType {
 
 type TrackModel = {
   type: TrackType;
+  messageId: string;
   dateSent: string;
   eventId?: string;
   eventSchemaVersion?: string;
   eventName?: string;
-  properties: Properties,
+  properties: Properties;
   valid: boolean;
   validation: {
     details: string;
@@ -46,23 +51,16 @@ export class IterativelyPlugin extends RequestLoggerPlugin {
 
   private timer: ReturnType<typeof setTimeout> | null = null;
 
-  private config: Required<IterativelyOptions> = {
-    url: '',
-    environment: 'development',
+  private config: RequiredExcept<IterativelyOptions, 'branch' | 'version' | 'environment' | 'disabled'> = {
+    url: 'https://data-us-east1.iterative.ly/t',
     omitValues: false,
     batchSize: 100,
     flushAt: 10,
     flushInterval: 1000,
-    disabled: false,
   };
 
-  constructor(private apiKey: string, iterativelyOptions: IterativelyOptions) {
+  constructor(private apiKey: string, iterativelyOptions?: IterativelyOptions) {
     super('iteratively');
-
-    // adjusts config values in accordance with provided environment value
-    if (iterativelyOptions.environment === 'production') {
-      this.config.disabled = true;
-    }
 
     // allows consumer to override any config value
     this.config = { ...this.config, ...iterativelyOptions };
@@ -71,6 +69,11 @@ export class IterativelyPlugin extends RequestLoggerPlugin {
   // overrides Plugin.load
   load(options: PluginLoadOptions) {
     super.load(options);
+
+    // adjusts config values in accordance with provided environment value
+    if (this.config.disabled === undefined && options?.environment === 'production') {
+      this.config.disabled = true;
+    }
   }
 
   // overrides Plugin.postIdentify
@@ -120,6 +123,7 @@ export class IterativelyPlugin extends RequestLoggerPlugin {
   ): TrackModel {
     const model: TrackModel = {
       type,
+      messageId: this.getNewMessageId(),
       dateSent: new Date().toISOString(),
       eventId: event ? event.id : undefined,
       eventSchemaVersion: event ? event.version : undefined,
@@ -170,6 +174,8 @@ export class IterativelyPlugin extends RequestLoggerPlugin {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            trackingPlanVersion: this.config.version,
+            branchName: this.config.branch,
             objects,
           }),
         });
@@ -204,6 +210,10 @@ export class IterativelyPlugin extends RequestLoggerPlugin {
     if (!this.timer && this.config.flushInterval) {
       this.timer = setTimeout(this.flush.bind(this), this.config.flushInterval);
     }
+  }
+
+  private getNewMessageId() {
+    return uuid();
   }
 }
 

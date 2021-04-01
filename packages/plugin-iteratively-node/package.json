@@ -33,6 +33,10 @@
     "type": "git",
     "url": "https://github.com/iterativelyhq/itly-sdk.git"
   },
+  "dependencies": {
+    "@lukeed/uuid": "^2.0.0",
+    "node-fetch": "^2.6.1"
+  },
   "devDependencies": {
     "@itly/sdk": "^2.0.9",
     "@types/jest": "^26.0.0",
@@ -40,9 +44,6 @@
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.3"
-  },
-  "dependencies": {
-    "node-fetch": "^2.6.1"
   },
   "peerDependencies": {
     "@itly/sdk": "^2.0.0"

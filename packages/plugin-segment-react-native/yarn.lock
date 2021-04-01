@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@itly/sdk@2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@itly/sdk/-/sdk-2.0.5.tgz#4d6b07e701226623543bb7a618ce72367f23dcae"
-  integrity sha512-pKzsEIHoH9L6rrbud9oDJ63IKjXWCJ42P8qG7/dshK2C7IAVvj8PgSrfV1bGxQ1Mtjn7twMLJgGtaSo9Fd2ntQ==
-
 "@segment/analytics-react-native@^1.4.3":
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-1.4.3.tgz#82e9f3cb52c0ad4c61e1035dc20201cf0ccb5f81"
