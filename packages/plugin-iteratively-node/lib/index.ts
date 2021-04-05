@@ -6,16 +6,59 @@ import {
 } from '@itly/sdk';
 
 export type IterativelyOptions = {
+  /**
+   * The server endpoint to send messages.
+   * @default: https://data-us-east1.iterative.ly/t
+   */
   url?: string;
-  /** @deprecated left for backward compatibility and should be removed in one of the next versions */
-  environment?: Environment;
+
+  /**
+   * Tracking plan branch name (e.g. feature/demo).
+   */
   branch?: string;
+
+  /**
+   * Tracking plan version number (e.g. 1.0.0).
+   */
   version?: string;
+
+  /**
+   * Remove all property values and validation error details from messages before enqueueing.
+   * @default: false
+   */
   omitValues?: boolean;
+
+  /**
+   * The maximum number of messages grouped together into a single network request.
+   * @default: 100
+   */
   batchSize?: number;
+
+  /**
+   * The number of messages that triggers unconditional queue flushing.
+   * It works independently from flushInterval.
+   * @default: 10
+   */
   flushAt?: number;
+
+  /**
+   * Time in milliseconds to wait before flushing the queue.
+   * @default: 1000
+   */
   flushInterval?: number;
+
+  /**
+   * Disable the plugin. When disabled it doesn't enqueue or send messages.
+   * Default value depends on the environment option provided to the load() method:
+   * - If development: false
+   * - If production: true (the plugin is disabled by de
+   */
   disabled?: boolean;
+
+  /**
+   * @deprecated left for backward compatibility only and should be removed in one of the next versions.
+   */
+  environment?: Environment;
 };
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
