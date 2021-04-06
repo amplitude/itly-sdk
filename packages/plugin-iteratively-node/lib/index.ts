@@ -51,7 +51,7 @@ export type IterativelyOptions = {
    * Disable the plugin. When disabled it doesn't enqueue or send messages.
    * Default value depends on the environment option provided to the load() method:
    * - If development: false
-   * - If production: true (the plugin is disabled by de
+   * - If production: true (the plugin is disabled by default)
    */
   disabled?: boolean;
 
