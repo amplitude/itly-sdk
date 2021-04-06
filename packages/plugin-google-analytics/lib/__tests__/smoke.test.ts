@@ -59,6 +59,12 @@ test('uses explicitly passed gtag', async () => {
 
 test('creates a global gtag', async () => {
   const googleAnalyticsPlugin = new GoogleAnalyticsPlugin({ measurementId: 'G-CC5SQPL3J6' });
+
+  itly.load({
+    environment: 'production',
+    plugins: [googleAnalyticsPlugin],
+  });
+
   // eslint-disable-next-line no-underscore-dangle
   expect((googleAnalyticsPlugin as any)._gtag).toBeDefined();
   // eslint-disable-next-line no-underscore-dangle
@@ -66,10 +72,6 @@ test('creates a global gtag', async () => {
   // eslint-disable-next-line no-restricted-globals
   expect(self.gtag).toBeDefined();
 
-  itly.load({
-    environment: 'production',
-    plugins: [googleAnalyticsPlugin],
-  });
   itly.identify({ userId: 'user-1234' });
   itly.track({ name: 'Test', properties: { number: 1, string: 'Hello' } });
 

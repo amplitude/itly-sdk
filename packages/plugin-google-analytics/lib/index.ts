@@ -5,7 +5,7 @@ import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions, PageOptions, IdentifyOptions, TrackOptions,
 } from '@itly/sdk';
 
-type GAOptions = {
+type GoogleAnalyticsOptions = {
   gtag?: Gtag.Gtag;
   measurementId: string;
 }
@@ -19,8 +19,12 @@ export class GoogleAnalyticsPlugin extends RequestLoggerPlugin {
     return this._gtag;
   }
 
-  constructor(private opts: GAOptions) {
+  constructor(private opts: GoogleAnalyticsOptions) {
     super('google-analytics');
+  }
+
+  load(options: PluginLoadOptions) {
+    super.load(options);
     if (this.opts.gtag) {
       this._gtag = this.opts.gtag;
     } else if ('gtag' in self) {
@@ -30,16 +34,12 @@ export class GoogleAnalyticsPlugin extends RequestLoggerPlugin {
     }
   }
 
-  load(options: PluginLoadOptions) {
-    super.load(options);
-  }
-
   identify(userId: string | undefined, properties?: Properties | undefined) {
     this.gtag('config', this.opts.measurementId, { userId, ...properties });
   }
 
   track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
-    if (userId) {
+    if (userId) { // On browser, userId will always be undefined
       this.identify(userId);
     }
     this.gtag('event', name, { ...properties, event_callback: options?.[this.id]?.callback });
