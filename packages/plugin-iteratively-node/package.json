@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-iteratively-node",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Iteratively Node Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
