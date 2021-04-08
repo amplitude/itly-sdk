@@ -1,0 +1,47 @@
+{
+  "name": "@itly/plugin-google-analytics",
+  "version": "0.0.0",
+  "description": "Google Analytics Plugin",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
+    "test": "jest --runInBand"
+  },
+  "files": [
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
+  "keywords": [
+    "itly",
+    "sdk",
+    "iteratively",
+    "plugin"
+  ],
+  "author": "Iteratively",
+  "license": "MIT",
+  "homepage": "https://github.com/iterativelyhq/itly-sdk/tree/master/packages/plugin-google-analytics",
+  "bugs": {
+    "url": "https://github.com/iterativelyhq/itly-sdk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iterativelyhq/itly-sdk.git"
+  },
+  "devDependencies": {
+    "@itly/sdk": "^2.0.9",
+    "@types/gtag.js": "^0.0.4",
+    "@types/jest": "^26.0.0",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.3"
+  },
+  "peerDependencies": {
+    "@itly/sdk": "^2.0.0"
+  }
+}
