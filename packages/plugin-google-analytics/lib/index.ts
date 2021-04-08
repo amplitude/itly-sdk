@@ -2,13 +2,16 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
-  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, PageOptions, IdentifyOptions, TrackOptions,
+  Event, Properties, RequestLoggerPlugin, PluginLoadOptions, PluginCallOptions,
 } from '@itly/sdk';
 
 type GoogleAnalyticsOptions = {
   gtag?: Gtag.Gtag;
   measurementId: string;
 }
+
+export interface GoogleAnalyticsCallOptions extends PluginCallOptions { }
+export interface GoogleAnalyticsPageOptions extends PluginCallOptions { }
 
 export class GoogleAnalyticsPlugin extends RequestLoggerPlugin {
   private _gtag?: Gtag.Gtag;
@@ -38,7 +41,7 @@ export class GoogleAnalyticsPlugin extends RequestLoggerPlugin {
     this.gtag('config', this.opts.measurementId, { userId, ...properties });
   }
 
-  track(userId: string | undefined, { name, properties }: Event, options?: TrackOptions) {
+  track(userId: string | undefined, { name, properties }: Event, options?: GoogleAnalyticsCallOptions) {
     if (userId) { // On browser, userId will always be undefined
       this.identify(userId);
     }
@@ -51,7 +54,7 @@ export class GoogleAnalyticsPlugin extends RequestLoggerPlugin {
     category: string | undefined,
     name: string | undefined,
     properties: Properties | undefined,
-    options?: PageOptions,
+    options?: GoogleAnalyticsPageOptions,
   ) {
     if (userId) this.identify(userId);
     this.gtag('event', 'page_view', {
