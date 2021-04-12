@@ -84,9 +84,9 @@ export class SegmentPlugin extends RequestLoggerPlugin {
 
   page(
     userId: string,
-    category: string,
-    name: string,
-    properties: Properties | undefined,
+    category?: string,
+    name?: string,
+    properties?: Properties,
     options?: SegmentPageOptions,
   ) {
     const { callback, options: segmentOptions } = options ?? {};
