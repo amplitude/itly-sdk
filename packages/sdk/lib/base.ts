@@ -80,10 +80,10 @@ export abstract class Plugin {
   ): void {}
 
   page(
-    userId: string | undefined,
-    category: string | undefined,
-    name: string | undefined,
-    properties: Properties | undefined,
+    userId?: string,
+    category?: string,
+    name?: string,
+    properties?: Properties,
     options?: PluginCallOptions,
   ): void {}
 
@@ -295,8 +295,9 @@ export class Itly {
    * @param options Options for this page call.
    */
   page(
-    userId: string | undefined,
-    category: string, name: string,
+    userId?: string,
+    category?: string,
+    name?: string,
     pageProperties?: Properties,
     options?: CallOptions,
   ) {

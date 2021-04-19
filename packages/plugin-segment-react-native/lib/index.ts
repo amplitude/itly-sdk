@@ -55,15 +55,15 @@ export class SegmentPlugin extends RequestLoggerPlugin {
   }
 
   async page(
-    userId: string | undefined,
-    category: string | undefined,
-    name: string,
+    userId?: string,
+    category?: string,
+    name?: string,
     properties?: Properties,
     options?: SegmentPageOptions,
   ) {
     const { options: segmentOptions } = options ?? {};
     const responseLogger = this.logger!.logRequest('page', `${userId}, ${category}, ${name}, ${JSON.stringify(properties)}`);
-    await analytics.screen(name, properties, segmentOptions);
+    await analytics.screen(name ?? 'unspecified', properties, segmentOptions);
     responseLogger.success('done');
   }
 

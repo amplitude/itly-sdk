@@ -50,10 +50,10 @@ export class GoogleAnalyticsPlugin extends RequestLoggerPlugin {
   }
 
   page(
-    userId: string | undefined,
-    category: string | undefined,
-    name: string | undefined,
-    properties: Properties | undefined,
+    userId?: string,
+    category?: string,
+    name?: string,
+    properties?: Properties,
     options?: GoogleAnalyticsPageOptions,
   ) {
     if (userId) this.identify(userId);
