@@ -50,6 +50,11 @@ export class BrazePlugin extends RequestLoggerPlugin {
     }
     if (properties != null) {
       const user = this.appboy!.getUser();
+      // If properties contains 'email' set it on the User
+      const { email } = properties;
+      if (email) {
+        user.setEmail(email);
+      }
       for (const [key, value] of Object.entries(properties)) {
         user.setCustomUserAttribute(key, BrazePlugin.valueForAPI(value));
       }
