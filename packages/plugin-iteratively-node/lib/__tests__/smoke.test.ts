@@ -420,7 +420,7 @@ test('should use default values when no options provided', async () => {
   expect(fetch)
     .toHaveBeenCalledTimes(1);
   expect(fetch)
-    .toHaveBeenCalledWith('https://data-us-east1.iterative.ly/t', defaultFetchRequest);
+    .toHaveBeenCalledWith('https://data.us-east-2.iterative.ly/t', defaultFetchRequest);
 
   const responseBody = JSON.parse((fetch as any).mock.calls[0][1].body);
   expect(responseBody).not.toHaveProperty('branchName');
