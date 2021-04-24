@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.0...v2.2.1) (2021-04-24)
+
+
+### Bug Fixes
+
+* set Braze user email from identify properties ([310dcd7](https://github.com/iterativelyhq/itly-sdk/commit/310dcd7af04e89e9be0a6ec672e32f30b18cf216))
+
+
+
+
+
 ## [2.0.9](https://github.com/iterativelyhq/itly-sdk/compare/v2.0.8...v2.0.9) (2021-04-01)
 
 **Note:** Version bump only for package @itly/plugin-braze

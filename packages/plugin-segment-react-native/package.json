@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-segment-react-native",
-  "version": "2.1.0",
+  "version": "2.2.1",
   "description": "Segment React Native Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -33,7 +33,7 @@
     "url": "https://github.com/iterativelyhq/itly-sdk.git"
   },
   "devDependencies": {
-    "@itly/sdk": "^2.0.9",
+    "@itly/sdk": "^2.2.1",
     "@segment/analytics-react-native": "^1.4.3",
     "typescript": "^3.9.3"
   },
