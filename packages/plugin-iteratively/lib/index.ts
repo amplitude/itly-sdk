@@ -7,7 +7,7 @@ import {
 export type IterativelyOptions = {
   /**
    * The server endpoint to send messages.
-   * @default: https://data-us-east1.iterative.ly/t
+   * @default: https://data.us-east-2.iterative.ly/t
    */
   url?: string;
 
@@ -94,7 +94,7 @@ export class IterativelyPlugin extends RequestLoggerPlugin {
   private timer: ReturnType<typeof setTimeout> | null = null;
 
   private config: RequiredExcept<IterativelyOptions, 'branch' | 'version' | 'environment' | 'disabled'> = {
-    url: 'https://data-us-east1.iterative.ly/t',
+    url: 'https://data.us-east-2.iterative.ly/t',
     omitValues: false,
     batchSize: 100,
     flushAt: 10,
