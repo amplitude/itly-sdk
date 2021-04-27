@@ -52,12 +52,12 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
       // @ts-ignore
       // eslint-disable-next-line
       ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)};p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","//cdn.jsdelivr.net/gh/snowplow/sp-js-assets@2.17.3/sp.js","snowplow"));
-      this.snowplow('newTracker', 'itly', this.options.url, this.options.config);
     }
+    this.snowplow('newTracker', 'itly', this.options.url, this.options.config);
   }
 
   identify(userId: string | undefined, properties?: Properties) {
-    this.snowplow('setUserId', userId);
+    this.snowplow('setUserId:itly', userId);
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties, options?: SnowplowPageOptions) {
@@ -66,7 +66,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
       'page',
       `${userId}, ${category}, ${name}, ${this.toJsonStr(properties, contexts)}`,
     );
-    this.snowplow('trackPageView', name, undefined, contexts, undefined, this.wrapCallback(responseLogger, callback));
+    this.snowplow('trackPageView:itly', name, undefined, contexts, undefined, this.wrapCallback(responseLogger, callback));
   }
 
   track(userId: string | undefined, { name, properties, version }: Event, options?: SnowplowTrackOptions) {
@@ -76,7 +76,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
       'track',
       `${userId}, ${name}, ${this.toJsonStr(properties, contexts)}`,
     );
-    this.snowplow('trackSelfDescribingEvent', {
+    this.snowplow('trackSelfDescribingEvent:itly', {
       schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
       data: properties,
     }, contexts, undefined, this.wrapCallback(responseLogger, callback));
