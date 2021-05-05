@@ -6,6 +6,13 @@ import {
 export type SnowplowOptions = {
   url: string;
   config?: {};
+  /**
+   * The name(s) of the trackers that events should be sent to
+   * e.g. ['itly'] | ['itly', 'tracker2'] | undefined
+   * https://docs.snowplowanalytics.com/docs/collecting-data/collecting-from-own-applications/javascript-trackers/javascript-tracker/javascript-tracker-v2/tracker-setup/managing-multiple-trackers/
+   * @default undefined - Events are sent to all trackers
+   */
+  trackerNames?: string[];
 };
 
 export interface SnowplowContext {
@@ -32,6 +39,8 @@ export interface SnowplowTrackOptions extends SnowplowCallOptions {
  * Snowplow Browser Plugin for Iteratively SDK
  */
 export class SnowplowPlugin extends RequestLoggerPlugin {
+  private readonly trackerNameFilter: string;
+
   get snowplow(): any {
     // eslint-disable-next-line no-restricted-globals
     const s: any = typeof self === 'object' && self.self === self && self;
@@ -43,6 +52,10 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     private options: SnowplowOptions,
   ) {
     super('snowplow');
+    // create tag for trackers to send events to e.g. ':itly', ':itly;tracker2', ''
+    this.trackerNameFilter = (this.options.trackerNames && this.options.trackerNames.length > 0)
+      ? `:${this.options.trackerNames.join(';')}`
+      : '';
   }
 
   load(options: PluginLoadOptions) {
@@ -57,7 +70,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
   }
 
   identify(userId: string | undefined, properties?: Properties) {
-    this.snowplow('setUserId', userId);
+    this.snowplow(`setUserId${this.trackerNameFilter}`, userId);
   }
 
   page(userId?: string, category?: string, name?: string, properties?: Properties, options?: SnowplowPageOptions) {
@@ -66,7 +79,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
       'page',
       `${userId}, ${category}, ${name}, ${this.toJsonStr(properties, contexts)}`,
     );
-    this.snowplow('trackPageView', name, undefined, contexts, undefined, this.wrapCallback(responseLogger, callback));
+    this.snowplow(`trackPageView${this.trackerNameFilter}`, name, undefined, contexts, undefined, this.wrapCallback(responseLogger, callback));
   }
 
   track(userId: string | undefined, { name, properties, version }: Event, options?: SnowplowTrackOptions) {
@@ -76,7 +89,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
       'track',
       `${userId}, ${name}, ${this.toJsonStr(properties, contexts)}`,
     );
-    this.snowplow('trackSelfDescribingEvent', {
+    this.snowplow(`trackSelfDescribingEvent${this.trackerNameFilter}`, {
       schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
       data: properties,
     }, contexts, undefined, this.wrapCallback(responseLogger, callback));
