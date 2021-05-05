@@ -15,9 +15,12 @@ type Appboy = {
   logCustomEvent: typeof appboy.logCustomEvent;
 }
 
-// https://js.appboycdn.com/web-sdk/latest/doc/classes/appboy.user.html
-// https://www.braze.com/docs/api/objects_filters/user_attributes_object/
-const identifyPredefinedAttributes: Record<string, (user: appboy.User, value: any) => boolean> = {
+/**
+ * Map of predefined Braze User attribute names to their corresponding setter method.
+ * https://js.appboycdn.com/web-sdk/latest/doc/classes/appboy.user.html
+ * https://www.braze.com/docs/api/objects_filters/user_attributes_object/
+ */
+const userAttributeSetters: { [attributeName: string]: (user: appboy.User, value: any) => boolean } = {
   first_name: (user, value) => user.setFirstName(value),
   last_name: (user, value) => user.setLastName(value),
   email: (user, value) => user.setEmail(value),
@@ -81,9 +84,9 @@ export class BrazePlugin extends RequestLoggerPlugin {
     if (properties != null) {
       const user = this.appboy!.getUser();
       for (const [key, value] of Object.entries(properties)) {
-        const predefinedAttribute = identifyPredefinedAttributes[key];
-        if (predefinedAttribute !== undefined) {
-          predefinedAttribute(user, value);
+        const setUserAttribute = userAttributeSetters[key];
+        if (setUserAttribute) {
+          setUserAttribute(user, value);
         } else {
           user.setCustomUserAttribute(key, BrazePlugin.valueForAPI(value));
         }
