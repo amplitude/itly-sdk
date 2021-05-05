@@ -23,18 +23,19 @@ jobs:
         uses: octokit/request-action@v2.0.0
         id: permission_check
         with:
-          route: GET /repos/:repository/collaborators/${{ github.actor }}
+          route: GET /repos/{repository}/collaborators/{user}/permission
           repository: ${{ github.repository }}
+          user: ${{ github.actor }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Auth Success"
-        if: ${{ fromJson(steps.permission_check.outputs.data).admin == true }}
+        if: ${{ fromJson(steps.permission_check.outputs.data).permission == 'admin' }}
         run: "${{ github.actor }} is authorized. ${{ steps.permission_check.outputs.data }}"
 
       - name: "Auth Failed"
-        if: ${{ failure() }}
-        run: "${{ github.actor }} is NOT authorized. ${{ steps.permission_check.outputs.data }}"
+        if: ${{ failure() || fromJson(steps.permission_check.outputs.data).permission != 'admin' }}
+        run: "${{ github.actor }} is authorized. ${{ steps.permission_check.outputs.data }}"
 
   release:
     name: Release
