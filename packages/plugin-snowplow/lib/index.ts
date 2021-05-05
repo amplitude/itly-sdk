@@ -7,24 +7,12 @@ export type SnowplowOptions = {
   url: string;
   config?: {};
   /**
-   * Will force creation of a new dedicated tracker for Itly events.
-   * If you do not have a pre-existing Snowplow tracker we will create one for you by default.
-   * Set to true if you have an existing tracker you want to keep seperate from Itly events.
-   * @default false
-   */
-  forceNewTracker?: boolean;
-  /**
-   * If a new tracker is created, this will be it's name
-   * @default 'itly'
-   */
-  newTrackerName?: string;
-  /**
    * The name(s) of the trackers that events should be sent to
-   * e.g. 'itly', 'itly;tracker2'
+   * e.g. ['itly'] | ['itly', 'tracker2'] | undefined
    * https://docs.snowplowanalytics.com/docs/collecting-data/collecting-from-own-applications/javascript-trackers/javascript-tracker/javascript-tracker-v2/tracker-setup/managing-multiple-trackers/
-   * @default undefined - events are sent to all trackers
+   * @default undefined - Events are sent to all trackers
    */
-  trackerNameFilter?: string;
+  trackerNames?: string[];
 };
 
 export interface SnowplowContext {
@@ -53,13 +41,6 @@ type RequiredExcept<T, K extends keyof T> = Required<Omit<T, K>> & Partial<Pick<
  * Snowplow Browser Plugin for Iteratively SDK
  */
 export class SnowplowPlugin extends RequestLoggerPlugin {
-  private readonly options: RequiredExcept<SnowplowOptions, 'config' | 'trackerNameFilter'> = {
-    url: '',
-    forceNewTracker: false,
-    newTrackerName: 'itly',
-    trackerNameFilter: undefined,
-  };
-
   private readonly trackerNameFilter: string;
 
   get snowplow(): any {
@@ -70,26 +51,23 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
 
   constructor(
     readonly vendor: string,
-    snowplowOptions: SnowplowOptions,
+    private options: SnowplowOptions,
   ) {
     super('snowplow');
-    // apply user override options
-    this.options = { ...this.options, ...snowplowOptions };
     // create tag for trackers to send events to e.g. ':itly', ':itly;tracker2', ''
-    this.trackerNameFilter = this.options.trackerNameFilter ? `:${this.options.trackerNameFilter}` : '';
+    this.trackerNameFilter = (this.options.trackerNames && this.options.trackerNames.length > 0)
+      ? `:${this.options.trackerNames.join(';')}`
+      : '';
   }
 
   load(options: PluginLoadOptions) {
     super.load(options);
-    const wasSnowplowAlreadyLoaded = !!this.snowplow;
-    if (!wasSnowplowAlreadyLoaded) {
+    if (!this.snowplow) {
       // Snowplow (https://docs.snowplowanalytics.com/docs/collecting-data/collecting-from-own-applications/javascript-tracker/web-quick-start-guide/)
       // @ts-ignore
       // eslint-disable-next-line
       ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)};p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","//cdn.jsdelivr.net/gh/snowplow/sp-js-assets@2.17.3/sp.js","snowplow"));
-    }
-    if (!wasSnowplowAlreadyLoaded || this.options.forceNewTracker) {
-      this.snowplow('newTracker', this.options.newTrackerName, this.options.url, this.options.config);
+      this.snowplow('newTracker', 'itly', this.options.url, this.options.config);
     }
   }
 

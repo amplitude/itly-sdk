@@ -42,11 +42,11 @@ test('should post to all trackers by default', () => {
   expect(snowplowMock.mock.calls[2][0]).toEqual('trackSelfDescribingEvent');
 });
 
-test('should post to tracker specified in options', () => {
+test('should post to a single tracker specified in options', () => {
   const trackerName = 'itly';
   const plugin = new SnowplowPlugin('vendor', {
     url: 'snowplow.iterative.ly',
-    trackerNameFilter: trackerName,
+    trackerNames: [trackerName],
   });
 
   const snowplowMock = mockSnowplowInstance(plugin);
@@ -59,6 +59,25 @@ test('should post to tracker specified in options', () => {
   expect(snowplowMock.mock.calls[0][0]).toEqual(`setUserId:${trackerName}`);
   expect(snowplowMock.mock.calls[1][0]).toEqual(`trackPageView:${trackerName}`);
   expect(snowplowMock.mock.calls[2][0]).toEqual(`trackSelfDescribingEvent:${trackerName}`);
+});
+
+test('should post to multiple trackers specified in options', () => {
+  const plugin = new SnowplowPlugin('vendor', {
+    url: 'snowplow.iterative.ly',
+    trackerNames: ['itly', 'tracker2'],
+  });
+
+  const snowplowMock = mockSnowplowInstance(plugin);
+
+  plugin.load(loadOptions);
+  plugin.identify(userId);
+  plugin.page(userId, 'category', 'page-name');
+  plugin.track(userId, event);
+
+  const trackerNameFilter = ':itly;tracker2';
+  expect(snowplowMock.mock.calls[0][0]).toEqual(`setUserId${trackerNameFilter}`);
+  expect(snowplowMock.mock.calls[1][0]).toEqual(`trackPageView${trackerNameFilter}`);
+  expect(snowplowMock.mock.calls[2][0]).toEqual(`trackSelfDescribingEvent${trackerNameFilter}`);
 });
 
 test('should create new tracker if Snowplow is NOT already loaded', () => {
@@ -91,21 +110,4 @@ test('should NOT create new tracker if Snowplow is already loaded', () => {
   plugin.load(loadOptions);
 
   expect(snowplowMock).not.toHaveBeenCalled();
-});
-
-test('should always create new tracker if forceNewTracker=true ', () => {
-  const plugin = new SnowplowPlugin('vendor', {
-    url: 'snowplow.iterative.ly',
-    forceNewTracker: true,
-  });
-
-  const snowplowMock = jest.fn();
-  jest.spyOn(plugin, 'snowplow', 'get')
-    // First check for 'window.snowplow' returns a function (aka Snowplow is already loaded)
-    .mockImplementationOnce(() => jest.fn())
-    .mockImplementation(() => snowplowMock);
-
-  plugin.load(loadOptions);
-
-  expect(snowplowMock.mock.calls[0][0]).toEqual('newTracker');
 });
