@@ -27,15 +27,14 @@ jobs:
           repository: ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: "${{ github.actor }} is ${{ steps.permission_check.outputs.data }}"
 
       - name: "Auth Success"
         if: ${{ fromJson(steps.permission_check.outputs.data).admin == true }}
-        run: "You are authorized."
+        run: "${{ github.actor }} is authorized. ${{ steps.permission_check.outputs.data }}"
 
       - name: "Auth Failed"
         if: ${{ failure() }}
-        run: "Authorization failed"
+        run: "${{ github.actor }} is NOT authorized. ${{ steps.permission_check.outputs.data }}"
 
   release:
     name: Release
