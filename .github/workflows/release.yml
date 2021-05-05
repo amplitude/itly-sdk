@@ -21,11 +21,17 @@ jobs:
     steps:
       - name: ${{ github.actor }} permission check to do a release
         uses: octokit/request-action@v2.0.0
+        id: permission_check
         with:
           route: GET /repos/:repository/collaborators/${{ github.actor }}
           repository: ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "${{ github.actor }} is ${{ steps.permission_check.outputs.data }}"
+      - name: "Authorized."
+        if: ${{ fromJson(steps.permission_check.outputs.data).admin == true }}
+      - name: "Authorization failed."
+        if: ${{ failure() }}
 
   release:
     name: Release
