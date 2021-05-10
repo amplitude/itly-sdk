@@ -1,12 +1,8 @@
 import { ItlyBrowser as Itly } from '@itly/sdk';
-import _GoogleAnalyticsPlugin from '../..';
 
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
-import { requireForTestEnv } from '../../../../__tests__/util';
-
-type IGoogleAnalyticsPlugin = typeof _GoogleAnalyticsPlugin;
-const GoogleAnalyticsPlugin: IGoogleAnalyticsPlugin = requireForTestEnv(__dirname);
+import GoogleAnalyticsPlugin from '../index';
 
 let itly: Itly;
 
@@ -70,7 +66,7 @@ test('creates a global gtag', async () => {
   // eslint-disable-next-line no-underscore-dangle
   (googleAnalyticsPlugin as any)._gtag = jest.fn(googleAnalyticsPlugin.gtag);
   // eslint-disable-next-line no-restricted-globals
-  expect(self.gtag).toBeDefined();
+  expect((self as any).gtag).toBeDefined();
 
   itly.identify({ userId: 'user-1234' });
   itly.track({ name: 'Test', properties: { number: 1, string: 'Hello' } });

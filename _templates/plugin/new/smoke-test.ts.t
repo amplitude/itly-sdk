@@ -7,9 +7,7 @@ to: packages/plugin-<%= name %>/lib/__tests__/smoke.test.ts
 %>
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
-import { requireForTestEnv } from '../../../../__tests__/util';
-
-const <%= ClassName %> = requireForTestEnv(__dirname);
+import <%= ClassName %> from '../index';
 
 let itly: any;
 

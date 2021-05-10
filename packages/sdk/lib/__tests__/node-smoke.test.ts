@@ -5,8 +5,8 @@
 /* eslint-disable import/no-unresolved, import/extensions, global-require */
 /* eslint-disable no-unused-vars, no-console, class-methods-use-this */
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
-import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
 import TestingPlugin from '../../../plugin-testing/lib';
+import Itly from '../node';
 
 const plugins = [new CustomPlugin()];
 
@@ -48,7 +48,6 @@ describe('should load and track events to a custom destination (no validation)',
   beforeEach(() => {
     jest.resetModules();
 
-    const Itly = requireForTestEnv(__dirname);
     itly = new Itly();
 
     spyConsoleLog = jest.spyOn(console, 'log').mockImplementation();

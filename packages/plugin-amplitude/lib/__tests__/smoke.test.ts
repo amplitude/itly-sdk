@@ -1,12 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
-import { ItlyBrowser as Itly } from '@itly/sdk';
+import { ItlyBrowser as Itly, Plugin } from '@itly/sdk';
 import {
   TestParams,
-  requireForTestEnv,
 } from '../../../../__tests__/util';
-
-const AmplitudePlugin = requireForTestEnv(__dirname);
+import AmplitudePlugin from '../index';
 
 const userId = 'test-user-id';
 const groupId = 'test-group-id';
@@ -60,7 +58,7 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
       );
     });
 
-    const plugin = new AmplitudePlugin('an-amplitude-api-key');
+    const plugin: Plugin = new AmplitudePlugin('an-amplitude-api-key');
 
     // Mock amplitude getter
     Object.defineProperty(plugin, 'amplitude', {
@@ -81,7 +79,7 @@ test.each(testParams.map((test) => [test.name, test]) as any[])('%s',
     itly.load({
       ...options,
       context,
-      plugins: [plugin].concat(options.plugins),
+      plugins: [plugin].concat(options.plugins ?? []),
     });
 
     itly.identify(undefined);

@@ -5,15 +5,13 @@
 /* eslint-disable import/no-unresolved, import/extensions, no-unused-vars */
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
 import ErrorPlugin from '../../../../__tests__/src/ErrorPlugin';
-import requireForTestEnv from '../../../../__tests__/util/requireForTestEnv';
 import DummyPlugin from '../../../../__tests__/src/DummyPlugin';
 import TestingPlugin from '../../../plugin-testing/lib';
+import Itly from '../browser';
 
 beforeEach(() => {
   jest.resetModules();
 });
-
-const Itly = requireForTestEnv(__dirname);
 
 test('should load and track events to a custom destination (no validation)', () => {
   const consoleSpy = jest.spyOn(console, 'log').mockImplementation();

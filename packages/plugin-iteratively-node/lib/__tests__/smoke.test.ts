@@ -3,9 +3,7 @@
 import fetch from 'node-fetch';
 // eslint-disable-next-line no-unused-vars
 import { ItlyNode as Itly, Environment } from '@itly/sdk';
-import { requireForTestEnv } from '../../../../__tests__/util';
-
-const IterativelyPlugin = requireForTestEnv(__dirname);
+import IterativelyPlugin from '../index';
 
 jest.mock('node-fetch');
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

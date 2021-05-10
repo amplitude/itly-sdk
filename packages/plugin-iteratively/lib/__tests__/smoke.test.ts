@@ -2,9 +2,7 @@
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
 // eslint-disable-next-line no-unused-vars
 import { ItlyBrowser as Itly, Environment } from '@itly/sdk';
-import { requireForTestEnv } from '../../../../__tests__/util';
-
-const IterativelyPlugin = requireForTestEnv(__dirname);
+import IterativelyPlugin from '../index';
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
