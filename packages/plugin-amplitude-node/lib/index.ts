@@ -47,7 +47,11 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
 
   load(options: PluginLoadOptions) {
     super.load(options);
-    this.amplitude = new Amplitude(this.apiKey, this.options);
+    this.amplitude = this.createAmplitude();
+  }
+
+  createAmplitude(): Amplitude {
+    return new Amplitude(this.apiKey, this.options);
   }
 
   async identify(userId: string, properties?: Properties, options?: AmplitudeIdentifyOptions) {
