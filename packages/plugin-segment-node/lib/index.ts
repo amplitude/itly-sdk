@@ -20,8 +20,8 @@ export type SegmentCallback = (err: Error | undefined) => void;
 
 export interface SegmentCallOptions extends PluginCallOptions {
   options?: {
-    integrations?: Record<string, boolean>;
-  },
+    integrations?: Record<string, any>;
+  } & Record<string, any>,
   callback?: SegmentCallback;
 }
 export interface SegmentAliasOptions extends SegmentCallOptions {}
