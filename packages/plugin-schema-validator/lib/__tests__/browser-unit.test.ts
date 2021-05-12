@@ -1,5 +1,5 @@
 /**
- * Tests for Node version of plugin-schema-validator
+ * Tests for Browser version of plugin-schema-validator
  * @jest-environment jsdom
  */
 /* eslint-disable import/no-unresolved */

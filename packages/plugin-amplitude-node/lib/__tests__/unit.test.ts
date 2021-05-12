@@ -6,13 +6,12 @@ import AmplitudePlugin from '../index';
 const apiKey = 'API-KEY';
 const pluginLoadOptions: PluginLoadOptions = { environment: 'production', logger: Loggers.None };
 
-const amplitudeIdentify = jest.fn();
-const amplitudeTrack = jest.fn();
+const amplitudeObject = {
+  identify: jest.fn(),
+  track: jest.fn(),
+};
 
-const createAmplitude = jest.fn(() => ({
-  identify: amplitudeIdentify,
-  track: amplitudeTrack,
-}));
+const createAmplitude = jest.fn(() => amplitudeObject);
 
 beforeAll(() => {
   jest.spyOn<any, any>(AmplitudePlugin.prototype, 'createAmplitude').mockImplementation(createAmplitude);
@@ -24,10 +23,7 @@ afterAll(() => {
 });
 
 beforeEach(() => {
-  amplitudeIdentify.mockClear();
-  amplitudeTrack.mockClear();
-
-  createAmplitude.mockClear();
+  jest.clearAllMocks();
 });
 
 test('should return correct plugin id', () => {
@@ -50,8 +46,8 @@ describe('identify', () => {
     plugin.load(pluginLoadOptions);
 
     plugin.identify('user-1', { a: 123, b: 'abc' });
-    expect(amplitudeIdentify).toHaveBeenCalledTimes(1);
-    expect(amplitudeIdentify.mock.calls[0][0]).toEqual({
+    expect(amplitudeObject.identify).toHaveBeenCalledTimes(1);
+    expect(amplitudeObject.identify.mock.calls[0][0]).toEqual({
       user_id: 'user-1',
       user_properties: { a: 123, b: 'abc' },
     });
@@ -75,8 +71,8 @@ describe('track', () => {
     plugin.load(pluginLoadOptions);
 
     plugin.track('user-2', { name: 'event-A', properties: { a: 'abc', b: 123 } });
-    expect(amplitudeTrack).toHaveBeenCalledTimes(1);
-    expect(amplitudeTrack.mock.calls[0][0]).toEqual({
+    expect(amplitudeObject.track).toHaveBeenCalledTimes(1);
+    expect(amplitudeObject.track.mock.calls[0][0]).toEqual({
       event_properties: { a: 'abc', b: 123 },
       event_type: 'event-A',
       user_id: 'user-2',
@@ -91,6 +87,7 @@ describe('track', () => {
     await plugin.track('user-2', { name: 'event-A', properties: { a: 'abc', b: 123 } }, {
       callback,
     });
+    expect(amplitudeObject.track).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledTimes(1);
   });
 });
