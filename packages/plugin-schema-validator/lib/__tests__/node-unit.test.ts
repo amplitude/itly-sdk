@@ -10,7 +10,7 @@ const testSchemas = require('../../../../__tests__/data/basic-schema.json');
 const systemEvents = ['identify', 'context', 'group', 'page'];
 
 describe('schema found', () => {
-  test('valid for a valid event', () => {
+  test('should be valid for a valid event', () => {
     const plugin = new SchemaValidatorPlugin(testSchemas);
     plugin.load();
 
@@ -24,7 +24,7 @@ describe('schema found', () => {
     });
   });
 
-  test('not valid for an event with invalid property', () => {
+  test('should not be valid for an event with invalid property', () => {
     const plugin = new SchemaValidatorPlugin(testSchemas);
     plugin.load();
 
@@ -39,7 +39,7 @@ describe('schema found', () => {
     });
   });
 
-  test('not valid for an event without required property', () => {
+  test('should not be valid for an event without required property', () => {
     const plugin = new SchemaValidatorPlugin(testSchemas);
     plugin.load();
 
@@ -54,7 +54,7 @@ describe('schema found', () => {
     });
   });
 
-  test('not valid for an event with additional property', () => {
+  test('should not be valid for an event with additional property', () => {
     const plugin = new SchemaValidatorPlugin(testSchemas);
     plugin.load();
 
@@ -73,7 +73,7 @@ describe('schema found', () => {
 describe('schema not found', () => {
   test.each(
     systemEvents,
-  )('valid for a system event "%s" without properties', (eventName) => {
+  )('should be valid for a system event "%s" without properties', (eventName) => {
     const { [eventName]: _, ...schemas } = testSchemas;
     const plugin = new SchemaValidatorPlugin(schemas);
     plugin.load();
@@ -89,7 +89,7 @@ describe('schema not found', () => {
 
   test.each(
     systemEvents,
-  )('not valid for a system event "%s" with properties', (eventName) => {
+  )('should not be valid for a system event "%s" with properties', (eventName) => {
     const { [eventName]: _, ...schemas } = testSchemas;
     const plugin = new SchemaValidatorPlugin(schemas);
     plugin.load();
@@ -105,7 +105,7 @@ describe('schema not found', () => {
     });
   });
 
-  test('not valid for an unknown event without properties', () => {
+  test('should not be valid for an unknown event without properties', () => {
     const plugin = new SchemaValidatorPlugin(testSchemas);
     plugin.load();
 
@@ -119,7 +119,7 @@ describe('schema not found', () => {
     });
   });
 
-  test('not valid for an unknown event with properties', () => {
+  test('should not be valid for an unknown event with properties', () => {
     const plugin = new SchemaValidatorPlugin(testSchemas);
     plugin.load();
 

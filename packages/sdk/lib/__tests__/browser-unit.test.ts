@@ -1,9 +1,9 @@
 /**
- * Tests for Node version of SDK
- * @jest-environment node
+ * Tests for Browser version of SDK
+ * @jest-environment jsdom
  */
 /* eslint-disable import/no-unresolved */
-import Itly from '../node';
+import Itly from '../browser';
 import {
   Event, Loggers, Plugin, PluginCallOptions, PluginLoadOptions, Validation,
 } from '../base';
@@ -103,9 +103,9 @@ describe('context', () => {
     });
 
     const event = { name: 'event-1', properties };
-    itly.track('user-1', event);
+    itly.track(event);
     expect(plugin.track).toHaveBeenCalledTimes(1);
-    expect((plugin.track as any).mock.calls[0].slice(0, 2)).toEqual(['user-1', event]);
+    expect((plugin.track as any).mock.calls[0].slice(0, 2)).toEqual([undefined, event]);
   });
 
   test('context should be merged on track if context is defined', () => {
@@ -120,18 +120,18 @@ describe('context', () => {
     });
 
     const event = { name: 'event-1', properties };
-    itly.track('user-1', event);
+    itly.track(event);
     expect(plugin.track).toHaveBeenCalledTimes(1);
-    expect((plugin.track as any).mock.calls[0].slice(0, 2)).toEqual(['user-1', {
+    expect((plugin.track as any).mock.calls[0].slice(0, 2)).toEqual([undefined, {
       name: 'event-1',
       properties: { a: 'abc', b: 123, c: 789 },
     }]);
   });
 
   test.each([
-    ['identify', ['user-1', properties]],
-    ['group', ['user-1', 'group-1', properties]],
-    ['page', ['user-1', 'category', 'page', properties]],
+    ['identify', [properties]],
+    ['group', ['group-1', properties]],
+    ['page', ['category', 'page', properties]],
   ])('context should not be merged on %s if context is defined', (methodName, methodArgs) => {
     const plugin = createPlugin();
 
@@ -148,7 +148,7 @@ describe('context', () => {
 
     const [pluginMethod] = getPluginMethods(plugin, methodName);
     expect(pluginMethod).toHaveBeenCalledTimes(1);
-    expect(pluginMethod.mock.calls[0].slice(0, -1)).toEqual(methodArgs);
+    expect(pluginMethod.mock.calls[0].slice(0, -1)).toEqual([undefined, ...methodArgs]);
   });
 });
 
@@ -348,10 +348,10 @@ describe('plugin', () => {
 
   const trackMethods: [string, any[]][] = [
     ['alias', ['user-1', 'user-2']],
-    ['identify', ['user-1', properties]],
-    ['group', ['user-1', 'group-1', properties]],
-    ['page', ['user-1', 'category', 'name', properties]],
-    ['track', ['user-1', { name: 'event-1', properties }]],
+    ['identify', [properties]],
+    ['group', ['group-1', properties]],
+    ['page', ['category', 'name', properties]],
+    ['track', [{ name: 'event-1', properties }]],
   ];
   const resetMethod: [string, any[]] = ['reset', []];
   const flushMethod: [string, any[]] = ['flush', []];
@@ -371,8 +371,10 @@ describe('plugin', () => {
     expect(pluginMethod).toHaveBeenCalledTimes(1);
     if (methodName !== 'alias') {
       expect(pluginPostMethod).toHaveBeenCalledTimes(1);
+      expect(pluginMethod.mock.calls[0].slice(0, -1)).toEqual([undefined, ...methodArgs]);
+    } else {
+      expect(pluginMethod.mock.calls[0].slice(0, -1)).toEqual(methodArgs);
     }
-    expect(pluginMethod.mock.calls[0].slice(0, -1)).toEqual(methodArgs);
   });
 
   test.each(trackMethods)('should not call %s if itly is disabled', (methodName, methodArgs) => {
@@ -507,7 +509,7 @@ describe('per event destinations', () => {
       plugins,
     });
 
-    itly.track('user-1', event);
+    itly.track(event);
 
     plugins.forEach((plugin: any) => {
       const [trackMethod, pluginTrackMethod] = getPluginMethods(plugin, 'track');
@@ -524,7 +526,7 @@ describe('per event destinations', () => {
       plugins,
     });
 
-    itly.track('user-1', {
+    itly.track({
       ...event,
       plugins: { 'plugin-1': false, 'plugin-3': true },
     });
