@@ -46,6 +46,15 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+const properties = {
+  n: null,
+  i: 123,
+  s: 'abc',
+  l: true,
+  list: [1, 2, 3],
+  data: { a: '789', b: 45.6 },
+};
+
 test('should return correct plugin id', () => {
   const plugin = new BrazePlugin(apiKey, brazeOptions);
   expect(plugin.id).toEqual('braze');
@@ -87,8 +96,6 @@ describe('load', () => {
 });
 
 describe('identify', () => {
-  const properties = { a: 123, b: 'abc' };
-
   test('should call internal changeUser() if userId is defined', () => {
     const plugin = new BrazePlugin(apiKey, brazeOptions);
     plugin.load(pluginLoadOptions);
@@ -114,7 +121,7 @@ describe('identify', () => {
     const plugin = new BrazePlugin(apiKey, brazeOptions);
     plugin.load(pluginLoadOptions);
 
-    plugin.identify(undefined, properties);
+    plugin.identify(undefined, { a: 123, b: 'abc' });
     expect(appboy.getUser).toHaveBeenCalledTimes(1);
     expect(appboy.getUser().setCustomUserAttribute).toHaveBeenCalledTimes(2);
     expect(appboy.getUser().setCustomUserAttribute.mock.calls[0]).toEqual(['a', 123]);
@@ -125,14 +132,15 @@ describe('identify', () => {
     const plugin = new BrazePlugin(apiKey, brazeOptions);
     plugin.load(pluginLoadOptions);
 
-    plugin.identify(undefined, {
-      data: { z: 12, y: 'test' },
-      list: [1, 2, 3],
-    });
+    plugin.identify(undefined, properties);
     expect(appboy.getUser).toHaveBeenCalledTimes(1);
-    expect(appboy.getUser().setCustomUserAttribute).toHaveBeenCalledTimes(2);
-    expect(appboy.getUser().setCustomUserAttribute.mock.calls[0]).toEqual(['data', '{"z":12,"y":"test"}']);
-    expect(appboy.getUser().setCustomUserAttribute.mock.calls[1]).toEqual(['list', '[1,2,3]']);
+    expect(appboy.getUser().setCustomUserAttribute).toHaveBeenCalledTimes(6);
+    expect(appboy.getUser().setCustomUserAttribute.mock.calls[0]).toEqual(['n', null]);
+    expect(appboy.getUser().setCustomUserAttribute.mock.calls[1]).toEqual(['i', 123]);
+    expect(appboy.getUser().setCustomUserAttribute.mock.calls[2]).toEqual(['s', 'abc']);
+    expect(appboy.getUser().setCustomUserAttribute.mock.calls[3]).toEqual(['l', true]);
+    expect(appboy.getUser().setCustomUserAttribute.mock.calls[4]).toEqual(['list', '[1,2,3]']);
+    expect(appboy.getUser().setCustomUserAttribute.mock.calls[5]).toEqual(['data', '{"a":"789","b":45.6}']);
   });
 
   test('should call set methods for predefined user attributes', () => {
@@ -159,13 +167,11 @@ describe('identify', () => {
 });
 
 describe('track', () => {
-  const event = { name: 'event-A', properties: { a: 'abc', b: 123 } };
-
   test('should call internal changeUser() if userId is defined', () => {
     const plugin = new BrazePlugin(apiKey, brazeOptions);
     plugin.load(pluginLoadOptions);
 
-    plugin.track('user-1', event);
+    plugin.track('user-1', { name: 'event-A' });
     expect(appboy.changeUser).toHaveBeenCalledTimes(1);
     expect(appboy.changeUser.mock.calls[0][0]).toBe('user-1');
     expect(appboy.logCustomEvent).toHaveBeenCalledTimes(1);
@@ -175,7 +181,7 @@ describe('track', () => {
     const plugin = new BrazePlugin(apiKey, brazeOptions);
     plugin.load(pluginLoadOptions);
 
-    plugin.track(undefined, event);
+    plugin.track(undefined, { name: 'event-A' });
     expect(appboy.changeUser).toHaveBeenCalledTimes(0);
     expect(appboy.logCustomEvent).toHaveBeenCalledTimes(1);
   });
@@ -184,7 +190,7 @@ describe('track', () => {
     const plugin = new BrazePlugin(apiKey, brazeOptions);
     plugin.load(pluginLoadOptions);
 
-    plugin.track(undefined, event);
+    plugin.track(undefined, { name: 'event-A', properties: { a: 'abc', b: 123 } });
     expect(appboy.logCustomEvent).toHaveBeenCalledTimes(1);
     expect(appboy.logCustomEvent.mock.calls[0]).toEqual(['event-A', { a: 'abc', b: 123 }]);
   });
@@ -193,7 +199,7 @@ describe('track', () => {
     const plugin = new BrazePlugin(apiKey, brazeOptions);
     plugin.load(pluginLoadOptions);
 
-    plugin.track(undefined, { ...event, properties: undefined });
+    plugin.track(undefined, { name: 'event-A' });
     expect(appboy.logCustomEvent).toHaveBeenCalledTimes(1);
     expect(appboy.logCustomEvent.mock.calls[0]).toEqual(['event-A']);
   });
@@ -203,18 +209,19 @@ describe('track', () => {
     plugin.load(pluginLoadOptions);
 
     plugin.track(undefined, {
-      ...event,
-      properties: {
-        data: { z: 12, y: 'test' },
-        list: [1, 2, 3],
-      },
+      name: 'event-A',
+      properties,
     });
     expect(appboy.logCustomEvent).toHaveBeenCalledTimes(1);
     expect(appboy.logCustomEvent.mock.calls[0]).toEqual([
       'event-A',
       {
-        data: '{"z":12,"y":"test"}',
+        n: null,
+        i: 123,
+        s: 'abc',
+        l: true,
         list: '[1,2,3]',
+        data: '{"a":"789","b":45.6}',
       },
     ]);
   });

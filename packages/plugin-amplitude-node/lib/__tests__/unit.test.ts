@@ -6,12 +6,12 @@ import AmplitudePlugin from '../index';
 const apiKey = 'API-KEY';
 const pluginLoadOptions: PluginLoadOptions = { environment: 'production', logger: Loggers.None };
 
-const amplitudeObject = {
+const amplitude = {
   identify: jest.fn(),
   track: jest.fn(),
 };
 
-const createAmplitude = jest.fn(() => amplitudeObject);
+const createAmplitude = jest.fn(() => amplitude);
 
 beforeAll(() => {
   jest.spyOn<any, any>(AmplitudePlugin.prototype, 'createAmplitude').mockImplementation(createAmplitude);
@@ -25,6 +25,15 @@ afterAll(() => {
 beforeEach(() => {
   jest.clearAllMocks();
 });
+
+const properties = {
+  n: null,
+  i: 123,
+  s: 'abc',
+  l: true,
+  list: [1, 2, 3],
+  data: { a: '789', b: 45.6 },
+};
 
 test('should return correct plugin id', () => {
   const plugin = new AmplitudePlugin('API-KEY');
@@ -45,11 +54,11 @@ describe('identify', () => {
     const plugin = new AmplitudePlugin(apiKey);
     plugin.load(pluginLoadOptions);
 
-    plugin.identify('user-1', { a: 123, b: 'abc' });
-    expect(amplitudeObject.identify).toHaveBeenCalledTimes(1);
-    expect(amplitudeObject.identify.mock.calls[0][0]).toEqual({
+    plugin.identify('user-1', properties);
+    expect(amplitude.identify).toHaveBeenCalledTimes(1);
+    expect(amplitude.identify.mock.calls[0][0]).toEqual({
       user_id: 'user-1',
-      user_properties: { a: 123, b: 'abc' },
+      user_properties: properties,
     });
   });
 
@@ -58,7 +67,7 @@ describe('identify', () => {
     plugin.load(pluginLoadOptions);
 
     const callback = jest.fn();
-    await plugin.identify('user-1', { a: 123, b: 'abc' }, {
+    await plugin.identify('user-1', properties, {
       callback,
     });
     expect(callback).toHaveBeenCalledTimes(1);
@@ -70,10 +79,10 @@ describe('track', () => {
     const plugin = new AmplitudePlugin(apiKey);
     plugin.load(pluginLoadOptions);
 
-    plugin.track('user-2', { name: 'event-A', properties: { a: 'abc', b: 123 } });
-    expect(amplitudeObject.track).toHaveBeenCalledTimes(1);
-    expect(amplitudeObject.track.mock.calls[0][0]).toEqual({
-      event_properties: { a: 'abc', b: 123 },
+    plugin.track('user-2', { name: 'event-A', properties });
+    expect(amplitude.track).toHaveBeenCalledTimes(1);
+    expect(amplitude.track.mock.calls[0][0]).toEqual({
+      event_properties: properties,
       event_type: 'event-A',
       user_id: 'user-2',
     });
@@ -84,10 +93,10 @@ describe('track', () => {
     plugin.load(pluginLoadOptions);
 
     const callback = jest.fn();
-    await plugin.track('user-2', { name: 'event-A', properties: { a: 'abc', b: 123 } }, {
+    await plugin.track('user-2', { name: 'event-A', properties }, {
       callback,
     });
-    expect(amplitudeObject.track).toHaveBeenCalledTimes(1);
+    expect(amplitude.track).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledTimes(1);
   });
 });

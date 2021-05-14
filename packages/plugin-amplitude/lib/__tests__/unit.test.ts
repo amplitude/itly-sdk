@@ -6,7 +6,7 @@ import AmplitudePlugin, { AmplitudeCallback } from '../index';
 const apiKey = 'API-KEY';
 const pluginLoadOptions: PluginLoadOptions = { environment: 'production', logger: Loggers.None };
 
-let amplitudeObject: any;
+let amplitude: any;
 
 const loadAmplitude = jest.fn(() => {
   const instance = {
@@ -16,7 +16,7 @@ const loadAmplitude = jest.fn(() => {
     logEvent: jest.fn(),
     regenerateDeviceId: jest.fn(),
   };
-  amplitudeObject = {
+  amplitude = {
     getInstance: () => instance,
   };
 });
@@ -27,7 +27,7 @@ beforeAll(() => {
   const script = document.createElement('script');
   document.body.appendChild(script);
 
-  jest.spyOn(AmplitudePlugin.prototype, 'amplitude', 'get').mockImplementation(() => amplitudeObject);
+  jest.spyOn(AmplitudePlugin.prototype, 'amplitude', 'get').mockImplementation(() => amplitude);
   jest.spyOn(AmplitudePlugin.prototype, 'loadAmplitude').mockImplementation(loadAmplitude);
 });
 
@@ -37,9 +37,18 @@ afterAll(() => {
 });
 
 beforeEach(() => {
-  amplitudeObject = undefined;
+  amplitude = undefined;
   jest.clearAllMocks();
 });
+
+const properties = {
+  n: null,
+  i: 123,
+  s: 'abc',
+  l: true,
+  list: [1, 2, 3],
+  data: { a: '789', b: 45.6 },
+};
 
 test('should return correct plugin id', () => {
   const plugin = new AmplitudePlugin(apiKey);
@@ -54,13 +63,13 @@ describe('load', () => {
     plugin.load(pluginLoadOptions);
     expect(plugin.amplitude).toBeDefined();
     expect(loadAmplitude).toHaveBeenCalledTimes(1);
-    expect(amplitudeObject.getInstance().init).toHaveBeenCalledTimes(1);
+    expect(amplitude.getInstance().init).toHaveBeenCalledTimes(1);
   });
 
   test('should not load amplitude if it is already loaded', () => {
     const plugin = new AmplitudePlugin(apiKey);
 
-    amplitudeObject = {};
+    amplitude = {};
     expect(plugin.amplitude).toBeDefined();
     plugin.load(pluginLoadOptions);
     expect(plugin.amplitude).toBeDefined();
@@ -75,21 +84,19 @@ describe('load', () => {
     plugin.load(pluginLoadOptions);
     expect(plugin.amplitude).toBeDefined();
     expect(loadAmplitude).toHaveBeenCalledTimes(1);
-    expect(amplitudeObject.getInstance().init).toHaveBeenCalledTimes(1);
+    expect(amplitude.getInstance().init).toHaveBeenCalledTimes(1);
   });
 });
 
 describe('identify', () => {
-  const properties = { a: 123, b: 'abc' };
-
   test('should call internal setUserId() if userId is defined', () => {
     const plugin = new AmplitudePlugin(apiKey);
     plugin.load(pluginLoadOptions);
 
     plugin.identify('user-1');
-    expect(amplitudeObject.getInstance().setUserId).toHaveBeenCalledTimes(1);
-    expect(amplitudeObject.getInstance().setUserId.mock.calls[0][0]).toBe('user-1');
-    expect(amplitudeObject.getInstance().identify).toHaveBeenCalledTimes(0);
+    expect(amplitude.getInstance().setUserId).toHaveBeenCalledTimes(1);
+    expect(amplitude.getInstance().setUserId.mock.calls[0][0]).toBe('user-1');
+    expect(amplitude.getInstance().identify).toHaveBeenCalledTimes(0);
   });
 
   test('should not call internal setUserId() if userId is undefined', () => {
@@ -97,8 +104,8 @@ describe('identify', () => {
     plugin.load(pluginLoadOptions);
 
     plugin.identify(undefined);
-    expect(amplitudeObject.getInstance().setUserId).toHaveBeenCalledTimes(0);
-    expect(amplitudeObject.getInstance().identify).toHaveBeenCalledTimes(0);
+    expect(amplitude.getInstance().setUserId).toHaveBeenCalledTimes(0);
+    expect(amplitude.getInstance().identify).toHaveBeenCalledTimes(0);
   });
 
   test('should call internal identify() with properties', () => {
@@ -108,13 +115,17 @@ describe('identify', () => {
     const amplitudeIdentify = {
       set: jest.fn(),
     };
-    amplitudeObject.Identify = () => amplitudeIdentify;
+    amplitude.Identify = () => amplitudeIdentify;
 
     plugin.identify(undefined, properties);
-    expect(amplitudeObject.getInstance().identify).toHaveBeenCalledTimes(1);
-    expect(amplitudeIdentify.set).toHaveBeenCalledTimes(2);
-    expect(amplitudeIdentify.set.mock.calls[0].slice(0, 2)).toEqual(['a', 123]);
-    expect(amplitudeIdentify.set.mock.calls[1].slice(0, 2)).toEqual(['b', 'abc']);
+    expect(amplitude.getInstance().identify).toHaveBeenCalledTimes(1);
+    expect(amplitudeIdentify.set).toHaveBeenCalledTimes(6);
+    expect(amplitudeIdentify.set.mock.calls[0]).toEqual(['n', null]);
+    expect(amplitudeIdentify.set.mock.calls[1]).toEqual(['i', 123]);
+    expect(amplitudeIdentify.set.mock.calls[2]).toEqual(['s', 'abc']);
+    expect(amplitudeIdentify.set.mock.calls[3]).toEqual(['l', true]);
+    expect(amplitudeIdentify.set.mock.calls[4]).toEqual(['list', [1, 2, 3]]);
+    expect(amplitudeIdentify.set.mock.calls[5]).toEqual(['data', { a: '789', b: 45.6 }]);
   });
 
   test('should call callback', (done) => {
@@ -124,8 +135,8 @@ describe('identify', () => {
     const amplitudeIdentify = {
       set: jest.fn(),
     };
-    amplitudeObject.Identify = () => amplitudeIdentify;
-    amplitudeObject.getInstance().identify = (identifyObject: any, callback: AmplitudeCallback) => {
+    amplitude.Identify = () => amplitudeIdentify;
+    amplitude.getInstance().identify = (identifyProperties: any, callback: AmplitudeCallback) => {
       callback(211, 'identify response', 'identify details');
     };
 
@@ -141,22 +152,22 @@ describe('identify', () => {
 });
 
 describe('track', () => {
-  const event = { name: 'event-A', properties: { a: 'abc', b: 123 } };
+  const event = { name: 'event-A', properties };
 
   test('should call internal logEvent() with event name and properties', () => {
     const plugin = new AmplitudePlugin(apiKey);
     plugin.load(pluginLoadOptions);
 
     plugin.track('user-1', event);
-    expect(amplitudeObject.getInstance().logEvent).toHaveBeenCalledTimes(1);
-    expect(amplitudeObject.getInstance().logEvent.mock.calls[0].slice(0, 2)).toEqual(['event-A', { a: 'abc', b: 123 }]);
+    expect(amplitude.getInstance().logEvent).toHaveBeenCalledTimes(1);
+    expect(amplitude.getInstance().logEvent.mock.calls[0].slice(0, 2)).toEqual(['event-A', properties]);
   });
 
   test('should call callback', (done) => {
     const plugin = new AmplitudePlugin(apiKey);
     plugin.load(pluginLoadOptions);
 
-    amplitudeObject.getInstance().logEvent = (name: any, properties: any, callback: AmplitudeCallback) => {
+    amplitude.getInstance().logEvent = (name: any, trackProperties: any, callback: AmplitudeCallback) => {
       callback(322, 'track response', 'track details');
     };
 
@@ -177,8 +188,8 @@ describe('reset', () => {
     plugin.load(pluginLoadOptions);
 
     plugin.reset();
-    expect(amplitudeObject.getInstance().setUserId).toHaveBeenCalledTimes(1);
-    expect(amplitudeObject.getInstance().setUserId.mock.calls[0][0]).toBe(null);
-    expect(amplitudeObject.getInstance().regenerateDeviceId).toHaveBeenCalledTimes(1);
+    expect(amplitude.getInstance().setUserId).toHaveBeenCalledTimes(1);
+    expect(amplitude.getInstance().setUserId.mock.calls[0][0]).toBe(null);
+    expect(amplitude.getInstance().regenerateDeviceId).toHaveBeenCalledTimes(1);
   });
 });

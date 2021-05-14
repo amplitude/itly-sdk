@@ -16,6 +16,15 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+const properties = {
+  n: null,
+  i: 123,
+  s: 'abc',
+  l: true,
+  list: [1, 2, 3],
+  data: { a: '789', b: 45.6 },
+};
+
 test('should return correct plugin id', () => {
   const plugin = new BrazePlugin(apiKey, brazeOptions);
   expect(plugin.id).toEqual('braze');
@@ -24,13 +33,6 @@ test('should return correct plugin id', () => {
 describe('load', () => {
   test('should not throw error', () => {
     const plugin = new BrazePlugin(apiKey, brazeOptions);
-    plugin.load(pluginLoadOptions);
-  });
-
-  test('multiple load should not throw error', () => {
-    const plugin = new BrazePlugin(apiKey, brazeOptions);
-    plugin.load(pluginLoadOptions);
-    plugin.load(pluginLoadOptions);
     plugin.load(pluginLoadOptions);
   });
 });
@@ -63,17 +65,18 @@ describe('identify', () => {
     const postRequest = jest.fn();
     (plugin as any).postTrackerRequest = postRequest;
 
-    plugin.identify('user-1', {
-      data: { z: 12, y: 'test' },
-      list: [1, 2, 3],
-    });
+    plugin.identify('user-1', properties);
     expect(postRequest).toHaveBeenCalledTimes(1);
     expect(postRequest.mock.calls[0][1]).toEqual({
       attributes: [
         {
-          data: '{"z":12,"y":"test"}',
           external_id: 'user-1',
+          n: null,
+          i: 123,
+          s: 'abc',
+          l: true,
           list: '[1,2,3]',
+          data: '{"a":"789","b":45.6}',
         },
       ],
     });
@@ -122,10 +125,7 @@ describe('track', () => {
 
     plugin.track('user-1', {
       name: 'event-A',
-      properties: {
-        data: { z: 12, y: 'test' },
-        list: [1, 2, 3],
-      },
+      properties,
     });
     expect(postRequest).toHaveBeenCalledTimes(1);
 
@@ -136,8 +136,12 @@ describe('track', () => {
           external_id: 'user-1',
           name: 'event-A',
           properties: {
-            data: '{"z":12,"y":"test"}',
+            n: null,
+            i: 123,
+            s: 'abc',
+            l: true,
             list: '[1,2,3]',
+            data: '{"a":"789","b":45.6}',
           },
         },
       ],
