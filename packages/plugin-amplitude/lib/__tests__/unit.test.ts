@@ -111,7 +111,6 @@ describe('identify', () => {
     amplitudeObject.Identify = () => amplitudeIdentify;
 
     plugin.identify(undefined, properties);
-    expect(amplitudeObject.getInstance().setUserId).toHaveBeenCalledTimes(0);
     expect(amplitudeObject.getInstance().identify).toHaveBeenCalledTimes(1);
     expect(amplitudeIdentify.set).toHaveBeenCalledTimes(2);
     expect(amplitudeIdentify.set.mock.calls[0].slice(0, 2)).toEqual(['a', 123]);

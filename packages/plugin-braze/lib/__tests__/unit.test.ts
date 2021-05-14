@@ -115,7 +115,6 @@ describe('identify', () => {
     plugin.load(pluginLoadOptions);
 
     plugin.identify(undefined, properties);
-    expect(appboy.changeUser).toHaveBeenCalledTimes(0);
     expect(appboy.getUser).toHaveBeenCalledTimes(1);
     expect(appboy.getUser().setCustomUserAttribute).toHaveBeenCalledTimes(2);
     expect(appboy.getUser().setCustomUserAttribute.mock.calls[0]).toEqual(['a', 123]);
@@ -130,7 +129,6 @@ describe('identify', () => {
       data: { z: 12, y: 'test' },
       list: [1, 2, 3],
     });
-    expect(appboy.changeUser).toHaveBeenCalledTimes(0);
     expect(appboy.getUser).toHaveBeenCalledTimes(1);
     expect(appboy.getUser().setCustomUserAttribute).toHaveBeenCalledTimes(2);
     expect(appboy.getUser().setCustomUserAttribute.mock.calls[0]).toEqual(['data', '{"z":12,"y":"test"}']);
@@ -147,7 +145,6 @@ describe('identify', () => {
       phone: '123-45',
       dob: '2001-03-25',
     });
-    expect(appboy.changeUser).toHaveBeenCalledTimes(0);
     expect(appboy.getUser).toHaveBeenCalledTimes(1);
     expect(appboy.getUser().setCustomUserAttribute).toHaveBeenCalledTimes(0);
     expect(appboy.getUser().setFirstName).toHaveBeenCalledTimes(1);
@@ -212,7 +209,6 @@ describe('track', () => {
         list: [1, 2, 3],
       },
     });
-    expect(appboy.changeUser).toHaveBeenCalledTimes(0);
     expect(appboy.logCustomEvent).toHaveBeenCalledTimes(1);
     expect(appboy.logCustomEvent.mock.calls[0]).toEqual([
       'event-A',
