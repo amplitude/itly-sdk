@@ -354,10 +354,18 @@ export class Itly {
    * Reset (e.g. on logout) all analytics state for the current user and group.
    */
   reset() {
+    if (!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     this.runOnAllPlugins('reset', (p) => p.reset());
   }
 
   async flush() {
+    if (!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     const flushPromises = this.plugins.map(async (plugin) => {
       try {
         await plugin.flush();

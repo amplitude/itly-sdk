@@ -66,19 +66,22 @@ describe('load', () => {
   });
 
   test.each(
-    ['alias', 'identify', 'group', 'page', 'track'],
+    ['alias', 'identify', 'group', 'page', 'track', 'reset'],
   )('should throw exception if %s is called before load', (methodName) => {
     const itly = new Itly();
 
     expect(() => callItlyMethod(itly, methodName, ['user-1'])).toThrow('Itly is not yet initialized. Have you called `itly.load()` on app start?');
   });
 
-  test.each(
-    ['reset', 'flush'],
-  )('should not throw exception if %s is called before load', (methodName) => {
+  test('should throw exception if flush is called before load', async () => {
     const itly = new Itly();
 
-    callItlyMethod(itly, methodName);
+    expect.assertions(1);
+    try {
+      await itly.flush();
+    } catch (e) {
+      expect(e.message).toEqual('Itly is not yet initialized. Have you called `itly.load()` on app start?');
+    }
   });
 
   test('should call plugin.load()', () => {
@@ -111,11 +114,9 @@ describe('context', () => {
   test('context should be merged on track if context is defined', () => {
     const itly = new Itly();
     const plugin = createPlugin();
+    const context = { b: 'xyz', c: 789 };
     itly.load({
-      context: {
-        b: 'xyz',
-        c: 789,
-      },
+      context,
       plugins: [plugin],
     });
 
@@ -123,8 +124,8 @@ describe('context', () => {
     itly.track('user-1', event);
     expect(plugin.track).toHaveBeenCalledTimes(1);
     expect((plugin.track as any).mock.calls[0].slice(0, 2)).toEqual(['user-1', {
-      name: 'event-1',
-      properties: { a: 'abc', b: 123, c: 789 },
+      name: event.name,
+      properties: { ...context, ...event.properties },
     }]);
   });
 
@@ -137,10 +138,7 @@ describe('context', () => {
 
     const itly = new Itly();
     itly.load({
-      context: {
-        b: 'xyz',
-        c: 789,
-      },
+      context: { b: 'xyz', c: 789 },
       plugins: [plugin],
     });
 
@@ -155,14 +153,14 @@ describe('context', () => {
 describe('validation', () => {
   const properties = { a: 'abc', b: 123 };
 
-  const callMethods: [string, any[]][] = [
+  const trackMethods: [string, any[]][] = [
     ['identify', ['user-1', properties]],
     ['group', ['user-1', 'group-1', properties]],
     ['page', ['user-1', 'category', 'name', properties]],
     ['track', ['user-1', { name: 'event-1', properties }]],
   ];
 
-  test.each(callMethods)('should throw validation error on %s if event is not valid and environment is development',
+  test.each(trackMethods)('should throw validation error on %s if event is not valid and environment is development',
     (methodName, methodArgs) => {
       const validationPlugin = createPlugin();
       validationPlugin.validate = jest.fn(() => ({ valid: false, message: `${methodName} error` }));
@@ -183,7 +181,7 @@ describe('validation', () => {
       expect(pluginPostMethod).toHaveBeenCalledTimes(1);
     });
 
-  test.each(callMethods)('should track invalid event on %s if environment is production',
+  test.each(trackMethods)('should track invalid event on %s if environment is production',
     (methodName, methodArgs) => {
       const validationPlugin = createPlugin();
       validationPlugin.validate = jest.fn(() => ({ valid: false, message: `${methodName} error` }));
@@ -204,7 +202,7 @@ describe('validation', () => {
       expect(pluginPostMethod).toHaveBeenCalledTimes(1);
     });
 
-  test.each(callMethods)('should throw validation error on %s if event is not valid and options.validation = ErrorOnInvalid',
+  test.each(trackMethods)('should throw validation error on %s if event is not valid and options.validation = ErrorOnInvalid',
     (methodName, methodArgs) => {
       const validationPlugin = createPlugin();
       validationPlugin.validate = jest.fn(() => ({ valid: false, message: `${methodName} error` }));
@@ -225,7 +223,7 @@ describe('validation', () => {
       expect(pluginPostMethod).toHaveBeenCalledTimes(1);
     });
 
-  test.each(callMethods)('should track invalid event on %s if options.validation = TrackOnInvalid',
+  test.each(trackMethods)('should track invalid event on %s if options.validation = TrackOnInvalid',
     (methodName, methodArgs) => {
       const validationPlugin = createPlugin();
       validationPlugin.validate = jest.fn(() => ({ valid: false, message: `${methodName} error` }));
@@ -246,7 +244,7 @@ describe('validation', () => {
       expect(pluginPostMethod).toHaveBeenCalledTimes(1);
     });
 
-  test.each(callMethods)('should skip validation on %s if options.validation = Disabled',
+  test.each(trackMethods)('should skip validation on %s if options.validation = Disabled',
     (methodName, methodArgs) => {
       const validationPlugin = createPlugin();
       validationPlugin.validate = jest.fn(() => ({ valid: false, message: `${methodName} error` }));
@@ -267,7 +265,7 @@ describe('validation', () => {
       expect(pluginPostMethod).toHaveBeenCalledTimes(1);
     });
 
-  test.each(callMethods)('should throw validation error on %s if validate() throws exception and options.validation = ErrorOnInvalid',
+  test.each(trackMethods)('should throw validation error on %s if validate() throws exception and options.validation = ErrorOnInvalid',
     (methodName, methodArgs) => {
       const validationPlugin = createPlugin();
       validationPlugin.validate = jest.fn(() => {
@@ -290,7 +288,7 @@ describe('validation', () => {
       expect(pluginPostMethod).toHaveBeenCalledTimes(1);
     });
 
-  test.each(callMethods.filter(([methodName]) => methodName === 'track'))('should throw validation error on %s if context is not valid and options.validation = ErrorOnInvalid',
+  test.each(trackMethods.filter(([methodName]) => methodName === 'track'))('should throw validation error on %s if context is not valid and options.validation = ErrorOnInvalid',
     (methodName, methodArgs) => {
       const validationPlugin = createPlugin();
       validationPlugin.validate = jest.fn(
@@ -316,7 +314,7 @@ describe('validation', () => {
       expect(pluginPostMethod).toHaveBeenCalledTimes(1);
     });
 
-  test.each(callMethods.filter(([methodName]) => methodName !== 'track'))('should track valid event on %s if context is not valid and options.validation = ErrorOnInvalid',
+  test.each(trackMethods.filter(([methodName]) => methodName !== 'track'))('should track valid event on %s if context is not valid and options.validation = ErrorOnInvalid',
     (methodName, methodArgs) => {
       const validationPlugin = createPlugin();
       validationPlugin.validate = jest.fn(
@@ -357,7 +355,7 @@ describe('plugin', () => {
   const flushMethod: [string, any[]] = ['flush', []];
   const allMethods = [...trackMethods, resetMethod, flushMethod];
 
-  test.each(trackMethods)('should call %s if itly is not disabled', (methodName, methodArgs) => {
+  test.each(allMethods)('should call %s if itly is not disabled', (methodName, methodArgs) => {
     const plugin = createPlugin();
 
     const itly = new Itly();
@@ -369,13 +367,13 @@ describe('plugin', () => {
 
     const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
     expect(pluginMethod).toHaveBeenCalledTimes(1);
-    if (methodName !== 'alias') {
+    if (hasPostMethod(methodName)) {
       expect(pluginPostMethod).toHaveBeenCalledTimes(1);
     }
     expect(pluginMethod.mock.calls[0].slice(0, -1)).toEqual(methodArgs);
   });
 
-  test.each(trackMethods)('should not call %s if itly is disabled', (methodName, methodArgs) => {
+  test.each(allMethods)('should not call %s if itly is disabled', (methodName, methodArgs) => {
     const plugin = createPlugin();
 
     const itly = new Itly();
@@ -441,8 +439,8 @@ describe('plugin', () => {
     });
 
     const failPostPlugin = createPlugin('plugin-fail-post');
-    const [, failPostPluginPostMethod] = getPluginMethods(failPostPlugin, methodName);
     if (hasPostMethod(methodName)) {
+      const [, failPostPluginPostMethod] = getPluginMethods(failPostPlugin, methodName);
       failPostPluginPostMethod.mockImplementation(() => {
         throw new Error(`post ${methodName} error`);
       });
