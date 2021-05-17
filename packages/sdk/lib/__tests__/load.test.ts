@@ -15,7 +15,7 @@ describe('load', () => {
   test('should succeed with default options', () => {
     const itly = new Itly();
 
-    itly.load();
+    expect(() => itly.load()).not.toThrow();
   });
 
   test('should throw exception if loaded more than once', () => {
@@ -44,13 +44,13 @@ describe('load', () => {
     }
   });
 
-  test('should call plugin.load()', () => {
+  test('should call plugin.load() for all plugins', () => {
     const itly = new Itly();
-    const plugin = createPlugin();
+    const plugins = [createPlugin('plugin-1'), createPlugin('plugin-2'), createPlugin('plugin-3')];
 
     itly.load({
-      plugins: [plugin],
+      plugins,
     });
-    expect(plugin.load).toHaveBeenCalledTimes(1);
+    plugins.forEach((plugin) => expect(plugin.load).toHaveBeenCalledTimes(1));
   });
 });

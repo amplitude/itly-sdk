@@ -9,6 +9,13 @@ const testSchemas = require('../../../../__tests__/data/basic-schema.json');
 
 const systemEvents = ['identify', 'context', 'group', 'page'];
 
+describe('load', () => {
+  test('should not throw error', () => {
+    const plugin = new SchemaValidatorPlugin(testSchemas);
+    expect(() => plugin.load()).not.toThrow();
+  });
+});
+
 describe('schema found', () => {
   test('should be valid for a valid event', () => {
     const plugin = new SchemaValidatorPlugin(testSchemas);

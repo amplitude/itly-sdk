@@ -33,7 +33,7 @@ test('should return correct plugin id', () => {
 describe('load', () => {
   test('should not throw error', () => {
     const plugin = new BrazePlugin(apiKey, brazeOptions);
-    plugin.load(pluginLoadOptions);
+    expect(() => plugin.load(pluginLoadOptions)).not.toThrow();
   });
 });
 

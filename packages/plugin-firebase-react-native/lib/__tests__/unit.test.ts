@@ -44,7 +44,7 @@ test('should return correct plugin id', () => {
 describe('load', () => {
   test('should not throw error', () => {
     const plugin = new FirebasePlugin();
-    plugin.load(pluginLoadOptions);
+    expect(() => plugin.load(pluginLoadOptions)).not.toThrow();
   });
 });
 
