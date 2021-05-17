@@ -38,7 +38,8 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "amplitude": "^5.1.4"
+    "@amplitude/identify": "^1.5.5",
+    "@amplitude/node": "^1.5.5"
   },
   "peerDependencies": {
     "@itly/sdk": "^2.0.0"
