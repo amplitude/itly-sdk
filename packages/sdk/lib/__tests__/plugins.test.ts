@@ -32,58 +32,64 @@ describe('plugins', () => {
   const flushMethod: [string, any[]] = ['flush', []];
   const allMethods = [...trackMethods, resetMethod, flushMethod];
 
-  test.each(allMethods)('should call %s if itly is not disabled', (methodName, methodArgs) => {
-    const plugin = createPlugin();
+  describe('should call method if itly is not disabled', () => {
+    test.each(allMethods)('%s', (methodName, methodArgs) => {
+      const plugin = createPlugin();
 
-    const itly = new Itly();
-    itly.load({
-      plugins: [plugin],
-    });
+      const itly = new Itly();
+      itly.load({
+        plugins: [plugin],
+      });
 
-    callItlyMethod(itly, methodName, methodArgs);
+      callItlyMethod(itly, methodName, methodArgs);
 
-    const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
-    expect(pluginMethod).toHaveBeenCalledTimes(1);
-    if (hasPostMethod(methodName)) {
-      expect(pluginPostMethod).toHaveBeenCalledTimes(1);
-    }
-    expect(pluginMethod.mock.calls[0].slice(0, -1)).toEqual(methodArgs);
-  });
-
-  test.each(allMethods)('should not call %s if itly is disabled', (methodName, methodArgs) => {
-    const plugin = createPlugin();
-
-    const itly = new Itly();
-    itly.load({
-      plugins: [plugin],
-      disabled: true,
-    });
-
-    callItlyMethod(itly, methodName, methodArgs);
-
-    const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
-    expect(pluginMethod).toHaveBeenCalledTimes(0);
-    if (hasPostMethod(methodName)) {
-      expect(pluginPostMethod).toHaveBeenCalledTimes(0);
-    }
-  });
-
-  test.each(allMethods)('should call %s for all plugins', (methodName, methodArgs) => {
-    const plugins = [createPlugin('plugin-1'), createPlugin('plugin-2'), createPlugin('plugin-3')];
-
-    const itly = new Itly();
-    itly.load({
-      plugins,
-    });
-
-    callItlyMethod(itly, methodName, methodArgs);
-
-    plugins.forEach((plugin) => {
       const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
       expect(pluginMethod).toHaveBeenCalledTimes(1);
       if (hasPostMethod(methodName)) {
         expect(pluginPostMethod).toHaveBeenCalledTimes(1);
       }
+      expect(pluginMethod.mock.calls[0].slice(0, -1)).toEqual(methodArgs);
+    });
+  });
+
+  describe('should not call method if itly is disabled', () => {
+    test.each(allMethods)('%s', (methodName, methodArgs) => {
+      const plugin = createPlugin();
+
+      const itly = new Itly();
+      itly.load({
+        plugins: [plugin],
+        disabled: true,
+      });
+
+      callItlyMethod(itly, methodName, methodArgs);
+
+      const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
+      expect(pluginMethod).toHaveBeenCalledTimes(0);
+      if (hasPostMethod(methodName)) {
+        expect(pluginPostMethod).toHaveBeenCalledTimes(0);
+      }
+    });
+  });
+
+  describe('should call method for all plugins', () => {
+    test.each(allMethods)('%s', (methodName, methodArgs) => {
+      const plugins = [createPlugin('plugin-1'), createPlugin('plugin-2'), createPlugin('plugin-3')];
+
+      const itly = new Itly();
+      itly.load({
+        plugins,
+      });
+
+      callItlyMethod(itly, methodName, methodArgs);
+
+      plugins.forEach((plugin) => {
+        const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
+        expect(pluginMethod).toHaveBeenCalledTimes(1);
+        if (hasPostMethod(methodName)) {
+          expect(pluginPostMethod).toHaveBeenCalledTimes(1);
+        }
+      });
     });
   });
 
@@ -108,65 +114,69 @@ describe('plugins', () => {
     });
   });
 
-  test.each(allMethods)('should call %s for all plugins if some plugin throws error', (methodName, methodArgs) => {
-    const failPlugin = createPlugin('plugin-fail');
-    const [failPluginMethod] = getPluginMethods(failPlugin, methodName);
-    failPluginMethod.mockImplementation(() => {
-      throw new Error(`${methodName} error`);
-    });
-
-    const failPostPlugin = createPlugin('plugin-fail-post');
-    if (hasPostMethod(methodName)) {
-      const [, failPostPluginPostMethod] = getPluginMethods(failPostPlugin, methodName);
-      failPostPluginPostMethod.mockImplementation(() => {
-        throw new Error(`post ${methodName} error`);
+  describe('should call method for all plugins if some plugin throws error', () => {
+    test.each(allMethods)('%s', (methodName, methodArgs) => {
+      const failPlugin = createPlugin('plugin-fail');
+      const [failPluginMethod] = getPluginMethods(failPlugin, methodName);
+      failPluginMethod.mockImplementation(() => {
+        throw new Error(`${methodName} error`);
       });
-    }
 
-    const plugins = [createPlugin('plugin-1'), failPlugin, createPlugin('plugin-2'), failPostPlugin, createPlugin('plugin-3')];
-
-    const itly = new Itly();
-    itly.load({
-      plugins,
-    });
-
-    callItlyMethod(itly, methodName, methodArgs);
-
-    plugins.forEach((plugin) => {
-      const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
-      expect(pluginMethod).toHaveBeenCalledTimes(1);
+      const failPostPlugin = createPlugin('plugin-fail-post');
       if (hasPostMethod(methodName)) {
-        expect(pluginPostMethod).toHaveBeenCalledTimes(1);
+        const [, failPostPluginPostMethod] = getPluginMethods(failPostPlugin, methodName);
+        failPostPluginPostMethod.mockImplementation(() => {
+          throw new Error(`post ${methodName} error`);
+        });
       }
+
+      const plugins = [createPlugin('plugin-1'), failPlugin, createPlugin('plugin-2'), failPostPlugin, createPlugin('plugin-3')];
+
+      const itly = new Itly();
+      itly.load({
+        plugins,
+      });
+
+      callItlyMethod(itly, methodName, methodArgs);
+
+      plugins.forEach((plugin) => {
+        const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
+        expect(pluginMethod).toHaveBeenCalledTimes(1);
+        if (hasPostMethod(methodName)) {
+          expect(pluginPostMethod).toHaveBeenCalledTimes(1);
+        }
+      });
     });
   });
 
-  test.each(trackMethods)('should filter call options for %s by plugin id', (methodName, methodArgs) => {
-    const plugins = [createPlugin('plugin-1'), createPlugin('plugin-2'), createPlugin('plugin-3'), createPlugin('plugin-4')];
+  describe('should filter call options by plugin id', () => {
+    test.each(trackMethods)('%s', (methodName, methodArgs) => {
+      const plugins = [createPlugin('plugin-1'), createPlugin('plugin-2'), createPlugin('plugin-3'), createPlugin('plugin-4')];
 
-    const itly = new Itly();
-    itly.load({
-      plugins,
-    });
+      const itly = new Itly();
+      itly.load({
+        plugins,
+      });
 
-    const callOptions: Record<string, PluginCallOptions> = {
-      'plugin-1': {
-        a: 123,
-      },
-      'plugin-3': {
-        a: 'abc',
-      },
-      'plugin-4': {
-        b: 'abc',
-      },
-    };
+      const callOptions: Record<string, PluginCallOptions> = {
+        'plugin-1': {
+          a: 123,
+        },
+        'plugin-3': {
+          a: 'abc',
+        },
+        'plugin-4': {
+          b: 'abc',
+        },
+      };
 
-    callItlyMethod(itly, methodName, [...methodArgs, callOptions]);
+      callItlyMethod(itly, methodName, [...methodArgs, callOptions]);
 
-    plugins.forEach((plugin) => {
-      const [pluginMethod] = getPluginMethods(plugin, methodName);
-      expect(pluginMethod).toHaveBeenCalledTimes(1);
-      expect(pluginMethod.mock.calls[0].slice(-1)).toEqual([callOptions[plugin.id]]);
+      plugins.forEach((plugin) => {
+        const [pluginMethod] = getPluginMethods(plugin, methodName);
+        expect(pluginMethod).toHaveBeenCalledTimes(1);
+        expect(pluginMethod.mock.calls[0].slice(-1)).toEqual([callOptions[plugin.id]]);
+      });
     });
   });
 

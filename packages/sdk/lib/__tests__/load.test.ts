@@ -25,23 +25,25 @@ describe('load', () => {
     expect(() => itly.load()).toThrow('Itly is already initialized.');
   });
 
-  test.each(
-    ['alias', 'identify', 'group', 'page', 'track', 'reset'],
-  )('should throw exception if %s is called before load', (methodName) => {
-    const itly = new Itly();
+  describe('should throw exception if a method is called before load', () => {
+    test.each(
+      ['alias', 'identify', 'group', 'page', 'track', 'reset'],
+    )('%s', (methodName) => {
+      const itly = new Itly();
 
-    expect(() => callItlyMethod(itly, methodName, ['user-1'])).toThrow('Itly is not yet initialized. Have you called `itly.load()` on app start?');
-  });
+      expect(() => callItlyMethod(itly, methodName, ['user-1'])).toThrow('Itly is not yet initialized. Have you called `itly.load()` on app start?');
+    });
 
-  test('should throw exception if flush is called before load', async () => {
-    const itly = new Itly();
+    test('flush', async () => {
+      const itly = new Itly();
 
-    expect.assertions(1);
-    try {
-      await itly.flush();
-    } catch (e) {
-      expect(e.message).toEqual('Itly is not yet initialized. Have you called `itly.load()` on app start?');
-    }
+      expect.assertions(1);
+      try {
+        await itly.flush();
+      } catch (e) {
+        expect(e.message).toEqual('Itly is not yet initialized. Have you called `itly.load()` on app start?');
+      }
+    });
   });
 
   test('should call plugin.load() for all plugins', () => {

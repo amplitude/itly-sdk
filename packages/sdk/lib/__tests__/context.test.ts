@@ -45,23 +45,25 @@ describe('context', () => {
     }]);
   });
 
-  test.each([
-    ['identify', ['user-1', properties]],
-    ['group', ['user-1', 'group-1', properties]],
-    ['page', ['user-1', 'category', 'page', properties]],
-  ])('context should not be merged on %s if context is defined', (methodName, methodArgs) => {
-    const plugin = createPlugin();
+  describe('context should not be merged if context is defined', () => {
+    test.each([
+      ['identify', ['user-1', properties]],
+      ['group', ['user-1', 'group-1', properties]],
+      ['page', ['user-1', 'category', 'page', properties]],
+    ])('%s', (methodName, methodArgs) => {
+      const plugin = createPlugin();
 
-    const itly = new Itly();
-    itly.load({
-      context: { b: 'xyz', c: 789 },
-      plugins: [plugin],
+      const itly = new Itly();
+      itly.load({
+        context: { b: 'xyz', c: 789 },
+        plugins: [plugin],
+      });
+
+      callItlyMethod(itly, methodName, methodArgs);
+
+      const [pluginMethod] = getPluginMethods(plugin, methodName);
+      expect(pluginMethod).toHaveBeenCalledTimes(1);
+      expect(pluginMethod.mock.calls[0].slice(0, -1)).toEqual(methodArgs);
     });
-
-    callItlyMethod(itly, methodName, methodArgs);
-
-    const [pluginMethod] = getPluginMethods(plugin, methodName);
-    expect(pluginMethod).toHaveBeenCalledTimes(1);
-    expect(pluginMethod.mock.calls[0].slice(0, -1)).toEqual(methodArgs);
   });
 });

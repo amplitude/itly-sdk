@@ -33,5 +33,5 @@ export function getPluginMethods(plugin: Plugin, methodName: string): [jest.Mock
 }
 
 export function hasPostMethod(methodName: string) {
-  return ['identify', 'group', 'page', 'track'].some((name) => methodName === name);
+  return ['identify', 'group', 'page', 'track'].includes(methodName);
 }
