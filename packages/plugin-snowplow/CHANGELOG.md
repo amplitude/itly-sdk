@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.2...v2.3.0) (2021-05-20)
+
+
+### Bug Fixes
+
+* always send object in 'data' field in snowplow-plugin ([7765ae8](https://github.com/iterativelyhq/itly-sdk/commit/7765ae83477d572ce8247835b920c1acbac4dcdd))
+
+
+
+
+
 ## [2.2.2](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.1...v2.2.2) (2021-05-06)
 
 

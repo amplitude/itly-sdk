@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.2...v2.3.0) (2021-05-20)
+
+
+### Bug Fixes
+
+* add empty object for rn-snowplow if there is no properties ([d16a3d1](https://github.com/iterativelyhq/itly-sdk/commit/d16a3d18da50703d1edac1fb99040bfd2f46b9c5))
+* always send object in 'data' field in snowplow-plugin ([7765ae8](https://github.com/iterativelyhq/itly-sdk/commit/7765ae83477d572ce8247835b920c1acbac4dcdd))
+* extended Segment options/integrations to support any keys/values ([55b8ea7](https://github.com/iterativelyhq/itly-sdk/commit/55b8ea78605902fe6d528c8c3cb73796cfeac96b))
+
+
+### Features
+
+* add Validation.SkipOnInvalid ([7203556](https://github.com/iterativelyhq/itly-sdk/commit/720355635f62eaa876edafe1b8e5469f84b7f08a))
+
+
+
+
+
 ## [2.2.2](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.1...v2.2.2) (2021-05-06)
 
 
