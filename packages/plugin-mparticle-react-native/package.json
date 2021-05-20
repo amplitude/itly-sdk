@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-mparticle-react-native",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "description": "mParticle React Native Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -33,7 +33,7 @@
     "url": "https://github.com/iterativelyhq/itly-sdk.git"
   },
   "devDependencies": {
-    "@itly/sdk": "^2.2.2",
+    "@itly/sdk": "^2.3.0",
     "react-native-mparticle": "^2.4.9",
     "typescript": "^3.9.3"
   },

@@ -46,6 +46,15 @@ const testParams: TestParams[] = [
     },
   },
   {
+    name: 'load, track, validate - validation=Validation.SkipOnInvalid',
+    context,
+    options: {
+      environment: 'production',
+      plugins,
+      validation: Validation.SkipOnInvalid,
+    },
+  },
+  {
     name: 'load, track, validate w/ context=\'undefined\'',
     context: undefined,
     options: {

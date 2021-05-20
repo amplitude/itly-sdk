@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.2...v2.3.0) (2021-05-20)
+
+
+### Features
+
+* add Validation.SkipOnInvalid ([7203556](https://github.com/iterativelyhq/itly-sdk/commit/720355635f62eaa876edafe1b8e5469f84b7f08a))
+
+
+
+
+
 ## [2.2.2](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.1...v2.2.2) (2021-05-06)
 
 **Note:** Version bump only for package @itly/sdk

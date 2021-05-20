@@ -40,6 +40,7 @@ test('should post to all trackers by default', () => {
   expect(snowplowMock.mock.calls[0][0]).toEqual('setUserId');
   expect(snowplowMock.mock.calls[1][0]).toEqual('trackPageView');
   expect(snowplowMock.mock.calls[2][0]).toEqual('trackSelfDescribingEvent');
+  expect(snowplowMock.mock.calls[2][1].data).toEqual({});
 });
 
 test('should post to a single tracker specified in options', () => {
@@ -59,6 +60,7 @@ test('should post to a single tracker specified in options', () => {
   expect(snowplowMock.mock.calls[0][0]).toEqual(`setUserId:${trackerName}`);
   expect(snowplowMock.mock.calls[1][0]).toEqual(`trackPageView:${trackerName}`);
   expect(snowplowMock.mock.calls[2][0]).toEqual(`trackSelfDescribingEvent:${trackerName}`);
+  expect(snowplowMock.mock.calls[2][1].data).toEqual({});
 });
 
 test('should post to multiple trackers specified in options', () => {
@@ -78,6 +80,7 @@ test('should post to multiple trackers specified in options', () => {
   expect(snowplowMock.mock.calls[0][0]).toEqual(`setUserId${trackerNameFilter}`);
   expect(snowplowMock.mock.calls[1][0]).toEqual(`trackPageView${trackerNameFilter}`);
   expect(snowplowMock.mock.calls[2][0]).toEqual(`trackSelfDescribingEvent${trackerNameFilter}`);
+  expect(snowplowMock.mock.calls[2][1].data).toEqual({});
 });
 
 test('should create new tracker if Snowplow is NOT already loaded', () => {

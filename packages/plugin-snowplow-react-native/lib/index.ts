@@ -77,7 +77,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     this.initializePromise!.then(() =>
       Tracker.trackSelfDescribingEvent({
         schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
-        data: properties,
+        data: properties || {},
       }, contexts));
   }
 
