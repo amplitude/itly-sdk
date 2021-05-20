@@ -11,8 +11,9 @@
     "test:build": "yarn clean && lerna bootstrap && yarn lint && yarn test:dist",
     "test:dist": "cross-env TEST_ENV=dist yarn test",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "new-version": "lerna version",
-    "release": "cross-env HUSKY_BYPASS=true lerna publish",
+    "make-version": "yarn lerna version -m 'chore(release): publish %s' --conventional-commits --create-release github",
+    "make-version:dry": "yarn lerna version -m 'chore(release): publish %s' --conventional-commits --no-push --no-git-tag-version",
+    "release": "yarn lerna publish from-git",
     "release:local": "npm config list && lerna publish --no-git-tag-version --no-push --force-publish",
     "release:clean": "git checkout . && git clean -f"
   },

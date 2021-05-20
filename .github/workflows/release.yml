@@ -8,11 +8,9 @@ on:
         required: true
         default: "true"
       distTag:
-        description: "The dist-tag to publish (e.g. beta)"
-        required: false
-      exactVersion:
-        description: "Force an exact version for the release"
-        required: false
+        description: "The dist-tag to publish (e.g. latest, beta)"
+        required: true
+        default: "latest"
 
 jobs:
   authorize:
@@ -23,19 +21,19 @@ jobs:
         uses: octokit/request-action@v2.0.0
         id: permission_check
         with:
-          route: GET /repos/{repository}/collaborators/{user}/permission
-          repository: ${{ github.repository }}
-          user: ${{ github.actor }}
+          route: GET /repos/${{ github.repository }}/collaborators/${{ github.actor }}/permission
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Auth Success"
         if: ${{ fromJson(steps.permission_check.outputs.data).permission == 'admin' }}
-        run: "${{ github.actor }} is authorized. ${{ steps.permission_check.outputs.data }}"
+        run: echo "${{ github.actor }} is authorized."
 
       - name: "Auth Failed"
         if: ${{ failure() || fromJson(steps.permission_check.outputs.data).permission != 'admin' }}
-        run: "${{ github.actor }} is authorized. ${{ steps.permission_check.outputs.data }}"
+        run: |
+          echo "Unable to authorize ${{ github.actor }}. You must have admin permission to run this workflow."
+          exit 1
 
   release:
     name: Release
@@ -64,12 +62,10 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-
       - name: Install
         run: |
           npm i -g lerna
           yarn --frozen-lockfile
-
       - name: Build
         run: yarn setup # build runs as part of bootstrap
 
@@ -80,3 +76,25 @@ jobs:
         run: yarn test
         env:
           CI: true
+
+      - name: Configure Git User
+        run: |
+          git config --global user.name iteratively-sdk-bot
+          git config --global user.email sdk@iterative.ly
+
+      - name: Release (Dry Run)
+        if: ${{ github.event.inputs.dryRun == 'true'}}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn make-version:dry --yes
+
+      - name: Release
+        if: ${{ github.event.inputs.dryRun == 'false'}}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn make-version --yes
+          yarn release --dist-tag ${{ github.event.inputs.distTag }} --yes
