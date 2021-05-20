@@ -80,7 +80,7 @@ jobs:
       - name: Configure Git User
         run: |
           git config --global user.name iteratively-sdk-bot
-          git config --global user.email sdk@iterative.ly
+          git config --global user.email support@iterative.ly
 
       - name: Release (Dry Run)
         if: ${{ github.event.inputs.dryRun == 'true'}}
