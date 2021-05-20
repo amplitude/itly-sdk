@@ -34,11 +34,6 @@
     "@amplitude/types" "^1.5.5"
     tslib "^1.9.3"
 
-"@itly/sdk@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@itly/sdk/-/sdk-2.3.0.tgz#8d29e6c8e29dda0e0f609ef7a8d8c6ad4403973c"
-  integrity sha512-iHYxs7X2+7b97reE76eqObe223G1jr+GIaYlJW5haTEjuOvpnjlRq/4cjo9Phn4TwPlNZzOL613piW27/HJpCw==
-
 tslib@^1.9.3:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
