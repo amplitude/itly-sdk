@@ -137,6 +137,29 @@ describe('validation', () => {
       });
   });
 
+  describe('should not post invalid event/properties if options.validation = SkipOnInvalid', () => {
+    test.each(trackMethods)('%s',
+      (methodName, methodArgs) => {
+        const validationPlugin = createPlugin();
+        validationPlugin.validate = jest.fn(() => ({ valid: false, message: `${methodName} error` }));
+
+        const plugin = createPlugin();
+
+        const itly = new Itly();
+        itly.load({
+          plugins: [validationPlugin, plugin],
+          validation: Validation.SkipOnInvalid,
+        });
+
+        callItlyMethod(itly, methodName, methodArgs);
+        expect(validationPlugin.validate).toHaveBeenCalledTimes(1);
+
+        const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
+        expect(pluginMethod).toHaveBeenCalledTimes(0);
+        expect(pluginPostMethod).toHaveBeenCalledTimes(1);
+      });
+  });
+
   describe('should throw validation error if validate() throws exception and options.validation = ErrorOnInvalid', () => {
     test.each(trackMethods)('%s',
       (methodName, methodArgs) => {
@@ -154,6 +177,31 @@ describe('validation', () => {
         });
 
         expect(() => callItlyMethod(itly, methodName, methodArgs)).toThrow(`Validation Error: ${methodName} exception`);
+        expect(validationPlugin.validate).toHaveBeenCalledTimes(1);
+
+        const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
+        expect(pluginMethod).toHaveBeenCalledTimes(0);
+        expect(pluginPostMethod).toHaveBeenCalledTimes(1);
+      });
+  });
+
+  describe('should not post event/properties if validate() throws exception and options.validation = SkipOnInvalid', () => {
+    test.each(trackMethods)('%s',
+      (methodName, methodArgs) => {
+        const validationPlugin = createPlugin();
+        validationPlugin.validate = jest.fn(() => {
+          throw new Error(`${methodName} exception`);
+        });
+
+        const plugin = createPlugin();
+
+        const itly = new Itly();
+        itly.load({
+          plugins: [validationPlugin, plugin],
+          validation: Validation.SkipOnInvalid,
+        });
+
+        callItlyMethod(itly, methodName, methodArgs);
         expect(validationPlugin.validate).toHaveBeenCalledTimes(1);
 
         const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
