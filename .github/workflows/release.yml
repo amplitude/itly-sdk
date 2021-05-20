@@ -62,12 +62,14 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+
       - name: Install
         run: |
           npm i -g lerna
-          yarn --frozen-lockfile
+          yarn install --frozen-lockfile
+
       - name: Build
-        run: yarn setup # build runs as part of bootstrap
+        run: yarn lerna bootstrap
 
       - name: Lint
         run: yarn lint
