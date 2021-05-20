@@ -1,10 +1,9 @@
 /* eslint-disable import/no-unresolved */
-import Itly from '../node';
-import { Plugin } from '../base';
+import Itly, { Plugin } from '../base';
 
 export const createPlugin = jest.fn((id?: string) => ({
   id: id ?? 'mock-plugin',
-  validate: () => ({ valid: true }),
+  validate: jest.fn(() => ({ valid: true })),
   load: jest.fn(),
   alias: jest.fn(),
   identify: jest.fn(),

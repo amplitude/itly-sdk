@@ -45,7 +45,7 @@ describe('validation', () => {
       });
   });
 
-  describe('should track invalid event if environment is production', () => {
+  describe('should post invalid event/properties if environment is production', () => {
     test.each(trackMethods)('%s',
       (methodName, methodArgs) => {
         const validationPlugin = createPlugin();
@@ -91,7 +91,7 @@ describe('validation', () => {
       });
   });
 
-  describe('should track invalid event if options.validation = TrackOnInvalid', () => {
+  describe('should post invalid event/properties if options.validation = TrackOnInvalid', () => {
     test.each(trackMethods)('%s',
       (methodName, methodArgs) => {
         const validationPlugin = createPlugin();
@@ -190,7 +190,7 @@ describe('validation', () => {
       });
   });
 
-  describe('should track valid event if context is not valid and options.validation = ErrorOnInvalid', () => {
+  describe('should post valid properties if context is not valid and options.validation = ErrorOnInvalid', () => {
     test.each(trackMethods.filter(([methodName]) => methodName !== 'track'))('%s',
       (methodName, methodArgs) => {
         const validationPlugin = createPlugin();
@@ -211,6 +211,49 @@ describe('validation', () => {
 
         callItlyMethod(itly, methodName, methodArgs);
         expect(validationPlugin.validate).toHaveBeenCalledTimes(1);
+
+        const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
+        expect(pluginMethod).toHaveBeenCalledTimes(1);
+        expect(pluginPostMethod).toHaveBeenCalledTimes(1);
+      });
+  });
+
+  describe('should post valid event/properties with no context', () => {
+    test.each(trackMethods)('%s',
+      (methodName, methodArgs) => {
+        const validationPlugin = createPlugin();
+        const plugin = createPlugin();
+
+        const itly = new Itly();
+        itly.load({
+          plugins: [validationPlugin, plugin],
+        });
+
+        callItlyMethod(itly, methodName, methodArgs);
+        expect(validationPlugin.validate).toHaveBeenCalledTimes(1);
+
+        const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
+        expect(pluginMethod).toHaveBeenCalledTimes(1);
+        expect(pluginPostMethod).toHaveBeenCalledTimes(1);
+      });
+  });
+
+  describe('should post valid event/properties with valid context', () => {
+    test.each(trackMethods)('%s',
+      (methodName, methodArgs) => {
+        const validationPlugin = createPlugin();
+        const plugin = createPlugin();
+
+        const itly = new Itly();
+        itly.load({
+          context: {
+            a: 123,
+          },
+          plugins: [validationPlugin, plugin],
+        });
+
+        callItlyMethod(itly, methodName, methodArgs);
+        expect(validationPlugin.validate).toHaveBeenCalledTimes(methodName === 'track' ? 2 : 1);
 
         const [pluginMethod, pluginPostMethod] = getPluginMethods(plugin, methodName);
         expect(pluginMethod).toHaveBeenCalledTimes(1);
