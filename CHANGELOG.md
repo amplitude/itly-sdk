@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.2...v2.3.0) (2021-05-20)
+
+
+### Bug Fixes
+
+* add empty object for rn-snowplow if there is no properties ([d16a3d1](https://github.com/iterativelyhq/itly-sdk/commit/d16a3d18da50703d1edac1fb99040bfd2f46b9c5))
+* always send object in 'data' field in snowplow-plugin ([7765ae8](https://github.com/iterativelyhq/itly-sdk/commit/7765ae83477d572ce8247835b920c1acbac4dcdd))
+* extended Segment options/integrations to support any keys/values ([55b8ea7](https://github.com/iterativelyhq/itly-sdk/commit/55b8ea78605902fe6d528c8c3cb73796cfeac96b))
+
+
+### Features
+
+* add Validation.SkipOnInvalid ([7203556](https://github.com/iterativelyhq/itly-sdk/commit/720355635f62eaa876edafe1b8e5469f84b7f08a))
+
+
+
+
+
+## [2.2.2](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.1...v2.2.2) (2021-05-06)
+
+
+### Bug Fixes
+
+* made Snowplow tracker name, creation, and filtering configurable ([1676565](https://github.com/iterativelyhq/itly-sdk/commit/1676565a73d364701aa7ae31a7c0baa3abed04a6))
+* set predefined user attributes with setATTRIBUTE() methods ([85d699e](https://github.com/iterativelyhq/itly-sdk/commit/85d699ebc4e6cb5612583e16402134a0afd4b0e8))
+
+
+
+
+
 ## [2.2.1](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.0...v2.2.1) (2021-04-24)
 
 

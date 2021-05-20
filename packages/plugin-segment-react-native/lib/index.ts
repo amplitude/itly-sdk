@@ -8,7 +8,7 @@ export type SegmentOptions = Analytics.Configuration;
 
 export interface SegmentCallOptions extends PluginCallOptions {
   options?: {
-    integrations?: { [key: string]: boolean };
+    integrations?: Record<string, any>;
   } & JsonMap,
 }
 export interface SegmentAliasOptions extends SegmentCallOptions {}

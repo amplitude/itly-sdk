@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.2...v2.3.0) (2021-05-20)
+
+
+### Bug Fixes
+
+* extended Segment options/integrations to support any keys/values ([55b8ea7](https://github.com/iterativelyhq/itly-sdk/commit/55b8ea78605902fe6d528c8c3cb73796cfeac96b))
+
+
+
+
+
+## [2.2.2](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.1...v2.2.2) (2021-05-06)
+
+**Note:** Version bump only for package @itly/plugin-segment
+
+
+
+
+
 ## [2.2.1](https://github.com/iterativelyhq/itly-sdk/compare/v2.2.0...v2.2.1) (2021-04-24)
 
 **Note:** Version bump only for package @itly/plugin-segment

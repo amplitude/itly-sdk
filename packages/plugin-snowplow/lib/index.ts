@@ -91,7 +91,7 @@ export class SnowplowPlugin extends RequestLoggerPlugin {
     );
     this.snowplow(`trackSelfDescribingEvent${this.trackerNameFilter}`, {
       schema: `iglu:${this.vendor}/${name}/jsonschema/${schemaVer}`,
-      data: properties,
+      data: properties || {},
     }, contexts, undefined, this.wrapCallback(responseLogger, callback));
   }
 

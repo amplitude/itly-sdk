@@ -21,6 +21,7 @@ export enum Validation {
   Disabled,
   TrackOnInvalid,
   ErrorOnInvalid,
+  SkipOnInvalid
 }
 
 export type ValidationResponse = {
