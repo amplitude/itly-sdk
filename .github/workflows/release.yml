@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       dryRun:
-        description: "Do a dry run to preview instead of a real release"
+        description: "Do a dry run to preview instead of a real release (true/false)"
         required: true
         default: "true"
       distTag:
@@ -43,9 +43,12 @@ jobs:
       matrix:
         node-version: ["12.x"]
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout for ${{ github.event.inputs.dryRun == 'false' && 'PRODUCTION RELEASE' || 'dry run' }} to ${{ github.event.inputs.distTag }}
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
@@ -83,11 +86,12 @@ jobs:
         run: |
           git config --global user.name iteratively-sdk-bot
           git config --global user.email support@iterative.ly
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PUBLISH_TOKEN }}@github.com/${{ github.repository }}
 
       - name: Release (Dry Run)
         if: ${{ github.event.inputs.dryRun == 'true'}}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PUBLISH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           yarn make-version:dry --yes
