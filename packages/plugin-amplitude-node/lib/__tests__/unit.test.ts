@@ -18,6 +18,7 @@ const pluginLoadOptions: PluginLoadOptions = { environment: 'production', logger
 const amplitude = {
   identify: jest.fn(),
   logEvent: jest.fn(),
+  flush: jest.fn(),
 };
 
 const createAmplitude = jest.fn(() => amplitude);
@@ -113,5 +114,15 @@ describe('track', () => {
     });
     expect(amplitude.logEvent).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('flush', () => {
+  test('should call internal flush()', async () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+
+    await plugin.flush();
+    expect(amplitude.flush).toHaveBeenCalledTimes(1);
   });
 });
