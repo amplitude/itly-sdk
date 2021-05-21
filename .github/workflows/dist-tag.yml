@@ -79,7 +79,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "npx ts-node tools/scripts/dist-tag-rm.ts ${{ env.RM_TAG }}
+          echo "npx ts-node tools/scripts/dist-tag-rm.ts ${{ env.RM_TAG }}"
 
       - name: Add Tag '${{ env.ADD_TAG }}'
         if: ${{ env.ADD_TAG != '' }}
