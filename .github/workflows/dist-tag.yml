@@ -1,16 +1,16 @@
-name: Dist-tag Update
+name: NPM dist-tag Update
 
 on:
   workflow_dispatch:
     inputs:
       packageVersion:
-        description: "The version of the @itly packages to modify. E.g '2.1.0'"
+        description: "The version of the @itly packages to modify (2.1.0, 1.2.3, etc)"
         required: true
       removeTag:
-        description: "dist-tag to remove"
+        description: "dist-tag to remove (beta, latest, etc)"
         required: false
       addTag:
-        description: "dist-tag to add"
+        description: "dist-tag to add (beta, latest, etc)"
         required: false
 
 jobs:
@@ -69,6 +69,9 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - name: Install
+        run: yarn install --frozen-lockfile
+
       - name: Configure NPM User
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
@@ -79,11 +82,11 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "npx ts-node tools/scripts/dist-tag-rm.ts ${{ env.RM_TAG }}"
+          npx ts-node tools/scripts/dist-tag-rm.ts ${{ env.RM_TAG }}
 
-      - name: Add Tag '${{ env.ADD_TAG }}'
-        if: ${{ env.ADD_TAG != '' }}
+      - name: Add Tag '${{ github.event.inputs.addTag }}'
+        if: ${{ (env.ADD_TAG != '') && (env.PKG_VERSION != '') }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "npx ts-node tools/scripts/dist-tag-add.ts ${{ env.ADD_TAG }} ${{ env.PKG_VERSION }}"
+          npx ts-node tools/scripts/dist-tag-add.ts ${{ env.ADD_TAG }} ${{ env.PKG_VERSION }}
