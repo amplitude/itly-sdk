@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this, no-unused-vars, import/no-unresolved, import/extensions */
 import {
   PluginLoadOptions, Event, Properties, Plugin, ValidationResponse,
-} from '../../packages/sdk';
+} from '../../packages/sdk/lib';
 
 export default class ErrorPlugin extends Plugin {
   constructor() {

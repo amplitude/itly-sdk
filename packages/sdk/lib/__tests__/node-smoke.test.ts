@@ -5,7 +5,6 @@
 /* eslint-disable import/no-unresolved, import/extensions, global-require */
 /* eslint-disable no-unused-vars, no-console, class-methods-use-this */
 import CustomPlugin from '../../../../__tests__/src/CustomPlugin';
-import TestingPlugin from '../../../plugin-testing/lib';
 import Itly from '../node';
 
 const plugins = [new CustomPlugin()];
@@ -146,75 +145,5 @@ describe('should load and track events to a custom destination (no validation)',
     });
 
     expect(spyPluginLoad).not.toHaveBeenCalled();
-  });
-
-  test('should load and track events with properly merged context', () => {
-    const testingPlugin = new TestingPlugin();
-    const context = {
-      requiredString: 'A required string',
-      optionalEnum: 'Value 1',
-    };
-
-    class TrackingEvent {
-      name = 'Event With All Properties';
-
-      // eslint-disable-next-line no-useless-constructor,no-empty-function
-      constructor(public properties: any) {
-      }
-    }
-
-    itly.load({
-      context,
-      environment: 'production',
-      plugins: [testingPlugin],
-    });
-
-    itly.identify(undefined, {
-      userProp: 1,
-    });
-
-    itly.alias(userId);
-
-    itly.group('a-group-id', {
-      groupProp: 'test value',
-    });
-
-    itly.page('page category', 'page name', {
-      pageProp: 'a page property',
-    });
-
-    itly.track(userId, {
-      name: 'Event No Properties',
-    });
-
-    itly.track(userId, new TrackingEvent({
-      requiredNumber: 2.0,
-      requiredInteger: 42,
-      requiredEnum: 'Enum1',
-      requiredBoolean: false,
-      requiredConst: 'some-const-value',
-      requiredArray: ['required', 'array'],
-      optionalString: 'I\'m optional!',
-    }));
-
-    const trackingEvent = new TrackingEvent({
-      requiredNumber: 2.0,
-      requiredInteger: 42,
-      requiredEnum: 'Enum1',
-      requiredBoolean: false,
-      requiredConst: 'some-const-value',
-      requiredArray: ['required', 'array'],
-      optionalString: 'I\'m optional!',
-      ...context,
-    });
-
-    expect(testingPlugin.all()).toEqual([
-      {
-        name: 'Event No Properties',
-        properties: { ...context },
-      },
-      trackingEvent,
-    ]);
-    expect(testingPlugin.firstOfType(TrackingEvent)).toEqual(trackingEvent);
   });
 });
