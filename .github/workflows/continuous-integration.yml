@@ -1,4 +1,4 @@
-name: itly SDK
+name: CI - Lint, Build, Test
 
 on: pull_request
 
@@ -35,13 +35,13 @@ jobs:
       run: |
         npm i -g lerna
         yarn --frozen-lockfile
-    
-    - name: Build
-      run: lerna bootstrap # build runs as part of bootstrap
-    
+
     - name: Lint
       run: yarn lint
-    
+
+    - name: Build
+      run: lerna bootstrap # build runs as part of bootstrap
+
     - name: Test
       run: yarn test:dist
       env:
