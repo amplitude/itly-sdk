@@ -88,6 +88,11 @@ jobs:
           git config --global user.email support@iterative.ly
           git remote set-url origin https://x-access-token:${{ secrets.GH_PUBLISH_TOKEN }}@github.com/${{ github.repository }}
 
+      - name: Configure NPM User
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          npm whoami
+
       - name: Release (Dry Run)
         if: ${{ github.event.inputs.dryRun == 'true'}}
         env:
