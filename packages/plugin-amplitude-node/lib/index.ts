@@ -6,26 +6,28 @@ import {
   PluginLoadOptions,
   PluginCallOptions,
 } from '@itly/sdk';
-import Amplitude, { AmplitudeOptions, AmplitudeIdentifyResponse, AmplitudeTrackResponse } from 'amplitude';
+import * as Amplitude from '@amplitude/node';
+import { Identify } from '@amplitude/identify';
 
-export { AmplitudeOptions };
+export type AmplitudeOptions = Partial<Amplitude.Options>;
+export type AmplitudeResponse = Amplitude.Response;
 
 export interface AmplitudeCallOptions extends PluginCallOptions {}
 export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
 export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
-  callback?: (response: AmplitudeIdentifyResponse) => void;
+  callback?: (response: AmplitudeResponse) => void;
 }
 export interface AmplitudeGroupOptions extends AmplitudeCallOptions {}
 export interface AmplitudePageOptions extends AmplitudeCallOptions {}
 export interface AmplitudeTrackOptions extends AmplitudeCallOptions {
-  callback?: (response: AmplitudeTrackResponse) => void;
+  callback?: (response: AmplitudeResponse) => void;
 }
 
 /**
  * Amplitude Node Plugin for Iteratively SDK
  */
 export class AmplitudePlugin extends RequestLoggerPlugin {
-  private amplitude?: Amplitude;
+  private amplitude?: Amplitude.NodeClient;
 
   constructor(
     private apiKey: string,
@@ -50,20 +52,26 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     this.amplitude = this.createAmplitude();
   }
 
-  createAmplitude(): Amplitude {
-    return new Amplitude(this.apiKey, this.options);
+  createAmplitude(): Amplitude.NodeClient {
+    return Amplitude.init(this.apiKey, this.options);
   }
 
   async identify(userId: string, properties?: Properties, options?: AmplitudeIdentifyOptions) {
     const { callback } = options ?? {};
-    const payload = {
-      user_id: userId,
-      user_properties: properties,
-    };
-    const responseLogger = this.logger!.logRequest('identify', JSON.stringify(payload));
+    const identifyObject = new Identify();
+
+    if (properties) {
+      const entries = Object.entries(properties);
+      for (let i = 0; i < entries.length; i += 1) {
+        const [propertyName, propertyValue] = entries[i];
+        identifyObject.set(propertyName, propertyValue);
+      }
+    }
+
+    const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
     try {
-      const response = await this.amplitude!.identify(payload);
-      responseLogger.success(response);
+      const response = await this.amplitude!.identify(userId, '', identifyObject);
+      responseLogger.success(JSON.stringify(response));
       callback?.(response);
     } catch (e) {
       responseLogger.error(e.toString());
@@ -79,12 +87,16 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     };
     const responseLogger = this.logger!.logRequest('track', JSON.stringify(payload));
     try {
-      const response = await this.amplitude!.track(payload);
+      const response = await this.amplitude!.logEvent(payload);
       responseLogger.success(JSON.stringify(response));
       callback?.(response);
     } catch (e) {
       responseLogger.error(e.toString());
     }
+  }
+
+  async flush() {
+    await this.amplitude!.flush();
   }
 }
 

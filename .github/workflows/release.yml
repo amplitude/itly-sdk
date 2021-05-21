@@ -4,15 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       dryRun:
-        description: "Do a dry run to preview instead of a real release"
+        description: "Do a dry run to preview instead of a real release (true/false)"
         required: true
         default: "true"
       distTag:
-        description: "The dist-tag to publish (e.g. beta)"
-        required: false
-      exactVersion:
-        description: "Force an exact version for the release"
-        required: false
+        description: "The dist-tag to publish (e.g. latest, beta)"
+        required: true
+        default: "latest"
+      npmRetry:
+        description: "Re-publish to NPM. If NPM publish failed in a previous run."
+        required: true
+        default: "false"
 
 jobs:
   authorize:
@@ -23,31 +25,38 @@ jobs:
         uses: octokit/request-action@v2.0.0
         id: permission_check
         with:
-          route: GET /repos/{repository}/collaborators/{user}/permission
-          repository: ${{ github.repository }}
-          user: ${{ github.actor }}
+          route: GET /repos/${{ github.repository }}/collaborators/${{ github.actor }}/permission
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Auth Success"
         if: ${{ fromJson(steps.permission_check.outputs.data).permission == 'admin' }}
-        run: "${{ github.actor }} is authorized. ${{ steps.permission_check.outputs.data }}"
+        run: echo "${{ github.actor }} is authorized."
 
       - name: "Auth Failed"
         if: ${{ failure() || fromJson(steps.permission_check.outputs.data).permission != 'admin' }}
-        run: "${{ github.actor }} is authorized. ${{ steps.permission_check.outputs.data }}"
+        run: |
+          echo "Unable to authorize ${{ github.actor }}. You must have admin permission to run this workflow."
+          exit 1
 
   release:
     name: Release
     runs-on: ubuntu-latest
     needs: [authorize]
+    env:
+      DRY_RUN: ${{ github.event.inputs.dryRun }}
+      DIST_TAG: ${{ github.event.inputs.distTag }}
+      NPM_RETRY: ${{ github.event.inputs.npmRetry }}
     strategy:
       matrix:
         node-version: ["12.x"]
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout for ${{ env.DRY_RUN != 'false' && 'dry run' || 'PRODUCTION RELEASE' }} to ${{ env.DIST_TAG }}
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
@@ -68,10 +77,10 @@ jobs:
       - name: Install
         run: |
           npm i -g lerna
-          yarn --frozen-lockfile
+          yarn install --frozen-lockfile
 
       - name: Build
-        run: yarn setup # build runs as part of bootstrap
+        run: yarn lerna bootstrap
 
       - name: Lint
         run: yarn lint
@@ -80,3 +89,39 @@ jobs:
         run: yarn test
         env:
           CI: true
+
+      - name: Configure Git User
+        run: |
+          git config --global user.name iteratively-sdk-bot
+          git config --global user.email support@iterative.ly
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PUBLISH_TOKEN }}@github.com/${{ github.repository }}
+
+      - name: Configure NPM User
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          npm whoami
+
+      - name: Release (Dry Run)
+        if: ${{ env.DRY_RUN == 'true'  }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PUBLISH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn make-version:dry --yes
+
+      - name: Release (Github + NPM)
+        if: ${{ env.DRY_RUN == 'false' && env.NPM_RETRY == 'false' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PUBLISH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn make-version --yes
+          yarn release --dist-tag ${{ env.DIST_TAG }} --yes
+
+      - name: Retry failed NPM publish
+        if: ${{ env.DRY_RUN == 'false' && env.NPM_RETRY == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PUBLISH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn release:from-package --dist-tag ${{ env.DIST_TAG }} --yes
