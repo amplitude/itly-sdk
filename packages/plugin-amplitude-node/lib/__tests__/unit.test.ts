@@ -1,5 +1,14 @@
+const identifyObject: any = {
+  set: jest.fn(),
+};
+
+jest.mock('@amplitude/identify', () => ({
+  Identify: () => identifyObject,
+}));
+
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
+/* eslint-disable import/first */
 import { Loggers, PluginLoadOptions } from '@itly/sdk';
 import AmplitudePlugin from '../index';
 
@@ -8,7 +17,7 @@ const pluginLoadOptions: PluginLoadOptions = { environment: 'production', logger
 
 const amplitude = {
   identify: jest.fn(),
-  track: jest.fn(),
+  logEvent: jest.fn(),
 };
 
 const createAmplitude = jest.fn(() => amplitude);
@@ -55,11 +64,17 @@ describe('identify', () => {
     plugin.load(pluginLoadOptions);
 
     plugin.identify('user-1', properties);
+
+    expect(identifyObject.set).toHaveBeenCalledTimes(Object.entries(properties).length);
+    expect(identifyObject.set.mock.calls[0]).toEqual(['n', null]);
+    expect(identifyObject.set.mock.calls[1]).toEqual(['i', 123]);
+    expect(identifyObject.set.mock.calls[2]).toEqual(['s', 'abc']);
+    expect(identifyObject.set.mock.calls[3]).toEqual(['l', true]);
+    expect(identifyObject.set.mock.calls[4]).toEqual(['list', [1, 2, 3]]);
+    expect(identifyObject.set.mock.calls[5]).toEqual(['data', { a: '789', b: 45.6 }]);
+
     expect(amplitude.identify).toHaveBeenCalledTimes(1);
-    expect(amplitude.identify.mock.calls[0][0]).toEqual({
-      user_id: 'user-1',
-      user_properties: properties,
-    });
+    expect(amplitude.identify.mock.calls[0]).toEqual(['user-1', '', identifyObject]);
   });
 
   test('should call callback', async () => {
@@ -80,8 +95,8 @@ describe('track', () => {
     plugin.load(pluginLoadOptions);
 
     plugin.track('user-2', { name: 'event-A', properties });
-    expect(amplitude.track).toHaveBeenCalledTimes(1);
-    expect(amplitude.track.mock.calls[0][0]).toEqual({
+    expect(amplitude.logEvent).toHaveBeenCalledTimes(1);
+    expect(amplitude.logEvent.mock.calls[0][0]).toEqual({
       event_properties: properties,
       event_type: 'event-A',
       user_id: 'user-2',
@@ -96,7 +111,7 @@ describe('track', () => {
     await plugin.track('user-2', { name: 'event-A', properties }, {
       callback,
     });
-    expect(amplitude.track).toHaveBeenCalledTimes(1);
+    expect(amplitude.logEvent).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledTimes(1);
   });
 });
