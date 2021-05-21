@@ -1,6 +1,5 @@
 {
   "name": "root",
-  "private": true,
   "scripts": {
     "clean": "lerna exec -- rimraf dist",
     "setup": "yarn install && lerna bootstrap",
