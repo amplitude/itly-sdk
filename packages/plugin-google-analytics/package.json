@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-google-analytics",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Google Analytics Plugin",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -34,7 +34,7 @@
     "url": "https://github.com/iterativelyhq/itly-sdk.git"
   },
   "devDependencies": {
-    "@itly/sdk": "^2.3.0",
+    "@itly/sdk": "^2.3.1",
     "@types/gtag.js": "^0.0.4",
     "@types/jest": "^26.0.0",
     "jest": "^26.0.1",
