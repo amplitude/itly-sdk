@@ -8,5 +8,6 @@
     "publish": {
       "conventionalCommits": true
     }
-  }
+  },
+  "ignoreChanges": ["**/__tests__/**"]
 }
