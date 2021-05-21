@@ -45,7 +45,11 @@ export class SegmentPlugin extends RequestLoggerPlugin {
 
   load(options: PluginLoadOptions) {
     super.load(options);
-    this.segment = new Segment(this.writeKey, this.options);
+    this.segment = this.createSegment();
+  }
+
+  createSegment() {
+    return new Segment(this.writeKey, this.options);
   }
 
   alias(userId: string, previousId: string, options?: SegmentAliasOptions) {

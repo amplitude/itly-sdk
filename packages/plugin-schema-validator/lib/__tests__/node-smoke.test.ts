@@ -8,10 +8,8 @@ import Itly, { Validation } from '@itly/sdk';
 import CustomPlugin, { Plugin } from '../../../../__tests__/src/CustomPlugin';
 import {
   TestParams,
-  requireForTestEnv,
 } from '../../../../__tests__/util';
-
-const SchemaValidator = requireForTestEnv(__dirname);
+import SchemaValidatorPlugin from '../index';
 
 const testSchemas = require('../../../../__tests__/data/basic-schema.json');
 
@@ -25,7 +23,7 @@ const identifyProps = {
 };
 
 const plugins: Plugin[] = [
-  new SchemaValidator(testSchemas),
+  new SchemaValidatorPlugin(testSchemas),
   new CustomPlugin(),
 ];
 

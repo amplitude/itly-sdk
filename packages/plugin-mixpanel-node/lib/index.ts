@@ -41,7 +41,11 @@ export class MixpanelPlugin extends RequestLoggerPlugin {
 
   load(options: PluginLoadOptions) {
     super.load(options);
-    this.mixpanel = Mixpanel.init(this.apiKey, this.options);
+    this.mixpanel = this.createMixpanel();
+  }
+
+  createMixpanel() {
+    return Mixpanel.init(this.apiKey, this.options);
   }
 
   alias(userId: string, previousId: string, options?: MixpanelAliasOptions) {
