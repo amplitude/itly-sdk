@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
-import Ajv from 'ajv';
+import { Validator } from 'jsonschema';
 import {
   Event,
   Plugin,
@@ -21,9 +21,7 @@ function isEmpty(obj: any) {
  * Schema Validator Plugin for Iteratively SDK
  */
 export class SchemaValidatorPlugin extends Plugin {
-  private ajv?: Ajv.Ajv;
-
-  private validators?: { [schemaKey: string]: Ajv.ValidateFunction };
+  private validator?: Validator;
 
   constructor(
     private schemas: SchemaMap,
@@ -33,15 +31,15 @@ export class SchemaValidatorPlugin extends Plugin {
 
   // overrides Plugin.load
   load() {
-    this.ajv = new Ajv();
-    this.validators = {};
+    this.validator = new Validator();
   }
 
   // overrides Plugin.validate
   validate(event: Event): ValidationResponse {
     const schemaKey = this.getSchemaKey(event);
+    const schema = this.schemas[schemaKey];
     // Check that we have a schema for this event
-    if (!this.schemas[schemaKey]) {
+    if (!schema) {
       if (isSystemEvent(schemaKey)) {
         // pass system events by default
         if (isEmpty(event.properties)) {
@@ -65,29 +63,19 @@ export class SchemaValidatorPlugin extends Plugin {
       };
     }
 
-    // Compile validator for this event if needed
-    const validators = this.validators!;
-    if (!validators[schemaKey]) {
-      validators[schemaKey] = this.ajv!.compile(this.schemas[schemaKey]);
-    }
+    if (event.properties) {
+      const result = this.validator!.validate(event.properties, schema);
+      if (!result.valid) {
+        const errorMessage = result.errors.length > 0
+          ? result.errors.map((e: any) => `\`${e.property.replace(/\binstance/, 'properties')}\` ${e.message}.`).join(' ')
+          : 'An unknown error occurred during validation.';
 
-    const validator = validators[schemaKey]!;
-    if (event.properties && !(validator(event.properties) === true)) {
-      const errorMessage = validator.errors
-        ? validator.errors.map((e: any) => {
-          let extra = '';
-          if (e.keyword === 'additionalProperties') {
-            extra = ` (${e.params.additionalProperty})`;
-          }
-          return `\`properties${e.dataPath}\` ${e.message}${extra}.`;
-        }).join(' ')
-        : 'An unknown error occurred during validation.';
-
-      return {
-        valid: false,
-        message: `Passed in ${event.name} properties did not validate against your tracking plan. ${errorMessage}`,
-        pluginId: this.id,
-      };
+        return {
+          valid: false,
+          message: `Passed in ${event.name} properties did not validate against your tracking plan. ${errorMessage}`,
+          pluginId: this.id,
+        };
+      }
     }
 
     return {
