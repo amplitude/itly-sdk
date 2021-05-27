@@ -63,19 +63,17 @@ export class SchemaValidatorPlugin extends Plugin {
       };
     }
 
-    if (event.properties) {
-      const result = this.validator!.validate(event.properties, schema);
-      if (!result.valid) {
-        const errorMessage = result.errors.length > 0
-          ? result.errors.map((e: any) => `\`${e.property.replace(/\binstance/, 'properties')}\` ${e.message}.`).join(' ')
-          : 'An unknown error occurred during validation.';
+    const result = this.validator!.validate(event.properties ?? {}, schema);
+    if (!result.valid) {
+      const errorMessage = result.errors.length > 0
+        ? result.errors.map((e: any) => `\`${e.property.replace(/\binstance/, 'properties')}\` ${e.message}.`).join(' ')
+        : 'An unknown error occurred during validation.';
 
-        return {
-          valid: false,
-          message: `Passed in ${event.name} properties did not validate against your tracking plan. ${errorMessage}`,
-          pluginId: this.id,
-        };
-      }
+      return {
+        valid: false,
+        message: `Passed in ${event.name} properties did not validate against your tracking plan. ${errorMessage}`,
+        pluginId: this.id,
+      };
     }
 
     return {

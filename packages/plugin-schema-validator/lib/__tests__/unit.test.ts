@@ -75,6 +75,49 @@ describe('schema found', () => {
       pluginId: 'schema-validator',
     });
   });
+
+  test('should be valid for an event without properties if properties were not passed', () => {
+    const plugin = new SchemaValidatorPlugin(testSchemas);
+    plugin.load();
+
+    const validationResponse = plugin.validate({
+      name: 'Event No Properties',
+    });
+
+    expect(validationResponse).toEqual({
+      valid: true,
+      pluginId: 'schema-validator',
+    });
+  });
+
+  test('should be valid for an event without required properties if properties were not passed', () => {
+    const plugin = new SchemaValidatorPlugin(testSchemas);
+    plugin.load();
+
+    const validationResponse = plugin.validate({
+      name: 'Event With Optional Properties',
+    });
+
+    expect(validationResponse).toEqual({
+      valid: true,
+      pluginId: 'schema-validator',
+    });
+  });
+
+  test('should not be valid for an event with required properties if properties were not passed', () => {
+    const plugin = new SchemaValidatorPlugin(testSchemas);
+    plugin.load();
+
+    const validationResponse = plugin.validate({
+      name: 'Event With All Properties',
+    });
+
+    expect(validationResponse).toEqual({
+      valid: false,
+      pluginId: 'schema-validator',
+      message: 'Passed in Event With All Properties properties did not validate against your tracking plan. `properties` requires property "requiredConst". `properties` requires property "requiredInteger". `properties` requires property "requiredNumber". `properties` requires property "requiredString". `properties` requires property "requiredArray". `properties` requires property "requiredEnum". `properties` requires property "requiredBoolean".',
+    });
+  });
 });
 
 describe('schema not found', () => {
