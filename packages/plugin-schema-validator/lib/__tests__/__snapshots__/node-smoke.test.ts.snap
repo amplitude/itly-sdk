@@ -36,11 +36,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredNumber\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "Caught validation error.",
-    "Validation Error: Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.",
+    "Validation Error: Passed in identify properties did not validate against your tracking plan. \`properties\` requires property \\"requiredNumber\\".",
   ],
   Array [
     "CustomPlugin: ",
@@ -48,11 +48,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` is not allowed to have the additional property \\\\\\"badProp\\\\\\". \`properties\` requires property \\\\\\"requiredNumber\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "Caught validation error.",
-    "Validation Error: Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).",
+    "Validation Error: Passed in identify properties did not validate against your tracking plan. \`properties\` is not allowed to have the additional property \\"badProp\\". \`properties\` requires property \\"requiredNumber\\".",
   ],
   Array [
     "CustomPlugin: ",
@@ -68,11 +68,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredBoolean\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "Caught validation error.",
-    "Validation Error: Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.",
+    "Validation Error: Passed in group properties did not validate against your tracking plan. \`properties\` requires property \\"requiredBoolean\\".",
   ],
   Array [
     "CustomPlugin: ",
@@ -152,11 +152,11 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` must be less than or equal to 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "Caught validation error.",
-    "Validation Error: Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.",
+    "Validation Error: Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` must be less than or equal to 10.",
   ],
 ]
 `;
@@ -201,7 +201,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredNumber\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -213,7 +213,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` is not allowed to have the additional property \\\\\\"badProp\\\\\\". \`properties\` requires property \\\\\\"requiredNumber\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -233,7 +233,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredBoolean\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -317,7 +317,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` must be less than or equal to 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
 ]
 `;
@@ -362,7 +362,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredNumber\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -374,7 +374,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` is not allowed to have the additional property \\\\\\"badProp\\\\\\". \`properties\` requires property \\\\\\"requiredNumber\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -394,7 +394,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredBoolean\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -478,7 +478,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"requiredString\\":\\"is required\\",\\"optionalEnum\\":\\"Value 1\\",\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` must be less than or equal to 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
 ]
 `;
@@ -523,7 +523,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredNumber\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -535,7 +535,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` is not allowed to have the additional property \\\\\\"badProp\\\\\\". \`properties\` requires property \\\\\\"requiredNumber\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -555,7 +555,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredBoolean\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -607,7 +607,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='test-user-id' event='Event No Properties' properties={} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postTrack() userId='test-user-id' event='Event No Properties' properties={} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredString\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -623,7 +623,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='test-user-id' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postTrack() userId='test-user-id' event='Event With All Properties' properties={\\"requiredString\\":\\"A required string\\",\\"requiredNumber\\":2,\\"requiredInteger\\":42,\\"requiredEnum\\":\\"Enum1\\",\\"requiredBoolean\\":false,\\"requiredConst\\":\\"some-const-value\\",\\"requiredArray\\":[\\"required\\",\\"array\\"],\\"optionalString\\":\\"I'm optional!\\"} validationResponses=[{\\"valid\\":true,\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredString\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -639,7 +639,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` should have required property 'requiredString'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` must be less than or equal to 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"},{\\"valid\\":false,\\"message\\":\\"Passed in context properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredString\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
 ]
 `;
@@ -684,7 +684,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should have required property 'requiredNumber'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postIdentify() userId='temp-user-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredNumber\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -696,7 +696,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` should NOT have additional properties (badProp).\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postIdentify() userId='temp-user-id' properties={\\"badProp\\":\\"unsupported property\\"} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in identify properties did not validate against your tracking plan. \`properties\` is not allowed to have the additional property \\\\\\"badProp\\\\\\". \`properties\` requires property \\\\\\"requiredNumber\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -716,7 +716,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` should have required property 'requiredBoolean'.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postGroup() userId='test-user-id' groupId='test-group-id' properties=undefined validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in group properties did not validate against your tracking plan. \`properties\` requires property \\\\\\"requiredBoolean\\\\\\".\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
   Array [
     "CustomPlugin: ",
@@ -788,7 +788,7 @@ Array [
   ],
   Array [
     "CustomPlugin: ",
-    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` should be <= 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
+    "postTrack() userId='test-user-id' event='EventMaxIntForTest' properties={\\"intMax10\\":20} validationResponses=[{\\"valid\\":false,\\"message\\":\\"Passed in EventMaxIntForTest properties did not validate against your tracking plan. \`properties.intMax10\` must be less than or equal to 10.\\",\\"pluginId\\":\\"schema-validator\\"},{\\"valid\\":true,\\"pluginId\\":\\"custom\\"}]",
   ],
 ]
 `;

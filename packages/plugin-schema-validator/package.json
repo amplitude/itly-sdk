@@ -41,7 +41,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "ajv": "^6.12.6"
+    "jsonschema": "^1.4.0"
   },
   "peerDependencies": {
     "@itly/sdk": "^2.0.0"
