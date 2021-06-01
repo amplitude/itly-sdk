@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-firebase-react-native",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Firebase React Native Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -34,7 +34,7 @@
     "url": "https://github.com/iterativelyhq/itly-sdk.git"
   },
   "devDependencies": {
-    "@itly/sdk": "^2.3.1",
+    "@itly/sdk": "^2.3.2",
     "@react-native-firebase/analytics": "^10.8.1",
     "@react-native-firebase/app": "^10.8.1",
     "typescript": "^3.9.3"
