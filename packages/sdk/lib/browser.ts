@@ -78,8 +78,8 @@ export class Itly {
    * @param options Options for this page call.
    */
   page = (
-    category: string,
-    name: string,
+    category?: string,
+    name?: string,
     pageProperties?: Properties,
     options?: CallOptions,
   ) => this.itly.page(undefined, category, name, pageProperties, options);
