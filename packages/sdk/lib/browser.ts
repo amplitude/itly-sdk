@@ -20,7 +20,7 @@ export class Itly {
    * @param loadOptions Configuration options to initialize the Itly SDK with.
    */
   load = (
-    loadOptions: LoadOptions = {},
+    loadOptions?: LoadOptions,
   ) => this.itly.load(loadOptions);
 
   /**
@@ -42,7 +42,7 @@ export class Itly {
    * @param options Options for this identify call.
    */
   identify = (
-    userId: string | Properties | undefined,
+    userId?: string | Properties,
     identifyProperties?: Properties,
     options?: CallOptions,
   ) => {

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import Itly from '../node';
+import Itly from '../base';
 import { callItlyMethod, createPlugin } from './utils';
 
 afterAll(() => {
