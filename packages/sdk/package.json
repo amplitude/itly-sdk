@@ -5,6 +5,7 @@
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
   "module": "dist/esm/index.js",
+  "browser": "dist/esm/browser.js",
   "files": [
     "LICENSE",
     "CHANGELOG.md",
