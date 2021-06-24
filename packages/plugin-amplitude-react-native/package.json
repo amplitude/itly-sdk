@@ -1,0 +1,44 @@
+{
+  "name": "@itly/plugin-amplitude-react-native",
+  "version": "2.3.2",
+  "description": "Amplitude React Native Plugin for Iteratively SDK",
+  "main": "dist/cjs/index.js",
+  "types": "dist/cjs/index.d.ts",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-esm.json",
+    "test": "jest --runInBand"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "dist/",
+    "package.json"
+  ],
+  "keywords": [
+    "itly",
+    "sdk",
+    "iteratively",
+    "plugin"
+  ],
+  "author": "Iteratively",
+  "license": "MIT",
+  "homepage": "https://github.com/iterativelyhq/itly-sdk/tree/master/packages/plugin-amplitude-react-native",
+  "bugs": {
+    "url": "https://github.com/iterativelyhq/itly-sdk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iterativelyhq/itly-sdk.git"
+  },
+  "devDependencies": {
+    "@itly/sdk": "^2.3.2",
+    "@amplitude/react-native": "^2.3.1",
+    "typescript": "^3.9.3"
+  },
+  "peerDependencies": {
+    "@itly/sdk": "^2.0.0",
+    "@amplitude/react-native": "^2.3.1"
+  }
+}
