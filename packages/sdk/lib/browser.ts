@@ -2,10 +2,42 @@
 import {
   Itly as ItlyBase,
   CallOptions,
+  Environment,
   Event,
   LoadOptions,
+  Logger,
+  Loggers,
+  Options,
+  Plugin,
+  PluginCallOptions,
+  PluginLoadOptions,
   Properties,
+  Validation,
+  ValidationResponse,
 } from './base';
+import {
+  RequestLoggerPlugin,
+  RequestLogger,
+  ResponseLogger,
+} from './internal/RequestLogger';
+
+export {
+  Options,
+  Environment,
+  CallOptions,
+  Plugin,
+  PluginLoadOptions,
+  PluginCallOptions,
+  Event,
+  Properties,
+  Validation,
+  ValidationResponse,
+  Logger,
+  Loggers,
+  RequestLoggerPlugin,
+  RequestLogger,
+  ResponseLogger,
+};
 
 // Itly Browser SDK
 export class Itly {
