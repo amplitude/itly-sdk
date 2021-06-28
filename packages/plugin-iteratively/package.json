@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-iteratively",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "Iteratively Browser Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -37,7 +37,7 @@
     "@lukeed/uuid": "^2.0.0"
   },
   "devDependencies": {
-    "@itly/sdk": "^2.3.2",
+    "@itly/sdk": "^2.3.3",
     "@types/jest": "^26.0.0",
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0",
