@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-iteratively-node",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "Iteratively Node Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -34,11 +34,11 @@
     "url": "https://github.com/iterativelyhq/itly-sdk.git"
   },
   "dependencies": {
-    "uuid": "^8.3.2",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@itly/sdk": "^2.3.3",
+    "@itly/sdk": "^2.3.4",
     "@types/jest": "^26.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/uuid": "^8.3.0",

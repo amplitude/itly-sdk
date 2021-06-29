@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-amplitude-react-native",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "Amplitude React Native Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@amplitude/react-native": "^2.3.1",
-    "@itly/sdk": "^2.3.3",
+    "@itly/sdk": "^2.3.4",
     "typescript": "^3.9.3"
   },
   "peerDependencies": {

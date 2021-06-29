@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-mixpanel-node",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "Mixpanel Node Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -34,7 +34,7 @@
     "url": "https://github.com/iterativelyhq/itly-sdk.git"
   },
   "devDependencies": {
-    "@itly/sdk": "^2.3.3",
+    "@itly/sdk": "^2.3.4",
     "typescript": "^3.9.3"
   },
   "dependencies": {
