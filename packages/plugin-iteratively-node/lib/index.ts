@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, no-constant-condition, no-await-in-loop */
 import fetch from 'node-fetch';
-import { v4 as uuid } from '@lukeed/uuid/secure';
+import { v4 as uuid } from 'uuid';
 import {
   Environment, Event, Properties, RequestLoggerPlugin, ValidationResponse, PluginLoadOptions,
 } from '@itly/sdk';
