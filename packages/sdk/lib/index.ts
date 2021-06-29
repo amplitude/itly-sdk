@@ -19,8 +19,8 @@ import {
   RequestLogger,
   ResponseLogger,
 } from './internal/RequestLogger';
-import { Itly as ItlyBrowser } from './browser';
-import { Itly as ItlyNode } from './node';
+import { ItlyBrowser } from './browser';
+import { ItlyNode } from './node';
 
 export {
   Options,

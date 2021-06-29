@@ -141,4 +141,5 @@ export class Itly {
   flush = () => this.itly.flush();
 }
 
+export { Itly as ItlyBrowser };
 export default Itly;
