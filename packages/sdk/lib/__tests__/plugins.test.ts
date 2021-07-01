@@ -1,6 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import Itly from '../node';
-import { PluginCallOptions } from '../base';
+import Itly, { PluginCallOptions } from '../base';
 import {
   callItlyMethod,
   createPlugin,

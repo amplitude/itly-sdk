@@ -296,7 +296,7 @@ export class Itly {
    * @param options Options for this page call.
    */
   page(
-    userId?: string,
+    userId: string | undefined,
     category?: string,
     name?: string,
     pageProperties?: Properties,
