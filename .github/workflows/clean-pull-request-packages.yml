@@ -1,0 +1,48 @@
+name: Clean PR packages
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF#refs/heads/})"
+      id: extract_branch
+
+    - name: Extract task reference
+      shell: bash
+      run: echo "##[set-output name=task;]$(echo '${{ steps.extract_branch.outputs.branch }}' | grep -oE '[A-Za-z]+-[0-9]+' -)"
+      id: extract_task
+
+    - name: Delete PR packages
+      uses: smartsquaregmbh/delete-old-packages@v0.3.1
+      with:
+        version-pattern: "^\\d+\\.\\d+\\.\\d+-${{ steps.extract_task.outputs.task }}-[0-9a-f]+\\.\\d+$"
+        keep: 0
+        names: |
+          sdk
+          plugin-amplitude
+          plugin-amplitude-node
+          plugin-amplitude-react-native
+          plugin-braze
+          plugin-braze-node
+          plugin-firebase-react-native
+          plugin-google-analytics
+          plugin-iteratively
+          plugin-iteratively-node
+          plugin-mixpanel
+          plugin-mixpanel-node
+          plugin-mparticle
+          plugin-mparticle-react-native
+          plugin-schema-validator
+          plugin-segment
+          plugin-segment-node
+          plugin-segment-react-native
+          plugin-snowplow
+          plugin-snowplow-react-native
+          plugin-testing
