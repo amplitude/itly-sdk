@@ -28,13 +28,13 @@ to: packages/plugin-<%= name %>/package.json
   ],
   "author": "<%= author %>",
   "license": "MIT",
-  "homepage": "https://github.com/iterativelyhq/itly-sdk/tree/master/packages/plugin-<%= name %>",
+  "homepage": "https://github.com/amplitude/itly-sdk/tree/master/packages/plugin-<%= name %>",
   "bugs": {
-    "url": "https://github.com/iterativelyhq/itly-sdk/issues"
+    "url": "https://github.com/amplitude/itly-sdk/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/iterativelyhq/itly-sdk.git"
+    "url": "https://github.com/amplitude/itly-sdk.git"
   },
   "devDependencies": {
     "<%= itlySdkModule %>": "<%= itlySdkVersion %>",

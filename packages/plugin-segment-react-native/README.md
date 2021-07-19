@@ -1,6 +1,6 @@
 # Segment React Native Plugin for Iteratively SDK
 
-[Iteratively SDK](https://github.com/iterativelyhq/itly-sdk/blob/master/README.md)
+[Iteratively SDK](https://github.com/amplitude/itly-sdk/blob/master/README.md)
 
 ## Installation
 
