@@ -1,5 +1,5 @@
 {
-  "name": "@itly/plugin-firebase-react-native",
+  "name": "@amplitude/plugin-firebase-react-native",
   "version": "2.3.4",
   "description": "Firebase React Native Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
@@ -34,13 +34,13 @@
     "url": "https://github.com/amplitude/itly-sdk.git"
   },
   "devDependencies": {
-    "@itly/sdk": "^2.3.4",
+    "@amplitude/sdk": "^2.3.4",
     "@react-native-firebase/analytics": "^10.8.1",
     "@react-native-firebase/app": "^10.8.1",
     "typescript": "^3.9.3"
   },
   "peerDependencies": {
-    "@itly/sdk": "^2.0.0",
+    "@amplitude/sdk": "^2.0.0",
     "@react-native-firebase/analytics": "^10.8.1",
     "@react-native-firebase/app": "^10.8.1"
   }

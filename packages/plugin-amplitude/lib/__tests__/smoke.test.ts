@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
-import { ItlyBrowser as Itly, Plugin } from '@itly/sdk';
+import { ItlyBrowser as Itly, Plugin } from '@amplitude/sdk';
 import {
   TestParams,
 } from '../../../../__tests__/util';

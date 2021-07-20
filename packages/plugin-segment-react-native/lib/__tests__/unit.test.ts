@@ -17,7 +17,7 @@ jest.mock('@segment/analytics-react-native', () => ({
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
 /* eslint-disable import/first */
-import { Loggers, PluginLoadOptions } from '@itly/sdk';
+import { Loggers, PluginLoadOptions } from '@amplitude/sdk';
 import SegmentPlugin from '../index';
 
 const writeKey = 'API-KEY';

@@ -4,7 +4,7 @@ import {
   Event,
   Plugin,
   ValidationResponse,
-} from '@itly/sdk';
+} from '@amplitude/sdk';
 
 export type SchemaMap = { [schemaKey: string]: any };
 

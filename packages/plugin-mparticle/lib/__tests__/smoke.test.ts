@@ -1,5 +1,5 @@
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
-import { ItlyBrowser as Itly } from '@itly/sdk';
+import { ItlyBrowser as Itly } from '@amplitude/sdk';
 import MparticlePlugin from '../index';
 
 let itly: Itly | undefined;

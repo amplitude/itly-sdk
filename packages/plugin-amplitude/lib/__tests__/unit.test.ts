@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
-import { Loggers, PluginLoadOptions } from '@itly/sdk';
+import { Loggers, PluginLoadOptions } from '@amplitude/sdk';
 import AmplitudePlugin, { AmplitudeCallback } from '../index';
 
 const apiKey = 'API-KEY';

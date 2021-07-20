@@ -1,6 +1,6 @@
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
 // eslint-disable-next-line max-classes-per-file, no-unused-vars
-import { ItlyBrowser as Itly, Plugin } from '@itly/sdk';
+import { ItlyBrowser as Itly, Plugin } from '@amplitude/sdk';
 // eslint-disable-next-line no-unused-vars
 import TestingPlugin, { ITestingPlugin } from '../index';
 

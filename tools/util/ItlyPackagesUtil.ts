@@ -4,7 +4,7 @@ import path from 'path';
 import { exec } from 'child_process';
 
 const DIR_PACKAGES = path.join(__dirname, '../../packages');
-const ITLY_PACKAGE_PREFIX = '@itly';
+const ITLY_PACKAGE_PREFIX = '@amplitude';
 
 /**
  * Returns a list of all @itly packages

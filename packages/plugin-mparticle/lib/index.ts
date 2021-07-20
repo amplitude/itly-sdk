@@ -3,7 +3,7 @@
 // eslint-disable-next-line max-classes-per-file
 import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions, Logger,
-} from '@itly/sdk';
+} from '@amplitude/sdk';
 
 export type MparticleOptions = {
   isDevelopmentMode?: boolean,

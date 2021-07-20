@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
   Event, Properties, RequestLoggerPlugin,
-} from '@itly/sdk';
+} from '@amplitude/sdk';
 import MParticle from 'react-native-mparticle';
 
 // Native initialization: https://docs.mparticle.com/developers/sdk/react-native/getting-started/#installation

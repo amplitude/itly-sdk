@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { v4 as uuid } from 'uuid';
 import {
   Environment, Event, Properties, RequestLoggerPlugin, ValidationResponse, PluginLoadOptions,
-} from '@itly/sdk';
+} from '@amplitude/sdk';
 
 export type IterativelyOptions = {
   /**

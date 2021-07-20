@@ -1,4 +1,4 @@
-import { ItlyBrowser as Itly } from '@itly/sdk';
+import { ItlyBrowser as Itly } from '@amplitude/sdk';
 
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */

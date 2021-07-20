@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this, import/no-unresolved */
 import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger, PluginCallOptions,
-} from '@itly/sdk';
+} from '@amplitude/sdk';
 
 export type SnowplowOptions = {
   url: string;

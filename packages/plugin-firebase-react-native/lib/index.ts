@@ -2,7 +2,7 @@
 import analytics from '@react-native-firebase/analytics';
 import {
   Event, Properties, RequestLoggerPlugin,
-} from '@itly/sdk';
+} from '@amplitude/sdk';
 
 export type FirebaseOptions = {}
 

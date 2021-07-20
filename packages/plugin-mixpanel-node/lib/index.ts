@@ -6,7 +6,7 @@ import {
   PluginLoadOptions,
   ResponseLogger,
   PluginCallOptions,
-} from '@itly/sdk';
+} from '@amplitude/sdk';
 import Mixpanel, { InitConfig } from 'mixpanel';
 
 export interface MixpanelOptions extends InitConfig {}

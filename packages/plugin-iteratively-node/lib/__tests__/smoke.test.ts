@@ -2,7 +2,7 @@
 /* eslint-disable import/no-dynamic-require, import/no-unresolved, import/extensions */
 import fetch from 'node-fetch';
 // eslint-disable-next-line no-unused-vars
-import { ItlyNode as Itly, Environment } from '@itly/sdk';
+import { ItlyNode as Itly, Environment } from '@amplitude/sdk';
 import IterativelyPlugin from '../index';
 
 jest.mock('node-fetch');
