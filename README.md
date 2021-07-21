@@ -229,9 +229,9 @@ import { ItlyNode as Itly } from '@itly/sdk';
 # Contributing
 
 ## Working with the project
-This project uses [Lerna](https://github.com/lerna/lerna) to manage multiple modules.
+This project uses [Lerna](https://github.com/lerna/lerna) and [Yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/) to manage multiple modules.
 
-[`package.json`](package.json) includes `bootstrap`, `build`, `lint`, `test`, and `release` scripts that call the necessary `lerna` commands.
+[`package.json`](package.json) includes `setup`, `build`, `lint`, `test`, and `release` scripts that call the necessary `lerna` and `yarn` commands.
 
 
 1. ### Setup
