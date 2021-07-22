@@ -19,6 +19,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
 
+    - name: Replace base package name to @amplitude
+      run: find ./packages -name node_modules -prune -o -type f -exec sed -i 's/@itly/@amplitude/g' {} +
+
     - name: Install
       run: yarn install --frozen-lockfile
 
@@ -50,7 +53,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         registry-url: 'https://npm.pkg.github.com'
-        scope: '@itly'
 
     - name: Publish GitHub packages
       run: lerna publish prerelease --no-git-tag-version --no-push --force-publish --dist-tag ${{ steps.extract_task.outputs.task }} --preid ${{ steps.extract_task.outputs.task }}-${GITHUB_SHA:0:8} --yes --no-verify-access --ignore-prepublish
