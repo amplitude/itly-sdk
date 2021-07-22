@@ -19,7 +19,7 @@ jobs:
       run: echo "##[set-output name=task;]$(echo '${{ steps.extract_branch.outputs.branch }}' | grep -oE '[A-Za-z]+-[0-9]+' -)"
       id: extract_task
 
-    - name: Delete PR packages
+    - name: Delete PR packages (part 1)
       uses: smartsquaregmbh/delete-old-packages@v0.3.1
       with:
         version-pattern: "^\\d+\\.\\d+\\.\\d+-${{ steps.extract_task.outputs.task }}-[0-9a-f]+\\.\\d+$"
@@ -39,6 +39,13 @@ jobs:
           plugin-mixpanel-node
           plugin-mparticle
           plugin-mparticle-react-native
+
+    - name: Delete PR packages (part 2)
+      uses: smartsquaregmbh/delete-old-packages@v0.3.1
+      with:
+        version-pattern: "^\\d+\\.\\d+\\.\\d+-${{ steps.extract_task.outputs.task }}-[0-9a-f]+\\.\\d+$"
+        keep: 0
+        names: |
           plugin-schema-validator
           plugin-segment
           plugin-segment-node
