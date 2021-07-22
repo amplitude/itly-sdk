@@ -5,7 +5,7 @@ import {
   RequestLoggerPlugin,
   PluginLoadOptions,
   PluginCallOptions,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 import * as Amplitude from '@amplitude/node';
 import { Identify } from '@amplitude/identify';
 

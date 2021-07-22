@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
   Plugin, Event as TrackingEvent,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 
 type MethodArgs = any[];
 

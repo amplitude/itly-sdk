@@ -1,5 +1,5 @@
 {
-  "name": "@amplitude/plugin-iteratively",
+  "name": "@itly/plugin-iteratively",
   "version": "2.3.4",
   "description": "Iteratively Browser Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
@@ -37,7 +37,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@amplitude/sdk": "^2.3.4",
+    "@itly/sdk": "^2.3.4",
     "@types/jest": "^26.0.0",
     "@types/uuid": "^8.3.0",
     "jest": "^26.0.1",
@@ -45,7 +45,7 @@
     "typescript": "^3.9.3"
   },
   "peerDependencies": {
-    "@amplitude/sdk": "^2.0.0"
+    "@itly/sdk": "^2.0.0"
   },
   "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }

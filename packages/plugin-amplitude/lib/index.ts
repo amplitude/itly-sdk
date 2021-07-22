@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax, no-prototype-builtins, no-continue */
 import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger, PluginCallOptions,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 
 export type AmplitudeOptions = {};
 

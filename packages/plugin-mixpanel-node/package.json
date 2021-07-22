@@ -1,5 +1,5 @@
 {
-  "name": "@amplitude/plugin-mixpanel-node",
+  "name": "@itly/plugin-mixpanel-node",
   "version": "2.3.4",
   "description": "Mixpanel Node Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
@@ -34,14 +34,14 @@
     "url": "https://github.com/amplitude/itly-sdk.git"
   },
   "devDependencies": {
-    "@amplitude/sdk": "^2.3.4",
+    "@itly/sdk": "^2.3.4",
     "typescript": "^3.9.3"
   },
   "dependencies": {
     "mixpanel": "^0.13.0"
   },
   "peerDependencies": {
-    "@amplitude/sdk": "^2.0.0"
+    "@itly/sdk": "^2.0.0"
   },
   "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }

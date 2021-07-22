@@ -5,7 +5,7 @@ import {
   RequestLoggerPlugin,
   PluginLoadOptions,
   PluginCallOptions,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 import { Amplitude } from '@amplitude/react-native';
 
 export type AmplitudeOptions = { };

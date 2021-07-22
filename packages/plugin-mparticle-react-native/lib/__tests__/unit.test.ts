@@ -14,7 +14,7 @@ jest.mock('react-native-mparticle', () => ({
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
 /* eslint-disable import/first */
-import { Loggers, PluginLoadOptions } from '@amplitude/sdk';
+import { Loggers, PluginLoadOptions } from '@itly/sdk';
 import MparticlePlugin from '../index';
 
 const pluginLoadOptions: PluginLoadOptions = { environment: 'production', logger: Loggers.None };

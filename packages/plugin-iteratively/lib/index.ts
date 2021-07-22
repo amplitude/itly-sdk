@@ -2,7 +2,7 @@
 import { v4 as uuid } from 'uuid';
 import {
   Environment, Event, Properties, RequestLoggerPlugin, ValidationResponse, PluginLoadOptions,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 
 export type IterativelyOptions = {
   /**

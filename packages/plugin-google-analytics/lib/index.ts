@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars, class-methods-use-this */
 import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions, PluginCallOptions,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 
 type GoogleAnalyticsOptions = {
   gtag?: Gtag.Gtag;

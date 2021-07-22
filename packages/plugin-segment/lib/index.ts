@@ -6,7 +6,7 @@ import {
   PluginLoadOptions,
   ResponseLogger,
   PluginCallOptions,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 
 export type SegmentOptions = {};
 

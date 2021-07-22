@@ -6,7 +6,7 @@ import {
   Properties,
   ResponseLogger,
   PluginCallOptions,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 import Segment from 'analytics-node';
 
 export type SegmentOptions = {

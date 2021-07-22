@@ -1,5 +1,5 @@
 {
-  "name": "@amplitude/plugin-schema-validator",
+  "name": "@itly/plugin-schema-validator",
   "version": "2.3.4",
   "description": "Schema Validator Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
@@ -34,7 +34,7 @@
     "url": "https://github.com/amplitude/itly-sdk.git"
   },
   "devDependencies": {
-    "@amplitude/sdk": "^2.3.4",
+    "@itly/sdk": "^2.3.4",
     "@types/jest": "^26.0.0",
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0",
@@ -45,7 +45,7 @@
     "url": "^0.11.0"
   },
   "peerDependencies": {
-    "@amplitude/sdk": "^2.0.0"
+    "@itly/sdk": "^2.0.0"
   },
   "gitHead": "6694fa97c4d96177674b6acc491b19c3013387c3"
 }

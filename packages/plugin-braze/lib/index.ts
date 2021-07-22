@@ -3,7 +3,7 @@
 import appboy from '@braze/web-sdk-core';
 import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 
 export type BrazeOptions = appboy.InitializationOptions;
 

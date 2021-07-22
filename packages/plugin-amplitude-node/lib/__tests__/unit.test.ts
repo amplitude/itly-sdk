@@ -9,7 +9,7 @@ jest.mock('@amplitude/identify', () => ({
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
 /* eslint-disable import/first */
-import { Loggers, PluginLoadOptions } from '@amplitude/sdk';
+import { Loggers, PluginLoadOptions } from '@itly/sdk';
 import AmplitudePlugin from '../index';
 
 const apiKey = 'API-KEY';

@@ -2,7 +2,7 @@
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
 import {
   ItlyBrowser as Itly, Loggers, Event, PluginLoadOptions,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 import { SnowplowPlugin, SnowplowOptions } from '../index';
 
 const userId = 'user-id';

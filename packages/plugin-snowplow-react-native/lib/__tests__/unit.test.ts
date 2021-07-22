@@ -13,7 +13,7 @@ jest.mock('@snowplow/react-native-tracker', () => ({
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
 /* eslint-disable import/first */
-import { Loggers, PluginLoadOptions } from '@amplitude/sdk';
+import { Loggers, PluginLoadOptions } from '@itly/sdk';
 import SnowplowPlugin, { SnowplowOptions } from '../index';
 
 const vendor = 'VENDOR';

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-unresolved, import/extensions, import/no-dynamic-require */
-import { Loggers, PluginLoadOptions } from '@amplitude/sdk';
+import { Loggers, PluginLoadOptions } from '@itly/sdk';
 import SegmentPlugin, { SegmentCallback } from '../index';
 
 const writeKey = 'API-KEY';

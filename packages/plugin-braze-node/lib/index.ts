@@ -2,7 +2,7 @@
 import fetch from 'node-fetch';
 import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions, ResponseLogger,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 
 export type BrazeOptions = {
   baseUrl: string;

@@ -1,5 +1,5 @@
 {
-  "name": "@amplitude/plugin-segment-react-native",
+  "name": "@itly/plugin-segment-react-native",
   "version": "2.3.4",
   "description": "Segment React Native Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
@@ -33,12 +33,12 @@
     "url": "https://github.com/amplitude/itly-sdk.git"
   },
   "devDependencies": {
-    "@amplitude/sdk": "^2.3.4",
+    "@itly/sdk": "^2.3.4",
     "@segment/analytics-react-native": "^1.4.3",
     "typescript": "^3.9.3"
   },
   "peerDependencies": {
-    "@amplitude/sdk": "^2.0.0",
+    "@itly/sdk": "^2.0.0",
     "@segment/analytics-react-native": "^1.4.3"
   }
 }

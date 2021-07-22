@@ -2,7 +2,7 @@
 import analytics, { Analytics, JsonMap } from '@segment/analytics-react-native';
 import {
   Event, Properties, RequestLoggerPlugin, PluginLoadOptions, PluginCallOptions,
-} from '@amplitude/sdk';
+} from '@itly/sdk';
 
 export type SegmentOptions = Analytics.Configuration;
 
