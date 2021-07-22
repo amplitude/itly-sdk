@@ -257,13 +257,8 @@ This project uses [Lerna](https://github.com/lerna/lerna) and [Yarn workspaces](
 
 4. ### Test
 
-    By default tests will run against the source files
     ```bash
     $ yarn test
-    ```
-    Built distributions can be tested as well
-    ```bash
-    $ yarn test:build
     ```
 
 5. ### Release
