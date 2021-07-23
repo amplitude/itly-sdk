@@ -24,13 +24,13 @@
   ],
   "author": "Iteratively",
   "license": "MIT",
-  "homepage": "https://github.com/iterativelyhq/itly-sdk/tree/master/packages/plugin-segment-react-native",
+  "homepage": "https://github.com/amplitude/itly-sdk/tree/master/packages/plugin-segment-react-native",
   "bugs": {
-    "url": "https://github.com/iterativelyhq/itly-sdk/issues"
+    "url": "https://github.com/amplitude/itly-sdk/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/iterativelyhq/itly-sdk.git"
+    "url": "https://github.com/amplitude/itly-sdk.git"
   },
   "devDependencies": {
     "@itly/sdk": "^2.3.4",
