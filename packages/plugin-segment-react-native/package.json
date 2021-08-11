@@ -35,7 +35,7 @@
   "devDependencies": {
     "@itly/sdk": "^2.3.4",
     "@segment/analytics-react-native": "^1.4.3",
-    "typescript": "^3.9.3"
+    "typescript": "^4.3.5"
   },
   "peerDependencies": {
     "@itly/sdk": "^2.0.0",
