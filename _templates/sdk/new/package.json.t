@@ -29,7 +29,7 @@ to: packages/sdk-<%= name %>/package.json
   "author": "<%= author %>",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^3.9.3"
+    "typescript": "^4.3.5"
   },
   "dependencies": {
     "<%= itlySdkModule %>": "<%= itlySdkVersion %>"

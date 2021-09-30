@@ -35,7 +35,7 @@
   "devDependencies": {
     "@itly/sdk": "^2.3.4",
     "react-native-mparticle": "^2.4.9",
-    "typescript": "^3.9.3"
+    "typescript": "^4.3.5"
   },
   "peerDependencies": {
     "@itly/sdk": "^2.0.0",

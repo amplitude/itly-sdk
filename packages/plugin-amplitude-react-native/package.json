@@ -35,7 +35,7 @@
   "devDependencies": {
     "@amplitude/react-native": "^2.3.1",
     "@itly/sdk": "^2.3.4",
-    "typescript": "^3.9.3"
+    "typescript": "^4.3.5"
   },
   "peerDependencies": {
     "@amplitude/react-native": "^2.3.1",
