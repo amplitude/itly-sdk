@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-segment-node",
-  "version": "2.3.4",
+  "version": "2.4.0",
   "description": "Segment Node Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -34,7 +34,7 @@
     "url": "https://github.com/amplitude/itly-sdk.git"
   },
   "devDependencies": {
-    "@itly/sdk": "^2.3.4",
+    "@itly/sdk": "^2.4.0",
     "typescript": "^3.9.3"
   },
   "dependencies": {
