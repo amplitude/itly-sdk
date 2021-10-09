@@ -19,6 +19,10 @@ export interface AmplitudeTrackOptions extends AmplitudeCallOptions {
   callback?: AmplitudeCallback;
 }
 
+export interface AmplitudeGroupProperties extends Properties {
+  groupType? : string,
+  groupName? : string[],
+}
 /**
  * Amplitude Browser Plugin for Iteratively SDK
  */
@@ -72,17 +76,16 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  group(uuserId: string | undefined, groupId: string, properties?: Properties, options?: AmplitudeGroupOptions) {
-    if (properties) {
-      for (const p in properties) {
-        if (!properties.hasOwnProperty(p)) {
-          continue;
-        }
-        const groupName = (properties as any)[p];
-        if (typeof groupName === 'string' || Array.isArray(groupName)) {
-          this.amplitude.getInstance().setGroup(p, groupName);
-        }
-      }
+  group(uuserId: string | undefined, groupId: string, properties?: AmplitudeGroupProperties,
+    options?: AmplitudeGroupOptions) {
+    let groupType : string | undefined;
+    let groupName : string | string[] = groupId;
+    if (properties && properties.groupType) {
+      groupType = properties.groupType;
+      groupName = properties.groupName ?? groupName;
+    }
+    if (groupType && groupName) {
+      this.amplitude.getInstance().setGroup(groupType, groupName);
     }
   }
 

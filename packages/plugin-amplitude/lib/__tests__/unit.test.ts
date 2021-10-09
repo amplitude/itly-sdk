@@ -153,22 +153,41 @@ describe('identify', () => {
 });
 
 describe('group', () => {
-  test('should call setGroup() when call group method', () => {
+  test('should call setGroup() with groupType and groupId', () => {
     const plugin = new AmplitudePlugin(apiKey);
     plugin.load(pluginLoadOptions);
     const groupProperties = {
-      orgId: '15',
-      sport: ['soccer', 'tennis'],
-      wrongValue: {
-        test: 'invalid group',
-      },
+      groupType: 'orgId',
     };
-    const groupId = 'setGroup';
+    const groupId = '15';
 
     plugin.group(undefined, groupId, groupProperties);
-    expect(amplitude.getInstance().setGroup).toHaveBeenCalledTimes(2);
+    expect(amplitude.getInstance().setGroup).toHaveBeenCalledTimes(1);
     expect(amplitude.getInstance().setGroup.mock.calls[0]).toEqual(['orgId', '15']);
-    expect(amplitude.getInstance().setGroup.mock.calls[1]).toEqual(['sport', ['soccer', 'tennis']]);
+  });
+
+  test('should call setGroup() with groupName defiend in groupProperties', () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+    const groupProperties = {
+      groupType: 'sport',
+      groupName: ['soccer', 'tennis'],
+    };
+    const groupId = '15';
+
+    plugin.group(undefined, groupId, groupProperties);
+    expect(amplitude.getInstance().setGroup).toHaveBeenCalledTimes(1);
+    expect(amplitude.getInstance().setGroup.mock.calls[0]).toEqual(['sport', ['soccer', 'tennis']]);
+  });
+
+  test('should not call setGroup() if group type not set', () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+    const groupProperties = {};
+    const groupId = '15';
+
+    plugin.group(undefined, groupId, groupProperties);
+    expect(amplitude.getInstance().setGroup).toHaveBeenCalledTimes(0);
   });
 });
 
