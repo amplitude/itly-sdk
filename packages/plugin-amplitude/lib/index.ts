@@ -72,6 +72,20 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
+  group(uuserId: string | undefined, groupId: string, properties?: Properties, options?: AmplitudeGroupOptions) {
+    if (properties) {
+      for (const p in properties) {
+        if (!properties.hasOwnProperty(p)) {
+          continue;
+        }
+        const groupName = (properties as any)[p];
+        if (typeof groupName === 'string' || Array.isArray(groupName)) {
+          this.amplitude.getInstance().setGroup(p, groupName);
+        }
+      }
+    }
+  }
+
   track(userId: string | undefined, { name, properties }: Event, options?: AmplitudeTrackOptions) {
     const { callback } = options ?? {};
     const responseLogger = this.logger!.logRequest('track', `${userId} ${name} ${JSON.stringify(properties)}`);

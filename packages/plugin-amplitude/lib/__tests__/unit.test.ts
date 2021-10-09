@@ -12,6 +12,7 @@ const loadAmplitude = jest.fn(() => {
   const instance = {
     init: jest.fn(),
     setUserId: jest.fn(),
+    setGroup: jest.fn(),
     identify: jest.fn(),
     logEvent: jest.fn(),
     regenerateDeviceId: jest.fn(),
@@ -148,6 +149,26 @@ describe('identify', () => {
         done();
       },
     });
+  });
+});
+
+describe('group', () => {
+  test('should call setGroup() when call group method', () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+    const groupProperties = {
+      orgId: '15',
+      sport: ['soccer', 'tennis'],
+      wrongValue: {
+        test: 'invalid group',
+      },
+    };
+    const groupId = 'setGroup';
+
+    plugin.group(undefined, groupId, groupProperties);
+    expect(amplitude.getInstance().setGroup).toHaveBeenCalledTimes(2);
+    expect(amplitude.getInstance().setGroup.mock.calls[0]).toEqual(['orgId', '15']);
+    expect(amplitude.getInstance().setGroup.mock.calls[1]).toEqual(['sport', ['soccer', 'tennis']]);
   });
 });
 
