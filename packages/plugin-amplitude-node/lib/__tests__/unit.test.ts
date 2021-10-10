@@ -102,7 +102,7 @@ describe('group', () => {
     });
 
     expect(identifyObject.setGroup).toHaveBeenCalledTimes(1);
-    expect(identifyObject.set.mock.calls[0]).toEqual([groupType, groupId]);
+    expect(identifyObject.setGroup.mock.calls[0]).toEqual([groupType, groupId]);
 
     expect(amplitude.identify).toHaveBeenCalledTimes(1);
     expect(amplitude.identify.mock.calls[0]).toEqual(['user-1', '', identifyObject]);
