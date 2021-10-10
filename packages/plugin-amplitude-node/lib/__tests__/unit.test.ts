@@ -118,7 +118,7 @@ describe('group', () => {
 
     await plugin.group('user-1', groupId, {
       groupType,
-    }, callback);
+    }, { callback });
     expect(callback).toHaveBeenCalledTimes(1);
   });
 
