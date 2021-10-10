@@ -1,5 +1,6 @@
 const identifyObject: any = {
   set: jest.fn(),
+  setGroup: jest.fn(),
 };
 
 jest.mock('@amplitude/identify', () => ({
@@ -87,6 +88,49 @@ describe('identify', () => {
       callback,
     });
     expect(callback).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('group', () => {
+  test('should call internal identify() with group id and type', () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+    const groupId = 'group-1';
+    const groupType = 'test';
+    plugin.group('user-1', groupId, {
+      groupType,
+    });
+
+    expect(identifyObject.setGroup).toHaveBeenCalledTimes(1);
+    expect(identifyObject.set.mock.calls[0]).toEqual([groupType, groupId]);
+
+    expect(amplitude.identify).toHaveBeenCalledTimes(1);
+    expect(amplitude.identify.mock.calls[0]).toEqual(['user-1', '', identifyObject]);
+  });
+
+  test('should call callback', async () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+
+    const callback = jest.fn();
+    const groupId = 'group-1';
+    const groupType = 'test';
+
+    await plugin.group('user-1', groupId, {
+      groupType,
+    }, callback);
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
+
+  test('should not call setGroup if no group type', () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+    const groupId = 'group-1';
+    const groupType = 'test';
+    plugin.group('user-1', groupId, {});
+
+    expect(identifyObject.setGroup).toHaveBeenCalledTimes(0);
+    expect(amplitude.identify).toHaveBeenCalledTimes(0);
   });
 });
 

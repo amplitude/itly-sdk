@@ -22,6 +22,9 @@ export interface AmplitudePageOptions extends AmplitudeCallOptions {}
 export interface AmplitudeTrackOptions extends AmplitudeCallOptions {
   callback?: (response: AmplitudeResponse) => void;
 }
+export interface AmplitudeGroupProperties extends Properties {
+  groupType? : string,
+}
 
 /**
  * Amplitude Node Plugin for Iteratively SDK
@@ -69,6 +72,25 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
 
     const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
+    try {
+      const response = await this.amplitude!.identify(userId, '', identifyObject);
+      responseLogger.success(JSON.stringify(response));
+      callback?.(response);
+    } catch (e) {
+      responseLogger.error(e.toString());
+    }
+  }
+
+  async group(userId: string, groupId: string, properties?: AmplitudeGroupProperties, options?: AmplitudeGroupOptions) {
+    const { callback } = options ?? {};
+    const groupType = properties && properties.groupType ? properties.groupType : undefined;
+    if (!groupType) {
+      return;
+    }
+    const identifyObject = new Identify();
+    identifyObject.setGroup(groupType, groupId);
+
+    const responseLogger = this.logger!.logRequest('group', `${userId} ${JSON.stringify(properties)}`);
     try {
       const response = await this.amplitude!.identify(userId, '', identifyObject);
       responseLogger.success(JSON.stringify(response));
