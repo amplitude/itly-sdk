@@ -98,11 +98,9 @@ describe('group', () => {
     plugin.load(pluginLoadOptions);
     const groupId = 'group-1';
     const options = {
-      amplitude: {
-        groups: {
-          orgId: '15',
-          sport: ['soccer', 'tennis'],
-        },
+      groups: {
+        orgId: '15',
+        sport: ['soccer', 'tennis'],
       },
     };
     plugin.group('user-1', groupId, undefined, options);
@@ -128,11 +126,9 @@ describe('group', () => {
       coach: 1,
     };
     const options = {
-      amplitude: {
-        groups: {
-          orgId: '15',
-          sport: ['soccer', 'tennis'],
-        },
+      groups: {
+        orgId: '15',
+        sport: ['soccer', 'tennis'],
       },
     };
     plugin.group('user-1', groupId, groupProperties, options);
@@ -158,11 +154,9 @@ describe('group', () => {
       coach: 1,
     };
     const options = {
-      amplitude: {
-        groups: {
-          orgId: '15',
-          sport: ['soccer', 'tennis'],
-        },
+      groups: {
+        orgId: '15',
+        sport: ['soccer', 'tennis'],
       },
       callback,
     };

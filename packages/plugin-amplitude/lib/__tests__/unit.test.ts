@@ -159,11 +159,9 @@ describe('group', () => {
     plugin.load(pluginLoadOptions);
     const groupId = '15';
     const options = {
-      amplitude: {
-        groups: {
-          orgId: '15',
-          sport: ['soccer', 'tennis'],
-        },
+      groups: {
+        orgId: '15',
+        sport: ['soccer', 'tennis'],
       },
     };
 
@@ -183,11 +181,9 @@ describe('group', () => {
       coach: 1,
     };
     const options = {
-      amplitude: {
-        groups: {
-          orgId: '15',
-          sport: ['soccer', 'tennis'],
-        },
+      groups: {
+        orgId: '15',
+        sport: ['soccer', 'tennis'],
       },
     };
 
@@ -226,10 +222,8 @@ describe('group', () => {
       coach: 1,
     };
     const options = {
-      amplitude: {
-        groups: {
-          sport: 'soccer',
-        },
+      groups: {
+        sport: 'soccer',
       },
       callback: (statusCode: number, responseBody: string, details: unknown) => {
         expect(statusCode).toBe(211);

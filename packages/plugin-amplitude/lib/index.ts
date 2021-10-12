@@ -14,11 +14,9 @@ export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
   callback?: AmplitudeCallback;
 }
 export interface AmplitudeGroupOptions extends AmplitudeCallOptions {
-  amplitude?: {
-    groups?: {
-      [name: string] : string | string[]
-    }
-  },
+  groups?: {
+    [name: string] : string | string[]
+  }
   callback?: AmplitudeCallback;
 }
 export interface AmplitudePageOptions extends AmplitudeCallOptions {}
@@ -80,7 +78,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
   }
 
   group(userId: string | undefined, groupId: string, properties?: Properties, options?: AmplitudeGroupOptions) {
-    if (!(options && options.amplitude && options.amplitude.groups)) {
+    if (!(options && options.groups)) {
       this.logger!.warn('Amplitude group requires groups in the AmplitudeGroupOptions.');
       return;
     }
@@ -100,12 +98,12 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       const responseLogger = this.logger!.logRequest('groupIdentify', `${userId} ${JSON.stringify(properties)}`);
       wrappedCallback = this.wrapCallback(responseLogger, callback);
     }
-    for (const groupType in options.amplitude.groups) {
-      if (!options.amplitude.groups.hasOwnProperty(groupType)) {
+    for (const groupType in options.groups) {
+      if (!options.groups.hasOwnProperty(groupType)) {
         continue;
       }
 
-      const groupName = options.amplitude.groups[groupType];
+      const groupName = options.groups[groupType];
       this.amplitude.getInstance().setGroup(groupType, groupName);
       if (identifyObject) {
         if (Array.isArray(groupName)) {

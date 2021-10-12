@@ -18,11 +18,9 @@ export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
   callback?: (response: AmplitudeResponse) => void;
 }
 export interface AmplitudeGroupOptions extends AmplitudeCallOptions {
-  amplitude?: {
-    groups?: {
-      [name: string] : string | string[]
-    }
-  },
+  groups?: {
+    [name: string] : string | string[]
+  }
   callback?: (response: AmplitudeResponse) => void;
 }
 export interface AmplitudePageOptions extends AmplitudeCallOptions {}
@@ -86,7 +84,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
   }
 
   async group(userId: string, groupId: string, properties?: Properties, options?: AmplitudeGroupOptions) {
-    if (!(options && options.amplitude && options.amplitude.groups)) {
+    if (!(options && options.groups)) {
       this.logger!.warn('Amplitude group requires groups in the AmplitudeGroupOptions.');
       return;
     }
@@ -124,7 +122,7 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       }
     }
 
-    const groupEntries = Object.entries(options.amplitude.groups);
+    const groupEntries = Object.entries(options.groups);
     for (let i = 0; i < groupEntries.length; i += 1) {
       const [groupType, groupName] = groupEntries[i];
       if (Array.isArray(groupName)) {
