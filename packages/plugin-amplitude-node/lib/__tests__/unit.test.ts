@@ -109,10 +109,8 @@ describe('group', () => {
     expect(identifyObject.setGroup.mock.calls[0]).toEqual(['orgId', '15']);
     expect(identifyObject.setGroup.mock.calls[1]).toEqual(['sport', 'soccer']);
     expect(identifyObject.setGroup.mock.calls[2]).toEqual(['sport', 'tennis']);
-    expect(amplitude.identify).toHaveBeenCalledTimes(3);
+    expect(amplitude.identify).toHaveBeenCalledTimes(1);
     expect(amplitude.identify.mock.calls[0]).toEqual(['user-1', '', identifyObject]);
-    expect(amplitude.identify.mock.calls[1]).toEqual(['user-1', '', identifyObject]);
-    expect(amplitude.identify.mock.calls[2]).toEqual(['user-1', '', identifyObject]);
     expect(identifyObject.identifyGroup).toHaveBeenCalledTimes(0);
     expect(amplitude.logEvent).toHaveBeenCalledTimes(0);
   });
@@ -162,7 +160,7 @@ describe('group', () => {
     };
 
     await plugin.group('user-1', groupId, groupProperties, options);
-    expect(callback).toHaveBeenCalledTimes(6);
+    expect(callback).toHaveBeenCalledTimes(4);
   });
 
   test('should not call any method if groups not set', () => {

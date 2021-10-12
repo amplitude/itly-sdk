@@ -128,19 +128,18 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       if (Array.isArray(groupName)) {
         groupName.forEach((groupValue) => {
           identifyObject.setGroup(groupType, groupValue);
-          callIdentify(identifyObject);
           if (properties) {
             callGroupIdentify(groupIdentifyObject.identifyGroup(groupType, groupValue));
           }
         });
       } else {
         identifyObject.setGroup(groupType, groupName);
-        callIdentify(identifyObject);
         if (properties) {
           callGroupIdentify(groupIdentifyObject.identifyGroup(groupType, groupName));
         }
       }
     }
+    callIdentify(identifyObject);
   }
 
   async track(userId: string, { name, properties }: Event, options?: AmplitudeTrackOptions) {
