@@ -1,6 +1,7 @@
 const identifyObject: any = {
   set: jest.fn(),
   setGroup: jest.fn(),
+  identifyGroup: jest.fn(),
 };
 
 jest.mock('@amplitude/identify', () => ({
@@ -92,20 +93,58 @@ describe('identify', () => {
 });
 
 describe('group', () => {
-  test('should call internal identify() with group id and type', () => {
+  test('should call amplitude setGroup() if we define groups in AmplitudeGroupOptions', () => {
     const plugin = new AmplitudePlugin(apiKey);
     plugin.load(pluginLoadOptions);
     const groupId = 'group-1';
-    const groupType = 'test';
-    plugin.group('user-1', groupId, {
-      groupType,
-    });
+    const options = {
+      amplitude: {
+        groups: {
+          orgId: '15',
+          sport: ['soccer', 'tennis'],
+        },
+      },
+    };
+    plugin.group('user-1', groupId, undefined, options);
 
-    expect(identifyObject.setGroup).toHaveBeenCalledTimes(1);
-    expect(identifyObject.setGroup.mock.calls[0]).toEqual([groupType, groupId]);
-
-    expect(amplitude.identify).toHaveBeenCalledTimes(1);
+    expect(identifyObject.setGroup).toHaveBeenCalledTimes(3);
+    expect(identifyObject.setGroup.mock.calls[0]).toEqual(['orgId', '15']);
+    expect(identifyObject.setGroup.mock.calls[1]).toEqual(['sport', 'soccer']);
+    expect(identifyObject.setGroup.mock.calls[2]).toEqual(['sport', 'tennis']);
+    expect(amplitude.identify).toHaveBeenCalledTimes(3);
     expect(amplitude.identify.mock.calls[0]).toEqual(['user-1', '', identifyObject]);
+    expect(amplitude.identify.mock.calls[1]).toEqual(['user-1', '', identifyObject]);
+    expect(amplitude.identify.mock.calls[2]).toEqual(['user-1', '', identifyObject]);
+    expect(identifyObject.identifyGroup).toHaveBeenCalledTimes(0);
+    expect(amplitude.logEvent).toHaveBeenCalledTimes(0);
+  });
+
+  test('should call both setGroups() and groupIdentify() with groupId properties defiend', () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+    const groupId = 'group-1';
+    const groupProperties = {
+      multiplayer: true,
+      coach: 1,
+    };
+    const options = {
+      amplitude: {
+        groups: {
+          orgId: '15',
+          sport: ['soccer', 'tennis'],
+        },
+      },
+    };
+    plugin.group('user-1', groupId, groupProperties, options);
+    expect(identifyObject.setGroup).toHaveBeenCalledTimes(3);
+    expect(identifyObject.setGroup.mock.calls[0]).toEqual(['orgId', '15']);
+    expect(identifyObject.setGroup.mock.calls[1]).toEqual(['sport', 'soccer']);
+    expect(identifyObject.setGroup.mock.calls[2]).toEqual(['sport', 'tennis']);
+    expect(identifyObject.identifyGroup).toHaveBeenCalledTimes(3);
+    expect(identifyObject.identifyGroup.mock.calls[0]).toEqual(['orgId', '15']);
+    expect(identifyObject.identifyGroup.mock.calls[1]).toEqual(['sport', 'soccer']);
+    expect(identifyObject.identifyGroup.mock.calls[2]).toEqual(['sport', 'tennis']);
+    expect(amplitude.logEvent).toHaveBeenCalledTimes(3);
   });
 
   test('should call callback', async () => {
@@ -114,15 +153,25 @@ describe('group', () => {
 
     const callback = jest.fn();
     const groupId = 'group-1';
-    const groupType = 'test';
+    const groupProperties = {
+      multiplayer: true,
+      coach: 1,
+    };
+    const options = {
+      amplitude: {
+        groups: {
+          orgId: '15',
+          sport: ['soccer', 'tennis'],
+        },
+      },
+      callback,
+    };
 
-    await plugin.group('user-1', groupId, {
-      groupType,
-    }, { callback });
-    expect(callback).toHaveBeenCalledTimes(1);
+    await plugin.group('user-1', groupId, groupProperties, options);
+    expect(callback).toHaveBeenCalledTimes(6);
   });
 
-  test('should not call setGroup if no group type', () => {
+  test('should not call any method if groups not set', () => {
     const plugin = new AmplitudePlugin(apiKey);
     plugin.load(pluginLoadOptions);
     const groupId = 'group-1';
@@ -131,6 +180,8 @@ describe('group', () => {
 
     expect(identifyObject.setGroup).toHaveBeenCalledTimes(0);
     expect(amplitude.identify).toHaveBeenCalledTimes(0);
+    expect(identifyObject.identifyGroup).toHaveBeenCalledTimes(0);
+    expect(amplitude.logEvent).toHaveBeenCalledTimes(0);
   });
 });
 

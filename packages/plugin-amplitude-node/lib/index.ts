@@ -17,13 +17,17 @@ export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
 export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
   callback?: (response: AmplitudeResponse) => void;
 }
-export interface AmplitudeGroupOptions extends AmplitudeCallOptions {}
+export interface AmplitudeGroupOptions extends AmplitudeCallOptions {
+  amplitude?: {
+    groups?: {
+      [name: string] : string | string[]
+    }
+  },
+  callback?: (response: AmplitudeResponse) => void;
+}
 export interface AmplitudePageOptions extends AmplitudeCallOptions {}
 export interface AmplitudeTrackOptions extends AmplitudeCallOptions {
   callback?: (response: AmplitudeResponse) => void;
-}
-export interface AmplitudeGroupProperties extends Properties {
-  groupType? : string,
 }
 
 /**
@@ -81,22 +85,63 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  async group(userId: string, groupId: string, properties?: AmplitudeGroupProperties, options?: AmplitudeGroupOptions) {
-    const { callback } = options ?? {};
-    const groupType = properties && properties.groupType ? properties.groupType : undefined;
-    if (!groupType) {
+  async group(userId: string, groupId: string, properties?: Properties, options?: AmplitudeGroupOptions) {
+    if (!(options && options.amplitude && options.amplitude.groups)) {
+      this.logger!.warn('Amplitude group requires groups in the AmplitudeGroupOptions.');
       return;
     }
-    const identifyObject = new Identify();
-    identifyObject.setGroup(groupType, groupId);
 
+    const { callback } = options ?? {};
     const responseLogger = this.logger!.logRequest('group', `${userId} ${JSON.stringify(properties)}`);
-    try {
-      const response = await this.amplitude!.identify(userId, '', identifyObject);
-      responseLogger.success(JSON.stringify(response));
-      callback?.(response);
-    } catch (e) {
-      responseLogger.error(e.toString());
+
+    const callIdentify = async (identifyEvent: Identify) => {
+      try {
+        const response = await this.amplitude!.identify(userId, '', identifyEvent);
+        responseLogger.success(JSON.stringify(response));
+        callback?.(response);
+      } catch (e) {
+        responseLogger.error(e.toString());
+      }
+    };
+
+    const callGroupIdentify = async (groupIdentifyEvent: Amplitude.Event) => {
+      try {
+        const response = await this.amplitude!.logEvent(groupIdentifyEvent);
+        responseLogger.success(JSON.stringify(response));
+        callback?.(response);
+      } catch (e) {
+        responseLogger.error(e.toString());
+      }
+    };
+
+    const identifyObject = new Identify();
+    const groupIdentifyObject = new Identify();
+    if (properties) {
+      const entries = Object.entries(properties);
+      for (let i = 0; i < entries.length; i += 1) {
+        const [propertyName, propertyValue] = entries[i];
+        groupIdentifyObject.set(propertyName, propertyValue);
+      }
+    }
+
+    const groupEntries = Object.entries(options.amplitude.groups);
+    for (let i = 0; i < groupEntries.length; i += 1) {
+      const [groupType, groupName] = groupEntries[i];
+      if (Array.isArray(groupName)) {
+        groupName.forEach((groupValue) => {
+          identifyObject.setGroup(groupType, groupValue);
+          callIdentify(identifyObject);
+          if (properties) {
+            callGroupIdentify(groupIdentifyObject.identifyGroup(groupType, groupValue));
+          }
+        });
+      } else {
+        identifyObject.setGroup(groupType, groupName);
+        callIdentify(identifyObject);
+        if (properties) {
+          callGroupIdentify(groupIdentifyObject.identifyGroup(groupType, groupName));
+        }
+      }
     }
   }
 

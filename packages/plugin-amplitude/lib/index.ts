@@ -13,16 +13,19 @@ export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
 export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
   callback?: AmplitudeCallback;
 }
-export interface AmplitudeGroupOptions extends AmplitudeCallOptions {}
+export interface AmplitudeGroupOptions extends AmplitudeCallOptions {
+  amplitude?: {
+    groups?: {
+      [name: string] : string | string[]
+    }
+  },
+  callback?: AmplitudeCallback;
+}
 export interface AmplitudePageOptions extends AmplitudeCallOptions {}
 export interface AmplitudeTrackOptions extends AmplitudeCallOptions {
   callback?: AmplitudeCallback;
 }
 
-export interface AmplitudeGroupProperties extends Properties {
-  groupType? : string,
-  groupName? : string[],
-}
 /**
  * Amplitude Browser Plugin for Iteratively SDK
  */
@@ -76,16 +79,43 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     }
   }
 
-  group(uuserId: string | undefined, groupId: string, properties?: AmplitudeGroupProperties,
-    options?: AmplitudeGroupOptions) {
-    let groupType : string | undefined;
-    let groupName : string | string[] = groupId;
-    if (properties && properties.groupType) {
-      groupType = properties.groupType;
-      groupName = properties.groupName ?? groupName;
+  group(userId: string | undefined, groupId: string, properties?: Properties, options?: AmplitudeGroupOptions) {
+    if (!(options && options.amplitude && options.amplitude.groups)) {
+      this.logger!.warn('Amplitude group requires groups in the AmplitudeGroupOptions.');
+      return;
     }
-    if (groupType && groupName) {
+
+    let identifyObject: any;
+    let wrappedCallback: any;
+    if (properties) {
+      identifyObject = new this.amplitude.Identify();
+      for (const p in properties) {
+        if (!properties.hasOwnProperty(p)) {
+          continue;
+        }
+
+        identifyObject.set(p, (properties as any)[p]);
+      }
+      const { callback } = options ?? {};
+      const responseLogger = this.logger!.logRequest('groupIdentify', `${userId} ${JSON.stringify(properties)}`);
+      wrappedCallback = this.wrapCallback(responseLogger, callback);
+    }
+    for (const groupType in options.amplitude.groups) {
+      if (!options.amplitude.groups.hasOwnProperty(groupType)) {
+        continue;
+      }
+
+      const groupName = options.amplitude.groups[groupType];
       this.amplitude.getInstance().setGroup(groupType, groupName);
+      if (identifyObject) {
+        if (Array.isArray(groupName)) {
+          groupName.forEach((groupValue) => {
+            this.amplitude.getInstance().groupIdentify(groupType, groupValue, identifyObject, wrappedCallback);
+          });
+        } else {
+          this.amplitude.getInstance().groupIdentify(groupType, groupName, identifyObject, wrappedCallback);
+        }
+      }
     }
   }
 
