@@ -19,7 +19,7 @@ export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
 }
 export interface AmplitudeGroupOptions extends AmplitudeCallOptions {
   groups?: {
-    [name: string] : string | string[]
+    [name: string] : string
   }
   callback?: (response: AmplitudeResponse) => void;
 }
@@ -125,18 +125,9 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     const groupEntries = Object.entries(options.groups);
     for (let i = 0; i < groupEntries.length; i += 1) {
       const [groupType, groupName] = groupEntries[i];
-      if (Array.isArray(groupName)) {
-        groupName.forEach((groupValue) => {
-          identifyObject.setGroup(groupType, groupValue);
-          if (properties) {
-            callGroupIdentify(groupIdentifyObject.identifyGroup(groupType, groupValue));
-          }
-        });
-      } else {
-        identifyObject.setGroup(groupType, groupName);
-        if (properties) {
-          callGroupIdentify(groupIdentifyObject.identifyGroup(groupType, groupName));
-        }
+      identifyObject.setGroup(groupType, groupName);
+      if (properties) {
+        callGroupIdentify(groupIdentifyObject.identifyGroup(groupType, groupName));
       }
     }
     callIdentify(identifyObject);

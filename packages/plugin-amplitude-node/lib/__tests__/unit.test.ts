@@ -100,15 +100,14 @@ describe('group', () => {
     const options = {
       groups: {
         orgId: '15',
-        sport: ['soccer', 'tennis'],
+        sport: 'soccer',
       },
     };
     plugin.group('user-1', groupId, undefined, options);
 
-    expect(identifyObject.setGroup).toHaveBeenCalledTimes(3);
+    expect(identifyObject.setGroup).toHaveBeenCalledTimes(2);
     expect(identifyObject.setGroup.mock.calls[0]).toEqual(['orgId', '15']);
     expect(identifyObject.setGroup.mock.calls[1]).toEqual(['sport', 'soccer']);
-    expect(identifyObject.setGroup.mock.calls[2]).toEqual(['sport', 'tennis']);
     expect(amplitude.identify).toHaveBeenCalledTimes(1);
     expect(amplitude.identify.mock.calls[0]).toEqual(['user-1', '', identifyObject]);
     expect(identifyObject.identifyGroup).toHaveBeenCalledTimes(0);
@@ -126,19 +125,17 @@ describe('group', () => {
     const options = {
       groups: {
         orgId: '15',
-        sport: ['soccer', 'tennis'],
+        sport: 'soccer',
       },
     };
     plugin.group('user-1', groupId, groupProperties, options);
-    expect(identifyObject.setGroup).toHaveBeenCalledTimes(3);
+    expect(identifyObject.setGroup).toHaveBeenCalledTimes(2);
     expect(identifyObject.setGroup.mock.calls[0]).toEqual(['orgId', '15']);
     expect(identifyObject.setGroup.mock.calls[1]).toEqual(['sport', 'soccer']);
-    expect(identifyObject.setGroup.mock.calls[2]).toEqual(['sport', 'tennis']);
-    expect(identifyObject.identifyGroup).toHaveBeenCalledTimes(3);
+    expect(identifyObject.identifyGroup).toHaveBeenCalledTimes(2);
     expect(identifyObject.identifyGroup.mock.calls[0]).toEqual(['orgId', '15']);
     expect(identifyObject.identifyGroup.mock.calls[1]).toEqual(['sport', 'soccer']);
-    expect(identifyObject.identifyGroup.mock.calls[2]).toEqual(['sport', 'tennis']);
-    expect(amplitude.logEvent).toHaveBeenCalledTimes(3);
+    expect(amplitude.logEvent).toHaveBeenCalledTimes(2);
   });
 
   test('should call callback', async () => {
@@ -154,13 +151,13 @@ describe('group', () => {
     const options = {
       groups: {
         orgId: '15',
-        sport: ['soccer', 'tennis'],
+        sport: 'soccer',
       },
       callback,
     };
 
     await plugin.group('user-1', groupId, groupProperties, options);
-    expect(callback).toHaveBeenCalledTimes(4);
+    expect(callback).toHaveBeenCalledTimes(3);
   });
 
   test('should not call any method if groups not set', () => {
