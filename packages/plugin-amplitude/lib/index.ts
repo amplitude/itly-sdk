@@ -13,7 +13,12 @@ export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
 export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
   callback?: AmplitudeCallback;
 }
-export interface AmplitudeGroupOptions extends AmplitudeCallOptions {}
+export interface AmplitudeGroupOptions extends AmplitudeCallOptions {
+  groups?: {
+    [name: string] : string | string[]
+  }
+  callback?: AmplitudeCallback;
+}
 export interface AmplitudePageOptions extends AmplitudeCallOptions {}
 export interface AmplitudeTrackOptions extends AmplitudeCallOptions {
   callback?: AmplitudeCallback;
@@ -69,6 +74,46 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
       const { callback } = options ?? {};
       const responseLogger = this.logger!.logRequest('identify', `${userId} ${JSON.stringify(properties)}`);
       this.amplitude.getInstance().identify(identifyObject, this.wrapCallback(responseLogger, callback));
+    }
+  }
+
+  group(userId: string | undefined, groupId: string, properties?: Properties, options?: AmplitudeGroupOptions) {
+    if (!(options && options.groups)) {
+      this.logger!.warn('Amplitude group requires groups in the AmplitudeGroupOptions.');
+      return;
+    }
+
+    let identifyObject: any;
+    let wrappedCallback: any;
+    if (properties) {
+      identifyObject = new this.amplitude.Identify();
+      for (const p in properties) {
+        if (!properties.hasOwnProperty(p)) {
+          continue;
+        }
+
+        identifyObject.set(p, (properties as any)[p]);
+      }
+      const { callback } = options ?? {};
+      const responseLogger = this.logger!.logRequest('groupIdentify', `${userId} ${JSON.stringify(properties)}`);
+      wrappedCallback = this.wrapCallback(responseLogger, callback);
+    }
+    for (const groupType in options.groups) {
+      if (!options.groups.hasOwnProperty(groupType)) {
+        continue;
+      }
+
+      const groupName = options.groups[groupType];
+      this.amplitude.getInstance().setGroup(groupType, groupName);
+      if (identifyObject) {
+        if (Array.isArray(groupName)) {
+          groupName.forEach((groupValue) => {
+            this.amplitude.getInstance().groupIdentify(groupType, groupValue, identifyObject, wrappedCallback);
+          });
+        } else {
+          this.amplitude.getInstance().groupIdentify(groupType, groupName, identifyObject, wrappedCallback);
+        }
+      }
     }
   }
 

@@ -17,7 +17,12 @@ export interface AmplitudeAliasOptions extends AmplitudeCallOptions {}
 export interface AmplitudeIdentifyOptions extends AmplitudeCallOptions {
   callback?: (response: AmplitudeResponse) => void;
 }
-export interface AmplitudeGroupOptions extends AmplitudeCallOptions {}
+export interface AmplitudeGroupOptions extends AmplitudeCallOptions {
+  groups?: {
+    [name: string] : string
+  }
+  callback?: (response: AmplitudeResponse) => void;
+}
 export interface AmplitudePageOptions extends AmplitudeCallOptions {}
 export interface AmplitudeTrackOptions extends AmplitudeCallOptions {
   callback?: (response: AmplitudeResponse) => void;
@@ -76,6 +81,56 @@ export class AmplitudePlugin extends RequestLoggerPlugin {
     } catch (e) {
       responseLogger.error(e.toString());
     }
+  }
+
+  async group(userId: string, groupId: string, properties?: Properties, options?: AmplitudeGroupOptions) {
+    if (!(options && options.groups)) {
+      this.logger!.warn('Amplitude group requires groups in the AmplitudeGroupOptions.');
+      return;
+    }
+
+    const { callback } = options ?? {};
+    const responseLogger = this.logger!.logRequest('group', `${userId} ${JSON.stringify(properties)}`);
+
+    const callIdentify = async (identifyEvent: Identify) => {
+      try {
+        const response = await this.amplitude!.identify(userId, '', identifyEvent);
+        responseLogger.success(JSON.stringify(response));
+        callback?.(response);
+      } catch (e) {
+        responseLogger.error(e.toString());
+      }
+    };
+
+    const callGroupIdentify = async (groupIdentifyEvent: Amplitude.Event) => {
+      try {
+        const response = await this.amplitude!.logEvent(groupIdentifyEvent);
+        responseLogger.success(JSON.stringify(response));
+        callback?.(response);
+      } catch (e) {
+        responseLogger.error(e.toString());
+      }
+    };
+
+    const identifyObject = new Identify();
+    const groupIdentifyObject = new Identify();
+    if (properties) {
+      const entries = Object.entries(properties);
+      for (let i = 0; i < entries.length; i += 1) {
+        const [propertyName, propertyValue] = entries[i];
+        groupIdentifyObject.set(propertyName, propertyValue);
+      }
+    }
+
+    const groupEntries = Object.entries(options.groups);
+    for (let i = 0; i < groupEntries.length; i += 1) {
+      const [groupType, groupName] = groupEntries[i];
+      identifyObject.setGroup(groupType, groupName);
+      if (properties) {
+        callGroupIdentify(groupIdentifyObject.identifyGroup(groupType, groupName));
+      }
+    }
+    callIdentify(identifyObject);
   }
 
   async track(userId: string, { name, properties }: Event, options?: AmplitudeTrackOptions) {

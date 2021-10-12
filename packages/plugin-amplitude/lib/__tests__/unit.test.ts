@@ -12,9 +12,11 @@ const loadAmplitude = jest.fn(() => {
   const instance = {
     init: jest.fn(),
     setUserId: jest.fn(),
+    setGroup: jest.fn(),
     identify: jest.fn(),
     logEvent: jest.fn(),
     regenerateDeviceId: jest.fn(),
+    groupIdentify: jest.fn(),
   };
   amplitude = {
     getInstance: () => instance,
@@ -148,6 +150,104 @@ describe('identify', () => {
         done();
       },
     });
+  });
+});
+
+describe('group', () => {
+  test('should call amplitude setGroup() if we define groups in AmplitudeGroupOptions', () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+    const groupId = '15';
+    const options = {
+      groups: {
+        orgId: '15',
+        sport: ['soccer', 'tennis'],
+      },
+    };
+
+    plugin.group(undefined, groupId, undefined, options);
+    expect(amplitude.getInstance().groupIdentify).toHaveBeenCalledTimes(0);
+    expect(amplitude.getInstance().setGroup).toHaveBeenCalledTimes(2);
+    expect(amplitude.getInstance().setGroup.mock.calls[0]).toEqual(['orgId', '15']);
+    expect(amplitude.getInstance().setGroup.mock.calls[1]).toEqual(['sport', ['soccer', 'tennis']]);
+  });
+
+  test('should call both setGroups() and groupIdentify() with groupId properties defiend', () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+    const groupId = 'soccer';
+    const groupProperties = {
+      multiplayer: true,
+      coach: 1,
+    };
+    const options = {
+      groups: {
+        orgId: '15',
+        sport: ['soccer', 'tennis'],
+      },
+    };
+
+    const amplitudeIdentify = {
+      set: jest.fn(),
+    };
+    amplitude.Identify = () => amplitudeIdentify;
+
+    plugin.group(undefined, groupId, groupProperties, options);
+    expect(amplitude.getInstance().setGroup).toHaveBeenCalledTimes(2);
+    expect(amplitude.getInstance().setGroup.mock.calls[0]).toEqual(['orgId', '15']);
+    expect(amplitude.getInstance().setGroup.mock.calls[1]).toEqual(['sport', ['soccer', 'tennis']]);
+    expect(amplitudeIdentify.set).toHaveBeenCalledTimes(2);
+    expect(amplitudeIdentify.set.mock.calls[0]).toEqual(['multiplayer', true]);
+    expect(amplitudeIdentify.set.mock.calls[1]).toEqual(['coach', 1]);
+    expect(amplitude.getInstance().groupIdentify).toHaveBeenCalledTimes(3);
+  });
+
+  test('should not call any method if groups not set', () => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+    const groupProperties = {};
+    const groupId = '15';
+
+    plugin.group(undefined, groupId, groupProperties);
+    expect(amplitude.getInstance().setGroup).toHaveBeenCalledTimes(0);
+    expect(amplitude.getInstance().groupIdentify).toHaveBeenCalledTimes(0);
+  });
+
+  test('should call callback', (done) => {
+    const plugin = new AmplitudePlugin(apiKey);
+    plugin.load(pluginLoadOptions);
+    const groupId = 'soccer';
+    const groupProperties = {
+      multiplayer: true,
+      coach: 1,
+    };
+    const options = {
+      groups: {
+        sport: 'soccer',
+      },
+      callback: (statusCode: number, responseBody: string, details: unknown) => {
+        expect(statusCode).toBe(211);
+        expect(responseBody).toBe('group identify response');
+        expect(details).toBe('group identify details');
+        done();
+      },
+    };
+
+    const amplitudeIdentify = {
+      set: jest.fn(),
+    };
+    amplitude.Identify = () => amplitudeIdentify;
+    amplitude.getInstance().groupIdentify = (groupType: string, groupName: string, identifyProperties: any,
+      callback: AmplitudeCallback) => {
+      callback(211, 'group identify response', 'group identify details');
+    };
+
+    plugin.group(undefined, groupId, groupProperties, options);
+    expect(amplitude.getInstance().setGroup).toHaveBeenCalledTimes(1);
+    expect(amplitude.getInstance().setGroup.mock.calls[0]).toEqual(['sport', 'soccer']);
+    expect(amplitudeIdentify.set).toHaveBeenCalledTimes(2);
+    expect(amplitudeIdentify.set.mock.calls[0]).toEqual(['multiplayer', true]);
+    expect(amplitudeIdentify.set.mock.calls[1]).toEqual(['coach', 1]);
   });
 });
 
