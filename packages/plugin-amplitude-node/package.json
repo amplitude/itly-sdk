@@ -1,6 +1,6 @@
 {
   "name": "@itly/plugin-amplitude-node",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "Amplitude Node Plugin for Iteratively SDK",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",

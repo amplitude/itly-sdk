@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/amplitude/itly-sdk/compare/v2.4.0...v2.5.0) (2021-10-12)
+
+
+### Features
+
+* amp-43407 add support for amplitude plugin support ([#134](https://github.com/amplitude/itly-sdk/issues/134)) ([686806a](https://github.com/amplitude/itly-sdk/commit/686806a38fb7a02cb9eb9469d1509b6b5927b416))
+
+
+
+
+
 # [2.4.0](https://github.com/amplitude/itly-sdk/compare/v2.3.4...v2.4.0) (2021-10-01)
 
 
